@@ -12,10 +12,10 @@ services:
     ports:
       - 5001:5000
     environment:
-      - FLASK_ENV=development
+      - FLASK_ENV=${ENVIRONMENT}
       - APP_SETTINGS=project.config.DevelopmentConfig
-      - DATABASE_URL=postgresql://rami_fourrager:postrami_fourragergres@db:5432/rami_fourrager_dev
-      - DATABASE_TEST_URL=postgresql://rami_fourrager:rami_fourrager@db:5432/rami_fourrager_test
+      - DATABASE_URL=postgresql://${DATABASE_USER}:${DATABASE_PWD}@db:5432/${DATABASE_NAME}
+      - DATABASE_TEST_URL=postgresql://${DATABASE_USER}:${DATABASE_PWD}@db:5432/${DATABASE_NAME_TEST}
       - SECRET_KEY=my_precious
     depends_on:
       - db
@@ -30,8 +30,8 @@ services:
     ports:
       - 5436:5432
     environment:
-      - POSTGRES_USER=rami_fourrager
-      - POSTGRES_PASSWORD=rami_fourrager
+      - POSTGRES_USER=${DATABASE_USER}
+      - POSTGRES_PASSWORD=${DATABASE_PWD}
       - PGDATA=/var/lib/postgresql/data/
     volumes:
       - users_data:/var/lib/postgresql/data/
@@ -46,7 +46,7 @@ services:
       - './services/frontend/ui:/app'
       - '/app/node_modules'
     ports:
-      - 3007:8080
+      - 8080:8080
     environment:
       - CHOKIDAR_USEPOLLING=true
       - NODE_ENV=development
