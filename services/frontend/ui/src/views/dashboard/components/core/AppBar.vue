@@ -149,7 +149,7 @@
                       ...this.$attrs,
                     },
                   },
-                  this.$slots.default
+                  this.$slots.default,
                 )
               },
             },

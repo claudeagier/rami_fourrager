@@ -11,7 +11,7 @@
 
     <v-card-text
       class="text-h4 font-weight-light font-italic mb-3"
-      textContent="blurb"
+      text-content="blurb"
     />
 
     <div
