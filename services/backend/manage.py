@@ -21,7 +21,7 @@ def create_db():
     if not database_exists(engine.url):
         create_database(engine.url)
 
-    print(database_exists(engine.url))
+    # print(database_exists(engine.url))
 
     db.drop_all()
     db.create_all()

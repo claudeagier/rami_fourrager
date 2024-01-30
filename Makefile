@@ -13,3 +13,6 @@ stop:
 
 test:
 	docker-compose exec backend pytest "project/tests" -p no:warnings --cov="project"
+
+logs:
+	docker-compose logs -f $(service)

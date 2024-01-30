@@ -13,11 +13,11 @@ class BaseConfig:
     REFRESH_TOKEN_EXPIRATION = 2592000  # 30 days
 
 
-class DevelopmentConfig(BaseConfig):
+class development(BaseConfig):
     SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
     BCRYPT_LOG_ROUNDS = 4
 
-class TestingConfig(BaseConfig):
+class testing(BaseConfig):
     TESTING = True
     SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_TEST_URL")
     BCRYPT_LOG_ROUNDS = 4
@@ -25,5 +25,5 @@ class TestingConfig(BaseConfig):
     REFRESH_TOKEN_EXPIRATION = 3
 
 
-class ProductionConfig(BaseConfig):
+class production(BaseConfig):
     SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")

@@ -9,6 +9,9 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'vue/singleline-html-element-content-newline': 0,
     'space-before-function-paren': 0,
+    // 'camel-case': 'warn',
+    camelcase: 'off',
+    'dot-notation': 'off',
   },
   parserOptions: {
     parser: 'babel-eslint',
