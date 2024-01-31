@@ -1,13 +1,11 @@
 <template>
-<p>Register</p>
+  <p>Register</p>
 </template>
 
 <script>
-    export default {
-        name: "Register"
-    }
+  export default {
+    name: 'Register',
+  }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

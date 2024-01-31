@@ -37,9 +37,7 @@
         </v-list-item-avatar>
 
         <v-list-item-content>
-          <v-list-item-title
-            class="text-h4"
-          />
+          <v-list-item-title class="text-h4" />
         </v-list-item-content>
       </v-list-item>
     </v-list>
@@ -89,9 +87,7 @@
 
 <script>
   // Utilities
-  import {
-    mapState,
-  } from 'vuex'
+  import { mapState } from 'vuex'
 
   export default {
     name: 'DashboardCoreDrawer',
@@ -116,9 +112,9 @@
           to: '/pages/user',
         },
         {
-          title: 'rtables',
+          title: 'users',
           icon: 'mdi-clipboard-outline',
-          to: '/tables/regular-tables',
+          to: '/user/list',
         },
         {
           title: 'typography',
@@ -146,17 +142,17 @@
     computed: {
       ...mapState(['barColor', 'barImage']),
       drawer: {
-        get () {
+        get() {
           return this.$store.state.drawer
         },
-        set (val) {
+        set(val) {
           this.$store.commit('SET_DRAWER', val)
         },
       },
-      computedItems () {
+      computedItems() {
         return this.items.map(this.mapItem)
       },
-      profile () {
+      profile() {
         return {
           avatar: true,
           title: this.$t('avatar'),
@@ -165,7 +161,7 @@
     },
 
     methods: {
-      mapItem (item) {
+      mapItem(item) {
         return {
           ...item,
           children: item.children ? item.children.map(this.mapItem) : undefined,

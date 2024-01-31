@@ -1,13 +1,11 @@
 <template>
-  <v-footer
-    id="dashboard-core-footer"
-  >
+  <v-footer id="dashboard-core-footer">
     <v-container>
       <v-row
         align="center"
         no-gutters
       >
-        <v-col
+        <!-- <v-col
           v-for="(link, i) in links"
           :key="i"
           class="text-center mb-sm-0 mb-5"
@@ -20,7 +18,7 @@
             target="_blank"
             v-text="link.text"
           />
-        </v-col>
+        </v-col> -->
 
         <v-spacer class="hidden-sm-and-down" />
 
@@ -28,13 +26,9 @@
           cols="12"
           md="auto"
         >
-          <div class="text-body-1 font-weight-light pt-6 pt-md-0 text-center">
-            &copy; 2019, made with
-            <v-icon size="18">
-              mdi-heart
-            </v-icon>
-            by <a href="https://www.creative-tim.com">Creative Tim</a> for a better web.
-          </div>
+          <div
+            class="text-body-1 font-weight-light pt-6 pt-md-0 text-center"
+          ></div>
         </v-col>
       </v-row>
     </v-container>
