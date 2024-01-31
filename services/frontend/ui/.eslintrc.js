@@ -12,8 +12,9 @@ module.exports = {
     // 'camel-case': 'warn',
     camelcase: 'off',
     'dot-notation': 'off',
+    'no-unused-vars': 'off',
   },
   parserOptions: {
-    parser: 'babel-eslint',
+    parser: '@babel/eslint-parser',
   },
 }

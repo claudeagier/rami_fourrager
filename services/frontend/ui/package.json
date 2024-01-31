@@ -1,6 +1,6 @@
 {
-  "name": "vuetify-material-dashboard",
-  "version": "2.1.0",
+  "name": "rami_fourrager",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "vue-cli-service serve --open",
@@ -32,7 +32,7 @@
     "@vue/eslint-config-standard": "^5.0.1",
     "@vue/test-utils": "1.0.0-beta.30",
     "babel-core": "7.0.0-bridge.0",
-    "@babel/eslint-parser":"^7.23.9",
+    "@babel/eslint-parser": "^7.23.9",
     "babel-jest": "^24.9.0",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^9.1.0",
@@ -40,6 +40,7 @@
     "eslint-plugin-prettier": "^5.1.3",
     "eslint-plugin-vue": "^6.1.2",
     "prettier": "^3.2.4",
+    "node-sass": "4.13.1",
     "sass": "~1.32.12",
     "sass-loader": "^8.0.0",
     "vee-validate": "^3.2.2",

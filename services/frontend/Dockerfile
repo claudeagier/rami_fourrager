@@ -1,27 +1,44 @@
-# base image
-FROM node:14.21.0-alpine3.16
+# Stage de développement
+FROM node:14 AS development
 
-ARG NODE_ENV
-# set working directory
-# WORKDIR /app
-WORKDIR /node
-RUN chown node:node /node
-USER node
+# Définir le répertoire de travail dans le conteneur
+WORKDIR /app
 
 # add `/app/node_modules/.bin` to $PATH
-ENV PATH /node/node_modules/.bin:$PATH
+ENV PATH /app/node_modules/.bin:$PATH
 
-# install app dependencies
-COPY ./ui/package.json /node/package.json
-# COPY ./ui/package-lock.json /app/package-lock.json
+# Copier les fichiers du projet dans le répertoire de travail du conteneur
+COPY ./ui .
+
+# Installer les dépendances, y compris les dépendances de développement
 RUN npm install
 
-# copy files
-COPY ./ui /node
+# Exposer le port 8080 pour l'accès à l'application en développement
+EXPOSE 8080
 
-#for dev
-RUN echo $NODE_ENV
-CMD npm run "$(if [ $NODE_ENV = 'production' ] ; then echo 'serve' ; else echo 'dev'; fi)"
+# Commande pour démarrer l'application en mode développement
+CMD ["npm", "run", "dev"]
 
-# CMD npm run dev 
-# CMD npm run serve
+# Stage de production
+FROM node:14 AS production
+
+# Définir le répertoire de travail dans le conteneur
+WORKDIR /app
+
+# add `/app/node_modules/.bin` to $PATH
+ENV PATH /app/node_modules/.bin:$PATH
+
+# Copier les fichiers du projet dans le répertoire de travail du conteneur
+COPY ./ui .
+
+# Installer les dépendances sans les dépendances de développement
+RUN npm install --only=production
+
+# Construire l'application
+RUN npm run build
+
+# Exposer le port 8080 pour l'accès à l'application en production
+EXPOSE 8080
+
+# Commande pour démarrer l'application en mode production
+CMD ["npm", "run", "serve"]
