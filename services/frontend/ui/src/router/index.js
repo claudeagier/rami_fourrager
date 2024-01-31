@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 // import Home from '../views/Home.vue'
-import Login from '../views/Auth/Login'
-import Register from '../views/Auth/Register'
+import Login from '../views/auth/Login'
+import Register from '../views/auth/Register'
 // import Dashboard from '../views/Dashboard'
 // import UserList from '../views/Users/UserList'
 import store from '@/store'
@@ -29,34 +29,30 @@ const routes = [
   // },
   {
     path: '/',
-    component: () => import('@/views/dashboard/Index'),
+    component: () => import('@/views/Index'),
     children: [
       // Dashboard
       {
         name: 'Dashboard',
         path: '',
-        component: () => import('@/views/dashboard/Dashboard'),
+        component: () => import('@/views/simulator/Dashboard'),
       },
       // Pages
-      {
-        name: 'User Profile',
-        path: 'pages/user',
-        component: () => import('@/views/dashboard/pages/UserProfile'),
-      },
+
       {
         name: 'Notifications',
         path: 'components/notifications',
-        component: () => import('@/views/dashboard/component/Notifications'),
+        component: () => import('@/views/simulator/component/Notifications'),
       },
       {
         name: 'Icons',
         path: 'components/icons',
-        component: () => import('@/views/dashboard/component/Icons'),
+        component: () => import('@/views/simulator/component/Icons'),
       },
       {
         name: 'Typography',
         path: 'components/typography',
-        component: () => import('@/views/dashboard/component/Typography'),
+        component: () => import('@/views/simulator/component/Typography'),
       },
       // Tables
       {
@@ -64,17 +60,16 @@ const routes = [
         path: 'user/list',
         component: () => import('@/views/user/List'),
       },
+      {
+        name: 'User Profile',
+        path: 'user/profile',
+        component: () => import('@/views/user/Profile'),
+      },
       // Maps
       {
         name: 'Google Maps',
         path: 'maps/google-maps',
-        component: () => import('@/views/dashboard/maps/GoogleMaps'),
-      },
-      // Upgrade
-      {
-        name: 'Upgrade',
-        path: 'upgrade',
-        component: () => import('@/views/dashboard/Upgrade'),
+        component: () => import('@/views/simulator/maps/GoogleMaps'),
       },
     ],
     meta: {
