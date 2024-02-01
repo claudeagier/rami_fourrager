@@ -27,3 +27,5 @@ RUN chmod +x /usr/src/app/entrypoint.sh
 
 # add app
 COPY . /usr/src/app
+# set entrypoint
+ENTRYPOINT ["/usr/src/app/entrypoint.sh"]
