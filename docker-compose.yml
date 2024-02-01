@@ -42,7 +42,7 @@ services:
     build:
       context: ./services/frontend
       dockerfile: Dockerfile
-      target: development # ou production selon vos besoins
+      target: ${ENVIRONMENT}
     volumes:
       - ./services/frontend/ui:/app
       - '/app/node_modules'

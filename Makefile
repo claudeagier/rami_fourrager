@@ -4,6 +4,10 @@
 install:
 	docker-compose up -d --build
 
+
+refresh-service:
+	docker-compose up -d --build $(service)
+
 start:
 	docker-compose up -d
 
