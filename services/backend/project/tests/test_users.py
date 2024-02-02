@@ -6,8 +6,8 @@ import json
 import pytest
 
 from project import bcrypt
-from project.api.users.models import User
-from project.api.users.services import get_user_by_id
+from project.repository.users.models import User
+from project.repository.users.services import get_user_by_id
 
 
 def test_add_user(test_app, test_database):

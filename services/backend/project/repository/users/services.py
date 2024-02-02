@@ -2,7 +2,7 @@
 
 
 from project import db
-from project.api.users.models import User
+from project.repository.users.models import User
 
 
 def get_all_users():

@@ -2,18 +2,20 @@
 
 
 import jwt
+from functools import wraps
+
 from flask import request
 from flask_restplus import Namespace, Resource, fields
 
 from project import bcrypt
-from project.api.users.models import User
+from project.repository.users.models import User
+from project.api.utils.decorators import role_required
 
-from project.api.users.services import get_user_by_email  # noqa isort:skip
-from project.api.users.services import get_user_by_id  # noqa isort:skip
-from project.api.users.services import add_user  # noqa isort:skip
+from project.repository.users.services import get_user_by_email  # noqa isort:skip
+from project.repository.users.services import get_user_by_id  # noqa isort:skip
+from project.repository.users.services import add_user  # noqa isort:skip
 
 auth_namespace = Namespace("auth")
-
 
 user = auth_namespace.model(
     "User",
@@ -23,6 +25,7 @@ user = auth_namespace.model(
 full_user = auth_namespace.inherit(
     "Full User", user, {"password": fields.String(required=True)}
 )
+
 
 login = auth_namespace.model(
     "User",
@@ -46,6 +49,8 @@ class Register(Resource):
     @auth_namespace.expect(full_user, validate=True)
     @auth_namespace.response(201, "Success")
     @auth_namespace.response(400, "Sorry. That email already exists.")
+    @role_required('admin')  # TODO-BACK Ajoutez le décorateur pour vérifier l'authentification admin
+
     def post(self):
         post_data = request.get_json()
         username = post_data.get("username")
@@ -134,7 +139,7 @@ class Status(Resource):
             except jwt.InvalidTokenError:
                 auth_namespace.abort(401, "Invalid token. Please log in again.")
         else:
-            auth_namespace.abort(403, "Token required")
+            auth_namespace.abort(401, "Token required")
 
 
 auth_namespace.add_resource(Register, "/register")
