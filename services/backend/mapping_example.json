@@ -1,0 +1,52 @@
+{
+  "fichier_sans_relations.csv": {
+    "model": "ModelSansRelation",
+    "column_mapping": {
+      "nom_csv": "attr_nom",
+      "age_csv": "attr_age",
+      "adresse_csv": "attr_adresse",
+      "ajouter les colonnes à mapper": ""
+    },
+    "unique_constraints": ["name", "type", "climatic_year"]
+  },
+  "fichier_avec_relations.csv": {
+    "model": "ModelAvecRelation",
+    "column_mapping": {
+      "nom_csv": "attr_nom",
+      "age_csv": "attr_age",
+      "adresse_csv": "attr_adresse",
+      "ajouter les colonnes à mapper": ""
+    },
+    "relations": {
+      "column_csv_autre_model": {
+        "model": "AutreModel",
+        "to_fill": "True",
+        "column_mapping": {
+          "champ_csv": "attr_autre_model seulement si to_fill=true",
+          "ajouter les colonnes à mapper": ""
+        }
+      },
+      "ajouter des enfants": {}
+    },
+    "unique_constraints": ["name", "type", "climatic_year"]
+  },
+  "fichier_avec_relation_sans_creation_enfant.csv": {
+    "model": "model_parent",
+    "column_mapping": {
+      "column_csv": "attr_model",
+      "ajouter les colonnes à mapper": ""
+    },
+    "relations": {
+      "column_enfant": {
+        "model": "Model_enfant",
+        "to_fill": "False",
+        "search_key": {
+          "column_csv_1": "seulement si to_fill = false",
+          "column_csv_2": "attr_model_enfant_2"
+        }
+      },
+      "ajouter des enfants": {}
+    },
+    "unique_constraints": ["name", "type", "climatic_year"]
+  }
+}

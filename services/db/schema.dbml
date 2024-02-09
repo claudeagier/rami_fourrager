@@ -1,0 +1,130 @@
+Table period {
+  id integer [primary key]
+  name varchar
+  start_at timestamp
+  end_at timestamp
+}
+
+Table stic_period {
+  id integer [primary key]
+  period_id integer
+  stic_id integer
+  production numeric
+  farming_method varchar
+}
+
+Table stic {
+  id integer [primary key]
+  climatic_year_id integer
+  pasture_type_id integer
+  name varchar
+  type varchar
+  rendement varchar
+  designation varchar
+  RU numeric
+  IN numeric
+  ITK numeric
+  detail_ITK numeric
+}
+
+Table climatic_year {
+  id integer [primary key]
+  name varchar
+  site_id integer  
+}
+
+Table site {
+  id integer [primary key]
+  name varchar
+  code varchar
+}
+
+Table pasture_type {
+  id integer [primary key]
+  nutritional_values_id integer  
+  name varchar
+}
+Table concentrated_feed {
+  id integer [primary key]
+  nutritional_values_id integer  
+  name varchar
+}
+// Table straw {
+//   id integer [primary key]
+//   nutritional_values_id integer  
+//   name varchar
+// }
+Table feed_type {
+  id integer [primary key]
+  nutritional_values_id integer 
+  name varchar
+  code varchar
+}
+
+Table nutritional_values {
+  id integer [primary key]
+  name varchar
+  UEL numeric  
+  UEB numeric  
+  UEM numeric  
+  UFL numeric  
+  PDI_inf numeric  
+  UFV numeric  
+  PDIN numeric  
+  PDIE numeric
+  rejection numeric  
+}
+
+Table animal_profil_period {
+    id integer [primary key]
+    period_id integer
+    animal_profil_id integer
+    CI numeric
+    UFL numeric
+    PDI numeric
+    PL numeric
+}
+
+Table animal_profil {
+    id integer [primary key]
+    batch_type_id integer
+    name varchar
+    period_MB varchar
+    age_mois numeric
+    sem_MB integer
+    weight_MB_kg numeric
+    NEC_MB numeric
+    lactation_duration numeric
+    weight_birth_kg numeric 
+    milk_product_kg numeric
+    TR numeric
+}
+
+Table batch_type {
+    id integer [primary key]
+    code varchar
+    name varchar
+    proteic_value_considered varchar
+    energetic_value_considered varchar
+}
+
+Table housing_type {
+    id integer [primary key]
+    name varchar
+    code varchar
+    straw_requirement numeric
+}
+// Ref: posts.user_id > users.id // many-to-one
+
+Ref: period.id < stic_period.period_id
+Ref: stic.id < stic_period.stic_id
+Ref: climatic_year.id < stic.climatic_year_id
+Ref: stic.pasture_type_id < pasture_type.id
+Ref: site.id < climatic_year.site_id 
+Ref: pasture_type.nutritional_values_id < nutritional_values.id
+Ref: feed_type.nutritional_values_id > nutritional_values.id
+// Ref: straw.nutritional_values_id > nutritional_values.id
+Ref: concentrated_feed.nutritional_values_id > nutritional_values.id
+Ref: period.id < animal_profil_period.period_id
+Ref: animal_profil.id < animal_profil_period.animal_profil_id
+Ref: batch_type.id < animal_profil.batch_type_id 

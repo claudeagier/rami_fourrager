@@ -17,7 +17,7 @@ RUN npm install
 EXPOSE 8080
 
 # Commande pour démarrer l'application en mode développement
-CMD ["npm", "run", "dev"]
+CMD ["npm", "run", "serve"]
 
 # Stage de production
 FROM node:14 AS production

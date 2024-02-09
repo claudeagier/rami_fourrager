@@ -9,6 +9,7 @@ services:
     entrypoint: ['/usr/src/app/entrypoint.sh']
     volumes:
       - ./services/backend:/usr/src/app
+      - ./services/backend/referential:/usr/src/app/referential
     ports:
       - 5001:5000
     environment:
