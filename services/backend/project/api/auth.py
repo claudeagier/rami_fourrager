@@ -9,7 +9,7 @@ from flask_restplus import Namespace, Resource, fields
 
 from project import bcrypt
 from project.repository.users.models import User
-from project.api.utils.decorators import role_required
+from project.api.utils.decorators import authorization_required
 
 from project.repository.users.services import get_user_by_email  # noqa isort:skip
 from project.repository.users.services import get_user_by_id  # noqa isort:skip
@@ -49,7 +49,7 @@ class Register(Resource):
     @auth_namespace.expect(full_user, validate=True)
     @auth_namespace.response(201, "Success")
     @auth_namespace.response(400, "Sorry. That email already exists.")
-    @role_required('admin')  # TODO-BACK Ajoutez le décorateur pour vérifier l'authentification admin
+    @authorization_required('admin')  # TODO-BACK Ajoutez le décorateur pour vérifier l'authentification admin
 
     def post(self):
         post_data = request.get_json()

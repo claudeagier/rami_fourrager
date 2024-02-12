@@ -4,7 +4,7 @@ from flask import request, abort
 from project.repository.users.models import User
 from project.repository.users.services import get_user_by_id  # noqa isort:skip
 
-def role_required(role):
+def authorization_required(authorization):
     def decorator(f):
         @wraps(f)
         def decorated_function(*args, **kwargs):
@@ -14,8 +14,8 @@ def role_required(role):
                     access_token = auth_header.split(" ")[1]
                     resp = User.decode_token(access_token)
                     user = get_user_by_id(resp)
-                    if not user or user.role != role:
-                        abort(403, f"Permission denied. {role} access required.")
+                    if not user or user.authorization != authorization:
+                        abort(403, f"Permission denied. {authorization} access required.")
                     return f(*args, **kwargs)
                 except jwt.ExpiredSignatureError:
                     abort(401, "Signature expired. Please log in again.")
