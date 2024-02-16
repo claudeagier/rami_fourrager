@@ -63,7 +63,7 @@ Table feed_type {
 
 Table nutritional_values {
   id integer [primary key]
-  name varchar
+  code varchar
   UEL numeric  
   UEB numeric  
   UEM numeric  
@@ -72,7 +72,8 @@ Table nutritional_values {
   UFV numeric  
   PDIN numeric  
   PDIE numeric
-  rejection numeric  
+  rejection numeric
+  source varchar  
 }
 
 Table animal_profil_period {
