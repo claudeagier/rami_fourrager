@@ -15,6 +15,6 @@ exec "$@"
 python manage.py create
 
 #seed data on first run
-python manage.py seed
+python manage.py init_db
 
 python manage.py run -h 0.0.0.0

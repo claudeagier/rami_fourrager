@@ -57,3 +57,4 @@ Open the command line and run these commands inside the ```services/nginx/ssl```
 
 -----------------------------
 
+``` root@c9d9939bf36c:/usr/src/app# python manage.py seed_data mapping_concentrate.json ```

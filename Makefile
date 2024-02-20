@@ -14,7 +14,11 @@ start:
 stop:
 	docker-compose down
 
-test:
+
+db-fresh:
+	docker-compose exec backend python manage.py seed mapping_all.json
+
+backend-test:
 	docker-compose exec backend pytest "project/tests" -p no:warnings --cov="project"
 
 inspect:

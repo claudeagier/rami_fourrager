@@ -78,8 +78,8 @@ def convert_data(data, attribute_type):
         int: lambda x: int(x) if x else 0,  # Convert to integer
         # decimal.Decimal: lambda x: decimal.Decimal(x.replace(',', '.') if ',' in x else x),  # Convert to Decimal
         # remplace par 0 si vide
-        decimal.Decimal: lambda x: decimal.Decimal(x.replace(',', '.') if ',' in x else x if x is not '' else '0'),
-        str: lambda x: x,  # No conversion needed for strings
+        decimal.Decimal: lambda x: decimal.Decimal(x.replace(',', '.') if ',' in x else x if x != '' else '0'),
+        str: lambda x: x.strip(),  # No conversion needed for strings
         # Add other types and conversion functions as needed
     }
 
@@ -116,7 +116,7 @@ def mapData(row, model, column_mapping):
             try:
                 # Convert data using convert_data function based on attribute_type
                 obj_data[model_attribute] = convert_data(
-                    str(row[csv_column]).stripe(), attribute_type)
+                    str(row[csv_column]).strip(), attribute_type)
             except Exception as e:
                 # In case of conversion error, raise an exception
                 raise ValueError(
@@ -660,6 +660,8 @@ def seeder(mapping={}, csv_to_seed_dir=""):
                     report[csv_file]['total_rows'] += 1
                     makeSeed(row, mapping=file_data,
                              report=report[csv_file], csv_file=csv_file, index=index)
+
+                    # print(f"la ligne {index} a été traité")
             print(f"the file :  {csv_file} has been processed ")
             print(
                 '**********************************************************************************')
