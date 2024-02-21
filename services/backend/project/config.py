@@ -1,6 +1,4 @@
 # services/aktiver/project/config.py
-
-
 import os
 
 
@@ -17,9 +15,11 @@ class development(BaseConfig):
     SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
     BCRYPT_LOG_ROUNDS = 4
 
+
 class testing(BaseConfig):
     TESTING = True
     SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_TEST_URL")
+    SQLALCHEMY_DATABASE_DEV_URI = os.environ.get("DATABASE_URL")
     BCRYPT_LOG_ROUNDS = 4
     ACCESS_TOKEN_EXPIRATION = 3
     REFRESH_TOKEN_EXPIRATION = 3
