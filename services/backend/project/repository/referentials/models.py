@@ -162,6 +162,8 @@ class BatchType(db.Model):
     name = db.Column(db.String(255))
     UE_value_considered = db.Column(db.String(255))
     energetic_value_considered = db.Column(db.String(255))
+    animal_profils = db.relationship(
+        'AnimalProfil', backref='batch_type', lazy=True)
 
 
 class HousingType(db.Model):

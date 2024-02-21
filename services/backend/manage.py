@@ -79,7 +79,7 @@ def seed_data(mapping_filename):
 
     This command will seed the database using the mapping defined in 'mapping_1.json' file located in the 'referential' directory.
     """
-    from services.backend.project.repository.seeder import mapper, seeder
+    from project.repository.seeder import mapper, seeder
 
     print(f"Seed data with this mapping : {mapping_filename}")
 

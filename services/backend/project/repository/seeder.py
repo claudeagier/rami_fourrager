@@ -5,7 +5,7 @@ import decimal
 import unicodedata
 
 from project import db
-from project.repository import getModel
+from project.repository.connector import getModel
 
 from sqlalchemy.exc import SQLAlchemyError, IntegrityError
 from sqlalchemy.orm.exc import NoResultFound
