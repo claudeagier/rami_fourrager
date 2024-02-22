@@ -47,16 +47,18 @@ def seed_db():
 
 
 @cli.command('add_admin_user')
-def add_admin_user():
+@click.argument('user_name')
+@click.argument('email')
+@click.argument('password')
+def add_admin_user(user_name, email, password):
     """seed admin user in database
     """
-    # TODO-BACK mettre l'admin user ailleurs
     admin_authorization = db.session.query(Authorization).filter(
         Authorization.name == 'admin').first()
     db.session.add(User(
-        username='totoescargot',
-        email='toto.escargot@jardin.com',
-        password='mangesalade',
+        username=user_name,
+        email=email,
+        password=password,
         authorization=admin_authorization
     ))
     db.session.commit()

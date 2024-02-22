@@ -8,13 +8,15 @@ from sqlalchemy.sql import func
 
 from project import db, bcrypt
 
+
 class Authorization(db.Model):
     __tablename__ = "authorizations"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(50), nullable=False, unique=True)
     description = db.Column(db.String(255))
-    
+
+
 class User(db.Model):
     __tablename__ = "users"
 
@@ -22,8 +24,10 @@ class User(db.Model):
     username = db.Column(db.String(128), nullable=False)
     email = db.Column(db.String(128), nullable=False)
     password = db.Column(db.String(255), nullable=False)
-    authorization_id = db.Column(db.Integer, db.ForeignKey('authorizations.id'), nullable=False)
-    authorization = db.relationship('Authorization', backref=db.backref('users', lazy=True))
+    authorization_id = db.Column(db.Integer, db.ForeignKey(
+        'authorizations.id'), nullable=False)
+    authorization = db.relationship(
+        'Authorization', backref=db.backref('users', lazy=True))
     active = db.Column(db.Boolean(), default=True, nullable=False)
     created_date = db.Column(db.DateTime, default=func.now(), nullable=False)
 
@@ -54,7 +58,8 @@ class User(db.Model):
     @staticmethod
     def decode_token(token):
         payload = jwt.decode(token, current_app.config.get("SECRET_KEY"))
-        return payload["sub"]
+        return {'user_id': payload["sub"],
+                'authorization': payload['authorization']}
 
 
 if os.getenv("FLASK_ENV") == "development":
@@ -62,4 +67,3 @@ if os.getenv("FLASK_ENV") == "development":
     from project.api.users.admin import UsersAdminView
 
     admin.add_view(UsersAdminView(User, db.session))
-      

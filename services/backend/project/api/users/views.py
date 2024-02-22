@@ -3,6 +3,8 @@
 
 from flask import request
 from flask_restplus import Resource, fields, Namespace
+from project.api.utils.decorators import authorization_required
+from project.repository.users.models import Authorization
 
 from project.repository.users.services import (
     get_all_users,
@@ -11,6 +13,7 @@ from project.repository.users.services import (
     get_user_by_id,
     update_user,
     delete_user,
+    get_authorization_by_name
 )
 
 
@@ -27,12 +30,14 @@ user = users_namespace.model(
 )
 
 user_post = users_namespace.inherit(
-    "User post", user, {"password": fields.String(required=True)}
+    "User post", user, {"password": fields.String(
+        required=True), "role": fields.String(required=True)}
 )
 
 
 class UsersList(Resource):
     @users_namespace.marshal_with(user, as_list=True)
+    @authorization_required('admin')
     def get(self):
         """Returns all users."""
         return get_all_users(), 200
@@ -40,19 +45,28 @@ class UsersList(Resource):
     @users_namespace.expect(user_post, validate=True)
     @users_namespace.response(201, "<user_email> was added!")
     @users_namespace.response(400, "Sorry. That email already exists.")
+    @authorization_required('admin')
     def post(self):
         """Creates a new user."""
         post_data = request.get_json()
         username = post_data.get("username")
         email = post_data.get("email")
         password = post_data.get("password")
+        authorization_name = post_data.get("role")
+
+        authorization = get_authorization_by_name(authorization_name)
+        if not authorization:
+            response_object["message"] = "Sorry, that role doesn't exist"
+            return response_object, 400
+
         response_object = {}
 
         user = get_user_by_email(email)
         if user:
             response_object["message"] = "Sorry. That email already exists."
             return response_object, 400
-        add_user(username, email, password)
+
+        add_user(username, email, password, authorization)
         response_object["message"] = f"{email} was added!"
         return response_object, 201
 
@@ -61,6 +75,7 @@ class Users(Resource):
     @users_namespace.marshal_with(user)
     @users_namespace.response(200, "Success")
     @users_namespace.response(404, "User <user_id> does not exist")
+    @authorization_required('admin')
     def get(self, user_id):
         """Returns a single user."""
         user = get_user_by_id(user_id)
@@ -87,6 +102,7 @@ class Users(Resource):
 
     @users_namespace.response(200, "<user_is> was removed!")
     @users_namespace.response(404, "User <user_id> does not exist")
+    @authorization_required('admin')
     def delete(self, user_id):
         """Updates a user."""
         response_object = {}
