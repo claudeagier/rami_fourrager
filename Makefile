@@ -1,9 +1,10 @@
 
 .PHONY: install start stop
 
-install:
+init:
 	docker-compose up -d --build
-
+	docker-compose exec backend python manage.py create
+	docker-compose exec backend python manage.py init_db
 
 refresh-service:
 	docker-compose up -d --build $(service)
@@ -15,10 +16,13 @@ stop:
 	docker-compose down
 
 
-db-fresh:
+fresh-data:
 	docker-compose exec backend python manage.py seed mapping_all.json
 	docker-compose exec backend python manage.py seed mapping_animal_profil.json
 	docker-compose exec backend python manage.py seed mapping_baguettes_fourrage.json
+
+add-admin-dev:
+	docker-compose exec backend python manage.py add_admin_user totoescargot toto.escargot@jardin.com mangesalade
 
 backend-test:
 	docker-compose exec backend pytest "project/tests" -p no:warnings --cov="project"
