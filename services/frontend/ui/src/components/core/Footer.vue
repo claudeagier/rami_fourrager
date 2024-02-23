@@ -37,14 +37,10 @@
 
 <script>
   export default {
-    name: 'DashboardCoreFooter',
+    name: 'AppCoreFooter',
 
     data: () => ({
       links: [
-        {
-          href: '#',
-          text: 'Creative Tim',
-        },
         {
           href: '#',
           text: 'About Us',
@@ -63,7 +59,7 @@
 </script>
 
 <style lang="sass">
-  #dashboard-core-footer
+  #app-core-footer
     a
       font-size: .825rem
       font-weight: 500

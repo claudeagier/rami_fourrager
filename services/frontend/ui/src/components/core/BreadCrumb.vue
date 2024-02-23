@@ -15,6 +15,7 @@
 
 <script>
   export default {
+    name: 'AppCoreBreadcrumbs',
     computed: {
       breadCrumbs() {
         if (typeof this.$route.meta.breadCrumb === 'function') {

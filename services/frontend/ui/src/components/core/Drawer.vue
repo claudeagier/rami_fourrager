@@ -30,10 +30,6 @@
           color="white"
           contain
         >
-          <v-img
-            src="https://demos.creative-tim.com/vuetify-material-dashboard/favicon.ico"
-            max-height="30"
-          />
         </v-list-item-avatar>
 
         <v-list-item-content>
@@ -72,16 +68,6 @@
       <!-- https://github.com/vuetifyjs/vuetify/pull/8574 -->
       <div />
     </v-list>
-
-    <template v-slot:append>
-      <base-item
-        :item="{
-          title: $t('upgrade'),
-          icon: 'mdi-package-up',
-          to: '/upgrade',
-        }"
-      />
-    </template>
   </v-navigation-drawer>
 </template>
 
@@ -90,7 +76,7 @@
   import { mapState } from 'vuex'
 
   export default {
-    name: 'DashboardCoreDrawer',
+    name: 'AppCoreDrawer',
 
     props: {
       expandOnHover: {

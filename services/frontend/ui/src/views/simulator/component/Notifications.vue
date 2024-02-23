@@ -257,10 +257,6 @@
                 <div>
                   <strong>1. Register</strong>
                 </div>
-
-                <div class="grey--text">
-                  The first step is to create an account at Creative Tim. You can choose a social network or go for the classic version, whatever works best for you.
-                </div>
               </div>
             </v-col>
 
@@ -269,11 +265,7 @@
               md="4"
             >
               <v-sheet>
-                <v-img
-                  src="https://demos.creative-tim.com/material-dashboard/assets/img/card-1.jpg"
-                  height="100"
-                  width="200"
-                />
+               
               </v-sheet>
             </v-col>
 
@@ -285,10 +277,6 @@
                 <div>
                   <strong>2. Apply</strong>
                 </div>
-
-                <div class="grey--text">
-                  The first step is to create an account at <a href="http://www.creative-tim.com/">Creative Tim</a>. You can choose a social network or go for the classic version, whatever works best for you.
-                </div>
               </div>
             </v-col>
 
@@ -297,11 +285,7 @@
               md="4"
             >
               <v-sheet>
-                <v-img
-                  src="https://demos.creative-tim.com/material-dashboard/assets/img/card-2.jpg"
-                  height="100"
-                  width="200"
-                />
+               
               </v-sheet>
             </v-col>
 
