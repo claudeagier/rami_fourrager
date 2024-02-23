@@ -1,10 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-// import Home from '../views/Home.vue'
 import Login from '../views/auth/Login'
 import Register from '../views/auth/Register'
-// import Dashboard from '../views/Dashboard'
-// import UserList from '../views/Users/UserList'
 import store from '@/store'
 Vue.use(VueRouter)
 
@@ -40,23 +37,6 @@ const routes = [
           },
         },
       },
-      // // Pages
-
-      // {
-      //   name: 'Notifications',
-      //   path: 'components/notifications',
-      //   component: () => import('@/views/simulator/component/Notifications'),
-      // },
-      // {
-      //   name: 'Icons',
-      //   path: 'components/icons',
-      //   component: () => import('@/views/simulator/component/Icons'),
-      // },
-      // {
-      //   name: 'Typography',
-      //   path: 'components/typography',
-      //   component: () => import('@/views/simulator/component/Typography'),
-      // },
       // Tables
       {
         name: 'Users',
