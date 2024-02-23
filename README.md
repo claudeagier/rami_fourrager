@@ -62,4 +62,3 @@ Open the command line and run these commands inside the ```services/nginx/ssl```
 test un fichier
 ```python -m pytest -k test_referential.py -W ignore```
 
-c'est moche
