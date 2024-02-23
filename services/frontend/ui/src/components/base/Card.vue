@@ -3,7 +3,6 @@
 
   export default {
     name: 'Card',
-
     extends: VCard,
   }
 </script>

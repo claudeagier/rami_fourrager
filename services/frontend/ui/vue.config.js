@@ -1,3 +1,5 @@
+const path = require('path')
+
 module.exports = {
   devServer: {
     disableHostCheck: true,
@@ -21,6 +23,16 @@ module.exports = {
       fallbackLocale: 'en',
       localeDir: 'locales',
       enableInSFC: false,
+    },
+  },
+  configureWebpack: {
+    resolve: {
+      alias: {
+        '@plugins': path.resolve(__dirname, 'src/plugins/'),
+        '@store': path.resolve(__dirname, 'src/store/'),
+        '@components': path.resolve(__dirname, 'src/components/'),
+        '@': path.resolve(__dirname, 'src/'),
+      },
     },
   },
 }

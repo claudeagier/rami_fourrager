@@ -22,6 +22,7 @@
       class="hidden-sm-and-down font-weight-light"
       text="$route.name"
     />
+    <breadCrumb />
 
     <v-spacer />
 
@@ -57,7 +58,7 @@
       <v-icon>mdi-view-dashboard</v-icon>
     </v-btn>
 
-    <v-menu
+    <!-- <v-menu
       bottom
       left
       offset-y
@@ -99,13 +100,13 @@
           </app-bar-item>
         </div>
       </v-list>
-    </v-menu>
+    </v-menu> -->
 
     <v-btn
       class="ml-2"
       min-width="0"
       text
-      to="/pages/user"
+      to="user/profile"
     >
       <v-icon>mdi-account</v-icon>
     </v-btn>
@@ -121,6 +122,7 @@
 <script>
   // Components
   import { VHover, VListItem } from 'vuetify/lib'
+  import breadCrumb from './BreadCrumb.vue'
 
   // Utilities
   import { mapState, mapMutations } from 'vuex'
@@ -129,33 +131,34 @@
     name: 'DashboardCoreAppBar',
 
     components: {
-      AppBarItem: {
-        render(h) {
-          return h(VHover, {
-            scopedSlots: {
-              default: ({ hover }) => {
-                return h(
-                  VListItem,
-                  {
-                    attrs: this.$attrs,
-                    class: {
-                      'black--text': !hover,
-                      'white--text secondary elevation-12': hover,
-                    },
-                    props: {
-                      activeClass: '',
-                      dark: hover,
-                      link: true,
-                      ...this.$attrs,
-                    },
-                  },
-                  this.$slots.default,
-                )
-              },
-            },
-          })
-        },
-      },
+      breadCrumb,
+      // AppBarItem: {
+      //   render(h) {
+      //     return h(VHover, {
+      //       scopedSlots: {
+      //         default: ({ hover }) => {
+      //           return h(
+      //             VListItem,
+      //             {
+      //               attrs: this.$attrs,
+      //               class: {
+      //                 'black--text': !hover,
+      //                 'white--text secondary elevation-12': hover,
+      //               },
+      //               props: {
+      //                 activeClass: '',
+      //                 dark: hover,
+      //                 link: true,
+      //                 ...this.$attrs,
+      //               },
+      //             },
+      //             this.$slots.default,
+      //           )
+      //         },
+      //       },
+      //     })
+      //   },
+      // },
     },
 
     props: {
@@ -165,15 +168,15 @@
       },
     },
 
-    data: () => ({
-      notifications: [
-        'Mike John Responded to your email',
-        'You have 5 new tasks',
-        "You're now friends with Andrew",
-        'Another Notification',
-        'Another one',
-      ],
-    }),
+    // data: () => ({
+    //   notifications: [
+    //     'Mike John Responded to your email',
+    //     'You have 5 new tasks',
+    //     "You're now friends with Andrew",
+    //     'Another Notification',
+    //     'Another one',
+    //   ],
+    // }),
 
     computed: {
       ...mapState(['drawer']),
@@ -183,6 +186,11 @@
       ...mapMutations({
         setDrawer: 'SET_DRAWER',
       }),
+      logout: function () {
+        this.$store.dispatch('logout').then(() => {
+          this.$router.push('/login')
+        })
+      },
     },
   }
 </script>

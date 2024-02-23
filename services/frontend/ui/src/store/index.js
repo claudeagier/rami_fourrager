@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
+import simulator from './modules/simulator'
 
 Vue.use(Vuex)
 
@@ -74,5 +75,7 @@ export default new Vuex.Store({
     isLoggedIn: (state) => !!state.token,
     authStatus: (state) => state.status,
   },
-  modules: {},
+  modules: {
+    simulator,
+  },
 })

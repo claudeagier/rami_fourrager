@@ -123,7 +123,7 @@
 </template>
 
 <script>
-  import axios from 'axios'
+  import axios from '@plugins/axios'
   export default {
     name: 'UserList',
     data: () => ({
@@ -171,7 +171,7 @@
     methods: {
       initialize() {
         axios({
-          url: process.env.VUE_APP_API_URL + '/users',
+          url: '/users',
           method: 'GET',
         }).then((resp) => {
           this.users = resp.data
@@ -189,7 +189,7 @@
         deletedIndex = Object.assign({}, item)
         confirm('Are you sure you want to delete this item?') &&
           axios({
-            url: process.env.VUE_APP_API_URL + '/users/' + deletedIndex.id,
+            url: '/users/' + deletedIndex.id,
             method: 'Delete',
           })
             .then((resp) => {
@@ -212,7 +212,7 @@
       save() {
         if (this.editedIndex > -1) {
           axios({
-            url: process.env.VUE_APP_API_URL + '/users/' + this.editedItem.id,
+            url: '/users/' + this.editedItem.id,
             data: this.editedItem,
             method: 'PUT',
           })
@@ -231,7 +231,7 @@
             password: this.editedItem.password,
           }
           axios({
-            url: process.env.VUE_APP_API_URL + '/users',
+            url: '/users',
             data: userData,
             method: 'POST',
           })

@@ -19,14 +19,6 @@ const routes = [
     name: 'Register',
     component: Register,
   },
-  // {
-  //   path: '/',
-  //   name: 'Dashboard',
-  //   component: Dashboard,
-  //   meta: {
-  //     requiresAuth: true,
-  //   },
-  // },
   {
     path: '/',
     component: () => import('@/views/Index'),
@@ -36,41 +28,63 @@ const routes = [
         name: 'Dashboard',
         path: '',
         component: () => import('@/views/simulator/Dashboard'),
+        meta: {
+          breadCrumb(route) {
+            // const paramToPageB = route.params.paramToPageB;
+            return [
+              {
+                text: 'Simulator',
+                to: { name: 'Dashboard' },
+              },
+            ]
+          },
+        },
       },
-      // Pages
+      // // Pages
 
-      {
-        name: 'Notifications',
-        path: 'components/notifications',
-        component: () => import('@/views/simulator/component/Notifications'),
-      },
-      {
-        name: 'Icons',
-        path: 'components/icons',
-        component: () => import('@/views/simulator/component/Icons'),
-      },
-      {
-        name: 'Typography',
-        path: 'components/typography',
-        component: () => import('@/views/simulator/component/Typography'),
-      },
+      // {
+      //   name: 'Notifications',
+      //   path: 'components/notifications',
+      //   component: () => import('@/views/simulator/component/Notifications'),
+      // },
+      // {
+      //   name: 'Icons',
+      //   path: 'components/icons',
+      //   component: () => import('@/views/simulator/component/Icons'),
+      // },
+      // {
+      //   name: 'Typography',
+      //   path: 'components/typography',
+      //   component: () => import('@/views/simulator/component/Typography'),
+      // },
       // Tables
       {
         name: 'Users',
         path: 'user/list',
         component: () => import('@/views/user/List'),
+        meta: {
+          breadCrumb(route) {
+            // const paramToPageB = route.params.paramToPageB;
+            return [
+              {
+                text: 'Users',
+                to: { name: 'Users' },
+              },
+            ]
+          },
+        },
       },
       {
         name: 'User Profile',
         path: 'user/profile',
         component: () => import('@/views/user/Profile'),
       },
-      // Maps
-      {
-        name: 'Google Maps',
-        path: 'maps/google-maps',
-        component: () => import('@/views/simulator/maps/GoogleMaps'),
-      },
+      // // Maps
+      // {
+      //   name: 'Google Maps',
+      //   path: 'maps/google-maps',
+      //   component: () => import('@/views/simulator/maps/GoogleMaps'),
+      // },
     ],
     meta: {
       requiresAuth: true,

@@ -13,6 +13,8 @@ module.exports = {
     camelcase: 'off',
     'dot-notation': 'off',
     'no-unused-vars': 'off',
+    'vue/max-attributes-per-line': 'off',
+    'comma-dangle': 'off',
   },
   parserOptions: {
     parser: '@babel/eslint-parser',

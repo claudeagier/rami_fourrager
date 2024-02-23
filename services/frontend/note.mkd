@@ -1,0 +1,11 @@
+des graphs
+card recap + graph
+card description sans graph
+un KPI
+
+le même que description mais plus grand
+une carde sans entête
+une card avec liste de card sans ente et bouton pour modal et pour agrandir
+une modale identique pour les formulaires et on injecte chaque formulaire
+un composant period
+un composant tableau

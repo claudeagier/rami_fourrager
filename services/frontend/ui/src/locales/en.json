@@ -6,6 +6,7 @@
   "components": "Components",
   "ct": "CT",
   "dashboard": "Dashboard",
+  "simulation": "Simulation",
   "dtables": "Data Tables",
   "eforms": "Extended Forms",
   "error": "Error Page",
@@ -39,6 +40,7 @@
   "typography": "Typography",
   "upgrade": "Upgrade To PRO",
   "user": "User Profile",
+  "users": "Users",
   "vforms": "Validation Forms",
   "widgets": "Widgets",
   "wizard": "Wizard"
