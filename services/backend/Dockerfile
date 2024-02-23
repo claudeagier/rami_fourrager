@@ -1,9 +1,9 @@
 # pull official base image
-FROM python:3.8-slim
+FROM python:3.8-slim-bullseye
 
 # install dependencies
-RUN apt-get update && apt-get install -y apt-transport-https && \
-    apt-get install -y libssl-dev libffi-dev gcc python3-dev musl-dev build-essential \
+RUN apt-get update && apt-get install -y apt-transport-https \
+    libssl-dev libffi-dev gcc python3-dev musl-dev build-essential \
     libpq-dev netcat-openbsd
 
 # set environment varibles
