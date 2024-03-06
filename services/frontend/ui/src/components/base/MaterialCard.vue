@@ -45,7 +45,9 @@
         <v-icon
           v-else-if="icon"
           size="32"
-        />
+        >
+          {{ icon }}
+        </v-icon>
 
         <div
           v-if="text"
@@ -73,7 +75,7 @@
       </div>
     </div>
 
-    <slot />
+    <slot></slot>
 
     <template v-if="$slots.actions">
       <v-divider class="mt-2" />

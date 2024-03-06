@@ -34,7 +34,7 @@
   export default {
     name: 'MaterialChartCard',
 
-    inheritAttrs: false,
+    // inheritAttrs: false,
 
     props: {
       data: {
