@@ -6,5 +6,6 @@
   "bracketSameLine": false,
   "vueIndentScriptAndStyle": true,
   "singleAttributePerLine": true,
-  "embeddedLanguageFormatting": "auto"
+  "embeddedLanguageFormatting": "auto",
+  "experimentalTernaries": false
 }
