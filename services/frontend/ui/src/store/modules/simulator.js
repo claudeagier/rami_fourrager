@@ -4,11 +4,14 @@ export default {
   state: {
     simulationName: 'nom de la simulation',
     // l'objet site
-    site: {},
+    site: null,
     // l'objet climaticYear
-    climaticYear: {},
+    climaticYear: null,
     // la liste des périodes
     periods: [],
+    sites: [],
+    climaticYears: [],
+    stics: [],
     farm: {
       rotation: [
         // exemple de contenu de la rotation
@@ -28,12 +31,12 @@ export default {
         // },
       ],
       dimensioning: {
-        SAU: 0,
+        SAU: null,
         constrainedSurfaces: {
-          irrigables: 0,
-          ploughables: 0,
-          superficial: 0,
-          reachable: 0,
+          irrigable: null,
+          ploughable: null,
+          superficial: null,
+          reachable: null,
         },
       },
     },
@@ -77,15 +80,42 @@ export default {
     bilan: {},
   },
   mutations: {
-    // Mutation pour mettre à jour la liste des types d'aliment (feedTypes)
+    // setters
     setFeedTypes(state, feedTypes) {
       state.feedTypes = feedTypes
     },
-    // Mutation pour mettre à jour la liste des concentrés (concentratedFeeds)
     setConcentratedFeeds(state, concentratedFeeds) {
       state.concentratedFeeds = concentratedFeeds
     },
+    setInitialBarnStock(state, initialData) {
+      state.barn.stock = initialData
+    },
+    setPeriods(state, periods) {
+      state.periods = periods
+    },
+    setSite(state, site) {
+      state.site = site
+    },
+    setSites(state, sites) {
+      state.sites = sites
+    },
+    setClimaticYear(state, cy) {
+      state.climaticYear = cy
+    },
+    setClimaticYears(state, climaticYears) {
+      state.climaticYears = climaticYears
+    },
+    setStics(state, stics) {
+      state.stics = stics
+    },
+    setDimensioning(state, dim) {
+      state.farm.dimensioning = dim
+    },
+    setRotations(state, rotation) {
+      state.farm.rotation = rotation
+    },
 
+    // mutations
     updateBarnStock(state, { type, name, quantity }) {
       const foundStock = state.barn.stock.find(
         (item) => item.type === type && item.name === name
@@ -122,8 +152,10 @@ export default {
         foundGlobalStock.quantity += quantity
       }
     },
-    setPeriods(state, periods) {
-      state.periods = periods
+    deleteBarnStockItem(state, { type, name }) {
+      state.barn.stock = state.barn.stock.filter(
+        (item) => !(item.type === type && item.name === name)
+      )
     },
   },
   actions: {
@@ -131,16 +163,47 @@ export default {
     async fetchPeriods({ commit }) {
       try {
         const response = await axios.get('/lists/period') // ajuster l'URL de l'API
-        commit('setPeriods', response.data.periods)
+        commit('setPeriods', response.data)
       } catch (error) {
         console.error('Error fetching periods:', error)
+      }
+    },
+    // les périodes sont à récupérer sur le server avec axios
+    async fetchSites({ commit }) {
+      try {
+        const response = await axios.get('/lists/site') // ajuster l'URL de l'API
+        commit('setSites', response.data)
+      } catch (error) {
+        console.error('Error fetching sites:', error)
+      }
+    },
+
+    // les périodes sont à récupérer sur le server avec axios
+    async fetchClimaticYears({ commit }, siteId) {
+      try {
+        const response = await axios.get(`/climatic-years?siteId=${siteId}`) // ajuster l'URL de l'API
+        commit('setClimaticYears', response.data)
+      } catch (error) {
+        console.error('Error fetching climatic years:', error)
+      }
+    },
+    // les périodes sont à récupérer sur le server avec axios
+    async fetchStics({ commit }, climaticYearId) {
+      // const climaticYearId = 1
+      try {
+        const response = await axios.get(
+          `/stics?climaticYearId=${climaticYearId}`
+        ) // ajuster l'URL de l'API
+        commit('setStics', response.data)
+      } catch (error) {
+        console.error('Error fetching climatic years:', error)
       }
     },
     // Action pour récupérer les types d'aliment depuis la base de données
     async fetchFeedTypes({ commit }) {
       try {
-        const response = await axios.get('/lists/feedType')
-        commit('setFeedTypes', response.data.feedTypes)
+        const response = await axios.get('/lists/feed-type')
+        commit('setFeedTypes', response.data)
       } catch (error) {
         console.error('Error fetching feed types:', error)
       }
@@ -148,19 +211,20 @@ export default {
     // Action pour récupérer les concentrés depuis la base de données
     async fetchConcentratedFeeds({ commit }) {
       try {
-        const response = await axios.get('/lists/concentratedFeed')
-        commit('setConcentratedFeeds', response.data.concentratedFeeds)
+        const response = await axios.get('/lists/concentrated-feed')
+        commit('setConcentratedFeeds', response.data)
       } catch (error) {
         console.error('Error fetching concentrated feeds:', error)
       }
     },
   },
   getters: {
-    // Getter pour obtenir la liste des types d'aliment
     feedTypes: (state) => state.feedTypes,
-    // Getter pour obtenir la liste des concentrés
     concentratedFeeds: (state) => state.concentratedFeeds,
-    // Ajoutez d'autres getters au besoin
+    climaticYearList: (state) => state.climaticYears,
+    siteList: (state) => state.sites,
+    periodList: (state) => state.periods,
+    sticList: (state) => state.stics,
 
     // Getter pour obtenir le nom de la simulation
     simulationName: (state) => state.simulationName,
@@ -171,8 +235,7 @@ export default {
     // Getter pour obtenir les informations sur l'année climatique
     climaticYearInfo: (state) => state.climaticYear,
 
-    // Getter pour obtenir la liste des périodes
-    periodsList: (state) => state.periods,
+    farmInfo: (state) => state.farm,
 
     // Getter pour obtenir la rotation des cultures de la ferme
     farmRotation: (state) => state.farm.rotation,

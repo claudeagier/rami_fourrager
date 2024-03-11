@@ -37,6 +37,46 @@ const routes = [
           },
         },
       },
+      {
+        name: 'Barn',
+        path: 'barn',
+        component: () => import('@/views/simulator/pages/Barn'),
+        meta: {
+          breadCrumb(route) {
+            // const paramToPageB = route.params.paramToPageB;
+            return [
+              {
+                text: 'Simulator',
+                to: { name: 'Dashboard' },
+              },
+              {
+                text: 'Barn',
+                to: { name: 'Barn' },
+              },
+            ]
+          },
+        },
+      },
+      {
+        name: 'Farm',
+        path: 'farm',
+        component: () => import('@/views/simulator/pages/Farm'),
+        meta: {
+          breadCrumb(route) {
+            // const paramToPageB = route.params.paramToPageB;
+            return [
+              {
+                text: 'Simulator',
+                to: { name: 'Dashboard' },
+              },
+              {
+                text: 'Farm',
+                to: { name: 'Farm' },
+              },
+            ]
+          },
+        },
+      },
       // Tables
       {
         name: 'Users',
@@ -61,9 +101,9 @@ const routes = [
       },
       // // Maps
       // {
-      //   name: 'Google Maps',
-      //   path: 'maps/google-maps',
-      //   component: () => import('@/views/simulator/maps/GoogleMaps'),
+      //   name: 'buttons ',
+      //   path: '/buttons',
+      //   component: () => import('@/views/simulator/component/Buttons'),
       // },
     ],
     meta: {

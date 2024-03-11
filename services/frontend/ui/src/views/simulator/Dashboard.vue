@@ -11,12 +11,34 @@
         sm="6"
         lg="3"
       >
-        <base-material-stats-card
+        <base-select-card
+          :model="selectedSite"
           color="info"
           icon="mdi-twitter"
+          title="Site"
           value="+245"
           sub-icon="mdi-clock"
           sub-text="Just Updated"
+          :dropdownOptions="siteList"
+          @change="handleSiteChange"
+        />
+      </v-col>
+      <v-col
+        cols="12"
+        sm="6"
+        lg="3"
+      >
+        <base-select-card
+          v-if="this.$store.getters.siteInfo != null"
+          :model="selectedCY"
+          color="info"
+          icon="mdi-twitter"
+          title="Année climatique"
+          value="+245"
+          sub-icon="mdi-clock"
+          sub-text="Just Updated"
+          :dropdownOptions="climaticYearList"
+          @change="handleCYchange"
         />
       </v-col>
 
@@ -242,9 +264,14 @@
             </v-tooltip> -->
           </template>
 
-          <h3 class="card-title font-weight-light mt-2 ml-2">
+          <h3 class="card-title font-weight-light mt-2 ml-2">La grange</h3>
+          <v-btn
+            class="ml-2"
+            min-width="0"
+            to="/barn"
+          >
             La grange
-          </h3>
+          </v-btn>
           <!--
           <p class="d-inline-flex font-weight-light ml-2 mt-1">
             Last Last Campaign Performance
@@ -263,7 +290,73 @@
           </template> -->
         </base-material-chart-card>
       </v-col>
+      <v-col
+        cols="12"
+        md="6"
+      >
+        <base-material-chart-card
+          :data="dataCompletedTasksChart.data"
+          :options="dataCompletedTasksChart.options"
+          type="Line"
+        >
+          <template v-slot:reveal-actions>
+            <v-tooltip bottom>
+              <template v-slot:activator="{ attrs, on }">
+                <v-btn
+                  v-bind="attrs"
+                  color="info"
+                  icon
+                  v-on="on"
+                >
+                  <v-icon color="info"> mdi-refresh </v-icon>
+                </v-btn>
+              </template>
 
+              <span>Refresh</span>
+            </v-tooltip>
+
+            <v-tooltip bottom>
+              <template v-slot:activator="{ attrs, on }">
+                <v-btn
+                  v-bind="attrs"
+                  light
+                  icon
+                  v-on="on"
+                >
+                  <v-icon>mdi-pencil</v-icon>
+                </v-btn>
+              </template>
+
+              <span>Change Date</span>
+            </v-tooltip>
+          </template>
+
+          <h3 class="card-title font-weight-light mt-2 ml-2">La ferme</h3>
+          <v-btn
+            class="ml-2"
+            min-width="0"
+            to="/farm"
+          >
+            La Ferme
+          </v-btn>
+          <!--
+          <p class="d-inline-flex font-weight-light ml-2 mt-1">
+            Last Last Campaign Performance
+          </p> -->
+
+          <!-- <template v-slot:actions>
+            <v-icon
+              class="mr-1"
+              small
+            >
+              mdi-clock-outline
+            </v-icon>
+            <span class="text-caption grey--text font-weight-light">
+              campaign sent 26 minutes ago
+            </span>
+          </template> -->
+        </base-material-chart-card>
+      </v-col>
       <!-- <v-col
         cols="12"
         md="6"
@@ -441,10 +534,12 @@
   import { mapState } from 'vuex'
 
   export default {
-    name: 'DashboardDashboard',
+    name: 'Dashboard',
 
     data() {
       return {
+        selectedSite: this.$store.getters.siteInfo,
+        selectedCY: this.$store.getters.climaticYearInfo,
         dailySalesChart: {
           data: {
             labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
@@ -482,7 +577,6 @@
               left: 0,
             },
           },
-
         },
         emailsSubscriptionChart: {
           data: {
@@ -535,7 +629,25 @@
     },
     computed: {
       ...mapState(['simulator']),
+      siteList() {
+        return this.$store.getters.siteList
+      },
+      climaticYearList() {
+        return this.$store.getters.climaticYearList
+      },
     },
-    methods: {},
+    methods: {
+      handleSiteChange(id) {
+        this.$store.commit('setSite', id)
+        this.$store.dispatch('fetchClimaticYears', id)
+      },
+      handleCYchange(id) {
+        this.$store.commit('setClimaticYear', id)
+        this.$store.dispatch('fetchStics', id)
+      },
+    },
+    created() {
+      this.$store.dispatch('fetchSites')
+    },
   }
 </script>
