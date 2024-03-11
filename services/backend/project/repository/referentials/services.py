@@ -25,6 +25,12 @@ def get_stics_by(climaticYearId):
     return stics
 
 
+def get_climaticYear_by(siteId):
+    years = db.session.query(ClimaticYear).filter_by(
+        **{'site_id': siteId}).options(joinedload('*')).all()
+    return years
+
+
 def get_animal_profiles(batch_type_id):
     profiles = db.session.query(AnimalProfil).filter_by(
         **{'batch_type_id': batch_type_id}).options(joinedload('*')).all()

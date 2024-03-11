@@ -11,7 +11,7 @@ from project import bcrypt
 from project.repository.users.models import User
 from project.api.utils.decorators import authorization_required
 
-from project.repository.users.services import (get_user_by_email, get_user_by_id, add_user, get_Authorizations)  # noqa isort:skip
+from project.repository.users.services import (get_Authorizations)  # noqa isort:skip
 
 
 role_namespace = Namespace("role")

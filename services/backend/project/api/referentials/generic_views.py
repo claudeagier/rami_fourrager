@@ -12,6 +12,27 @@ available_models = {
             "name": fields.String,
         }
     },
+    "feed-type": {
+        "model_name": "FeedType",
+        "fields": {
+            "id": fields.Integer,
+            "name": fields.String,
+        }
+    },
+    "concentrated-feed": {
+        "model_name": "ConcentratedFeed",
+        "fields": {
+            "id": fields.Integer,
+            "name": fields.String,
+        }
+    },
+    "period": {
+        "model_name": "period",
+        "fields": {
+            "id": fields.Integer,
+            "name": fields.String,
+        }
+    },
     "batch-type": {
         "model_name": "BatchType",
         "fields": {
