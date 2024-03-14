@@ -11,7 +11,12 @@ export default {
     periods: [],
     sites: [],
     climaticYears: [],
+    feedTypes: [],
+    concentratedFeeds: [],
     stics: [],
+    batchTypes: [],
+    animalProfils: [],
+    housingTypes: [],
     farm: {
       rotation: [
         // exemple de contenu de la rotation
@@ -108,6 +113,16 @@ export default {
     setStics(state, stics) {
       state.stics = stics
     },
+    setBatchs(state, batchs) {
+      state.herd.batchs = batchs
+    },
+    setBatchTypes(state, batchTypes) {
+      state.batchTypes = batchTypes
+    },
+    setAnimalProfils(state, animalProfils) {
+      state.animalProfils = animalProfils
+    },
+
     setDimensioning(state, dim) {
       state.farm.dimensioning = dim
     },
@@ -115,11 +130,14 @@ export default {
       state.farm.rotation = rotation
     },
 
+    setHousingTypes(state, housingTypes) {
+      console.log('set state', housingTypes)
+      state.housingTypes = housingTypes
+    },
+
     // mutations
     updateBarnStock(state, { type, name, quantity }) {
-      const foundStock = state.barn.stock.find(
-        (item) => item.type === type && item.name === name
-      )
+      const foundStock = state.barn.stock.find((item) => item.type === type && item.name === name)
       if (!foundStock) {
         state.barn.stock.push({ type, name, quantity })
       } else {
@@ -133,9 +151,7 @@ export default {
       if (periodIndex === -1) {
         state.periods.push({ period, stock: [{ type, name, quantity }] })
       } else {
-        const foundStock = state.periods[periodIndex].stock.find(
-          (item) => item.type === type && item.name === name
-        )
+        const foundStock = state.periods[periodIndex].stock.find((item) => item.type === type && item.name === name)
         if (!foundStock) {
           state.periods[periodIndex].stock.push({ type, name, quantity })
         } else {
@@ -143,9 +159,7 @@ export default {
         }
       }
       // Mettre à jour le stock global également
-      const foundGlobalStock = state.barn.stock.find(
-        (item) => item.type === type && item.name === name
-      )
+      const foundGlobalStock = state.barn.stock.find((item) => item.type === type && item.name === name)
       if (!foundGlobalStock) {
         state.barn.stock.push({ type, name, quantity })
       } else {
@@ -153,9 +167,7 @@ export default {
       }
     },
     deleteBarnStockItem(state, { type, name }) {
-      state.barn.stock = state.barn.stock.filter(
-        (item) => !(item.type === type && item.name === name)
-      )
+      state.barn.stock = state.barn.stock.filter((item) => !(item.type === type && item.name === name))
     },
   },
   actions: {
@@ -191,12 +203,29 @@ export default {
     async fetchStics({ commit }, climaticYearId) {
       // const climaticYearId = 1
       try {
-        const response = await axios.get(
-          `/stics?climaticYearId=${climaticYearId}`
-        ) // ajuster l'URL de l'API
+        const response = await axios.get(`/stics?climaticYearId=${climaticYearId}`) // ajuster l'URL de l'API
         commit('setStics', response.data)
       } catch (error) {
         console.error('Error fetching climatic years:', error)
+      }
+    },
+    // Action pour récupérer les types d'aliment depuis la base de données
+    async fetchBatchTypes({ commit }) {
+      try {
+        const response = await axios.get('/lists/batch-type')
+        commit('setBatchTypes', response.data)
+      } catch (error) {
+        console.error('Error fetching batch types:', error)
+      }
+    },
+    // les périodes sont à récupérer sur le server avec axios
+    async fetchAnimalProfils({ commit }, batchTypeId) {
+      try {
+        const response = await axios.get(`/animal-profiles?batchTypeId=${batchTypeId}`) // ajuster l'URL de l'API
+        commit('setAnimalProfils', response.data)
+      } catch (error) {
+        commit('setAnimalProfils', [])
+        // console.error('Error fetching animal profils:', error)
       }
     },
     // Action pour récupérer les types d'aliment depuis la base de données
@@ -217,14 +246,27 @@ export default {
         console.error('Error fetching concentrated feeds:', error)
       }
     },
+    // Action pour récupérer les concentrés depuis la base de données
+    async fetchHousingTypes({ commit }) {
+      try {
+        const response = await axios.get('/lists/housing-type')
+        console.log('receive', response.data)
+        commit('setHousingTypes', response.data)
+      } catch (error) {
+        console.error('Error fetching housing types:', error)
+      }
+    },
   },
   getters: {
-    feedTypes: (state) => state.feedTypes,
-    concentratedFeeds: (state) => state.concentratedFeeds,
+    feedTypeList: (state) => state.feedTypes,
+    concentratedFeedList: (state) => state.concentratedFeeds,
     climaticYearList: (state) => state.climaticYears,
     siteList: (state) => state.sites,
     periodList: (state) => state.periods,
     sticList: (state) => state.stics,
+    batchTypeList: (state) => state.batchTypes,
+    animalProfilList: (state) => state.animalProfils,
+    housingTypeList: (state) => state.housingTypes,
 
     // Getter pour obtenir le nom de la simulation
     simulationName: (state) => state.simulationName,
@@ -275,9 +317,7 @@ export default {
 
     // Getter pour obtenir le stock total d'un type donné dans la grange par période
     totalBarnStockByTypeAndPeriod: (state) => (type, period) => {
-      const periodStock = state.barn.stock_by_period.find(
-        (item) => item.period === period
-      )
+      const periodStock = state.barn.stock_by_period.find((item) => item.period === period)
       if (periodStock) {
         return periodStock.stock.reduce((total, item) => {
           if (item.type === type) {

@@ -77,6 +77,26 @@ const routes = [
           },
         },
       },
+      {
+        name: 'Herd',
+        path: 'herd',
+        component: () => import('@/views/simulator/pages/Herd'),
+        meta: {
+          breadCrumb(route) {
+            // const paramToPageB = route.params.paramToPageB;
+            return [
+              {
+                text: 'Simulator',
+                to: { name: 'Dashboard' },
+              },
+              {
+                text: 'Herd',
+                to: { name: 'Herd' },
+              },
+            ]
+          },
+        },
+      },
       // Tables
       {
         name: 'Users',
@@ -94,6 +114,7 @@ const routes = [
           },
         },
       },
+
       {
         name: 'User Profile',
         path: 'user/profile',

@@ -9,13 +9,11 @@
       justify="center"
     >
       <v-col cols="12">
-        <base-material-card>
+        <base-material-card color="info">
           <template v-slot:heading>
             <div class="text-h3 font-weight-light">La grange</div>
 
-            <div class="text-subtitle-1 font-weight-light">
-              Complete your barn
-            </div>
+            <div class="text-subtitle-1 font-weight-light">Complete your barn</div>
           </template>
           <v-data-table
             :headers="headers"
@@ -242,10 +240,7 @@
       },
 
       save() {
-        const selectedType =
-          this.selectedItemType === 'feed'
-            ? this.selectedFeedType
-            : this.selectedConcentratedFeed
+        const selectedType = this.selectedItemType === 'feed' ? this.selectedFeedType : this.selectedConcentratedFeed
 
         if (selectedType && (this.quantityInDays || this.quantityInTons)) {
           const selectedFeed =
