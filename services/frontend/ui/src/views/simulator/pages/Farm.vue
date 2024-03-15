@@ -141,6 +141,7 @@
                                           filled
                                           return-object
                                           @update:selectedItem="onSelectedSTICUpdated"
+                                          :loading="sticsLoaded"
                                         ></base-material-autocomplete>
                                       </v-col>
                                       <v-col cols="12">
@@ -281,6 +282,10 @@
           superficial: { label: 'Surfaces superficielles' },
           reachable: { label: 'Surfaces atteignables' },
         }
+      },
+      sticsLoaded() {
+        console.log('isLoaded', this.$store.getters.isLoading('sticList'))
+        return this.$store.getters.isLoading('sticList')
       },
     },
     actions: {},

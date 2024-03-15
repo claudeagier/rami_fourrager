@@ -17,6 +17,17 @@ export default {
     batchTypes: [],
     animalProfils: [],
     housingTypes: [],
+    isLoading: {
+      animalProfilList: false,
+      batchTypeList: false,
+      concentratedFeedList: false,
+      climaticYearList: false,
+      feedTypeList: false,
+      housingTypeList: false,
+      periodList: false,
+      siteList: false,
+      sticList: false,
+    },
     farm: {
       rotation: [
         // exemple de contenu de la rotation
@@ -85,6 +96,9 @@ export default {
     bilan: {},
   },
   mutations: {
+    setIsLoading(state, { list, loaded }) {
+      state.isLoading[list] = loaded
+    },
     // setters
     setFeedTypes(state, feedTypes) {
       state.feedTypes = feedTypes
@@ -202,8 +216,10 @@ export default {
     // les périodes sont à récupérer sur le server avec axios
     async fetchStics({ commit }, climaticYearId) {
       // const climaticYearId = 1
+      commit('setIsLoading', { list: 'sticList', loaded: true })
       try {
         const response = await axios.get(`/stics?climaticYearId=${climaticYearId}`) // ajuster l'URL de l'API
+        commit('setIsLoading', { list: 'sticList', loaded: false })
         commit('setStics', response.data)
       } catch (error) {
         console.error('Error fetching climatic years:', error)
@@ -258,6 +274,10 @@ export default {
     },
   },
   getters: {
+    // loaders
+    isLoading: (state) => (list) => {
+      return state.isLoading[list]
+    },
     // select lists
     animalProfilList: (state) => state.animalProfils,
     batchTypeList: (state) => state.batchTypes,
