@@ -9,23 +9,20 @@
       justify="center"
     >
       <v-col cols="12">
-        <base-material-card color="green">
+        <base-material-card :color="pageColor">
           <template v-slot:heading>
             <v-row>
               <v-col cols="10">
                 <div class="text-h3 font-weight-light">La Ferme</div>
 
-                <div class="text-subtitle-1 font-weight-light">
-                  Complete your farm
-                </div>
+                <div class="text-subtitle-1 font-weight-light">Complete your farm</div>
               </v-col>
               <v-col cols="2">
                 <div>
                   <v-btn
-                    color="black"
-                    elevation="2"
+                    :color="pageColor"
+                    style="background-color: white"
                     outlined
-                    text
                     @click="applyToSimulation"
                   >
                     Appliquer à la simulation
@@ -98,9 +95,7 @@
                           color="white"
                           flat
                         >
-                          <v-toolbar-title>
-                            Assolement des Cultures
-                          </v-toolbar-title>
+                          <v-toolbar-title> Assolement des Cultures </v-toolbar-title>
                           <v-divider
                             class="mx-4"
                             inset
@@ -108,11 +103,12 @@
                           ></v-divider>
                           <v-spacer></v-spacer>
                           <v-btn
-                            color="primary"
+                            :color="pageColor"
                             dark
                             @click="addRotationItemDialog = true"
+                            outlined
                           >
-                            Ajouter un sol
+                            Allouer une surface
                           </v-btn>
                           <v-dialog
                             v-model="addRotationItemDialog"
@@ -120,22 +116,32 @@
                           >
                             <v-form @submit.prevent="saveRotationItem">
                               <v-card>
-                                <v-card-title>
-                                  Ajouter un nouveau Sol
-                                </v-card-title>
+                                <v-card-title> Ajouter un nouveau Sol </v-card-title>
                                 <v-card-text>
                                   <v-form> </v-form>
                                   <v-container>
                                     <v-row>
                                       <v-col cols="12">
-                                        <v-select
+                                        <!-- <v-select
                                           v-model="selectedSTIC"
                                           :items="sticList"
                                           label="Code et Nom de la culture"
                                           item-text="name"
                                           item-value="id"
                                           return-object
-                                        ></v-select>
+                                        ></v-select> -->
+                                        <base-material-autocomplete
+                                          label="Code et Nom de la culture"
+                                          v-if="sticList"
+                                          :selected-item="selectedSTIC"
+                                          :items="sticList"
+                                          item-text="name"
+                                          item-value="id"
+                                          dense
+                                          filled
+                                          return-object
+                                          @update:selectedItem="onSelectedSTICUpdated"
+                                        ></base-material-autocomplete>
                                       </v-col>
                                       <v-col cols="12">
                                         <v-select
@@ -163,16 +169,17 @@
                                 <v-card-actions>
                                   <v-spacer></v-spacer>
                                   <v-btn
-                                    color="blue darken-1"
                                     text
+                                    color="grey"
                                     @click="addRotationItemDialog = false"
                                   >
                                     Annuler
                                   </v-btn>
                                   <v-btn
-                                    color="blue darken-1"
+                                    color="primary"
                                     text
                                     type="submit"
+                                    outlined
                                   >
                                     Enregistrer
                                   </v-btn>
@@ -218,8 +225,8 @@
 
     data() {
       return {
+        pageColor: 'green',
         internalConstrainedSurfaces: ics,
-        sticList: this.$store.getters.sticList,
         constraintsList: [
           { id: 1, name: 'irrigable' },
           { id: 2, name: 'ploughable' },
@@ -231,6 +238,7 @@
           name: '',
           constraint: '',
           surface: null,
+          stic: null,
           // Ajoutez les champs pour les périodes de production
         },
         farm: this.$store.getters.farmInfo,
@@ -251,26 +259,21 @@
         constraintRules: [
           // (v) => !!v || 'Surface is required',
           (v) => {
-            return (
-              this.validateSurface() ||
-              'la somme des surfaces contraintes dépasse la SAU'
-            )
+            return this.validateSurface() || 'la somme des surfaces contraintes dépasse la SAU'
           },
         ],
         rotationRules: [
           (v) => {
-            return (
-              this.validateRotation(v) || 'La surface contrainte est dépassée'
-            )
+            return this.validateRotation(v) || 'La surface contrainte est dépassée'
           },
         ],
       }
     },
     computed: {
       ...mapState(['simulator']),
-      // sticList() {
-      //   return this.$store.getters.sticList
-      // },
+      sticList() {
+        return this.$store.getters.sticList
+      },
       constrainedSurfaces() {
         return {
           irrigable: { label: 'Surfaces irrigables' },
@@ -285,6 +288,9 @@
       // this.fetchSTIC()
     },
     methods: {
+      onSelectedSTICUpdated(selectedItem) {
+        this.selectedSTIC = selectedItem
+      },
       saveFarmDimensioning() {
         // Vérifiez la validation pour chaque surface à contrainte
         const isIrrigableValid = this.validateSurface('irrigable')
@@ -293,12 +299,7 @@
         const isReachableValid = this.validateSurface('reachable')
 
         // Si toutes les surfaces à contrainte sont valides, soumettez le formulaire
-        if (
-          isIrrigableValid &&
-          isPloughableValid &&
-          isSuperficialValid &&
-          isReachableValid
-        ) {
+        if (isIrrigableValid && isPloughableValid && isSuperficialValid && isReachableValid) {
           this.$store.commit('setDimensioning', this.farm.dimensioning)
           // Soumettez le formulaire ou effectuez d'autres actions requises
         } else {
@@ -308,9 +309,7 @@
       validateSurface() {
         const dim = this.farm.dimensioning
         const constrainedSurfaces = { ...dim.constrainedSurfaces }
-        const totalConstrainedSurfaces = Object.values(
-          constrainedSurfaces
-        ).reduce((acc, curr) => {
+        const totalConstrainedSurfaces = Object.values(constrainedSurfaces).reduce((acc, curr) => {
           const intValue = parseInt(curr, 10)
           return acc + (isNaN(intValue) ? 0 : intValue)
         }, 0)
@@ -321,32 +320,29 @@
         if (this.rotationItem.constraint) {
           const cs = farmDim.constrainedSurfaces
           const constraint = this.rotationItem.constraint.name
-          const acc =
-            parseInt(this.internalConstrainedSurfaces[constraint]) +
-            parseInt(value)
+          const acc = parseInt(this.internalConstrainedSurfaces[constraint]) + parseInt(value)
           return acc <= parseInt(cs[constraint])
         } else {
-          const totalSurfaces = Object.values(this.farm.rotation).reduce(
-            (acc, curr) => {
-              const intValue = parseInt(curr.surface, 10)
-              return acc + (isNaN(intValue) ? 0 : intValue)
-            },
-            0
-          )
+          const totalSurfaces = Object.values(this.farm.rotation).reduce((acc, curr) => {
+            const intValue = parseInt(curr.surface, 10)
+            return acc + (isNaN(intValue) ? 0 : intValue)
+          }, 0)
           return totalSurfaces + parseInt(value) <= parseInt(farmDim.SAU)
         }
       },
       saveRotationItem() {
         if (this.selectedSTIC) {
+          this.rotationItem.stic = this.selectedSTIC
           this.rotationItem.soil = this.selectedSTIC.code
           this.rotationItem.name = this.selectedSTIC.name
           this.rotationItem.constraint = this.rotationItem.constraint.name
-          this.internalConstrainedSurfaces[this.rotationItem.constraint] +=
-            this.rotationItem.surface
+          this.internalConstrainedSurfaces[this.rotationItem.constraint] += this.rotationItem.surface
 
           this.farm.rotation.push({ ...this.rotationItem })
           this.clearRotationItem()
           this.addRotationItemDialog = false
+        } else {
+          console.log("don't saved")
         }
       },
       deleteRotationItem(item) {
@@ -361,6 +357,7 @@
           name: '',
           constraint: '',
           surface: 0,
+          stic: null,
         }
         this.selectedSTIC = null
       },

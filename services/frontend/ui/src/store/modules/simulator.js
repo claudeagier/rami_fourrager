@@ -258,54 +258,32 @@ export default {
     },
   },
   getters: {
-    feedTypeList: (state) => state.feedTypes,
+    // select lists
+    animalProfilList: (state) => state.animalProfils,
+    batchTypeList: (state) => state.batchTypes,
     concentratedFeedList: (state) => state.concentratedFeeds,
     climaticYearList: (state) => state.climaticYears,
-    siteList: (state) => state.sites,
-    periodList: (state) => state.periods,
-    sticList: (state) => state.stics,
-    batchTypeList: (state) => state.batchTypes,
-    animalProfilList: (state) => state.animalProfils,
+    feedTypeList: (state) => state.feedTypes,
     housingTypeList: (state) => state.housingTypes,
+    periodList: (state) => state.periods,
+    siteList: (state) => state.sites,
+    sticList: (state) => state.stics,
 
-    // Getter pour obtenir le nom de la simulation
+    // simulation values
     simulationName: (state) => state.simulationName,
-
-    // Getter pour obtenir les informations du site
-    siteInfo: (state) => state.site,
-
-    // Getter pour obtenir les informations sur l'année climatique
-    climaticYearInfo: (state) => state.climaticYear,
-
-    farmInfo: (state) => state.farm,
-
-    // Getter pour obtenir la rotation des cultures de la ferme
-    farmRotation: (state) => state.farm.rotation,
-
-    // Getter pour obtenir les dimensions de la ferme
-    farmDimensioning: (state) => state.farm.dimensioning,
-
-    // Getter pour obtenir les informations sur le troupeau
-    herdInfo: (state) => state.herd,
-
-    // Getter pour obtenir le stock global de la grange
-    barnStock: (state) => state.barn.stock,
-
-    // Getter pour obtenir le stock par période de la grange
-    barnStockByPeriod: (state) => state.barn.stock_by_period,
-
-    // Getter pour obtenir le bilan
     balanceSheet: (state) => state.bilan,
-
-    // Getter pour obtenir le nombre total de périodes
-    totalPeriods: (state) => state.periods.length,
-
-    // Getter pour obtenir la liste des types de stock disponibles dans la grange
+    barnStock: (state) => state.barn.stock,
+    barnStockByPeriod: (state) => state.barn.stock_by_period,
     barnStockTypes: (state) => {
       return state.barn.stock.map((item) => item.type)
     },
-
-    // Getter pour obtenir le stock total d'un type donné dans la grange
+    climaticYearInfo: (state) => state.climaticYear,
+    farmInfo: (state) => state.farm,
+    farmDimensioning: (state) => state.farm.dimensioning,
+    farmRotation: (state) => state.farm.rotation,
+    herdInfo: (state) => state.herd,
+    siteInfo: (state) => state.site,
+    totalPeriods: (state) => state.periods.length,
     totalBarnStockByType: (state) => (type) => {
       return state.barn.stock.reduce((total, item) => {
         if (item.type === type) {
@@ -314,8 +292,6 @@ export default {
         return total
       }, 0)
     },
-
-    // Getter pour obtenir le stock total d'un type donné dans la grange par période
     totalBarnStockByTypeAndPeriod: (state) => (type, period) => {
       const periodStock = state.barn.stock_by_period.find((item) => item.period === period)
       if (periodStock) {

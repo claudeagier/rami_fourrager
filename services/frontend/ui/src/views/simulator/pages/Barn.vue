@@ -9,11 +9,26 @@
       justify="center"
     >
       <v-col cols="12">
-        <base-material-card color="info">
+        <base-material-card :color="pageColor">
           <template v-slot:heading>
-            <div class="text-h3 font-weight-light">La grange</div>
-
-            <div class="text-subtitle-1 font-weight-light">Complete your barn</div>
+            <v-row>
+              <v-col cols="10">
+                <div class="text-h3 font-weight-light">La grange</div>
+                <div class="text-subtitle-1 font-weight-light">Complete your barn</div>
+              </v-col>
+              <v-col cols="2">
+                <div>
+                  <v-btn
+                    :color="pageColor"
+                    style="background-color: white"
+                    outlined
+                    @click="applyToSimulation"
+                  >
+                    Appliquer à la simulation
+                  </v-btn>
+                </div>
+              </v-col>
+            </v-row>
           </template>
           <v-data-table
             :headers="headers"
@@ -40,8 +55,8 @@
                   <template v-slot:activator="{ on }">
                     <v-btn
                       class="mb-2"
-                      color="primary"
-                      dark
+                      :color="pageColor"
+                      outlined
                       v-on="on"
                     >
                       Add to Barn
@@ -122,15 +137,16 @@
                       <v-spacer></v-spacer>
                       <v-btn
                         @click="close"
-                        color="blue darken-1"
+                        color="grey"
                         text
                       >
                         Cancel
                       </v-btn>
                       <v-btn
                         @click="save"
-                        color="blue darken-1"
+                        color="primary"
                         text
+                        outlined
                       >
                         Save
                       </v-btn>
@@ -145,6 +161,13 @@
                 small
               >
                 mdi-delete
+              </v-icon>
+              <v-icon
+                medium
+                color="green"
+                background-color="green"
+              >
+                mdi-square-edit-outline
               </v-icon>
             </template>
             <!-- <template v-slot:no-data>
@@ -168,6 +191,7 @@
   export default {
     name: 'Barn',
     data: () => ({
+      pageColor: 'brown',
       selectedItemType: null,
       selectedFeedType: null,
       selectedConcentratedFeed: null,
@@ -211,10 +235,10 @@
         return ['feed', 'concentrated_feed'] // You can retrieve these from the store if needed
       },
       feedTypes() {
-        return this.$store.getters.feedTypes
+        return this.$store.getters.feedTypeList
       },
       concentratedFeeds() {
-        return this.$store.getters.concentratedFeeds
+        return this.$store.getters.concentratedFeedList
       },
       barnStock() {
         return this.$store.getters.barnStock
