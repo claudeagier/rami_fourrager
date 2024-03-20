@@ -9,7 +9,7 @@
       justify="center"
     >
       <v-col cols="12">
-        <base-material-card color="orange">
+        <base-material-card :color="pageColor">
           <template v-slot:heading>
             <v-row>
               <v-col cols="10">
@@ -20,7 +20,7 @@
               <v-col cols="2">
                 <div>
                   <v-btn
-                    color="orange"
+                    :color="pageColor"
                     style="background-color: white"
                     outlined
                     @click="applyToSimulation"
@@ -41,7 +41,7 @@
                       <v-col>
                         <v-btn
                           @click="showHerdModal"
-                          color="orange"
+                          :color="pageColor"
                           outlined
                           :class="{ 'animate-button': animate }"
                         >
@@ -73,13 +73,13 @@
                             <v-icon
                               @click="showDetails(index)"
                               large
-                              color="orange"
+                              :color="pageColor"
                             >
                               mdi-play-box-outline
                             </v-icon>
                             <!-- <v-btn
                               @click="showDetails(index)"
-                              color="orange"
+                              :color="pageColor"
                             >
                               Voir plus
                             </v-btn> -->
@@ -98,7 +98,7 @@
                   <v-card-text>
                     <v-tabs
                       centered
-                      color="orange"
+                      :color="pageColor"
                       fixed-tabs
                     >
                       <v-tab
@@ -120,8 +120,8 @@
                               item-value="id"
                               return-object
                               required
-                              color="orange"
-                              item-color="orange"
+                              :color="pageColor"
+                              :item-color="pageColor"
                               @change="loadProfils"
                             ></v-select>
                             <v-select
@@ -130,8 +130,8 @@
                               label="Profil"
                               item-text="name"
                               item-value="id"
-                              color="orange"
-                              item-color="orange"
+                              :color="pageColor"
+                              :item-color="pageColor"
                               return-object
                               required
                             ></v-select>
@@ -140,7 +140,7 @@
                               :rules="[rules.required, rules.integer]"
                               label="Nombre d'animaux"
                               type="number"
-                              color="orange"
+                              :color="pageColor"
                             ></v-text-field>
                             <v-divider></v-divider>
                             <v-select
@@ -150,8 +150,8 @@
                               item-value="id"
                               return-object
                               label="Type de logement"
-                              color="orange"
-                              item-color="orange"
+                              :color="pageColor"
+                              :item-color="pageColor"
                             ></v-select>
                           </v-card-text>
                         </v-card>
@@ -159,17 +159,22 @@
                       <!-- Housing Details -->
                       <v-tab-item>
                         <v-divider></v-divider>
-
+                        <housing-graph
+                          :selectedLot="selectedLot"
+                          :selection="selectedHousingIndex"
+                        />
                         <!-- <v-btn @click="saveHousingDetails">
                               Enregistrer
                             </v-btn> -->
+
                         <v-tabs
                           centered
-                          color="orange"
+                          :color="pageColor"
                         >
                           <v-tab
                             v-for="(period, index) in 13"
                             :key="index"
+                            @click="housingPeriodSelected(index)"
                           >
                             Période {{ index + 1 }}
                           </v-tab>
@@ -202,7 +207,7 @@
                                 type="number"
                                 label="Nb d'animaux présents"
                                 hide-spin-buttons
-                                color="orange"
+                                :color="pageColor"
                               ></v-text-field>
                               <v-text-field
                                 v-model="lots[selectedLot].housing.presence[index].days"
@@ -210,7 +215,7 @@
                                 type="number"
                                 label="Jours de présence en bâtiment (/28)"
                                 hide-spin-buttons
-                                color="orange"
+                                :color="pageColor"
                               ></v-text-field>
                             </v-card>
                           </v-tab-item>
@@ -221,7 +226,7 @@
                         <v-divider></v-divider>
                         <v-tabs
                           centered
-                          color="orange"
+                          :color="pageColor"
                         >
                           <v-tab
                             v-for="(period, index) in 13"
@@ -260,7 +265,7 @@
                                   >
                                     <template v-slot:activator="{ on }">
                                       <v-btn
-                                        color="orange"
+                                        :color="pageColor"
                                         v-on="on"
                                         outlined
                                       >
@@ -333,22 +338,24 @@
                                   </v-btn> -->
                                 </v-toolbar>
                                 <ration-gauge
-                                  color="orange"
+                                  :color="pageColor"
                                   :data-feeds="lots[selectedLot].classicFeeds[index].feeds"
                                 />
                               </template>
                               <template v-slot:[`item.actions`]="{ item }">
                                 <v-icon
-                                  @click="editClassicFeedsItem(index, item)"
-                                  small
-                                >
-                                  mdi-pencil
-                                </v-icon>
-                                <v-icon
                                   @click="deleteClassicFeedsItem(index, item)"
                                   small
                                 >
                                   mdi-delete
+                                </v-icon>
+                                <v-icon
+                                  @click="editClassicFeedsItem(index, item)"
+                                  medium
+                                  color="green"
+                                  background-color="green"
+                                >
+                                  mdi-square-edit-outline
                                 </v-icon>
                               </template>
                             </v-data-table>
@@ -360,7 +367,7 @@
                         <v-divider></v-divider>
                         <v-tabs
                           centered
-                          color="orange"
+                          :color="pageColor"
                         >
                           <v-tab
                             v-for="(period, index) in 13"
@@ -400,7 +407,7 @@
                                   >
                                     <template v-slot:activator="{ on }">
                                       <v-btn
-                                        color="orange"
+                                        :color="pageColor"
                                         outlined
                                         v-on="on"
                                       >
@@ -451,6 +458,7 @@
                                         <v-btn
                                           @click="closeConcentratedFeed(index)"
                                           text
+                                          color="grey"
                                         >
                                           Cancel
                                         </v-btn>
@@ -474,16 +482,18 @@
                               </template>
                               <template v-slot:[`item.actions`]="{ item }">
                                 <v-icon
-                                  @click="editConcentratedFeedsItem(index, item)"
-                                  small
-                                >
-                                  mdi-pencil
-                                </v-icon>
-                                <v-icon
                                   @click="deleteConcentratedFeedsItem(index, item)"
                                   small
                                 >
                                   mdi-delete
+                                </v-icon>
+                                <v-icon
+                                  @click="editConcentratedFeedsItem(index, item)"
+                                  medium
+                                  color="green"
+                                  background-color="green"
+                                >
+                                  mdi-square-edit-outline
                                 </v-icon>
                               </template>
                             </v-data-table>
@@ -503,17 +513,20 @@
 </template>
 <script>
   import { mapState } from 'vuex'
-  import ModalHerd from '../component/ModalHerd'
-  import RationGauge from '../component/RationGauge.vue'
+  import HousingGraph from './HousingGraph.vue'
+  import ModalHerd from './ModalHerd'
+  import RationGauge from './RationGauge.vue'
 
   export default {
     name: 'Herd',
     components: {
       ModalHerd,
       RationGauge,
+      HousingGraph,
     },
     data() {
       return {
+        pageColor: 'orange',
         animate: false,
         // pour la modale
         showModal: false,
@@ -525,6 +538,8 @@
           required: (val) => !!val || 'Ce champ est requis',
           integer: (val) => /^\d+$/.test(val) || 'Ce champ doit être un entier',
         },
+        // data housing type
+        selectedHousingIndex: null,
         // datatable classicFeed
         selectedClassicFeedIndex: null,
         selectedClassicFeedType: Array.from({ length: 13 }, () => null),
@@ -582,9 +597,16 @@
         // Activez l'animation en modifiant la valeur de la propriété animate
         this.animate = false
       },
+      housingPeriodSelected(period) {
+        console.log('housing index', period)
+        this.selectedHousingIndex = period
+      },
       // pour le détail
       showDetails(index) {
         this.selectedLot = index
+        if (this.lots[this.selectedLot].type.id) {
+          this.loadProfils(this.lots[this.selectedLot].type)
+        }
       },
       // pour le retour de modal
       addLot(lot) {
@@ -602,7 +624,6 @@
 
       // details
       loadProfils(item) {
-        console.log('load profil', item)
         this.$store.dispatch('fetchAnimalProfils', item.id)
       },
 

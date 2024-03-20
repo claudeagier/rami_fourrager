@@ -212,7 +212,7 @@
 
   export default {
     name: 'Dashboard',
-
+    components: {},
     data() {
       return {
         selectedSite: this.$store.getters.siteInfo,

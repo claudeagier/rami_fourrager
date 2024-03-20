@@ -40,7 +40,7 @@ const routes = [
       {
         name: 'Barn',
         path: 'barn',
-        component: () => import('@/views/simulator/pages/Barn'),
+        component: () => import('@/views/simulator/barn/Main'),
         meta: {
           breadCrumb(route) {
             // const paramToPageB = route.params.paramToPageB;
@@ -60,7 +60,7 @@ const routes = [
       {
         name: 'Farm',
         path: 'farm',
-        component: () => import('@/views/simulator/pages/Farm'),
+        component: () => import('@/views/simulator/farm/Main'),
         meta: {
           breadCrumb(route) {
             // const paramToPageB = route.params.paramToPageB;
@@ -80,7 +80,7 @@ const routes = [
       {
         name: 'Herd',
         path: 'herd',
-        component: () => import('@/views/simulator/pages/Herd'),
+        component: () => import('@/views/simulator/herd/Main'),
         meta: {
           breadCrumb(route) {
             // const paramToPageB = route.params.paramToPageB;

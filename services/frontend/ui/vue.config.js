@@ -7,15 +7,9 @@ module.exports = {
       poll: true,
     },
   },
-  transpileDependencies: ['vuetify'],
+  transpileDependencies: ['vuetify', 'vue-echarts', 'resize-detector'],
   chainWebpack: (config) => {
-    config.resolve.extensions
-      .clear()
-      .add('.ts')
-      .add('.tsx')
-      .add('.js')
-      .add('.vue')
-      .add('.json')
+    config.resolve.extensions.clear().add('.ts').add('.tsx').add('.js').add('.vue').add('.json')
   },
   pluginOptions: {
     i18n: {

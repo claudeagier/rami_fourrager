@@ -6,8 +6,8 @@
   >
     <v-card>
       <v-card-title>Ajouter un lot</v-card-title>
-      <v-card-text>
-        <v-form @submit.prevent="addLot">
+      <v-form @submit.prevent="addLot">
+        <v-card-text>
           <v-select
             v-model="lotItem.type"
             :items="batchTypes"
@@ -33,8 +33,12 @@
             label="Nombre d'animaux"
             type="number"
           ></v-text-field>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
           <v-btn
             text
+            color="grey"
             @click="cancelAddLot"
           >
             Annuler
@@ -47,8 +51,8 @@
           >
             Ajouter
           </v-btn>
-        </v-form>
-      </v-card-text>
+        </v-card-actions>
+      </v-form>
     </v-card>
   </v-dialog>
 </template>
@@ -65,7 +69,6 @@
     },
     data() {
       return {
-        profils: ['Vache', 'Mouton', 'Cheval', 'Cochon'],
         lotItem: {
           type: null,
           profil: null,
@@ -112,7 +115,6 @@
     },
     methods: {
       loadProfils(item) {
-        console.log('load profil', item)
         this.$store.dispatch('fetchAnimalProfils', item.id)
       },
       addLot() {
