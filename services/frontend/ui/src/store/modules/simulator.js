@@ -99,27 +99,17 @@ export default {
     setIsLoading(state, { list, loaded }) {
       state.isLoading[list] = loaded
     },
-    // setters
+    setPeriods(state, periods) {
+      state.periods = periods
+    },
+    setSites(state, sites) {
+      state.sites = sites
+    },
     setFeedTypes(state, feedTypes) {
       state.feedTypes = feedTypes
     },
     setConcentratedFeeds(state, concentratedFeeds) {
       state.concentratedFeeds = concentratedFeeds
-    },
-    setInitialBarnStock(state, initialData) {
-      state.barn.stock = initialData
-    },
-    setPeriods(state, periods) {
-      state.periods = periods
-    },
-    setSite(state, site) {
-      state.site = site
-    },
-    setSites(state, sites) {
-      state.sites = sites
-    },
-    setClimaticYear(state, cy) {
-      state.climaticYear = cy
     },
     setClimaticYears(state, climaticYears) {
       state.climaticYears = climaticYears
@@ -127,16 +117,25 @@ export default {
     setStics(state, stics) {
       state.stics = stics
     },
-    setBatchs(state, batchs) {
-      state.herd.batchs = batchs
-    },
     setBatchTypes(state, batchTypes) {
       state.batchTypes = batchTypes
     },
     setAnimalProfils(state, animalProfils) {
       state.animalProfils = animalProfils
     },
+    setHousingTypes(state, housingTypes) {
+      state.housingTypes = housingTypes
+    },
 
+    setSite(state, site) {
+      state.site = site
+    },
+
+    setClimaticYear(state, cy) {
+      state.climaticYear = cy
+    },
+
+    // farm
     setDimensioning(state, dim) {
       state.farm.dimensioning = dim
     },
@@ -144,12 +143,14 @@ export default {
       state.farm.rotation = rotation
     },
 
-    setHousingTypes(state, housingTypes) {
-      console.log('set state', housingTypes)
-      state.housingTypes = housingTypes
+    setBatchs(state, batchs) {
+      state.herd.batchs = batchs
     },
 
-    // mutations
+    // barn
+    setInitialBarnStock(state, initialData) {
+      state.barn.stock = initialData
+    },
     updateBarnStock(state, { type, name, quantity }) {
       const foundStock = state.barn.stock.find((item) => item.type === type && item.name === name)
       if (!foundStock) {
@@ -182,6 +183,31 @@ export default {
     },
     deleteBarnStockItem(state, { type, name }) {
       state.barn.stock = state.barn.stock.filter((item) => !(item.type === type && item.name === name))
+    },
+
+    // herd
+
+    createClassicFeed(state, { lotIndex, periodIndex, newFeed }) {
+      state.herd.batchs[lotIndex].classicFeeds[periodIndex].feeds.push(newFeed)
+    },
+    updateClassicFeed(state, { lotIndex, periodIndex, newFeed, oldFeed }) {
+      const feedIndex = state.herd.batchs[lotIndex].classicFeeds[periodIndex].feeds.indexOf(oldFeed)
+      state.herd.batchs[lotIndex].classicFeeds[periodIndex].feeds.splice(feedIndex, 1, newFeed)
+    },
+    deleteClassicFeed(state, { lotIndex, periodIndex, feed }) {
+      const feedIndex = state.herd.batchs[lotIndex].classicFeeds[periodIndex].feeds.indexOf(feed)
+      state.herd.batchs[lotIndex].classicFeeds[periodIndex].feeds.splice(feedIndex, 1)
+    },
+    createConcentratedFeed(state, { lotIndex, periodIndex, newFeed }) {
+      state.herd.batchs[lotIndex].concentratedFeeds[periodIndex].feeds.push(newFeed)
+    },
+    updateConcentratedFeed(state, { lotIndex, periodIndex, newFeed, oldFeed }) {
+      const feedIndex = state.herd.batchs[lotIndex].concentratedFeeds[periodIndex].feeds.indexOf(oldFeed)
+      state.herd.batchs[lotIndex].concentratedFeeds[periodIndex].feeds.splice(feedIndex, 1, newFeed)
+    },
+    deleteConcentratedFeed(state, { lotIndex, periodIndex, feed }) {
+      const feedIndex = state.herd.batchs[lotIndex].concentratedFeeds[periodIndex].feeds.indexOf(feed)
+      state.herd.batchs[lotIndex].concentratedFeeds[periodIndex].feeds.splice(feedIndex, 1)
     },
   },
   actions: {

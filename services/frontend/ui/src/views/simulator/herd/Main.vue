@@ -224,281 +224,18 @@
                       <!-- Classic Feeds Details -->
                       <v-tab-item>
                         <v-divider></v-divider>
-                        <v-tabs
-                          centered
-                          :color="pageColor"
-                        >
-                          <v-tab
-                            v-for="(period, index) in 13"
-                            :key="index"
-                          >
-                            Période {{ index + 1 }}
-                          </v-tab>
-                          <v-tab-item
-                            v-for="(period, index) in 13"
-                            :key="index"
-                          >
-                            <v-data-table
-                              :headers="classicHeaders"
-                              :items="lots[selectedLot].classicFeeds[index].feeds"
-                              class="elevation-1"
-                              sort-by="type"
-                              hide-default-footer
-                            >
-                              <template v-slot:top>
-                                <v-toolbar
-                                  color="white"
-                                  flat
-                                >
-                                  <v-toolbar-title>
-                                    Composition of classic feeds for period {{ index + 1 }}
-                                  </v-toolbar-title>
-                                  <v-divider
-                                    class="mx-4"
-                                    inset
-                                    vertical
-                                  ></v-divider>
-                                  <v-spacer></v-spacer>
-                                  <v-dialog
-                                    max-width="500px"
-                                    v-model="dialogs[1][index]"
-                                  >
-                                    <template v-slot:activator="{ on }">
-                                      <v-btn
-                                        :color="pageColor"
-                                        v-on="on"
-                                        outlined
-                                      >
-                                        Add a classic feed
-                                      </v-btn>
-                                    </template>
-                                    <v-card>
-                                      <v-card-title>
-                                        <span class="text-h5"> Add a classic feed </span>
-                                      </v-card-title>
-
-                                      <v-card-text>
-                                        <v-container>
-                                          <v-row>
-                                            <v-col
-                                              cols="12"
-                                              md="6"
-                                              sm="12"
-                                            >
-                                              <v-select
-                                                v-model="selectedClassicFeedType[index]"
-                                                :items="feedTypes"
-                                                item-text="name"
-                                                item-value="id"
-                                                label="Feed Type"
-                                                return-object
-                                                required
-                                              ></v-select>
-                                            </v-col>
-                                            <v-col
-                                              cols="12"
-                                              md="6"
-                                              sm="12"
-                                            >
-                                              <v-text-field
-                                                v-model="selectedClassicFeedProportion[index]"
-                                                label="Proportion (%)"
-                                                type="number"
-                                                required
-                                              ></v-text-field>
-                                            </v-col>
-                                          </v-row>
-                                        </v-container>
-                                      </v-card-text>
-
-                                      <v-card-actions>
-                                        <v-spacer></v-spacer>
-                                        <v-btn
-                                          @click="closeClassicFeed(index)"
-                                          color="grey"
-                                          text
-                                        >
-                                          Cancel
-                                        </v-btn>
-                                        <v-btn
-                                          @click="saveClassicFeed(index)"
-                                          outlined
-                                          color="primary"
-                                        >
-                                          Save
-                                        </v-btn>
-                                      </v-card-actions>
-                                    </v-card>
-                                  </v-dialog>
-                                  <!-- <v-btn
-                                    color="grey"
-                                    text
-                                  >
-                                    dupliquer
-                                  </v-btn> -->
-                                </v-toolbar>
-                                <ration-gauge
-                                  :color="pageColor"
-                                  :data-feeds="lots[selectedLot].classicFeeds[index].feeds"
-                                />
-                              </template>
-                              <template v-slot:[`item.actions`]="{ item }">
-                                <v-icon
-                                  @click="deleteClassicFeedsItem(index, item)"
-                                  small
-                                >
-                                  mdi-delete
-                                </v-icon>
-                                <v-icon
-                                  @click="editClassicFeedsItem(index, item)"
-                                  medium
-                                  color="green"
-                                  background-color="green"
-                                >
-                                  mdi-square-edit-outline
-                                </v-icon>
-                              </template>
-                            </v-data-table>
-                          </v-tab-item>
-                        </v-tabs>
+                        <classic-feed
+                          :pageColor="pageColor"
+                          :selectedLot="selectedLot"
+                        />
                       </v-tab-item>
                       <!-- Concentrated Feeds Details -->
                       <v-tab-item>
                         <v-divider></v-divider>
-                        <v-tabs
-                          centered
-                          :color="pageColor"
-                        >
-                          <v-tab
-                            v-for="(period, index) in 13"
-                            :key="index"
-                          >
-                            Période {{ index + 1 }}
-                          </v-tab>
-                          <v-tab-item
-                            v-for="(period, index) in 13"
-                            :key="index"
-                          >
-                            <v-data-table
-                              :headers="concentratedHeaders"
-                              :items="lots[selectedLot].concentratedFeeds[index].feeds"
-                              class="elevation-1"
-                              sort-by="type"
-                              hide-default-footer
-                            >
-                              <template v-slot:top>
-                                <v-toolbar
-                                  color="white"
-                                  flat
-                                >
-                                  <v-toolbar-title>
-                                    Composition of concentrated feeds for period {{ index + 1 }}
-                                  </v-toolbar-title>
-                                  <v-divider
-                                    class="mx-4"
-                                    inset
-                                    vertical
-                                  ></v-divider>
-                                  <v-spacer></v-spacer>
-
-                                  <v-dialog
-                                    max-width="500px"
-                                    v-model="dialogs[2][index]"
-                                  >
-                                    <template v-slot:activator="{ on }">
-                                      <v-btn
-                                        :color="pageColor"
-                                        outlined
-                                        v-on="on"
-                                      >
-                                        Add a concentrated feed
-                                      </v-btn>
-                                    </template>
-                                    <v-card>
-                                      <v-card-title>
-                                        <span class="text-h5"> Add a concentrated feed </span>
-                                      </v-card-title>
-
-                                      <v-card-text>
-                                        <v-container>
-                                          <v-row>
-                                            <v-col
-                                              cols="12"
-                                              md="6"
-                                              sm="12"
-                                            >
-                                              <v-select
-                                                v-model="selectedConcentratedFeedType[index]"
-                                                :items="concentratedFeeds"
-                                                item-text="name"
-                                                item-value="id"
-                                                label="concentrated Type"
-                                                return-object
-                                                required
-                                              ></v-select>
-                                            </v-col>
-                                            <v-col
-                                              cols="12"
-                                              md="6"
-                                              sm="12"
-                                            >
-                                              <v-text-field
-                                                v-model="selectedConcentratedFeedQuantity[index]"
-                                                label="Quantité (kg brut/animal/j)"
-                                                type="number"
-                                                required
-                                              ></v-text-field>
-                                            </v-col>
-                                          </v-row>
-                                        </v-container>
-                                      </v-card-text>
-
-                                      <v-card-actions>
-                                        <v-spacer></v-spacer>
-                                        <v-btn
-                                          @click="closeConcentratedFeed(index)"
-                                          text
-                                          color="grey"
-                                        >
-                                          Cancel
-                                        </v-btn>
-                                        <v-btn
-                                          @click="saveConcentratedFeed(index)"
-                                          color="primary"
-                                          outlined
-                                        >
-                                          Save
-                                        </v-btn>
-                                      </v-card-actions>
-                                    </v-card>
-                                  </v-dialog>
-                                  <!-- <v-btn
-                                    color="grey"
-                                    text
-                                  >
-                                    dupliquer
-                                  </v-btn> -->
-                                </v-toolbar>
-                              </template>
-                              <template v-slot:[`item.actions`]="{ item }">
-                                <v-icon
-                                  @click="deleteConcentratedFeedsItem(index, item)"
-                                  small
-                                >
-                                  mdi-delete
-                                </v-icon>
-                                <v-icon
-                                  @click="editConcentratedFeedsItem(index, item)"
-                                  medium
-                                  color="green"
-                                  background-color="green"
-                                >
-                                  mdi-square-edit-outline
-                                </v-icon>
-                              </template>
-                            </v-data-table>
-                          </v-tab-item>
-                        </v-tabs>
+                        <concentrated-feed
+                          :pageColor="pageColor"
+                          :selectedLot="selectedLot"
+                        />
                       </v-tab-item>
                     </v-tabs>
                   </v-card-text>
@@ -512,17 +249,18 @@
   </v-container>
 </template>
 <script>
-  import { mapState } from 'vuex'
+  import ClassicFeed from './ClassicFeed.vue'
+  import ConcentratedFeed from './ConcentratedFeed.vue'
   import HousingGraph from './HousingGraph.vue'
   import ModalHerd from './ModalHerd'
-  import RationGauge from './RationGauge.vue'
 
   export default {
     name: 'Herd',
     components: {
       ModalHerd,
-      RationGauge,
       HousingGraph,
+      ConcentratedFeed,
+      ClassicFeed,
     },
     data() {
       return {
@@ -532,45 +270,23 @@
         showModal: false,
         lots: this.$store.getters.herdInfo.batchs,
         selectedLot: null,
-        // pour les modals des periodes
-        dialogs: Array.from({ length: 3 }, () => Array.from({ length: 13 }, () => false)),
         rules: {
           required: (val) => !!val || 'Ce champ est requis',
           integer: (val) => /^\d+$/.test(val) || 'Ce champ doit être un entier',
         },
         // data housing type
         selectedHousingIndex: null,
-        // datatable classicFeed
-        selectedClassicFeedIndex: null,
-        selectedClassicFeedType: Array.from({ length: 13 }, () => null),
-        selectedClassicFeedProportion: Array.from({ length: 13 }, () => null),
-        classicHeaders: [
-          { text: 'Classic Feed Type', value: 'type.name' },
-          { text: 'Proportion (%)', value: 'proportion' },
-          { text: 'Actions', value: 'actions', sortable: false },
-        ],
-        // datatable concentratedFeed
-        selectedConcentratedFeedIndex: null,
-        selectedConcentratedFeedType: Array.from({ length: 13 }, () => null),
-        selectedConcentratedFeedQuantity: Array.from({ length: 13 }, () => null),
-        concentratedHeaders: [
-          { text: 'Concentrated Feed Type', value: 'type.name' },
-          { text: 'Quantité (kg brut/animal/j)', value: 'quantity' },
-          { text: 'Actions', value: 'actions', sortable: false },
-        ],
       }
     },
     created() {
       // ration
-      this.$store.dispatch('fetchFeedTypes')
-      this.$store.dispatch('fetchConcentratedFeeds')
+
       this.$store.dispatch('fetchHousingTypes')
       if (this.lots.length <= 0) {
         this.animate = true
       }
     },
     computed: {
-      ...mapState(['simulator']),
       batchTypes() {
         return this.$store.getters.batchTypeList
       },
@@ -579,12 +295,6 @@
       },
       housingTypes() {
         return this.$store.getters.housingTypeList
-      },
-      feedTypes() {
-        return this.$store.getters.feedTypeList
-      },
-      concentratedFeeds() {
-        return this.$store.getters.concentratedFeedList
       },
     },
     methods: {
@@ -627,14 +337,6 @@
         this.$store.dispatch('fetchAnimalProfils', item.id)
       },
 
-      // modals
-      openModal(type, index) {
-        this.$set(this.dialogs[type], index, true)
-      },
-      closeModal(type, index) {
-        this.$set(this.dialogs[type], index, false)
-      },
-
       // housing
       presenceRule(val) {
         console.log(val)
@@ -668,92 +370,8 @@
       // },
 
       // classic feeds
-      saveClassicFeed(periodIndex, item) {
-        if (this.selectedClassicFeedType[periodIndex] && this.selectedClassicFeedProportion[periodIndex]) {
-          // Vérifier si la modal est utilisée pour la modification ou l'ajout
-          if (this.selectedClassicFeedIndex !== null) {
-            const index = this.selectedClassicFeedIndex
-            // Modification d'une ration existante
-            this.lots[this.selectedLot].classicFeeds[periodIndex].feeds.splice(index, 1, {
-              type: this.selectedClassicFeedType[periodIndex],
-              proportion: this.selectedClassicFeedProportion[periodIndex],
-            })
-          } else {
-            // Ajout d'une nouvelle ration
-            this.lots[this.selectedLot].classicFeeds[periodIndex].feeds.push({
-              type: this.selectedClassicFeedType[periodIndex],
-              proportion: this.selectedClassicFeedProportion[periodIndex],
-            })
-          }
-          this.closeClassicFeed(periodIndex) // Fermer la modal après sauvegarde
-        } else {
-          console.error('Please fill in all fields')
-        }
-      },
-      editClassicFeedsItem(periodIndex, item) {
-        console.log('edit item', item)
-        // Ouvrir la modal de création/modification de la ration Classic Feeds
-        this.selectedClassicFeedType[periodIndex] = item.type
-        this.selectedClassicFeedProportion[periodIndex] = item.proportion
-        this.openModal(1, periodIndex)
-        // Enregistrer l'index de la ration Classic Feeds actuellement modifiée
-        this.selectedClassicFeedIndex = this.lots[this.selectedLot].classicFeeds[periodIndex].feeds.indexOf(item)
-      },
-      deleteClassicFeedsItem(periodIndex, item) {
-        const index = this.lots[this.selectedLot].classicFeeds[periodIndex].feeds.indexOf(item)
-        if (index > -1) {
-          this.lots[this.selectedLot].classicFeeds[periodIndex].feeds.splice(index, 1)
-        }
-      },
-      closeClassicFeed(index) {
-        this.closeModal(1, index)
-        this.selectedClassicFeedType.fill(null)
-        this.selectedClassicFeedProportion.fill(null)
-      },
+
       // concentrated feeds
-      saveConcentratedFeed(periodIndex, item) {
-        if (this.selectedConcentratedFeedType[periodIndex] && this.selectedConcentratedFeedQuantity[periodIndex]) {
-          // Vérifier si la modal est utilisée pour la modification ou l'ajout
-          if (this.selectedConcentratedFeedIndex !== null) {
-            const index = this.selectedConcentratedFeedIndex
-            // Modification d'une ration existante
-            this.lots[this.selectedLot].concentratedFeeds[periodIndex].feeds.splice(index, 1, {
-              type: this.selectedConcentratedFeedType[periodIndex],
-              quantity: this.selectedConcentratedFeedQuantity[periodIndex],
-            })
-          } else {
-            // Ajout d'une nouvelle ration
-            this.lots[this.selectedLot].concentratedFeeds[periodIndex].feeds.push({
-              type: this.selectedConcentratedFeedType[periodIndex],
-              quantity: this.selectedConcentratedFeedQuantity[periodIndex],
-            })
-          }
-          this.closeConcentratedFeed(periodIndex) // Fermer la modal après sauvegarde
-        } else {
-          console.error('Please fill in all fields')
-        }
-      },
-      editConcentratedFeedsItem(periodIndex, item) {
-        console.log('edit item', item)
-        // Ouvrir la modal de création/modification de la ration Concentrated Feeds
-        this.selectedConcentratedFeedType[periodIndex] = item.type
-        this.selectedConcentratedFeedQuantity[periodIndex] = item.quantity
-        this.openModal(2, periodIndex)
-        // Enregistrer l'index de la ration Concentrated Feeds actuellement modifiée
-        this.selectedConcentratedFeedIndex =
-          this.lots[this.selectedLot].concentratedFeeds[periodIndex].feeds.indexOf(item)
-      },
-      deleteConcentratedFeedsItem(periodIndex, item) {
-        const index = this.lots[this.selectedLot].concentratedFeeds[periodIndex].feeds.indexOf(item)
-        if (index > -1) {
-          this.lots[this.selectedLot].concentratedFeeds[periodIndex].feeds.splice(index, 1)
-        }
-      },
-      closeConcentratedFeed(index) {
-        this.closeModal(2, index)
-        this.selectedConcentratedFeedType.fill(null)
-        this.selectedConcentratedFeedQuantity.fill(null)
-      },
     },
   }
 </script>
