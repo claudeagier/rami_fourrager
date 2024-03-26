@@ -12,7 +12,7 @@
       elevation="1"
       fab
       small
-      @click="setDrawer(!drawer)"
+      @click="setDrawer(!show)"
     >
       <v-icon v-if="value"> mdi-view-quilt </v-icon>
       <v-icon v-else> mdi-dots-vertical </v-icon>
@@ -168,22 +168,12 @@
       },
     },
 
-    // data: () => ({
-    //   notifications: [
-    //     'Mike John Responded to your email',
-    //     'You have 5 new tasks',
-    //     "You're now friends with Andrew",
-    //     'Another Notification',
-    //     'Another one',
-    //   ],
-    // }),
-
     computed: {
-      ...mapState(['drawer']),
+      ...mapState('drawer', { show: (state) => state.show }),
     },
 
     methods: {
-      ...mapMutations({
+      ...mapMutations('drawer', {
         setDrawer: 'SET_DRAWER',
       }),
       logout: function () {

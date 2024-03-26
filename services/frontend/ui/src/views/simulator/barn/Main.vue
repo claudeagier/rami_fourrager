@@ -109,7 +109,7 @@
                               label="Concentrated Feed"
                             ></v-select>
                           </v-col>
-                          <v-col
+                          <!-- <v-col
                             cols="12"
                             md="12"
                             sm="12"
@@ -118,7 +118,7 @@
                               v-model="quantityInDays"
                               label="Quantity (in days)"
                             ></v-text-field>
-                          </v-col>
+                          </v-col> -->
                           <v-col
                             cols="12"
                             md="12"
@@ -186,7 +186,7 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex'
+  import { mapState, mapGetters } from 'vuex'
 
   export default {
     name: 'Barn',
@@ -195,7 +195,7 @@
       selectedItemType: null,
       selectedFeedType: null,
       selectedConcentratedFeed: null,
-      quantityInDays: null,
+      // quantityInDays: null,
       quantityInTons: null,
       dialog: false,
       headers: [
@@ -206,7 +206,7 @@
           value: 'type',
         },
         { text: 'Name', value: 'name' },
-        { text: 'Quantity in days', value: 'quantity.days' },
+        // { text: 'Quantity in days', value: 'quantity.days' },
         { text: 'Quantity in tons', value: 'quantity.tons' },
         { text: 'Actions', value: 'actions', sortable: false },
       ],
@@ -215,7 +215,7 @@
         type: '',
         name: '',
         quantity: {
-          days: '',
+          // days: '',
           tons: '',
         },
       },
@@ -223,30 +223,27 @@
         type: '',
         name: '',
         quantity: {
-          days: '',
+          // days: '',
           tons: '',
         },
       },
     }),
 
     computed: {
-      ...mapState(['simulator']),
       itemTypes() {
         return ['feed', 'concentrated_feed'] // You can retrieve these from the store if needed
       },
-      feedTypes() {
-        return this.$store.getters.feedTypeList
-      },
-      concentratedFeeds() {
-        return this.$store.getters.concentratedFeedList
-      },
-      barnStock() {
-        return this.$store.getters.barnStock
-      },
+      ...mapGetters('simulator', {
+        feedTypes: 'feedTypeList',
+        concentratedFeeds: 'concentratedFeedList',
+      }),
+      ...mapGetters('simulator/barn', {
+        barnStock: 'barnStock',
+      }),
     },
     created() {
-      this.$store.dispatch('fetchFeedTypes')
-      this.$store.dispatch('fetchConcentratedFeeds')
+      this.$store.dispatch('simulator/fetchFeedTypes')
+      this.$store.dispatch('simulator/fetchConcentratedFeeds')
     },
 
     methods: {
@@ -259,25 +256,26 @@
         this.selectedItemType = null
         this.selectedFeedType = null
         this.selectedConcentratedFeed = null
-        this.quantityInDays = null
+        // this.quantityInDays = null
         this.quantityInTons = null
       },
 
       save() {
         const selectedType = this.selectedItemType === 'feed' ? this.selectedFeedType : this.selectedConcentratedFeed
 
-        if (selectedType && (this.quantityInDays || this.quantityInTons)) {
+        // if (selectedType && (this.quantityInDays || this.quantityInTons)) {
+        if (selectedType && this.quantityInTons) {
           const selectedFeed =
             this.selectedItemType === 'feed'
               ? this.feedTypes.find((feed) => feed.id === selectedType)
               : this.concentratedFeeds.find((feed) => feed.id === selectedType)
 
           if (selectedFeed) {
-            this.$store.commit('updateBarnStock', {
+            this.$store.commit('simulator/barn/updateBarnStock', {
               type: this.selectedItemType,
               name: selectedFeed.name,
               quantity: {
-                days: this.quantityInDays,
+                // days: this.quantityInDays,
                 tons: this.quantityInTons,
               },
             })
@@ -290,18 +288,16 @@
       },
 
       deleteItem(item) {
-        console.log('delete')
-        // Implement deletion logic here
-        this.$store.commit('deleteBarnStockItem', {
+        this.$store.commit('simulator/barn/deleteBarnStockItem', {
           type: item.type,
           name: item.name,
         })
       },
 
       initialize() {
-        // Fetch initial data from the server or Vuex store
-        this.$store.commit('setInitialBarnStock', [])
+        this.$store.commit('simulator/barn/setInitialBarnStock', [])
       },
+      applyToSimulation() {},
     },
   }
 </script>

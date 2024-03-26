@@ -6,6 +6,7 @@
     <v-tab
       v-for="(period, index) in 13"
       :key="index"
+      @click="periodSelected(index)"
     >
       Période {{ index + 1 }}
     </v-tab>
@@ -14,8 +15,8 @@
       :key="index"
     >
       <v-data-table
-        :headers="Headers"
-        :items="lots[selectedLot].concentratedFeeds[index].feeds"
+        :headers="headers"
+        :items="feeds"
         class="elevation-1"
         sort-by="type"
         hide-default-footer
@@ -32,89 +33,29 @@
               vertical
             ></v-divider>
             <v-spacer></v-spacer>
-
-            <v-dialog
-              max-width="500px"
-              v-model="dialogs[index]"
-            >
-              <template v-slot:activator="{ on }">
-                <v-btn
-                  :color="pageColor"
-                  outlined
-                  v-on="on"
-                >
-                  Add a concentrated feed
-                </v-btn>
-              </template>
-              <v-card>
-                <v-card-title>
-                  <span class="text-h5"> Add a concentrated feed </span>
-                </v-card-title>
-
-                <v-card-text>
-                  <v-container>
-                    <v-row>
-                      <v-col
-                        cols="12"
-                        md="6"
-                        sm="12"
-                      >
-                        <v-select
-                          v-model="selectedFeedType[index]"
-                          :items="concentratedFeeds"
-                          item-text="name"
-                          item-value="id"
-                          label="concentrated Type"
-                          return-object
-                          required
-                        ></v-select>
-                      </v-col>
-                      <v-col
-                        cols="12"
-                        md="6"
-                        sm="12"
-                      >
-                        <v-text-field
-                          v-model="selectedFeedQuantity[index]"
-                          label="Quantité (kg brut/animal/j)"
-                          type="number"
-                          required
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                  </v-container>
-                </v-card-text>
-
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn
-                    @click="closeFeed(index)"
-                    text
-                    color="grey"
-                  >
-                    Cancel
-                  </v-btn>
-                  <v-btn
-                    @click="saveFeed(index)"
-                    color="primary"
-                    outlined
-                  >
-                    Save
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
+            <concentrated-feed-modal
+              :pageColor="pageColor"
+              :item="feedItem"
+              :forceOpen="dialogs[index]"
+              :selectedPeriodIndex="selectedPeriodIndex"
+              @add-item="saveItem"
+              @cancel-modal="closeModal"
+            />
           </v-toolbar>
+          <ration-gauge
+            :color="pageColor"
+            :data-feeds="feeds"
+          />
         </template>
         <template v-slot:[`item.actions`]="{ item }">
           <v-icon
-            @click="deleteFeedsItem(index, item)"
+            @click="deleteItem(item)"
             small
           >
             mdi-delete
           </v-icon>
           <v-icon
-            @click="editFeedsItem(index, item)"
+            @click="editItem(item)"
             medium
             color="green"
             background-color="green"
@@ -126,12 +67,14 @@
     </v-tab-item>
   </v-tabs>
 </template>
-
 <script>
-  import { mapState } from 'vuex'
+  import { mapGetters } from 'vuex'
+  import RationGauge from './RationGauge.vue'
+  import ConcentratedFeedModal from './ConcentratedFeedModal.vue'
 
   export default {
     name: 'ConcentratedFeed',
+
     props: {
       selectedLot: {
         type: null,
@@ -142,29 +85,42 @@
         required: true,
       },
     },
+    components: {
+      RationGauge,
+      ConcentratedFeedModal,
+    },
     data() {
       return {
-        lots: [...this.$store.getters.herdInfo.batchs],
-        // pour les modals des periodes
-        dialogs: Array.from({ length: 13 }, () => false),
-        oldFeed: null,
-        selectedFeedIndex: null,
-        selectedFeedType: Array.from({ length: 13 }, () => null),
-        selectedFeedQuantity: Array.from({ length: 13 }, () => null),
-        Headers: [
+        headers: [
           { text: 'Concentrated Feed Type', value: 'type.name' },
-          { text: 'Quantité (kg brut/animal/j)', value: 'quantity' },
+          { text: 'Quantity (kg brut/animal/j)', value: 'quantity' },
           { text: 'Actions', value: 'actions', sortable: false },
         ],
+        batch: null,
+        feedItem: null,
+        oldFeedItem: null,
+        // pour les modals des periodes
+        dialogs: Array.from({ length: 13 }, () => false),
+        selectedPeriodIndex: 0,
       }
     },
     created() {
-      this.$store.dispatch('fetchConcentratedFeeds')
+      this.$store.dispatch('simulator/fetchFeedTypes')
+    },
+    beforeMount() {
+      this.batch = this.getBatch(this.selectedLot)
     },
     computed: {
-      ...mapState(['simulator']),
-      concentratedFeeds() {
-        return this.$store.getters.concentratedFeedList
+      ...mapGetters('simulator/herd', {
+        getBatch: 'getBatch',
+      }),
+      ...mapGetters('simulator', {
+        getConcentratedFeed: 'getConcentratedFeedByPeriod',
+      }),
+      feeds: {
+        get() {
+          return this.batch.concentratedFeeds[this.selectedPeriodIndex].feeds
+        },
       },
     },
     methods: {
@@ -173,55 +129,45 @@
         this.$set(this.dialogs, index, true)
       },
       closeModal(index) {
+        this.feedItem = null
+        this.oldFeedItem = null
         this.$set(this.dialogs, index, false)
       },
-      editFeedsItem(periodIndex, item) {
-        // Ouvrir la modal de création/modification de la ration Concentrated Feeds
-        this.selectedFeedType[periodIndex] = item.type
-        this.selectedFeedQuantity[periodIndex] = item.quantity
-        this.oldFeed = item
-        this.openModal(periodIndex)
-      },
-      closeFeed(index) {
-        this.closeModal(index)
-        this.oldFeed = null
-        this.selectedFeedType[index] = null
-        this.selectedFeedQuantity[index] = null
-      },
-      saveFeed(periodIndex) {
-        if (this.selectedFeedType[periodIndex] && this.selectedFeedQuantity[periodIndex]) {
-          const newFeed = {
-            type: this.selectedFeedType[periodIndex],
-            quantity: this.selectedFeedQuantity[periodIndex],
-          }
 
-          if (this.oldFeed !== null) {
-            // Modification
-            this.$store.commit('updateConcentratedFeed', {
-              lotIndex: this.selectedLot,
-              periodIndex,
-              newFeed,
-              oldFeed: this.oldFeed,
-            })
-          } else {
-            // Ajout
-            this.$store.commit('createConcentratedFeed', {
-              lotIndex: this.selectedLot,
-              periodIndex,
-              newFeed,
-            })
-          }
-          this.closeFeed(periodIndex)
-        } else {
-          console.error('Please fill in all fields')
-        }
+      editItem(item) {
+        // Ouvrir la modal de création/modification de la ration Concentrated Feeds
+        this.feedItem = { ...item }
+        this.oldFeedItem = { ...item }
+        this.openModal(this.selectedPeriodIndex)
       },
-      deleteFeedsItem(periodIndex, feed) {
-        this.$store.commit('deleteConcentratedFeed', {
-          lotIndex: this.selectedLot,
-          periodIndex,
-          feed,
+      saveItem(item) {
+        if (this.oldFeedItem !== null) {
+          // Modification
+          this.$store.commit('simulator/herd/updateConcentratedFeed', {
+            batchId: this.selectedLot,
+            periodId: this.selectedPeriodIndex,
+            newFeed: item,
+            oldFeed: this.oldFeedItem,
+          })
+        } else {
+          // Ajout
+          this.$store.commit('simulator/herd/createConcentratedFeed', {
+            batchId: this.selectedLot,
+            periodId: this.selectedPeriodIndex,
+            newFeed: item,
+          })
+        }
+        this.closeModal(this.selectedPeriodIndex)
+      },
+      deleteItem(item) {
+        this.$store.commit('simulator/herd/deleteConcentratedFeed', {
+          batchId: this.selectedLot,
+          periodId: this.selectedPeriodIndex,
+          feed: item,
         })
+      },
+      periodSelected(period) {
+        this.selectedPeriodIndex = period
       },
     },
   }

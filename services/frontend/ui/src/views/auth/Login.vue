@@ -75,7 +75,7 @@
         const email = this.email
         const password = this.password
         this.$store
-          .dispatch('login', { email, password })
+          .dispatch('auth/login', { email, password })
           .then(() => this.$router.push('/'))
           .catch((err) => console.log(err))
       },

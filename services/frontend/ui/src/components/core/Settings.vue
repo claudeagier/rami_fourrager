@@ -30,8 +30,8 @@
         width="300"
       >
         <v-card-text>
-          <strong class="mb-3 d-inline-block">SIDEBAR FILTERS</strong>
-
+          <strong class="mb-3 d-inline-block">Settings</strong>
+          <!--
           <v-item-group v-model="color">
             <v-item
               v-for="color in colors"
@@ -48,7 +48,7 @@
                 />
               </template>
             </v-item>
-          </v-item-group>
+          </v-item-group> -->
 
           <v-divider class="my-4 secondary" />
 
@@ -86,14 +86,7 @@
 
     data: () => ({
       color: '#E91E63',
-      colors: [
-        '#9C27b0',
-        '#00CAE3',
-        '#4CAF50',
-        '#ff9800',
-        '#E91E63',
-        '#FF5252',
-      ],
+      colors: ['#9C27b0', '#00CAE3', '#4CAF50', '#ff9800', '#E91E63', '#FF5252'],
       menu: false,
     }),
 

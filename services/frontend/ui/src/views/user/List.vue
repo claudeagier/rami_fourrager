@@ -193,7 +193,6 @@
             method: 'Delete',
           })
             .then((resp) => {
-              console.log(resp.data.message)
               this.initialize()
             })
             .catch((err) => {
@@ -217,7 +216,6 @@
             method: 'PUT',
           })
             .then((resp) => {
-              console.log(resp.data.message)
               this.initialize()
             })
             .catch((err) => {
@@ -236,7 +234,6 @@
             method: 'POST',
           })
             .then((resp) => {
-              console.log(resp.data.message)
               this.initialize()
             })
             .catch((err) => {

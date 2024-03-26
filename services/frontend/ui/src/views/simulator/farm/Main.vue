@@ -42,9 +42,9 @@
                       <v-row>
                         <v-col cols="12">
                           <v-text-field
-                            v-model="farm.dimensioning.SAU"
+                            v-model="SAU"
                             label="SAU (Surface Agricole Utile)"
-                            :rules="[...required, ...constraintRules]"
+                            :rules="required"
                           ></v-text-field>
                         </v-col>
                         <v-col cols="12">
@@ -52,20 +52,34 @@
                           <v-subheader>Surfaces à Contraintes</v-subheader>
                         </v-col>
                         <!-- Constrained Surfaces inputs -->
-                        <v-col
-                          v-for="(field, key) in constrainedSurfaces"
-                          :key="key"
-                          cols="12"
-                        >
+                        <v-col cols="12">
                           <v-text-field
-                            v-model="farm.dimensioning.constrainedSurfaces[key]"
-                            :label="field.label"
+                            v-model="irrigable"
+                            label="irrigable"
+                            :rules="constraintRules"
+                            type="number"
+                          ></v-text-field>
+                          <v-text-field
+                            v-model="ploughable"
+                            label="ploughable"
+                            :rules="constraintRules"
+                            type="number"
+                          ></v-text-field>
+                          <v-text-field
+                            v-model="superficial"
+                            label="superficial"
+                            :rules="constraintRules"
+                            type="number"
+                          ></v-text-field>
+                          <v-text-field
+                            v-model="reachable"
+                            label="reachable"
                             :rules="constraintRules"
                             type="number"
                           ></v-text-field>
                         </v-col>
                       </v-row>
-                      <v-row>
+                      <!-- <v-row>
                         <v-col cols="12">
                           <v-btn
                             type="submit"
@@ -74,7 +88,7 @@
                             Enregistrer
                           </v-btn>
                         </v-col>
-                      </v-row>
+                      </v-row> -->
                     </v-form>
                   </v-card-text>
                 </v-card>
@@ -86,7 +100,7 @@
                   <v-card-text>
                     <v-data-table
                       :headers="headers"
-                      :items="farm.rotation"
+                      :items="rotations"
                       class="elevation-1"
                       sort-by="name"
                     >
@@ -105,44 +119,41 @@
                           <v-btn
                             :color="pageColor"
                             dark
-                            @click="addRotationItemDialog = true"
+                            @click="showRotationItemDialog = true"
                             outlined
                           >
                             Allouer une surface
                           </v-btn>
                           <v-dialog
-                            v-model="addRotationItemDialog"
+                            v-model="showRotationItemDialog"
                             max-width="600px"
                           >
-                            <v-form @submit.prevent="saveRotationItem">
+                            <v-form
+                              ref="rotationForm"
+                              @submit.prevent="saveRotationItem"
+                              v-model="valid"
+                              lazy-validation
+                            >
                               <v-card>
                                 <v-card-title> Ajouter un nouveau Sol </v-card-title>
                                 <v-card-text>
-                                  <v-form> </v-form>
                                   <v-container>
                                     <v-row>
                                       <v-col cols="12">
-                                        <!-- <v-select
-                                          v-model="selectedSTIC"
+                                        <v-autocomplete
+                                          v-model="rotationItem.stic"
                                           :items="sticList"
+                                          :loading="sticsLoaded"
                                           label="Code et Nom de la culture"
-                                          item-text="name"
-                                          item-value="id"
-                                          return-object
-                                        ></v-select> -->
-                                        <base-material-autocomplete
-                                          label="Code et Nom de la culture"
-                                          v-if="sticList"
-                                          :selected-item="selectedSTIC"
-                                          :items="sticList"
                                           item-text="name"
                                           item-value="id"
                                           dense
                                           filled
                                           return-object
-                                          @update:selectedItem="onSelectedSTICUpdated"
-                                          :loading="sticsLoaded"
-                                        ></base-material-autocomplete>
+                                          class="autocomplet-transparent-background"
+                                          :rules="required"
+                                        >
+                                        </v-autocomplete>
                                       </v-col>
                                       <v-col cols="12">
                                         <v-select
@@ -160,7 +171,7 @@
                                         <v-text-field
                                           v-model="rotationItem.surface"
                                           label="Surface"
-                                          :rules="rotationRules"
+                                          :rules="[...required, ...rotationRules]"
                                           type="number"
                                         ></v-text-field>
                                       </v-col>
@@ -172,7 +183,7 @@
                                   <v-btn
                                     text
                                     color="grey"
-                                    @click="addRotationItemDialog = false"
+                                    @click="cancelRotationDialog"
                                   >
                                     Annuler
                                   </v-btn>
@@ -181,6 +192,7 @@
                                     text
                                     type="submit"
                                     outlined
+                                    :disabled="!valid"
                                   >
                                     Enregistrer
                                   </v-btn>
@@ -197,6 +209,14 @@
                         >
                           mdi-delete
                         </v-icon>
+                        <v-icon
+                          @click="editRotationItem(item)"
+                          medium
+                          color="green"
+                          background-color="green"
+                        >
+                          mdi-square-edit-outline
+                        </v-icon>
                       </template>
                     </v-data-table>
                   </v-card-text>
@@ -211,15 +231,7 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex'
-  import { ref } from 'vue'
-
-  const ics = ref({
-    irrigable: 0,
-    ploughable: 0,
-    superficial: 0,
-    reachable: 0,
-  })
+  import { mapState, mapGetters } from 'vuex'
 
   export default {
     name: 'Farm',
@@ -227,7 +239,12 @@
     data() {
       return {
         pageColor: 'green',
-        internalConstrainedSurfaces: ics,
+        headers: [
+          { text: 'Nom de la culture', value: 'name' },
+          { text: 'Contrainte', value: 'constraint.name' },
+          { text: 'Surface', value: 'surface' },
+          { text: 'Actions', value: 'actions', sortable: false },
+        ],
         constraintsList: [
           { id: 1, name: 'irrigable' },
           { id: 2, name: 'ploughable' },
@@ -235,23 +252,16 @@
           { id: 4, name: 'reachable' },
         ],
         rotationItem: {
-          soil: '',
+          // soil: '',
           name: '',
           constraint: '',
           surface: null,
           stic: null,
           // Ajoutez les champs pour les périodes de production
         },
-        farm: this.$store.getters.farmInfo,
-        addRotationItemDialog: false,
-        selectedSTIC: null,
-        headers: [
-          { text: 'Code du sol', value: 'soil' },
-          { text: 'Nom de la culture', value: 'name' },
-          { text: 'Contrainte', value: 'constraint' },
-          { text: 'Surface', value: 'surface' },
-          { text: 'Actions', value: 'actions', sortable: false },
-        ],
+        showRotationItemDialog: false,
+        oldRotationitem: null,
+        valid: true,
         required: [
           (v) => {
             return !!v || 'Field is required'
@@ -260,119 +270,128 @@
         constraintRules: [
           // (v) => !!v || 'Surface is required',
           (v) => {
-            return this.validateSurface() || 'la somme des surfaces contraintes dépasse la SAU'
+            return this.validateSurface || 'la somme des surfaces contraintes dépasse la SAU'
           },
         ],
         rotationRules: [
           (v) => {
-            return this.validateRotation(v) || 'La surface contrainte est dépassée'
+            return (
+              this.validateRotation(this.rotationItem, this.oldRotationitem) || 'La surface contrainte est dépassée'
+            )
           },
         ],
       }
     },
     computed: {
-      ...mapState(['simulator']),
-      sticList() {
-        return this.$store.getters.sticList
+      ...mapState('simulator', {
+        sticsLoaded: (state) => state.isLoading['sticList'],
+      }),
+      ...mapGetters('simulator', {
+        sticList: 'sticList',
+      }),
+      ...mapGetters('simulator/farm', {
+        dimensioning: 'dimensioning',
+        rotations: 'rotations',
+        validateRotation: 'validateRotation',
+        validateSurface: 'validateSurface',
+      }),
+      SAU: {
+        get() {
+          return this.dimensioning.SAU
+        },
+        set(val) {
+          this.$store.commit('simulator/farm/setSAU', val)
+        },
       },
-      constrainedSurfaces() {
-        return {
-          irrigable: { label: 'Surfaces irrigables' },
-          ploughable: { label: 'Surfaces labourables' },
-          superficial: { label: 'Surfaces superficielles' },
-          reachable: { label: 'Surfaces atteignables' },
-        }
+      irrigable: {
+        get() {
+          return this.dimensioning.constrainedSurfaces.irrigable
+        },
+        set(val) {
+          this.$store.commit('simulator/farm/setIrrigable', val)
+        },
       },
-      sticsLoaded() {
-        console.log('isLoaded', this.$store.getters.isLoading('sticList'))
-        return this.$store.getters.isLoading('sticList')
+      ploughable: {
+        get() {
+          return this.dimensioning.constrainedSurfaces.ploughable
+        },
+        set(val) {
+          this.$store.commit('simulator/farm/setPloughable', val)
+        },
       },
-    },
-    actions: {},
-    created() {
-      // this.fetchSTIC()
+      superficial: {
+        get() {
+          return this.dimensioning.constrainedSurfaces.superficial
+        },
+        set(val) {
+          this.$store.commit('simulator/farm/setSuperficial', val)
+        },
+      },
+      reachable: {
+        get() {
+          return this.dimensioning.constrainedSurfaces.reachable
+        },
+        set(val) {
+          this.$store.commit('simulator/farm/setReachable', val)
+        },
+      },
     },
     methods: {
-      onSelectedSTICUpdated(selectedItem) {
-        this.selectedSTIC = selectedItem
+      editRotationItem(item) {
+        this.rotationItem = { ...item }
+        this.oldRotationitem = { ...item }
+        this.showRotationItemDialog = true
       },
-      saveFarmDimensioning() {
-        // Vérifiez la validation pour chaque surface à contrainte
-        const isIrrigableValid = this.validateSurface('irrigable')
-        const isPloughableValid = this.validateSurface('ploughable')
-        const isSuperficialValid = this.validateSurface('superficial')
-        const isReachableValid = this.validateSurface('reachable')
-
-        // Si toutes les surfaces à contrainte sont valides, soumettez le formulaire
-        if (isIrrigableValid && isPloughableValid && isSuperficialValid && isReachableValid) {
-          this.$store.commit('setDimensioning', this.farm.dimensioning)
-          // Soumettez le formulaire ou effectuez d'autres actions requises
-        } else {
-          // Affichez un message d'erreur ou effectuez d'autres actions si la validation échoue
-        }
-      },
-      validateSurface() {
-        const dim = this.farm.dimensioning
-        const constrainedSurfaces = { ...dim.constrainedSurfaces }
-        const totalConstrainedSurfaces = Object.values(constrainedSurfaces).reduce((acc, curr) => {
-          const intValue = parseInt(curr, 10)
-          return acc + (isNaN(intValue) ? 0 : intValue)
-        }, 0)
-        return totalConstrainedSurfaces <= dim.SAU
-      },
-      validateRotation(value) {
-        const farmDim = this.$store.getters.farmInfo.dimensioning
-        if (this.rotationItem.constraint) {
-          const cs = farmDim.constrainedSurfaces
-          const constraint = this.rotationItem.constraint.name
-          const acc = parseInt(this.internalConstrainedSurfaces[constraint]) + parseInt(value)
-          return acc <= parseInt(cs[constraint])
-        } else {
-          const totalSurfaces = Object.values(this.farm.rotation).reduce((acc, curr) => {
-            const intValue = parseInt(curr.surface, 10)
-            return acc + (isNaN(intValue) ? 0 : intValue)
-          }, 0)
-          return totalSurfaces + parseInt(value) <= parseInt(farmDim.SAU)
-        }
+      cancelRotationDialog() {
+        this.showRotationItemDialog = false
+        this.clearRotationItem()
       },
       saveRotationItem() {
-        if (this.selectedSTIC) {
-          this.rotationItem.stic = this.selectedSTIC
-          this.rotationItem.soil = this.selectedSTIC.code
-          this.rotationItem.name = this.selectedSTIC.name
-          this.rotationItem.constraint = this.rotationItem.constraint.name
-          this.internalConstrainedSurfaces[this.rotationItem.constraint] += this.rotationItem.surface
-
-          this.farm.rotation.push({ ...this.rotationItem })
-          this.clearRotationItem()
-          this.addRotationItemDialog = false
+        if (this.$refs.rotationForm.validate()) {
+          if (this.rotationItem && this.rotationItem.stic) {
+            // this.rotationItem.soil = this.rotationItem.stic.code
+            this.rotationItem.name = this.rotationItem.stic.name
+            if (this.oldRotationitem) {
+              this.$store.commit('simulator/farm/updateRotation', {
+                newRotation: this.rotationItem,
+                oldRotation: this.oldRotationitem,
+              })
+            } else {
+              this.$store.commit('simulator/farm/createRotation', this.rotationItem)
+            }
+            this.showRotationItemDialog = false
+            this.clearRotationItem()
+          } else {
+            return false
+          }
         } else {
-          console.log("don't saved")
+          console.log("don't validate")
+          return false
         }
       },
       deleteRotationItem(item) {
-        const index = this.farm.rotation.indexOf(item)
-        if (index > -1) {
-          this.farm.rotation.splice(index, 1)
-        }
+        this.$store.commit('simulator/farm/deleteRotation', item)
       },
       clearRotationItem() {
         this.rotationItem = {
-          soil: '',
+          // soil: '',
           name: '',
           constraint: '',
-          surface: 0,
+          surface: null,
           stic: null,
         }
-        this.selectedSTIC = null
+        this.oldRotationitem = null
+        this.$refs.rotationForm.reset()
       },
       applyToSimulation() {
-        this.$store.commit('setRotations', this.farm.rotation)
+        this.$store.commit('setRotations', this.rotations)
       },
     },
   }
 </script>
 
-<style scoped>
-  /* Ajoutez vos styles ici */
+<style>
+  .autocomplet-transparent-background .v-input__control .v-input__slot {
+    background-color: transparent !important;
+  }
 </style>

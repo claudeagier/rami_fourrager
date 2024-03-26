@@ -6,6 +6,7 @@
     <v-tab
       v-for="(period, index) in 13"
       :key="index"
+      @click="periodSelected(index)"
     >
       Période {{ index + 1 }}
     </v-tab>
@@ -14,8 +15,8 @@
       :key="index"
     >
       <v-data-table
-        :headers="classicHeaders"
-        :items="lots[selectedLot].classicFeeds[index].feeds"
+        :headers="headers"
+        :items="feeds"
         class="elevation-1"
         sort-by="type"
         hide-default-footer
@@ -32,92 +33,29 @@
               vertical
             ></v-divider>
             <v-spacer></v-spacer>
-            <v-dialog
-              max-width="500px"
-              v-model="dialogs[index]"
-            >
-              <template v-slot:activator="{ on }">
-                <v-btn
-                  :color="pageColor"
-                  v-on="on"
-                  outlined
-                >
-                  Add a classic feed
-                </v-btn>
-              </template>
-              <v-card>
-                <v-card-title>
-                  <span class="text-h5"> Add a classic feed </span>
-                </v-card-title>
-
-                <v-card-text>
-                  <v-container>
-                    <v-row>
-                      <v-col
-                        cols="12"
-                        md="6"
-                        sm="12"
-                      >
-                        <v-select
-                          v-model="selectedClassicFeedType[index]"
-                          :items="feedTypes"
-                          item-text="name"
-                          item-value="id"
-                          label="Feed Type"
-                          return-object
-                          required
-                        ></v-select>
-                      </v-col>
-                      <v-col
-                        cols="12"
-                        md="6"
-                        sm="12"
-                      >
-                        <v-text-field
-                          v-model="selectedClassicFeedProportion[index]"
-                          label="Proportion (%)"
-                          type="number"
-                          required
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                  </v-container>
-                </v-card-text>
-
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn
-                    @click="closeClassicFeed(index)"
-                    color="grey"
-                    text
-                  >
-                    Cancel
-                  </v-btn>
-                  <v-btn
-                    @click="saveClassicFeed(index)"
-                    outlined
-                    color="primary"
-                  >
-                    Save
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
+            <classic-feed-modal
+              :pageColor="pageColor"
+              :item="feedItem"
+              :forceOpen="dialogs[index]"
+              :selectedPeriodIndex="selectedPeriodIndex"
+              @add-item="saveItem"
+              @cancel-modal="closeModal"
+            />
           </v-toolbar>
           <ration-gauge
             :color="pageColor"
-            :data-feeds="lots[selectedLot].classicFeeds[index].feeds"
+            :data-feeds="feeds"
           />
         </template>
         <template v-slot:[`item.actions`]="{ item }">
           <v-icon
-            @click="deleteClassicFeedsItem(index, item)"
+            @click="deleteItem(item)"
             small
           >
             mdi-delete
           </v-icon>
           <v-icon
-            @click="editClassicFeedsItem(index, item)"
+            @click="editItem(item)"
             medium
             color="green"
             background-color="green"
@@ -130,8 +68,9 @@
   </v-tabs>
 </template>
 <script>
-  import { mapState } from 'vuex'
+  import { mapGetters } from 'vuex'
   import RationGauge from './RationGauge.vue'
+  import ClassicFeedModal from './ClassicFeedModal.vue'
 
   export default {
     name: 'ClassicFeed',
@@ -148,30 +87,40 @@
     },
     components: {
       RationGauge,
+      ClassicFeedModal,
     },
     data() {
       return {
-        lots: this.$store.getters.herdInfo.batchs,
-        oldFeed: null,
-        // pour les modals des periodes
-        dialogs: Array.from({ length: 13 }, () => false),
-        selectedClassicFeedIndex: null,
-        selectedClassicFeedType: Array.from({ length: 13 }, () => null),
-        selectedClassicFeedProportion: Array.from({ length: 13 }, () => null),
-        classicHeaders: [
+        headers: [
           { text: 'Classic Feed Type', value: 'type.name' },
           { text: 'Proportion (%)', value: 'proportion' },
           { text: 'Actions', value: 'actions', sortable: false },
         ],
+        batch: null,
+        feedItem: null,
+        oldFeedItem: null,
+        // pour les modals des periodes
+        dialogs: Array.from({ length: 13 }, () => false),
+        selectedPeriodIndex: 0,
       }
     },
     created() {
-      this.$store.dispatch('fetchFeedTypes')
+      this.$store.dispatch('simulator/fetchFeedTypes')
+    },
+    beforeMount() {
+      this.batch = this.getBatch(this.selectedLot)
     },
     computed: {
-      ...mapState(['simulator']),
-      feedTypes() {
-        return this.$store.getters.feedTypeList
+      ...mapGetters('simulator/herd', {
+        getBatch: 'getBatch',
+      }),
+      ...mapGetters('simulator', {
+        getClassicFeed: 'getClassiqueFeedByPeriod',
+      }),
+      feeds: {
+        get() {
+          return this.batch.classicFeeds[this.selectedPeriodIndex].feeds
+        },
       },
     },
     methods: {
@@ -180,55 +129,45 @@
         this.$set(this.dialogs, index, true)
       },
       closeModal(index) {
+        this.feedItem = null
+        this.oldFeedItem = null
         this.$set(this.dialogs, index, false)
       },
-      editClassicFeedsItem(periodIndex, item) {
-        // Ouvrir la modal de création/modification de la ration Classic Feeds
-        this.selectedClassicFeedType[periodIndex] = item.type
-        this.selectedClassicFeedProportion[periodIndex] = item.proportion
-        this.oldFeed = item
-        this.openModal(periodIndex)
-      },
-      saveClassicFeed(periodIndex) {
-        if (this.selectedClassicFeedType[periodIndex] && this.selectedClassicFeedProportion[periodIndex]) {
-          const newFeed = {
-            type: this.selectedClassicFeedType[periodIndex],
-            proportion: this.selectedClassicFeedProportion[periodIndex],
-          }
 
-          if (this.oldFeed !== null) {
-            // Modification
-            this.$store.commit('updateClassicFeed', {
-              lotIndex: this.selectedLot,
-              periodIndex,
-              newFeed,
-              oldFeed: this.oldFeed,
-            })
-          } else {
-            // Ajout
-            this.$store.commit('createClassicFeed', {
-              lotIndex: this.selectedLot,
-              periodIndex,
-              newFeed,
-            })
-          }
-          this.closeClassicFeed(periodIndex)
-        } else {
-          console.error('Please fill in all fields')
-        }
+      editItem(item) {
+        // Ouvrir la modal de création/modification de la ration Classic Feeds
+        this.feedItem = { ...item }
+        this.oldFeedItem = { ...item }
+        this.openModal(this.selectedPeriodIndex)
       },
-      deleteClassicFeedsItem(periodIndex, feed) {
-        this.$store.commit('deleteClassicFeed', {
-          lotIndex: this.selectedLot,
-          periodIndex,
-          feed,
+      saveItem(item) {
+        if (this.oldFeedItem !== null) {
+          // Modification
+          this.$store.commit('simulator/herd/updateClassicFeed', {
+            batchId: this.selectedLot,
+            periodId: this.selectedPeriodIndex,
+            newFeed: item,
+            oldFeed: this.oldFeedItem,
+          })
+        } else {
+          // Ajout
+          this.$store.commit('simulator/herd/createClassicFeed', {
+            batchId: this.selectedLot,
+            periodId: this.selectedPeriodIndex,
+            newFeed: item,
+          })
+        }
+        this.closeModal(this.selectedPeriodIndex)
+      },
+      deleteItem(item) {
+        this.$store.commit('simulator/herd/deleteClassicFeed', {
+          batchId: this.selectedLot,
+          periodId: this.selectedPeriodIndex,
+          feed: item,
         })
       },
-      closeClassicFeed(index) {
-        this.closeModal(index)
-        this.oldFeed = null
-        this.selectedClassicFeedType[index] = null
-        this.selectedClassicFeedProportion[index] = null
+      periodSelected(period) {
+        this.selectedPeriodIndex = period
       },
     },
   }

@@ -125,7 +125,6 @@
           return this.model
         },
         set(val) {
-          console.log('change val', val)
           this.$emit('change', val)
         },
       },

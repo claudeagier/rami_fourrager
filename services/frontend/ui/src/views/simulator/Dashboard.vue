@@ -4,7 +4,7 @@
     fluid
     tag="section"
   >
-    <div>{{ simulator.simulationName }}</div>
+    <!-- <div>{{ simulator.simulationName }}</div> -->
     <v-row>
       <v-col
         cols="12"
@@ -29,7 +29,7 @@
         lg="3"
       >
         <base-select-card
-          v-if="this.$store.getters.siteInfo != null"
+          v-if="selectedSite != null"
           :model="selectedCY"
           color="info"
           icon="mdi-twitter"
@@ -74,7 +74,7 @@
           :options="farmGraph.options"
           :responsive-options="farmGraph.responsiveOptions"
           :type="farmGraph.type"
-          color="primary"
+          color="green"
         >
           <template v-slot:reveal-actions>
             <v-tooltip bottom>
@@ -208,15 +208,13 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex'
+  import { mapState, mapGetters, mapMutations } from 'vuex'
 
   export default {
     name: 'Dashboard',
     components: {},
     data() {
       return {
-        selectedSite: this.$store.getters.siteInfo,
-        selectedCY: this.$store.getters.climaticYearInfo,
         dataCompletedTasksChart: {
           data: {
             labels: ['12am', '3pm', '6pm', '9pm', '12pm', '3am', '6am', '9am'],
@@ -271,13 +269,14 @@
       }
     },
     computed: {
-      ...mapState(['simulator']),
-      siteList() {
-        return this.$store.getters.siteList
-      },
-      climaticYearList() {
-        return this.$store.getters.climaticYearList
-      },
+      ...mapState('simulator', {
+        selectedSite: (state) => state.site,
+        selectedCY: (state) => state.climaticYear,
+      }),
+      ...mapGetters('simulator', {
+        siteList: 'siteList',
+        climaticYearList: 'climaticYearList',
+      }),
       farmGraph() {
         // const rotations = this.$store.getters.farmRotation
         // const rotationExample = {
@@ -345,17 +344,21 @@
       },
     },
     methods: {
+      ...mapMutations('simulator', {
+        setSite: 'setSite',
+        setClimaticYear: 'setClimaticYear',
+      }),
       handleSiteChange(id) {
-        this.$store.commit('setSite', id)
-        this.$store.dispatch('fetchClimaticYears', id)
+        this.setSite(id)
+        this.$store.dispatch('simulator/fetchClimaticYears', id)
       },
       handleCYchange(id) {
-        this.$store.commit('setClimaticYear', id)
-        this.$store.dispatch('fetchStics', id)
+        this.setClimaticYear(id)
+        this.$store.dispatch('simulator/fetchStics', id)
       },
     },
     created() {
-      this.$store.dispatch('fetchSites')
+      this.$store.dispatch('simulator/fetchSites')
     },
   }
 </script>

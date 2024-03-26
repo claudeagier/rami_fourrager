@@ -50,7 +50,7 @@
                       </v-col>
                     </v-row>
 
-                    <modal-herd
+                    <herd-modal
                       :showModal="showModal"
                       @add-lot="addLot"
                       @cancel-add-lot="cancelAddLot"
@@ -110,116 +110,18 @@
                       <!-- batch Details -->
                       <v-tab-item>
                         <v-divider></v-divider>
-                        <v-card>
-                          <v-card-text>
-                            <v-select
-                              v-model="lots[selectedLot].type"
-                              :items="batchTypes"
-                              label="Type de bétail"
-                              item-text="name"
-                              item-value="id"
-                              return-object
-                              required
-                              :color="pageColor"
-                              :item-color="pageColor"
-                              @change="loadProfils"
-                            ></v-select>
-                            <v-select
-                              v-model="lots[selectedLot].profil"
-                              :items="animalProfils"
-                              label="Profil"
-                              item-text="name"
-                              item-value="id"
-                              :color="pageColor"
-                              :item-color="pageColor"
-                              return-object
-                              required
-                            ></v-select>
-                            <v-text-field
-                              v-model="lots[selectedLot].count"
-                              :rules="[rules.required, rules.integer]"
-                              label="Nombre d'animaux"
-                              type="number"
-                              :color="pageColor"
-                            ></v-text-field>
-                            <v-divider></v-divider>
-                            <v-select
-                              v-model="lots[selectedLot].housing.type"
-                              :items="housingTypes"
-                              item-text="name"
-                              item-value="id"
-                              return-object
-                              label="Type de logement"
-                              :color="pageColor"
-                              :item-color="pageColor"
-                            ></v-select>
-                          </v-card-text>
-                        </v-card>
+                        <batch-details
+                          :pageColor="pageColor"
+                          :selectedLot="selectedLot"
+                        />
                       </v-tab-item>
                       <!-- Housing Details -->
                       <v-tab-item>
                         <v-divider></v-divider>
-                        <housing-graph
+                        <housing-details
+                          :pageColor="pageColor"
                           :selectedLot="selectedLot"
-                          :selection="selectedHousingIndex"
                         />
-                        <!-- <v-btn @click="saveHousingDetails">
-                              Enregistrer
-                            </v-btn> -->
-
-                        <v-tabs
-                          centered
-                          :color="pageColor"
-                        >
-                          <v-tab
-                            v-for="(period, index) in 13"
-                            :key="index"
-                            @click="housingPeriodSelected(index)"
-                          >
-                            Période {{ index + 1 }}
-                          </v-tab>
-                          <v-tab-item
-                            v-for="(period, index) in 13"
-                            :key="index"
-                          >
-                            <v-toolbar
-                              color="white"
-                              flat
-                            >
-                              <v-toolbar-title> Présence en batiment pour la période {{ index + 1 }} </v-toolbar-title>
-                              <v-divider
-                                class="mx-4"
-                                inset
-                                vertical
-                              ></v-divider>
-                              <v-spacer></v-spacer>
-                              <!-- <v-btn
-                                color="grey"
-                                text
-                              >
-                                dupliquer
-                              </v-btn> -->
-                            </v-toolbar>
-                            <v-card>
-                              <v-text-field
-                                v-model="lots[selectedLot].housing.presence[index].animalCount"
-                                :rules="[rules.required, rules.integer, presenceRule]"
-                                type="number"
-                                label="Nb d'animaux présents"
-                                hide-spin-buttons
-                                :color="pageColor"
-                              ></v-text-field>
-                              <v-text-field
-                                v-model="lots[selectedLot].housing.presence[index].days"
-                                :rules="[rules.required, rules.integer, daysRule]"
-                                type="number"
-                                label="Jours de présence en bâtiment (/28)"
-                                hide-spin-buttons
-                                :color="pageColor"
-                              ></v-text-field>
-                            </v-card>
-                          </v-tab-item>
-                        </v-tabs>
                       </v-tab-item>
                       <!-- Classic Feeds Details -->
                       <v-tab-item>
@@ -249,18 +151,21 @@
   </v-container>
 </template>
 <script>
+  import { mapState, mapGetters } from 'vuex'
   import ClassicFeed from './ClassicFeed.vue'
   import ConcentratedFeed from './ConcentratedFeed.vue'
-  import HousingGraph from './HousingGraph.vue'
-  import ModalHerd from './ModalHerd'
+  import HerdModal from './HerdModal'
+  import HousingDetails from './HousingDetails.vue'
+  import BatchDetails from './BatchDetails.vue'
 
   export default {
     name: 'Herd',
     components: {
-      ModalHerd,
-      HousingGraph,
+      HerdModal,
+      HousingDetails,
       ConcentratedFeed,
       ClassicFeed,
+      BatchDetails,
     },
     data() {
       return {
@@ -268,34 +173,40 @@
         animate: false,
         // pour la modale
         showModal: false,
-        lots: this.$store.getters.herdInfo.batchs,
         selectedLot: null,
         rules: {
           required: (val) => !!val || 'Ce champ est requis',
           integer: (val) => /^\d+$/.test(val) || 'Ce champ doit être un entier',
         },
-        // data housing type
-        selectedHousingIndex: null,
       }
     },
     created() {
-      // ration
-
-      this.$store.dispatch('fetchHousingTypes')
+      this.$store.dispatch('simulator/fetchHousingTypes')
       if (this.lots.length <= 0) {
         this.animate = true
       }
     },
     computed: {
-      batchTypes() {
-        return this.$store.getters.batchTypeList
+      ...mapGetters('simulator', {
+        batchTypes: 'batchTypeList',
+        animalProfils: 'animalProfilList',
+        housingTypes: 'housingTypeList',
+      }),
+      ...mapState('simulator/herd', {
+        batchs: (state) => state.batchs,
+      }),
+
+      lots: {
+        get() {
+          return this.batchs
+        },
+        set(val) {},
       },
-      animalProfils() {
-        return this.$store.getters.animalProfilList
-      },
-      housingTypes() {
-        return this.$store.getters.housingTypeList
-      },
+      // housingType: {
+      //   get(){
+      //     return this.housingType
+      //   }
+      // }
     },
     methods: {
       // pour le parent
@@ -304,74 +215,31 @@
       },
       showHerdModal() {
         this.showModal = true
+        this.selectedLot = null
         // Activez l'animation en modifiant la valeur de la propriété animate
         this.animate = false
-      },
-      housingPeriodSelected(period) {
-        console.log('housing index', period)
-        this.selectedHousingIndex = period
       },
       // pour le détail
       showDetails(index) {
         this.selectedLot = index
-        if (this.lots[this.selectedLot].type.id) {
-          this.loadProfils(this.lots[this.selectedLot].type)
-        }
       },
+
       // pour le retour de modal
       addLot(lot) {
-        this.lots.push(lot)
+        this.$store.commit('simulator/herd/addBatch', lot)
         this.showModal = false
+      },
+      updateLot(lot) {
+        this.$store.commit('simulator/herd/updatelot', { newBatch: lot, oldBatch: this.oldbatch })
+        this.selectedLot = null
       },
       cancelAddLot() {
         this.showModal = false
       },
-      deleteLot(item) {
-        console.log('delete lot')
-        const index = this.lots.indexOf(item)
-        this.lots.splice(index, 1)
+      deleteLot(lot) {
+        this.selectedLot = null
+        this.$store.commit('simulator/herd/deleteBatch', lot)
       },
-
-      // details
-      loadProfils(item) {
-        this.$store.dispatch('fetchAnimalProfils', item.id)
-      },
-
-      // housing
-      presenceRule(val) {
-        console.log(val)
-        if (!val) return true
-        return (
-          parseInt(val) <= parseInt(this.lots[this.selectedLot].count) ||
-          "La présence en bâtiment doit être inférieure ou égale au nombre d'animaux"
-        )
-      },
-      daysRule(val) {
-        if (!val) return true
-        return parseInt(val) <= 28 || 'Le nombre de jours de présence doit être inférieur ou égal à 28'
-      },
-      saveHousingDetails() {
-        // Vous pouvez implémenter la logique pour sauvegarder les détails du logement ici
-        console.log('Détails du logement enregistrés :', this.lots[this.selectedLot].housing)
-      },
-      // validateHousing(period) {
-      //   if (!period.presence || !period.days) {
-      //     return false
-      //   }
-      //   // Vérifie si le nombre de périodes de présence est inférieur ou égal au nombre d'animaux
-      //   if (parseInt(period.presence) > parseInt(this.animalCount)) {
-      //     return false
-      //   }
-      //   // Vérifie si le nombre de jours de présence est inférieur ou égal à 28
-      //   if (parseInt(period.days) > 28) {
-      //     return false
-      //   }
-      //   return true
-      // },
-
-      // classic feeds
-
-      // concentrated feeds
     },
   }
 </script>

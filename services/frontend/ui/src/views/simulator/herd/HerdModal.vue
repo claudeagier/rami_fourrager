@@ -6,7 +6,12 @@
   >
     <v-card>
       <v-card-title>Ajouter un lot</v-card-title>
-      <v-form @submit.prevent="addLot">
+      <v-form
+        ref="batchForm"
+        @submit.prevent="addLot"
+        v-model="valid"
+        lazy-validation
+      >
         <v-card-text>
           <v-select
             v-model="lotItem.type"
@@ -15,7 +20,7 @@
             item-text="name"
             item-value="id"
             return-object
-            required
+            :rules="[rules.required]"
             @change="loadProfils"
           ></v-select>
           <v-select
@@ -25,7 +30,7 @@
             item-text="name"
             item-value="id"
             return-object
-            required
+            :rules="[rules.required]"
           ></v-select>
           <v-text-field
             v-model="lotItem.count"
@@ -44,7 +49,7 @@
             Annuler
           </v-btn>
           <v-btn
-            :disabled="!isFormValid"
+            :disabled="!valid"
             type="submit"
             color="primary"
             outlined
@@ -58,9 +63,9 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex'
+  import { mapState, mapGetters } from 'vuex'
   export default {
-    name: 'ModalHerd',
+    name: 'HerdModal',
     props: {
       showModal: {
         type: Boolean,
@@ -89,6 +94,7 @@
         },
         selectedType: null,
         animalCount: null,
+        valid: true,
         rules: {
           required: (val) => !!val || 'Ce champ est requis',
           integer: (val) => /^\d+$/.test(val) || 'Ce champ doit être un entier',
@@ -96,29 +102,20 @@
       }
     },
     created() {
-      this.$store.dispatch('fetchBatchTypes')
+      this.$store.dispatch('simulator/fetchBatchTypes')
     },
     computed: {
-      ...mapState(['simulator']),
-      batchTypes() {
-        return this.$store.getters.batchTypeList
-      },
-      animalProfils() {
-        return this.$store.getters.animalProfilList
-      },
-      isFormValid() {
-        if (!this.validateForm()) {
-          return false
-        }
-        return true
-      },
+      ...mapGetters('simulator', {
+        batchTypes: 'batchTypeList',
+        animalProfils: 'animalProfilList',
+      }),
     },
     methods: {
       loadProfils(item) {
-        this.$store.dispatch('fetchAnimalProfils', item.id)
+        this.$store.dispatch('simulator/fetchAnimalProfils', item.id)
       },
       addLot() {
-        if (this.lotItem.type && this.lotItem.count && this.lotItem.profil && this.validateForm()) {
+        if (this.$refs.batchForm.validate()) {
           this.$emit('add-lot', this.lotItem)
           this.resetForm()
         }
@@ -139,9 +136,7 @@
           classicFeeds: Array.from({ length: 13 }, () => ({ period: null, feeds: [] })),
           concentratedFeeds: Array.from({ length: 13 }, () => ({ period: null, feeds: [] })),
         }
-      },
-      validateForm() {
-        return true
+        this.$refs.batchForm.reset()
       },
     },
   }
