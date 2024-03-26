@@ -1,6 +1,7 @@
 # services/users/project/api/services.py
 
 from sqlalchemy.orm import joinedload
+from sqlalchemy import desc
 
 from project import db
 from project.repository.referentials.models import Stic, ClimaticYear, Site, PastureType, NutritionalValues, AnimalProfil, BatchType, AnimalProfilPeriod, Period
@@ -20,14 +21,20 @@ def get_by_id(modelName, id):
 
 
 def get_stics_by(climaticYearId):
-    stics = db.session.query(Stic).filter_by(
-        **{'climatic_year_id': climaticYearId}).options(joinedload('*')).all()
+    stics = (
+        db.session.query(Stic)
+        .filter(Stic.climatic_year_id == climaticYearId)
+        .order_by(desc(Stic.type))
+        .order_by(desc(Stic.name))  # Tri par name
+        .options(joinedload('*'))
+        .all()
+    )
     return stics
 
 
 def get_climaticYear_by(siteId):
     years = db.session.query(ClimaticYear).filter_by(
-        **{'site_id': siteId}).options(joinedload('*')).all()
+        **{'site_id': siteId}).all()
     return years
 
 
