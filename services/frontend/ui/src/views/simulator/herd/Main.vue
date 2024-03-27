@@ -14,20 +14,17 @@
             <v-row>
               <v-col cols="10">
                 <div class="text-h3 font-weight-light">Le troupeau</div>
-
                 <div class="text-subtitle-1 font-weight-light">Complete your herd</div>
               </v-col>
-              <v-col cols="2">
-                <div>
-                  <v-btn
-                    :color="pageColor"
-                    style="background-color: white"
-                    outlined
-                    @click="applyToSimulation"
-                  >
-                    Appliquer à la simulation
-                  </v-btn>
-                </div>
+              <v-col>
+                <v-btn
+                  :color="pageColor"
+                  style="background-color: white"
+                  outlined
+                  @click="applyToSimulation"
+                >
+                  Appliquer à la simulation
+                </v-btn>
               </v-col>
             </v-row>
           </template>

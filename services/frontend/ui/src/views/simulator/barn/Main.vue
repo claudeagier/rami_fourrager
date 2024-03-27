@@ -16,7 +16,7 @@
                 <div class="text-h3 font-weight-light">La grange</div>
                 <div class="text-subtitle-1 font-weight-light">Complete your barn</div>
               </v-col>
-              <v-col cols="2">
+              <v-col>
                 <div>
                   <v-btn
                     :color="pageColor"
