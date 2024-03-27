@@ -4,14 +4,14 @@
     :color="pageColor"
   >
     <v-tab
-      v-for="(period, index) in 13"
+      v-for="(period, index) in periods"
       :key="index"
       @click="periodSelected(index)"
     >
-      Période {{ index + 1 }}
+      Période {{ period.id }}
     </v-tab>
     <v-tab-item
-      v-for="(period, index) in 13"
+      v-for="(period, index) in periods"
       :key="index"
     >
       <v-data-table
@@ -26,13 +26,18 @@
             color="white"
             flat
           >
-            <v-toolbar-title> Composition of classic feeds for period {{ index + 1 }} </v-toolbar-title>
+            <v-toolbar-title> Composition of classic feeds for period {{ period.id }} </v-toolbar-title>
             <v-divider
               class="mx-4"
               inset
               vertical
             ></v-divider>
             <v-spacer></v-spacer>
+            <duplicate-modal
+              :ids="periods"
+              :sourceItem="period"
+              @duplicate="duplicate"
+            />
             <classic-feed-modal
               :pageColor="pageColor"
               :item="feedItem"
@@ -71,6 +76,7 @@
   import { mapGetters } from 'vuex'
   import RationGauge from './RationGauge.vue'
   import ClassicFeedModal from './ClassicFeedModal.vue'
+  import DuplicateModal from './DuplicateModal.vue'
 
   export default {
     name: 'ClassicFeed',
@@ -88,6 +94,7 @@
     components: {
       RationGauge,
       ClassicFeedModal,
+      DuplicateModal,
     },
     data() {
       return {
@@ -116,6 +123,7 @@
       }),
       ...mapGetters('simulator', {
         getClassicFeed: 'getClassiqueFeedByPeriod',
+        periods: 'periodList',
       }),
       feeds: {
         get() {
@@ -158,6 +166,13 @@
           })
         }
         this.closeModal(this.selectedPeriodIndex)
+      },
+      duplicate({ source, targets }) {
+        this.$store.commit('simulator/herd/duplicateClassicFeedsByPeriod', {
+          batchId: this.selectedLot,
+          source: source,
+          targets: targets,
+        })
       },
       deleteItem(item) {
         this.$store.commit('simulator/herd/deleteClassicFeed', {

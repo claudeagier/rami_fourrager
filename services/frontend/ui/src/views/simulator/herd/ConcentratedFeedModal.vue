@@ -52,6 +52,7 @@
                     label="Quantity (kg brut/animal/j)"
                     type="number"
                     :rules="[rules.required]"
+                    clearable
                   ></v-text-field>
                 </v-col>
               </v-row>

@@ -364,9 +364,6 @@
           } else {
             return false
           }
-        } else {
-          console.log("don't validate")
-          return false
         }
       },
       deleteRotationItem(item) {

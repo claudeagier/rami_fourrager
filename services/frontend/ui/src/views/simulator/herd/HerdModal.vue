@@ -22,6 +22,7 @@
             return-object
             :rules="[rules.required]"
             @change="loadProfils"
+            :allow-overflow="true"
           ></v-select>
           <v-select
             v-model="lotItem.profil"
@@ -31,6 +32,7 @@
             item-value="id"
             return-object
             :rules="[rules.required]"
+            :allow-overflow="true"
           ></v-select>
           <v-text-field
             v-model="lotItem.count"
@@ -80,17 +82,26 @@
           count: 0,
           housing: {
             type: null,
-            presence: Array.from({ length: 13 }, () => ({ period: null, animalCount: 0, days: 0 })),
-            // presence: [
-            //   // {
-            //   //   period: {},
-            //   //   animalCount: 0,
-            //   //   days: 0,
-            //   // },
-            // ],
+            presence: [
+              // {
+              //   period: {},
+              //   animalCount: 0,
+              //   days: 0,
+              // },
+            ],
           },
-          classicFeeds: Array.from({ length: 13 }, () => ({ period: null, feeds: [] })),
-          concentratedFeeds: Array.from({ length: 13 }, () => ({ period: null, feeds: [] })),
+          classicFeeds: [
+            // {
+            //   period: {},
+            //   feeds:[]
+            // }
+          ],
+          concentratedFeeds: [
+            // {
+            //   period: {},
+            //   feeds:[]
+            // }
+          ],
         },
         selectedType: null,
         animalCount: null,
@@ -108,6 +119,7 @@
       ...mapGetters('simulator', {
         batchTypes: 'batchTypeList',
         animalProfils: 'animalProfilList',
+        periods: 'periodList',
       }),
     },
     methods: {
@@ -116,6 +128,13 @@
       },
       addLot() {
         if (this.$refs.batchForm.validate()) {
+          this.lotItem.housing.presence = Array.from(this.periods, (period) => ({
+            period: period,
+            animalCount: 0,
+            days: 0,
+          }))
+          this.lotItem.classicFeeds = Array.from(this.periods, (period) => ({ period: period, feeds: [] }))
+          this.lotItem.concentratedFeeds = Array.from(this.periods, (period) => ({ period: period, feeds: [] }))
           this.$emit('add-lot', this.lotItem)
           this.resetForm()
         }
@@ -131,10 +150,10 @@
           count: 0,
           housing: {
             type: null,
-            presence: Array.from({ length: 13 }, () => ({ period: null, animalCount: 0, days: 0 })),
+            presence: [],
           },
-          classicFeeds: Array.from({ length: 13 }, () => ({ period: null, feeds: [] })),
-          concentratedFeeds: Array.from({ length: 13 }, () => ({ period: null, feeds: [] })),
+          classicFeeds: [],
+          concentratedFeeds: [],
         }
         this.$refs.batchForm.reset()
       },

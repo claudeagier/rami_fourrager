@@ -77,7 +77,7 @@
         this.$store
           .dispatch('auth/login', { email, password })
           .then(() => this.$router.push('/'))
-          .catch((err) => console.log(err))
+          .catch((err) => console.error(err))
       },
     },
   }

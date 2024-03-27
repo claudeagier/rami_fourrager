@@ -40,6 +40,7 @@
                     label="Feed Type"
                     return-object
                     :rules="[rules.required]"
+                    clearable
                   ></v-select>
                 </v-col>
                 <v-col
@@ -69,7 +70,6 @@
             </v-btn>
             <v-btn
               color="primary"
-              text
               type="submit"
               outlined
               :disabled="!valid"

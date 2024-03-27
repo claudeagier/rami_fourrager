@@ -40,6 +40,15 @@ export default {
     setHousingDaysByPeriod(state, { batchId, periodId, value }) {
       state.batchs[batchId].housing.presence[periodId].days = value
     },
+    duplicatePresenceByPeriod(state, { batchId, source, targets }) {
+      const sourcePresence = state.batchs[batchId].housing.presence.find((element) => element.period.id === source.id)
+      targets.forEach((target) => {
+        var el = state.batchs[batchId].housing.presence.find((element) => element.period.id === target.id)
+        el.animalCount = sourcePresence.animalCount
+        el.days = sourcePresence.days
+      })
+    },
+
     // classic feeds
     createClassicFeed(state, { batchId, periodId, newFeed }) {
       state.batchs[batchId].classicFeeds[periodId].feeds.push(newFeed)
@@ -51,6 +60,12 @@ export default {
     deleteClassicFeed(state, { batchId, periodId, feed }) {
       const feedIndex = state.batchs[batchId].classicFeeds[periodId].feeds.indexOf(feed)
       state.batchs[batchId].classicFeeds[periodId].feeds.splice(feedIndex, 1)
+    },
+    duplicateClassicFeedsByPeriod(state, { batchId, source, targets }) {
+      const sourceFeeds = state.batchs[batchId].classicFeeds.find((element) => element.period.id === source.id).feeds
+      targets.forEach((target) => {
+        state.batchs[batchId].classicFeeds.find((element) => element.period.id === target.id).feeds = sourceFeeds
+      })
     },
 
     // concentrated feeds
@@ -64,6 +79,14 @@ export default {
     deleteConcentratedFeed(state, { batchId, periodId, feed }) {
       const feedIndex = state.batchs[batchId].concentratedFeeds[periodId].feeds.indexOf(feed)
       state.batchs[batchId].concentratedFeeds[periodId].feeds.splice(feedIndex, 1)
+    },
+    duplicateConcentratedFeedsByPeriod(state, { batchId, source, targets }) {
+      const sourceFeeds = state.batchs[batchId].concentratedFeeds.find(
+        (element) => element.period.id === source.id
+      ).feeds
+      targets.forEach((target) => {
+        state.batchs[batchId].concentratedFeeds.find((element) => element.period.id === target.id).feeds = sourceFeeds
+      })
     },
   },
   getters: {

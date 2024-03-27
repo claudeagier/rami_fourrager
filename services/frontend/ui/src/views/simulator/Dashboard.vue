@@ -13,8 +13,8 @@
       >
         <base-select-card
           :model="selectedSite"
-          color="info"
-          icon="mdi-twitter"
+          color="red"
+          icon="mdi-earth"
           title="Site"
           value="+245"
           sub-icon="mdi-clock"
@@ -31,8 +31,8 @@
         <base-select-card
           v-if="selectedSite != null"
           :model="selectedCY"
-          color="info"
-          icon="mdi-twitter"
+          color="orange"
+          icon="mdi-thermometer-lines"
           title="Année climatique"
           value="+245"
           sub-icon="mdi-clock"
@@ -305,7 +305,6 @@
         //     }
         //   }
         // })
-        // console.log('stics', rotations)
 
         const graph = {
           type: 'Bar',

@@ -10,33 +10,32 @@
       :color="pageColor"
     >
       <v-tab
-        v-for="(period, index) in 13"
+        v-for="(period, index) in periods"
         :key="index"
-        @click="housingPeriodSelected(index)"
+        @click="periodSelected(index)"
       >
-        Période {{ index + 1 }}
+        Période {{ period.id }}
       </v-tab>
       <v-tab-item
-        v-for="(period, index) in 13"
+        v-for="(period, index) in periods"
         :key="index"
       >
         <v-toolbar
           color="white"
           flat
         >
-          <v-toolbar-title> Présence en batiment pour la période {{ index + 1 }} </v-toolbar-title>
+          <v-toolbar-title> Présence en batiment pour la période {{ period.id }} </v-toolbar-title>
           <v-divider
             class="mx-4"
             inset
             vertical
           ></v-divider>
           <v-spacer></v-spacer>
-          <!-- <v-btn
-            color="grey"
-            text
-          >
-            dupliquer
-          </v-btn> -->
+          <duplicate-modal
+            :ids="periods"
+            :sourceItem="period"
+            @duplicate="duplicate"
+          />
         </v-toolbar>
         <v-card>
           <v-text-field
@@ -63,6 +62,7 @@
 <script>
   import { mapGetters, mapMutations } from 'vuex'
   import HousingGraph from './HousingGraph.vue'
+  import DuplicateModal from './DuplicateModal.vue'
 
   export default {
     name: 'housingDetails',
@@ -78,6 +78,7 @@
     },
     components: {
       HousingGraph,
+      DuplicateModal,
     },
     watch: {
       selectedLot: {
@@ -98,6 +99,9 @@
       }
     },
     computed: {
+      ...mapGetters('simulator', {
+        periods: 'periodList',
+      }),
       ...mapGetters('simulator/herd', {
         getHousingDetailByPeriod: 'getHousingDetailByPeriod',
         getBatch: 'getBatch',
@@ -132,10 +136,16 @@
         setAnimalCount: 'setHousingAnimalCountByPeriod',
         setDays: 'setHousingDaysByPeriod',
       }),
-      housingPeriodSelected(period) {
+      periodSelected(period) {
         this.selectedPeriodIndex = period
       },
-      // housing
+      duplicate({ source, targets }) {
+        this.$store.commit('simulator/herd/duplicatePresenceByPeriod', {
+          batchId: this.selectedLot,
+          source: source,
+          targets: targets,
+        })
+      },
       presenceRule(val) {
         if (!val) return true
         return (

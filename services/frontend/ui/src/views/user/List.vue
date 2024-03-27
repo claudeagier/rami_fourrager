@@ -196,7 +196,7 @@
               this.initialize()
             })
             .catch((err) => {
-              console.log(err)
+              console.error(err)
             })
       },
 
@@ -219,7 +219,7 @@
               this.initialize()
             })
             .catch((err) => {
-              console.log(err)
+              console.error(err)
             })
           // Object.assign(this.users[this.editedIndex], this.editedItem)
         } else {
@@ -237,7 +237,7 @@
               this.initialize()
             })
             .catch((err) => {
-              console.log(err)
+              console.error(err)
             })
         }
         this.close()
