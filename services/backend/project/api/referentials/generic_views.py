@@ -2,6 +2,18 @@ from flask_restplus import Resource, fields, Namespace, marshal_with
 from project.repository.referentials.services import get_all, get_by_id
 
 generic_namespace = Namespace("generic")
+nutritional_values_fields = generic_namespace.model("Nutritional_values", {
+    "UEL": fields.Float,
+    "UEB": fields.Float,
+    "UEM": fields.Float,
+    "UFL": fields.Float,
+    "PDI_inf": fields.Float,
+    "UFV": fields.Float,
+    "PDIN": fields.Float,
+    "PDIE": fields.Float,
+    "rejection": fields.Float
+    # "source": fields.String,
+})
 
 # Définition des modèles disponibles
 available_models = {
@@ -17,6 +29,7 @@ available_models = {
         "fields": {
             "id": fields.Integer,
             "name": fields.String,
+            "nutritional_values": fields.Nested(nutritional_values_fields)
         }
     },
     "concentrated-feed": {
@@ -24,6 +37,8 @@ available_models = {
         "fields": {
             "id": fields.Integer,
             "name": fields.String,
+            "nutritional_values": fields.Nested(nutritional_values_fields)
+
         }
     },
     "period": {

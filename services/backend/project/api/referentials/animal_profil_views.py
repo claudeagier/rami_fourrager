@@ -12,8 +12,7 @@ batch_type = animal_profile_namespace.model('BatchType', {
     "energetic_value_considered": fields.String,
 })
 
-animal_profil_period = animal_profile_namespace.model("Animalprofil_period", {
-    "id": fields.Integer,
+animal_profil_period = animal_profile_namespace.model("AnimalProfilPeriod", {
     "period_id": fields.Integer,
     "CI": fields.Float,
     "UFL": fields.Float,

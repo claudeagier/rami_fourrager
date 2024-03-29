@@ -1,5 +1,6 @@
 # services/users/manage.py
 import os
+import asyncio
 
 from flask.cli import FlaskGroup
 import click
@@ -100,7 +101,7 @@ def seed_data(mapping_filename):
     csv_models_mapping = mapper(mapping_path)
 
     # TODO-BACK le rapport doit sortir ici et non dans la fonction peut être utiliser un logger
-    seeded, err = seeder(csv_models_mapping, csv_to_seed_dir)
+    asyncio.run(seeder(csv_models_mapping, csv_to_seed_dir))
 
 
 if __name__ == '__main__':

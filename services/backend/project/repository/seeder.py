@@ -3,11 +3,12 @@ import csv
 import os
 import decimal
 import unicodedata
+import asyncio
 
 from project import db
 from project.repository.connector import getModel
 
-from sqlalchemy.exc import SQLAlchemyError, IntegrityError
+from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.orm import joinedload
 
@@ -204,7 +205,7 @@ def getObj(model, constraints, data, row):
         # Query the database for objects based on the filter
         if "onRelation" in constraints:
             objs = model.query.filter_by(
-                **filter).options(joinedload('*')).all()
+                **filter).all()
         else:
             objs = model.query.filter_by(**filter).all()
 
@@ -376,7 +377,7 @@ def createPivot(parent, pivot, row, report, row_number):
     report['rejections'].extend(rejections)
 
 
-def makeSeed(row, mapping, report, csv_file, index):
+async def makeSeed(row, mapping, report, csv_file, index):
     """
     Create or update objects based on provided data and mapping configuration.
 
@@ -463,6 +464,7 @@ def makeSeed(row, mapping, report, csv_file, index):
                 if not relation_model_name:
                     raise ValueError(
                         f"Mapping error : Relation data for {relation_name} in {csv_file} is incomplete.")
+
                 relation_model = getModel("referential", relation_model_name)
                 if not relation_model:
                     raise ValueError(
@@ -504,6 +506,7 @@ def makeSeed(row, mapping, report, csv_file, index):
                 else:
                     raise ValueError(
                         f"Mapping error : No uniqueness_constraint in relation {relation_name} configuration")
+
                 if not related_found:
                     # If to_fill is True, create or update related object
                     to_fill = relation_mapping.get('to_fill')
@@ -552,7 +555,7 @@ def makeSeed(row, mapping, report, csv_file, index):
         return True
 
 
-def seeder(mapping={}, csv_to_seed_dir=""):
+async def seeder(mapping={}, csv_to_seed_dir=""):
     """
     Processes CSV files based on the provided mapping and seeds the database accordingly.
 
@@ -658,11 +661,15 @@ def seeder(mapping={}, csv_to_seed_dir=""):
                 for row in reader:
                     index += 1
                     report[csv_file]['total_rows'] += 1
-                    makeSeed(row, mapping=file_data,
-                             report=report[csv_file], csv_file=csv_file, index=index)
+                    asyncio.create_task(makeSeed(row, mapping=file_data,
+                                                 report=report[csv_file], csv_file=csv_file, index=index))
+                    # makeSeed(row, mapping=file_data,
+                    #          report=report[csv_file], csv_file=csv_file, index=index)
 
-                    # print(f"la ligne {index} a été traité")
-            print(f"the file :  {csv_file} has been processed ")
+                    # print(f"{csv_file_path}:{index} a été traité")
+
+            print(
+                f"the file :  {csv_file} has been processed")
             print(
                 '**********************************************************************************')
 

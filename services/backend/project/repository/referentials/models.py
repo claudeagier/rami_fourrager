@@ -152,6 +152,8 @@ class AnimalProfil(db.Model):
     weight_birth_kg = db.Column(db.Numeric, default=0)
     milk_product_kg = db.Column(db.Numeric, default=0)
     TR = db.Column(db.Numeric, default=0)
+    animal_profil_periods = db.relationship(
+        'AnimalProfilPeriod', backref='AnimalProfil', lazy=True)
 
 
 class BatchType(db.Model):

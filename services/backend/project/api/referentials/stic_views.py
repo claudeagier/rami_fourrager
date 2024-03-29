@@ -13,7 +13,6 @@ stic_period_fields = stics_namespace.model("Stic_period", {
 })
 
 nutritional_values_fields = stics_namespace.model("Nutritional_values", {
-    "id": fields.Integer,
     "UEL": fields.Float,
     "UEB": fields.Float,
     "UEM": fields.Float,
