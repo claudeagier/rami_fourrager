@@ -105,8 +105,8 @@ Table batch_type {
     id integer [primary key]
     code varchar
     name varchar
-    proteic_value_considered varchar
-    energetic_value_considered varchar
+    UE_value_considered varchar
+    UF_value_considered varchar
 }
 
 Table housing_type {

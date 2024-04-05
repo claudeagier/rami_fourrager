@@ -29,6 +29,7 @@ available_models = {
         "fields": {
             "id": fields.Integer,
             "name": fields.String,
+            "correspondingStock":fields.String,
             "nutritional_values": fields.Nested(nutritional_values_fields)
         }
     },
@@ -37,6 +38,7 @@ available_models = {
         "fields": {
             "id": fields.Integer,
             "name": fields.String,
+            "correspondingStock":fields.String,
             "nutritional_values": fields.Nested(nutritional_values_fields)
 
         }

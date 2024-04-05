@@ -26,7 +26,6 @@ def get_stics_by(climaticYearId):
         .filter(Stic.climatic_year_id == climaticYearId)
         .order_by(desc(Stic.type))
         .order_by(desc(Stic.name))  # Tri par name
-        .options(joinedload('*'))
         .all()
     )
     return stics
@@ -40,5 +39,5 @@ def get_climaticYear_by(siteId):
 
 def get_animal_profiles(batch_type_id):
     profiles = db.session.query(AnimalProfil).filter_by(
-        **{'batch_type_id': batch_type_id}).options(joinedload('*')).all()
+        **{'batch_type_id': batch_type_id}).all()
     return profiles

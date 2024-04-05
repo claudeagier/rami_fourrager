@@ -9,7 +9,7 @@ batch_type = animal_profile_namespace.model('BatchType', {
     "code": fields.String,
     "name": fields.String,
     "UE_value_considered": fields.String,
-    "energetic_value_considered": fields.String,
+    "UF_value_considered": fields.String,
 })
 
 animal_profil_period = animal_profile_namespace.model("AnimalProfilPeriod", {
@@ -27,10 +27,10 @@ animal_profile_fields = {
     "name": fields.String,
     "period_MB": fields.String,
     "age_mois": fields.String,
-    "sem_MB": fields.Integer,
+    "sem_MB": fields.String,
     "weight_MB_kg": fields.Float,
     "NEC_MB": fields.Float,
-    "lactation_duration": fields.Float,
+    "lactation_duration": fields.String,
     "weight_birth_kg": fields.Float,
     "milk_product_kg": fields.Float,
     "TR": fields.Float,

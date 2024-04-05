@@ -80,6 +80,7 @@ class ConcentratedFeed(db.Model):
         db.Integer, db.ForeignKey('nutritional_values.id'))
     name = db.Column(db.String(255))
     code = db.Column(db.String(255))  # son code
+    correspondingStock = db.Column(db.String(255))  # son code
 
 # class Straw(db.Model):
 #     __tablename__ = 'straw'
@@ -97,6 +98,7 @@ class FeedType(db.Model):
         db.Integer, db.ForeignKey('nutritional_values.id'))
     name = db.Column(db.String(255))
     code = db.Column(db.String(255))  # son code
+    correspondingStock = db.Column(db.String(255))  # son code
 
 # à minorer pour les VA (=vache allaitantes)
 
@@ -145,10 +147,10 @@ class AnimalProfil(db.Model):
     name = db.Column(db.String(255))
     period_MB = db.Column(db.String(255))
     age_mois = db.Column(db.String(100))
-    sem_MB = db.Column(db.Integer)
+    sem_MB = db.Column(db.String(100))
     weight_MB_kg = db.Column(db.Numeric, default=0)
     NEC_MB = db.Column(db.Numeric, default=0)
-    lactation_duration = db.Column(db.Numeric, default=0)
+    lactation_duration = db.Column(db.String(100))
     weight_birth_kg = db.Column(db.Numeric, default=0)
     milk_product_kg = db.Column(db.Numeric, default=0)
     TR = db.Column(db.Numeric, default=0)
@@ -163,7 +165,7 @@ class BatchType(db.Model):
     code = db.Column(db.String(255))  # son code
     name = db.Column(db.String(255))
     UE_value_considered = db.Column(db.String(255))
-    energetic_value_considered = db.Column(db.String(255))
+    UF_value_considered = db.Column(db.String(255))
     animal_profils = db.relationship(
         'AnimalProfil', backref='batch_type', lazy=True)
 

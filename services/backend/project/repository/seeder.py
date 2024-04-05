@@ -377,7 +377,7 @@ def createPivot(parent, pivot, row, report, row_number):
     report['rejections'].extend(rejections)
 
 
-async def makeSeed(row, mapping, report, csv_file, index):
+def makeSeed(row, mapping, report, csv_file, index):
     """
     Create or update objects based on provided data and mapping configuration.
 
@@ -661,10 +661,10 @@ async def seeder(mapping={}, csv_to_seed_dir=""):
                 for row in reader:
                     index += 1
                     report[csv_file]['total_rows'] += 1
-                    asyncio.create_task(makeSeed(row, mapping=file_data,
-                                                 report=report[csv_file], csv_file=csv_file, index=index))
-                    # makeSeed(row, mapping=file_data,
-                    #          report=report[csv_file], csv_file=csv_file, index=index)
+                    # asyncio.create_task(makeSeed(row, mapping=file_data,
+                    #  report=report[csv_file], csv_file=csv_file, index=index))
+                    makeSeed(row, mapping=file_data,
+                             report=report[csv_file], csv_file=csv_file, index=index)
 
                     # print(f"{csv_file_path}:{index} a été traité")
 
