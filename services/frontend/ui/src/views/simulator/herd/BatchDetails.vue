@@ -26,11 +26,12 @@
           required
         ></v-select>
         <v-text-field
-          v-model="count"
+          v-model.number="count"
           :rules="[rules.required, rules.integer]"
           label="Nombre d'animaux"
           type="number"
           :color="pageColor"
+          hide-spin-buttons
         ></v-text-field>
         <v-divider></v-divider>
         <v-select

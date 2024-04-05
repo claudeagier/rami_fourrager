@@ -48,11 +48,12 @@
                   sm="12"
                 >
                   <v-text-field
-                    v-model="feedItem.quantity"
+                    v-model.number="feedItem.quantity"
                     label="Quantity (kg brut/animal/j)"
                     type="number"
                     :rules="[rules.required]"
                     clearable
+                    hide-spin-buttons
                   ></v-text-field>
                 </v-col>
               </v-row>

@@ -35,10 +35,11 @@
             :allow-overflow="true"
           ></v-select>
           <v-text-field
-            v-model="lotItem.count"
+            v-model.number="lotItem.count"
             :rules="[rules.required, rules.integer]"
             label="Nombre d'animaux"
             type="number"
+            hide-spin-buttons
           ></v-text-field>
         </v-card-text>
         <v-card-actions>

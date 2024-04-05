@@ -39,7 +39,7 @@
         </v-toolbar>
         <v-card>
           <v-text-field
-            v-model="animalCount"
+            v-model.number="animalCount"
             :rules="[rules.required, rules.integer, presenceRule]"
             type="number"
             label="Nb d'animaux présents"
@@ -47,8 +47,8 @@
             :color="pageColor"
           ></v-text-field>
           <v-text-field
-            v-model="days"
-            :rules="[rules.required, rules.integer, daysRule]"
+            v-model.number="days"
+            :rules="[rules.required, daysRule]"
             type="number"
             label="Jours de présence en bâtiment (/28)"
             hide-spin-buttons

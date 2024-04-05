@@ -42,9 +42,11 @@
                       <v-row>
                         <v-col cols="12">
                           <v-text-field
-                            v-model="SAU"
+                            v-model.number="SAU"
                             label="SAU (Surface Agricole Utile)"
                             :rules="required"
+                            type="number"
+                            hide-spin-buttons
                           ></v-text-field>
                         </v-col>
                         <v-col cols="12">
@@ -54,28 +56,31 @@
                         <!-- Constrained Surfaces inputs -->
                         <v-col cols="12">
                           <v-text-field
-                            v-model="irrigable"
+                            v-model.number="irrigable"
                             label="irrigable"
                             :rules="constraintRules"
                             type="number"
+                            hide-spin-buttons
                           ></v-text-field>
                           <v-text-field
-                            v-model="ploughable"
+                            v-model.number="ploughable"
                             label="ploughable"
                             :rules="constraintRules"
                             type="number"
+                            hide-spin-buttons
                           ></v-text-field>
                           <v-text-field
-                            v-model="superficial"
+                            v-model.number="superficial"
                             label="superficial"
                             :rules="constraintRules"
                             type="number"
                           ></v-text-field>
                           <v-text-field
-                            v-model="reachable"
+                            v-model.number="reachable"
                             label="reachable"
                             :rules="constraintRules"
                             type="number"
+                            hide-spin-buttons
                           ></v-text-field>
                         </v-col>
                       </v-row>
@@ -169,10 +174,11 @@
                                       </v-col>
                                       <v-col cols="12">
                                         <v-text-field
-                                          v-model="rotationItem.surface"
+                                          v-model.number="rotationItem.surface"
                                           label="Surface"
                                           :rules="[...required, ...rotationRules]"
                                           type="number"
+                                          hide-spin-buttons
                                         ></v-text-field>
                                       </v-col>
                                     </v-row>
