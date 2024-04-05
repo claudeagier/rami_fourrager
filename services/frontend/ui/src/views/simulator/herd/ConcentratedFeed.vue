@@ -47,10 +47,6 @@
               @cancel-modal="closeModal"
             />
           </v-toolbar>
-          <ration-gauge
-            :color="pageColor"
-            :data-feeds="feeds"
-          />
         </template>
         <template v-slot:[`item.actions`]="{ item }">
           <v-icon
@@ -74,7 +70,6 @@
 </template>
 <script>
   import { mapGetters } from 'vuex'
-  import RationGauge from './RationGauge.vue'
   import ConcentratedFeedModal from './ConcentratedFeedModal.vue'
   import DuplicateModal from './DuplicateModal.vue'
 
@@ -92,7 +87,6 @@
       },
     },
     components: {
-      RationGauge,
       ConcentratedFeedModal,
       DuplicateModal,
     },

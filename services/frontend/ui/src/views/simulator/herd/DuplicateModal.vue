@@ -146,6 +146,7 @@
       clear() {
         this.$refs.duplicateForm.resetValidation()
         this.selectedTargets = []
+        this.isSelectAll = false
       },
     },
   }

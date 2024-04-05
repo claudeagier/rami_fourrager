@@ -49,10 +49,11 @@
                   sm="12"
                 >
                   <v-text-field
-                    v-model="feedItem.proportion"
+                    v-model.number="feedItem.proportion"
                     label="Proportion (%)"
                     type="number"
                     :rules="[rules.required, rules.integer]"
+                    hide-spin-buttons
                   ></v-text-field>
                 </v-col>
               </v-row>
@@ -131,7 +132,6 @@
     data() {
       return {
         showModal: false,
-        oldFeedItem: null,
         feedItem: null,
         valid: true,
         rules: {
