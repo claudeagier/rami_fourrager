@@ -41,5 +41,11 @@
   "users": "Users",
   "vforms": "Validation Forms",
   "widgets": "Widgets",
-  "wizard": "Wizard"
+  "wizard": "Wizard",
+  "barn": {
+    "title": "La grange",
+    "stock": {
+      "select_label": "Sélectionner un type de stock"
+    }
+  }
 }

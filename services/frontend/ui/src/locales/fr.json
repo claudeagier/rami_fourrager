@@ -42,5 +42,36 @@
   "vforms": "Validation Forms",
   "widgets": "Widgets",
   "wizard": "Wizard",
-  "concentrated_feed": "Aliments concentrés"
+  "concentrated_feed": "Aliments concentrés",
+  "Simulation": "Simulation",
+  "Users": "Utilisateurs",
+  "Profil": "Profil",
+  "breadcrumb": {
+    "simulation": "Simulation",
+    "farm": "Ferme",
+    "barn": "Grange",
+    "herd": "Troupeau",
+    "users": "Utilisateurs",
+    "profile": "Profil"
+  },
+  "barn": {
+    "title": "La grange",
+    "modal": {
+      "title": "Ajouter à la grange",
+      "add_btn": "Ajouter un stock",
+      "select_label": "Sélectionner un type de stock",
+      "quantity": "Quantité (en tonnes)"
+    }
+  },
+  "farm": {
+    "title": "La ferme"
+  },
+  "herd": {
+    "title": "Le troupeau",
+    "classicfeed": {
+      "graph": {
+        "title": "Couverture des Besoins"
+      }
+    }
+  }
 }

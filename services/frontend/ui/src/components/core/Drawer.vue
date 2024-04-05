@@ -78,9 +78,16 @@
     data: () => ({
       items: [
         {
+          title: 'Simulation',
           icon: 'mdi-view-dashboard',
-          title: 'simulation',
           to: '/',
+          group: '',
+          children: [
+            { title: 'dashboard', to: 'simulation' },
+            { title: 'barn.title', to: 'barn' },
+            { title: 'farm.title', to: 'farm' },
+            { title: 'herd.title', to: 'herd' },
+          ],
         },
         {
           icon: 'mdi-account',

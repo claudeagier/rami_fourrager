@@ -22,23 +22,23 @@ const routes = [
     children: [
       // Dashboard
       {
-        name: 'Dashboard',
-        path: '',
+        name: 'simulation',
+        path: 'simulation',
         component: () => import('@/views/simulator/Dashboard'),
         meta: {
           breadCrumb(route) {
             // const paramToPageB = route.params.paramToPageB;
             return [
               {
-                text: 'Simulator',
-                to: { name: 'Dashboard' },
+                text: 'breadcrumb.simulation',
+                to: { name: 'simulation' },
               },
             ]
           },
         },
       },
       {
-        name: 'Barn',
+        name: 'barn',
         path: 'barn',
         component: () => import('@/views/simulator/barn/Main'),
         meta: {
@@ -46,19 +46,19 @@ const routes = [
             // const paramToPageB = route.params.paramToPageB;
             return [
               {
-                text: 'Simulator',
-                to: { name: 'Dashboard' },
+                text: 'breadcrumb.simulation',
+                to: { name: 'simulation' },
               },
               {
-                text: 'Barn',
-                to: { name: 'Barn' },
+                text: 'breadcrumb.farm',
+                to: { name: 'barn' },
               },
             ]
           },
         },
       },
       {
-        name: 'Farm',
+        name: 'farm',
         path: 'farm',
         component: () => import('@/views/simulator/farm/Main'),
         meta: {
@@ -66,19 +66,19 @@ const routes = [
             // const paramToPageB = route.params.paramToPageB;
             return [
               {
-                text: 'Simulator',
-                to: { name: 'Dashboard' },
+                text: 'breadcrumb.simulation',
+                to: { name: 'simulation' },
               },
               {
-                text: 'Farm',
-                to: { name: 'Farm' },
+                text: 'breadcrumb.farm',
+                to: { name: 'farm' },
               },
             ]
           },
         },
       },
       {
-        name: 'Herd',
+        name: 'herd',
         path: 'herd',
         component: () => import('@/views/simulator/herd/Main'),
         meta: {
@@ -86,12 +86,12 @@ const routes = [
             // const paramToPageB = route.params.paramToPageB;
             return [
               {
-                text: 'Simulator',
-                to: { name: 'Dashboard' },
+                text: 'breadcrumb.simulation',
+                to: { name: 'simulation' },
               },
               {
-                text: 'Herd',
-                to: { name: 'Herd' },
+                text: 'breadcrumb.herd',
+                to: { name: 'herd' },
               },
             ]
           },
@@ -99,7 +99,7 @@ const routes = [
       },
       // Tables
       {
-        name: 'Users',
+        name: 'users',
         path: 'user/list',
         component: () => import('@/views/user/List'),
         meta: {
@@ -107,8 +107,8 @@ const routes = [
             // const paramToPageB = route.params.paramToPageB;
             return [
               {
-                text: 'Users',
-                to: { name: 'Users' },
+                text: 'breadcrumb.users',
+                to: { name: 'users' },
               },
             ]
           },
@@ -116,9 +116,24 @@ const routes = [
       },
 
       {
-        name: 'User Profile',
+        name: 'userProfile',
         path: 'user/profile',
         component: () => import('@/views/user/Profile'),
+        meta: {
+          breadCrumb(route) {
+            // const paramToPageB = route.params.paramToPageB;
+            return [
+              {
+                text: 'breadcrumb.users',
+                to: { name: 'users' },
+              },
+              {
+                text: 'breadcrumb.profile',
+                to: { name: 'userProfile' },
+              },
+            ]
+          },
+        },
       },
       // // Maps
       // {

@@ -32,7 +32,7 @@
                     :key="index"
                   >
                     <v-text-field
-                      v-model="period.presence"
+                      v-model.number="period.presence"
                       :rules="[rules.required, rules.integer, presenceRule]"
                       type="number"
                       class="period-input"
@@ -47,7 +47,7 @@
                     :key="index"
                   >
                     <v-text-field
-                      v-model="period.days"
+                      v-model.number="period.days"
                       :rules="[rules.required, rules.integer, daysRule]"
                       type="number"
                       class="period-input"

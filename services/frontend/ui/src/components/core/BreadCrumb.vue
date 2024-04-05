@@ -7,7 +7,7 @@
         :disabled="item.disabled"
         exact
       >
-        {{ item.text }}
+        {{ $t(item.text) }}
       </v-breadcrumbs-item>
     </template>
   </v-breadcrumbs>
@@ -23,6 +23,23 @@
         }
         return this.$route.meta.breadCrumb
       },
+      // breadCrumbs() {
+      //   var breadCrumb = {}
+      //   if (typeof this.$route.meta.breadCrumb === 'function') {
+      //     breadCrumb = this.$route.meta.breadCrumb.call(this, this.$route)
+      //   }
+      //   const index = this.bcs.indexOf(breadCrumb)
+      //   if (index < 0) {
+      //     console.log('is not in', breadCrumb, this.bcs.indexOf(breadCrumb))
+      //     this.bcs.push(breadCrumb)
+      //   } else {
+      //     console.log('is in')
+      //     this.bcs.splice(index, this.bcs.length - (index + 1))
+      //   }
+      //   console.log('bcs', this.bcs)
+      //   return this.bcs
+      //   // return this.$route.meta.breadCrumb
+      // },
     },
   }
 </script>
