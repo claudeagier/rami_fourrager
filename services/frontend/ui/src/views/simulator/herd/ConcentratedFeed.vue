@@ -9,7 +9,7 @@
         :key="index"
         @click="periodSelected(index)"
       >
-        {{ ('herd.concentratedfeed.tabs.title', { period: period.id }) }}
+        {{ $t('herd.concentratedfeed.tabs.title', { period: period.id }) }}
       </v-tab>
       <v-tab-item
         v-for="(period, index) in periods"

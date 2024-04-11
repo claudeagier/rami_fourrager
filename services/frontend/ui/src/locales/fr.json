@@ -91,20 +91,20 @@
           "actions": "Actions"
         }
       },
-      "concentratedfeed": {
-        "tabs": {
-          "title": "Période {period}",
-          "table": {
-            "title": "Les concentrés pour la période {period}",
-            "name": "Nom de l'aliment",
-            "quantity": "Quantité (kg brut/animal/j)",
-            "actions": "Actions"
-          }
-        }
-      },
       "modal": { "title": "Ajouter une ration" },
       "graph": {
         "title": "Couverture des Besoins"
+      }
+    },
+    "concentratedfeed": {
+      "tabs": {
+        "title": "Période {period}",
+        "table": {
+          "title": "Les concentrés pour la période {period}",
+          "name": "Nom de l'aliment",
+          "quantity": "Quantité (kg brut/animal/j)",
+          "actions": "Actions"
+        }
       }
     }
   }
