@@ -76,7 +76,7 @@
         const password = this.password
         this.$store
           .dispatch('auth/login', { email, password })
-          .then(() => this.$router.push('/'))
+          .then(() => this.$router.push('/simulation')) // TODO-FRONT change to go /
           .catch((err) => console.error(err))
       },
     },

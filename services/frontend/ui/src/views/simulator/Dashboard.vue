@@ -4,6 +4,9 @@
     fluid
     tag="section"
   >
+    <div>
+      <workspace-export />
+    </div>
     <!-- <div>{{ simulator.simulationName }}</div> -->
     <v-row>
       <v-col
@@ -209,10 +212,11 @@
 
 <script>
   import { mapState, mapGetters, mapMutations } from 'vuex'
+  import WorkspaceExport from './WorkspaceExport.vue'
 
   export default {
     name: 'Dashboard',
-    components: {},
+    components: { WorkspaceExport },
     data() {
       return {
         dataCompletedTasksChart: {
@@ -268,6 +272,9 @@
         },
       }
     },
+    created() {
+      this.$store.dispatch('simulator/fetchSites')
+    },
     computed: {
       ...mapState('simulator', {
         selectedSite: (state) => state.site,
@@ -276,6 +283,10 @@
       ...mapGetters('simulator', {
         siteList: 'siteList',
         climaticYearList: 'climaticYearList',
+        periods: 'periodList',
+      }),
+      ...mapGetters('simulator/farm', {
+        availablePastures: 'getAvailablePasture',
       }),
       farmGraph() {
         // const rotations = this.$store.getters.farmRotation
@@ -305,12 +316,12 @@
         //     }
         //   }
         // })
-
+        const periods = ['P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8', 'P9', 'P10', 'P11', 'P12', 'P13']
         const graph = {
           type: 'Bar',
           data: {
-            labels: ['12am', '3pm', '6pm', '9pm', '12pm', '3am', '6am', '9am'],
-            series: [[800, 750, 450, 300, 280, 240, 200, 190]],
+            labels: periods,
+            series: [this.availablePastures],
           },
           options: {
             lineSmooth: this.$chartist.Interpolation.cardinal({
@@ -355,9 +366,6 @@
         this.setClimaticYear(id)
         this.$store.dispatch('simulator/fetchStics', id)
       },
-    },
-    created() {
-      this.$store.dispatch('simulator/fetchSites')
     },
   }
 </script>

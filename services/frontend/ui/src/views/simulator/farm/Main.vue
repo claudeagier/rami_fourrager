@@ -1,6 +1,6 @@
 <template>
   <v-container
-    id="typography"
+    id="farm-vue"
     fluid
     tag="section"
   >
@@ -387,7 +387,8 @@
         this.$refs.rotationForm.reset()
       },
       applyToSimulation() {
-        this.$store.commit('setRotations', this.rotations)
+        // this.$store.commit('setRotations', this.rotations)
+        this.$store.dispatch('simulator/farm/setTotalAvailablePastureByPeriod')
       },
     },
   }

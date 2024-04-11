@@ -46,6 +46,11 @@
   "Simulation": "Simulation",
   "Users": "Utilisateurs",
   "Profil": "Profil",
+  "btn": {
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "add": "Ajouter"
+  },
   "breadcrumb": {
     "simulation": "Simulation",
     "farm": "Ferme",
@@ -60,7 +65,15 @@
       "title": "Ajouter à la grange",
       "add_btn": "Ajouter un stock",
       "select_label": "Sélectionner un type de stock",
-      "quantity": "Quantité (en tonnes)"
+      "quantity": "Quantité {unity}"
+    },
+    "table": {
+      "title": "Stocks de fourrages disponibles au 1er janvier",
+      "concentrated": "Concentré",
+      "name": "Nom",
+      "quantity": "Quantité",
+      "unity": "Unité",
+      "actions": "Actions"
     }
   },
   "farm": {
@@ -69,6 +82,27 @@
   "herd": {
     "title": "Le troupeau",
     "classicfeed": {
+      "tabs": {
+        "title": "Période {period}",
+        "table": {
+          "title": "Les rations pour la période {period}",
+          "type": "Nom de la ration",
+          "proportion": "Proportion (en %)",
+          "actions": "Actions"
+        }
+      },
+      "concentratedfeed": {
+        "tabs": {
+          "title": "Période {period}",
+          "table": {
+            "title": "Les concentrés pour la période {period}",
+            "name": "Nom de l'aliment",
+            "quantity": "Quantité (kg brut/animal/j)",
+            "actions": "Actions"
+          }
+        }
+      },
+      "modal": { "title": "Ajouter une ration" },
       "graph": {
         "title": "Couverture des Besoins"
       }

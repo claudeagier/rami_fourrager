@@ -1,82 +1,89 @@
 <template>
-  <v-tabs
-    centered
-    :color="pageColor"
-  >
-    <v-tab
-      v-for="(period, index) in periods"
-      :key="index"
-      @click="periodSelected(index)"
+  <v-container>
+    <classic-feed-graph
+      :selectedLot="selectedLot"
+      :selection="selectedPeriodIndex"
+    />
+    <v-tabs
+      centered
+      :color="pageColor"
     >
-      Période {{ period.id }}
-    </v-tab>
-    <v-tab-item
-      v-for="(period, index) in periods"
-      :key="index"
-    >
-      <v-data-table
-        :headers="headers"
-        :items="feeds"
-        class="elevation-1"
-        sort-by="type"
-        hide-default-footer
+      <v-tab
+        v-for="(period, index) in periods"
+        :key="index"
+        @click="periodSelected(index)"
       >
-        <template v-slot:top>
-          <v-toolbar
-            color="white"
-            flat
-          >
-            <v-toolbar-title> Composition of classic feeds for period {{ period.id }} </v-toolbar-title>
-            <v-divider
-              class="mx-4"
-              inset
-              vertical
-            ></v-divider>
-            <v-spacer></v-spacer>
-            <duplicate-modal
-              :ids="periods"
-              :sourceItem="period"
-              @duplicate="duplicate"
+        {{ $t('herd.classicfeed.tabs.title', { period: period.id }) }}
+      </v-tab>
+      <v-tab-item
+        v-for="(period, index) in periods"
+        :key="index"
+      >
+        <v-data-table
+          :headers="headers"
+          :items="feeds"
+          class="elevation-1"
+          sort-by="type"
+          hide-default-footer
+        >
+          <template v-slot:top>
+            <v-toolbar
+              color="white"
+              flat
+            >
+              <v-toolbar-title> {{ $t('herd.classicfeed.tabs.table.title', { period: period.id }) }} </v-toolbar-title>
+              <v-divider
+                class="mx-4"
+                inset
+                vertical
+              />
+              <v-spacer></v-spacer>
+              <duplicate-modal
+                :ids="periods"
+                :sourceItem="period"
+                @duplicate="duplicate"
+              />
+              <classic-feed-modal
+                :pageColor="pageColor"
+                :item="feedItem"
+                :forceOpen="dialogs[index]"
+                :selectedPeriodIndex="selectedPeriodIndex"
+                @add-item="saveItem"
+                @cancel-modal="closeModal"
+              />
+            </v-toolbar>
+            <ration-gauge
+              :color="pageColor"
+              :data-feeds="feeds"
             />
-            <classic-feed-modal
-              :pageColor="pageColor"
-              :item="feedItem"
-              :forceOpen="dialogs[index]"
-              :selectedPeriodIndex="selectedPeriodIndex"
-              @add-item="saveItem"
-              @cancel-modal="closeModal"
-            />
-          </v-toolbar>
-          <ration-gauge
-            :color="pageColor"
-            :data-feeds="feeds"
-          />
-        </template>
-        <template v-slot:[`item.actions`]="{ item }">
-          <v-icon
-            @click="deleteItem(item)"
-            small
-          >
-            mdi-delete
-          </v-icon>
-          <v-icon
-            @click="editItem(item)"
-            medium
-            color="green"
-            background-color="green"
-          >
-            mdi-square-edit-outline
-          </v-icon>
-        </template>
-      </v-data-table>
-    </v-tab-item>
-  </v-tabs>
+          </template>
+          <template v-slot:[`item.actions`]="{ item }">
+            <v-icon
+              @click="deleteItem(item)"
+              small
+            >
+              mdi-delete
+            </v-icon>
+            <v-icon
+              @click="editItem(item)"
+              medium
+              color="green"
+              background-color="green"
+            >
+              mdi-square-edit-outline
+            </v-icon>
+          </template>
+        </v-data-table>
+      </v-tab-item>
+    </v-tabs>
+  </v-container>
 </template>
 <script>
   import { mapGetters } from 'vuex'
   import RationGauge from './RationGauge.vue'
   import ClassicFeedModal from './ClassicFeedModal.vue'
   import DuplicateModal from './DuplicateModal.vue'
+  import ClassicFeedGraph from './ClassicFeedGraph.vue'
 
   export default {
     name: 'ClassicFeed',
@@ -95,14 +102,10 @@
       RationGauge,
       ClassicFeedModal,
       DuplicateModal,
+      ClassicFeedGraph,
     },
     data() {
       return {
-        headers: [
-          { text: 'Classic Feed Type', value: 'type.name' },
-          { text: 'Proportion (%)', value: 'proportion' },
-          { text: 'Actions', value: 'actions', sortable: false },
-        ],
         batch: null,
         feedItem: null,
         oldFeedItem: null,
@@ -113,6 +116,7 @@
     },
     created() {
       this.$store.dispatch('simulator/fetchFeedTypes')
+      this.getEnergeticCoverageByBatch(this.selectedLot)
     },
     beforeMount() {
       this.batch = this.getBatch(this.selectedLot)
@@ -120,15 +124,23 @@
     computed: {
       ...mapGetters('simulator/herd', {
         getBatch: 'getBatch',
+        getEnergeticCoverageByBatch: 'getEnergeticCoverageByBatch',
       }),
       ...mapGetters('simulator', {
-        getClassicFeed: 'getClassiqueFeedByPeriod',
+        getClassicFeed: 'getClassicFeedByPeriod',
         periods: 'periodList',
       }),
       feeds: {
         get() {
           return this.batch.classicFeeds[this.selectedPeriodIndex].feeds
         },
+      },
+      headers() {
+        return [
+          { text: this.$t('herd.classicfeed.tabs.table.type'), value: 'type.name' },
+          { text: this.$t('herd.classicfeed.tabs.table.proportion'), value: 'proportion' },
+          { text: this.$t('herd.classicfeed.tabs.table.actions'), value: 'actions', sortable: false },
+        ]
       },
     },
     methods: {
@@ -149,6 +161,7 @@
         this.openModal(this.selectedPeriodIndex)
       },
       saveItem(item) {
+        console.log('save item', this.oldFeedItem)
         if (this.oldFeedItem !== null) {
           // Modification
           this.$store.commit('simulator/herd/updateClassicFeed', {

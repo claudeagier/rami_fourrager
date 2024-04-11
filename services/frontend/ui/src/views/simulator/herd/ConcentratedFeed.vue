@@ -1,72 +1,76 @@
 <template>
-  <v-tabs
-    centered
-    :color="pageColor"
-  >
-    <v-tab
-      v-for="(period, index) in periods"
-      :key="index"
-      @click="periodSelected(index)"
+  <v-container>
+    <v-tabs
+      centered
+      :color="pageColor"
     >
-      Période {{ period.id }}
-    </v-tab>
-    <v-tab-item
-      v-for="(period, index) in periods"
-      :key="index"
-    >
-      <v-data-table
-        :headers="headers"
-        :items="feeds"
-        class="elevation-1"
-        sort-by="type"
-        hide-default-footer
+      <v-tab
+        v-for="(period, index) in periods"
+        :key="index"
+        @click="periodSelected(index)"
       >
-        <template v-slot:top>
-          <v-toolbar
-            color="white"
-            flat
-          >
-            <v-toolbar-title> Composition of concentrated feeds for period {{ period.id }} </v-toolbar-title>
-            <v-divider
-              class="mx-4"
-              inset
-              vertical
-            ></v-divider>
-            <v-spacer></v-spacer>
-            <duplicate-modal
-              :ids="periods"
-              :sourceItem="period"
-              @duplicate="duplicate"
-            />
-            <concentrated-feed-modal
-              :pageColor="pageColor"
-              :item="feedItem"
-              :forceOpen="dialogs[index]"
-              :selectedPeriodIndex="selectedPeriodIndex"
-              @add-item="saveItem"
-              @cancel-modal="closeModal"
-            />
-          </v-toolbar>
-        </template>
-        <template v-slot:[`item.actions`]="{ item }">
-          <v-icon
-            @click="deleteItem(item)"
-            small
-          >
-            mdi-delete
-          </v-icon>
-          <v-icon
-            @click="editItem(item)"
-            medium
-            color="green"
-            background-color="green"
-          >
-            mdi-square-edit-outline
-          </v-icon>
-        </template>
-      </v-data-table>
-    </v-tab-item>
-  </v-tabs>
+        {{ ('herd.concentratedfeed.tabs.title', { period: period.id }) }}
+      </v-tab>
+      <v-tab-item
+        v-for="(period, index) in periods"
+        :key="index"
+      >
+        <v-data-table
+          :headers="headers"
+          :items="feeds"
+          class="elevation-1"
+          sort-by="type"
+          hide-default-footer
+        >
+          <template v-slot:top>
+            <v-toolbar
+              color="white"
+              flat
+            >
+              <v-toolbar-title>
+                {{ $t('herd.concentratedfeed.tabs.table.title', { period: period.id }) }}
+              </v-toolbar-title>
+              <v-divider
+                class="mx-4"
+                inset
+                vertical
+              ></v-divider>
+              <v-spacer></v-spacer>
+              <duplicate-modal
+                :ids="periods"
+                :sourceItem="period"
+                @duplicate="duplicate"
+              />
+              <concentrated-feed-modal
+                :pageColor="pageColor"
+                :item="feedItem"
+                :forceOpen="dialogs[index]"
+                :selectedPeriodIndex="selectedPeriodIndex"
+                @add-item="saveItem"
+                @cancel-modal="closeModal"
+              />
+            </v-toolbar>
+          </template>
+          <template v-slot:[`item.actions`]="{ item }">
+            <v-icon
+              @click="deleteItem(item)"
+              small
+            >
+              mdi-delete
+            </v-icon>
+            <v-icon
+              @click="editItem(item)"
+              medium
+              color="green"
+              background-color="green"
+            >
+              mdi-square-edit-outline
+            </v-icon>
+          </template>
+        </v-data-table>
+      </v-tab-item>
+    </v-tabs>
+  </v-container>
 </template>
 <script>
   import { mapGetters } from 'vuex'
@@ -93,9 +97,9 @@
     data() {
       return {
         headers: [
-          { text: 'Concentrated Feed Type', value: 'type.name' },
-          { text: 'Quantity (kg brut/animal/j)', value: 'quantity' },
-          { text: 'Actions', value: 'actions', sortable: false },
+          { text: this.$t('herd.concentratedfeed.tabs.table.name'), value: 'type.name' },
+          { text: this.$t('herd.concentratedfeed.tabs.table.quantity'), value: 'quantity' },
+          { text: this.$t('herd.concentratedfeed.tabs.table.actions'), value: 'actions', sortable: false },
         ],
         batch: null,
         feedItem: null,

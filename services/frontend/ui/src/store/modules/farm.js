@@ -1,3 +1,5 @@
+import _ from 'lodash'
+import mixins from './mixins'
 export default {
   namespaced: true,
   state: {
@@ -11,6 +13,9 @@ export default {
       //   production: [{ periods }],
       // },
     ],
+    // production des patures vertes disponibles sur 28 j
+    totalAvailablePastureByPeriod: null,
+
     dimensioning: {
       SAU: null,
       constrainedSurfaces: {
@@ -40,16 +45,24 @@ export default {
     setRotations(state, rotations) {
       state.rotations = rotations
     },
+    setTotalAvailablePastureByPeriod(state, totalAvailablePastureByPeriod) {
+      state.totalAvailablePastureByPeriod = totalAvailablePastureByPeriod
+    },
     createRotation(state, rotation) {
       state.rotations.push(rotation)
+      // mettre à jour la production des patures vertes disponibles
     },
+    // partures vertes disponibles en kgMS/j
+
     updateRotation(state, { newRotation, oldRotation }) {
       const index = state.rotations.indexOf(oldRotation)
       state.rotations.splice(index, 1, newRotation)
+      // mettre à jour les patures vertes disponibles
     },
     deleteRotation(state, rotation) {
       const index = state.rotations.indexOf(rotation)
       state.rotations.splice(index, 1)
+      // mettre à jour les patures vertes disponibles
     },
   },
   getters: {
@@ -100,5 +113,20 @@ export default {
     validateSurface: (state, getters) => {
       return getters.totalConstrainedSurfaces <= state.dimensioning.SAU
     },
+    getAvailablePasture: (state) => {
+      const arr = state.totalAvailablePastureByPeriod
+      if (arr === null) {
+        return Array.from({ length: 13 }, () => 0)
+      }
+      return Array.from(Object.values(arr), (el) => _.round(el.production_total))
+    },
+  },
+  actions: {
+    setTotalAvailablePastureByPeriod({ state, rootState, commit }) {
+      // TODO-FRONT on a peut être pas le rootState ici
+      const totalAvailablePastureByPeriod = mixins.setTotalAvailablePasture(state, rootState)
+      commit('setTotalAvailablePastureByPeriod', totalAvailablePastureByPeriod)
+    },
+    dispatchProduction({ state, rootState, commit }) {},
   },
 }

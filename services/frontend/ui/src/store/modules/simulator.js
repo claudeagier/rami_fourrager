@@ -9,6 +9,7 @@ export default {
     simulationName: 'nom de la simulation',
     site: null,
     climaticYear: null,
+    // TODO-BACK à aller chercher dans la base
     periods: [
       { id: 1, name: 'P1' },
       { id: 2, name: 'P2' },
@@ -23,6 +24,32 @@ export default {
       { id: 11, name: 'P11' },
       { id: 12, name: 'P12' },
       { id: 13, name: 'P13' },
+    ],
+    allFarmingMethods: {
+      classicFeeds: {
+        FH: { name: 'foin', feedType: '', unity: 'tMS/ha' },
+        P: { name: 'Pature', feedType: '', unity: 'kgMS/ha/j' },
+        EH: { name: "Ensilage et enrubannage d'herbe", feedType: '', unity: 'tMS/ha' },
+        EM: { name: 'Ensilage de maïs et sorgho (riche UF)', feedType: '', unity: 'tMS/ha' },
+        EL: { name: 'Ensilage de légumineuses (riche PDI)', feedType: '', unity: 'tMS/ha' },
+        FL: { name: 'Foin de légumineuses (riche PDI)', feedType: '', unity: 'tMS/ha' },
+      },
+      concentratedFeeds: {
+        RC: { name: 'Céréales en grain', feedType: '', unity: 'qtx/ha' },
+        RP: { name: 'Protéagineux en grain', feedType: '', unity: 'qtx/ha' },
+      },
+    },
+    // TODO-BACK à mettre dans la base après confirmation
+    barnStockItems: [
+      { code: 'FH', name: 'foin', unity: 'tMS' },
+      // { code: 'P', name: 'Pature', unity: 'kgMS/ha/j' },
+      { code: 'EH', name: "Ensilage et enrubannage d'herbe", unity: 'tMS' },
+      { code: 'EM', name: 'Ensilage de maïs et sorgho (riche UF)', unity: 'tMS' },
+      { code: 'RC', name: 'Céréales en grain', unity: 'qtx', concentrated: true },
+      { code: 'RP', name: 'Protéagineux en grain', unity: 'qtx', concentrated: true },
+      { code: 'AS', name: 'autre stock', unity: 'tMS' },
+      { code: 'EL', name: 'Ensilage de légumineuses (riche PDI)', unity: 'tMS' },
+      { code: 'FL', name: 'Foin de légumineuses (riche PDI)', unity: 'tMS' },
     ],
     sites: [],
     climaticYears: [],
@@ -186,6 +213,7 @@ export default {
     periodList: (state) => state.periods,
     siteList: (state) => state.sites,
     sticList: (state) => state.stics,
+    barnStockItemList: (state) => state.barnStockItems,
 
     // simulation values
     simulationName: (state) => state.simulationName,
@@ -193,6 +221,9 @@ export default {
     climaticYearInfo: (state) => state.climaticYear,
     siteInfo: (state) => state.site,
     totalPeriods: (state) => state.periods.length,
+    getAllByPeriod: (state) => () => {
+      var all = [{ period: {}, herd: [] }]
+    },
   },
   modules: {
     barn,

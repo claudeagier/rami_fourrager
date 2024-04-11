@@ -10,7 +10,7 @@
           v-on="on"
           outlined
         >
-          Add a classic feed
+          {{ $t('btn.add') }}
         </v-btn>
       </template>
       <v-form
@@ -21,7 +21,7 @@
       >
         <v-card>
           <v-card-title>
-            <span class="text-h5"> Add a classic feed </span>
+            <span class="text-h5"> {{ $t('herd.classicfeed.modal.title') }} </span>
           </v-card-title>
 
           <v-card-text>
@@ -67,7 +67,7 @@
               color="grey"
               text
             >
-              Cancel
+              {{ $t('btn.cancel') }}
             </v-btn>
             <v-btn
               color="primary"
@@ -75,7 +75,7 @@
               outlined
               :disabled="!valid"
             >
-              Save
+              {{ $t('btn.save') }}
             </v-btn>
           </v-card-actions>
         </v-card>

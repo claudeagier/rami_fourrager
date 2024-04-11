@@ -1,8 +1,40 @@
+import _ from 'lodash'
+import mixins from './mixins'
+
+// function calculatAvailablePasture(state, rootState) {
+//   stics = rootState.simulator.farm.rotations
+//   periods = rootState.simulator.periods
+
+//   const availablePastureByPeriod = Array.from(periods, (period) => ({
+//     period_id: period.id,
+//     totalAvailablePasture: 0,
+//   }))
+
+//   stics.forEach((stic) => {
+//     if (stic.type.indexOf('P') === 0) {
+//       stic_period.foreach((sp)=>{
+//         if (sp.farming_method === 'p') {
+//           availablePastureByPeriod.find(e=>e.period_id === )
+//         }
+//         return { periodId: p.period_id, availablePasture: availablePasture }
+//       })
+//       })
+//       console.log('je calcule')
+//       availablePastureByPeriod.find(e=>e.period_id === ) = stic.stic_period.map((p) => {
+//         if (p.farming_method === 'p') {
+//         }
+//         return { periodId: p.period_id, availablePasture: availablePasture }
+//       })
+//     }
+//   })
+// }
+
 export default {
   namespaced: true,
   state: {
     batchs: [],
   },
+
   mutations: {
     setBatchs(state, batchs) {
       state.batchs = batchs
@@ -53,9 +85,13 @@ export default {
     createClassicFeed(state, { batchId, periodId, newFeed }) {
       state.batchs[batchId].classicFeeds[periodId].feeds.push(newFeed)
     },
+
     updateClassicFeed(state, { batchId, periodId, newFeed, oldFeed }) {
-      const feedIndex = state.batchs[batchId].classicFeeds[periodId].feeds.indexOf(oldFeed)
-      state.batchs[batchId].classicFeeds[periodId].feeds.splice(feedIndex, 1, newFeed)
+      const classicFeeds = state.batchs[batchId].classicFeeds[periodId].feeds
+      const feedIndex = classicFeeds.findIndex((feed) => mixins.deepEqual(feed, oldFeed))
+      if (feedIndex > -1) {
+        classicFeeds.splice(feedIndex, 1, newFeed)
+      }
     },
     deleteClassicFeed(state, { batchId, periodId, feed }) {
       const feedIndex = state.batchs[batchId].classicFeeds[periodId].feeds.indexOf(feed)
@@ -64,7 +100,7 @@ export default {
     duplicateClassicFeedsByPeriod(state, { batchId, source, targets }) {
       const sourceFeeds = state.batchs[batchId].classicFeeds.find((element) => element.period.id === source.id).feeds
       targets.forEach((target) => {
-        state.batchs[batchId].classicFeeds.find((element) => element.period.id === target.id).feeds = sourceFeeds
+        state.batchs[batchId].classicFeeds.find((element) => element.period.id === target.id).feeds = [...sourceFeeds]
       })
     },
 
@@ -73,8 +109,11 @@ export default {
       state.batchs[batchId].concentratedFeeds[periodId].feeds.push(newFeed)
     },
     updateConcentratedFeed(state, { batchId, periodId, newFeed, oldFeed }) {
-      const feedIndex = state.batchs[batchId].concentratedFeeds[periodId].feeds.indexOf(oldFeed)
-      state.batchs[batchId].concentratedFeeds[periodId].feeds.splice(feedIndex, 1, newFeed)
+      const concentratedFeeds = state.batchs[batchId].concentratedFeeds[periodId].feeds
+      const feedIndex = concentratedFeeds.findIndex((feed) => mixins.deepEqual(feed, oldFeed))
+      if (feedIndex > -1) {
+        concentratedFeeds.splice(feedIndex, 1, newFeed)
+      }
     },
     deleteConcentratedFeed(state, { batchId, periodId, feed }) {
       const feedIndex = state.batchs[batchId].concentratedFeeds[periodId].feeds.indexOf(feed)
@@ -85,7 +124,9 @@ export default {
         (element) => element.period.id === source.id
       ).feeds
       targets.forEach((target) => {
-        state.batchs[batchId].concentratedFeeds.find((element) => element.period.id === target.id).feeds = sourceFeeds
+        state.batchs[batchId].concentratedFeeds.find((element) => element.period.id === target.id).feeds = [
+          ...sourceFeeds,
+        ]
       })
     },
   },
@@ -96,7 +137,7 @@ export default {
     getHousingDetailByPeriod: (state) => (batchId, periodId) => {
       return state.batchs[batchId].housing.presence[periodId]
     },
-    getClassiqueFeedByPeriod:
+    getClassicFeedByPeriod:
       (state) =>
       (batchId, periodId, feed = null) => {
         if (feed != null) {
@@ -109,5 +150,14 @@ export default {
           }
         }
       },
+
+    // Couverture des besoins énergétiques /animal UFL estimé pour l’ensemble des rations saisie pour un animal
+    getEnergeticCoverageByBatch: (state, getters, rootState) => (batchId) => {
+      return mixins.getEnergeticCoverage(state, rootState, batchId)
+    },
+
+    getProteicCoverageByBatch: (state, getters, rootState) => (batchId) => {
+      return mixins.getProteicCoverage(state, rootState, batchId)
+    },
   },
 }
