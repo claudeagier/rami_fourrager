@@ -10,6 +10,7 @@ batch_type = animal_profile_namespace.model('BatchType', {
     "name": fields.String,
     "UE_value_considered": fields.String,
     "UF_value_considered": fields.String,
+    "UF_concentrated_value_considered": fields.String,
 })
 
 animal_profil_period = animal_profile_namespace.model("AnimalProfilPeriod", {

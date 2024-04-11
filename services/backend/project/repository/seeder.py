@@ -555,7 +555,7 @@ def makeSeed(row, mapping, report, csv_file, index):
         return True
 
 
-async def seeder(mapping={}, csv_to_seed_dir=""):
+def seeder(mapping={}, csv_to_seed_dir=""):
     """
     Processes CSV files based on the provided mapping and seeds the database accordingly.
 
