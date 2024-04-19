@@ -36,6 +36,9 @@ export default {
   },
 
   mutations: {
+    setHerd(state, { batchs }) {
+      state.batchs = batchs
+    },
     setBatchs(state, batchs) {
       state.batchs = batchs
     },
@@ -158,6 +161,9 @@ export default {
 
     getProteicCoverageByBatch: (state, getters, rootState) => (batchId) => {
       return mixins.getProteicCoverage(state, rootState, batchId)
+    },
+    getDryMatterProvided: (state, getters, rootState) => (batchId) => {
+      return mixins.getDryMatterProvided(state, rootState, batchId)
     },
   },
 }

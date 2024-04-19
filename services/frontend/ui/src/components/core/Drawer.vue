@@ -87,6 +87,7 @@
             { title: 'barn.title', to: 'barn' },
             { title: 'farm.title', to: 'farm' },
             { title: 'herd.title', to: 'herd' },
+            { title: 'notifications', to: 'notifications' },
           ],
         },
         {

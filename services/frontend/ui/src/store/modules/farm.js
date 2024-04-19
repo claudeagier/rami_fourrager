@@ -27,6 +27,11 @@ export default {
     },
   },
   mutations: {
+    setFarm(state, { rotations, totalAvailablePastureByPeriod, dimensioning }) {
+      state.rotations = rotations
+      state.totalAvailablePastureByPeriod = totalAvailablePastureByPeriod
+      state.dimensioning = dimensioning
+    },
     setSAU(state, SAU) {
       state.dimensioning.SAU = SAU
     },
@@ -127,6 +132,10 @@ export default {
       const totalAvailablePastureByPeriod = mixins.setTotalAvailablePasture(state, rootState)
       commit('setTotalAvailablePastureByPeriod', totalAvailablePastureByPeriod)
     },
-    dispatchProduction({ state, rootState, commit }) {},
+    dispatchProduction({ state, rootState, commit }) {
+      const production = mixins.dispatchProduction(state, rootState)
+      commit('simulator/barn/setTotalStock', production.totalBarnStock, { root: true })
+      commit('simulator/barn/setStockByPeriod', production.barnStockByPeriod, { root: true })
+    },
   },
 }

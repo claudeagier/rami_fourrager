@@ -35,6 +35,9 @@ add-admin-dev:
 backend-test:
 	docker-compose exec backend pytest "project/tests" -p no:warnings --cov="project"
 
+frontend-test:
+	docker-compose exec frontend vue-cli-service test:unit
+
 inspect:
 	docker-compose logs -f $(service)
 

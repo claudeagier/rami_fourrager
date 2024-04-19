@@ -28,27 +28,40 @@ describe('herds mutations', () => {
 
   rootState.simulator.farm.totalAvailablePastureByPeriod = tap
 
-  it('energetic values', () => {
+  it('energetic values before', () => {
     const result = mixins.getEnergeticCoverage(state, rootState, batchId)
     // for (let i in result) {
     //   expect(result[i]).toEqual(output[i])
     // }
     expect(result).toEqual(output.energeticCoverage)
   })
-  it('proteic values', () => {
+  it('proteic values before', () => {
     const result = mixins.getProteicCoverage(state, rootState, batchId)
     expect(result).toEqual(output.proteicCoverage)
   })
 
-  it('energetic values with concentrated', () => {
-    const sumUF = mixins.getConcentratedUfSum(state, batchId)
-    expect(sumUF).toEqual(outputs.herd.energetic.UF_concentrated)
-
-    // const result = mixins.getEnergeticCoverage(state, rootState, batchId, true)
-    // for (let i in result) {
-    //   expect(result[i]).toEqual(output[i])
-    // }
-    // expect(result).toEqual(output.energeticCoverageWithConcentrated)
+  const result = mixins.getFinalEnergeticCoverage(state, rootState, batchId)
+  it('energetic concentrated values', () => {
+    expect(result.concentratedUF).toEqual(outputs.herd.energetic.UF_concentrated)
+  })
+  it('energetic pasture uf', () => {
+    expect(result.pastureUF).toEqual(outputs.herd.energetic.UF_pasture)
+  })
+  it('energetic feeds uf', () => {
+    for (let i = 0; i < result.feedsUF.length; i++) {
+      result.feedsUF[i] = _.round(result.feedsUF[i], 2)
+    }
+    expect(result.feedsUF).toEqual(outputs.herd.energetic.UF_feeds)
+  })
+  it('final feeds uf', () => {
+    for (let i = 0; i < result.feedsUF.length; i++) {
+      result.feedsUF[i] = _.round(result.feedsUF[i], 2)
+    }
+    expect(result.final_coverage).toEqual(outputs.herd.energetic.final_coverage)
+  })
+  it('Dry Matter Provided', () => {
+    const res = mixins.getDryMatterProvided(state, rootState, batchId)
+    expect(res.dry_matter_needed.data).toEqual(outputs.herd.dry_matter_coverage.dry_matter_needed)
   })
 
   // it('proteic values with concentrated', () => {

@@ -26,6 +26,7 @@ describe('farm mutations', () => {
   })
   it('farms dispatch production', () => {
     const result = mixins.dispatchProduction(state, rootState)
-    expect(result).toHaveLength(13)
+    // console.log('reuslt', result)
+    expect(result.barnStockByPeriod).toHaveLength(13)
   })
 })

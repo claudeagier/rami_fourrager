@@ -26,16 +26,21 @@ Test driven docker solution using VueJS, Flask, PostgresSQL, with swagger, & pre
 
 ``` https://localhost:4433/<api route> ```
 
-
 ### 5. Then see the json returned from the users API route here:
 
 ``` http://localhost:5001/users ```
 
-
 ### 6. Run automated unit tests
+
+#### 1.Backend
 
 ```docker-compose exec backend pytest "project/tests" -p no:warnings --cov="project"```
 
+#### 2.Frontend
+
+expect/assert documentation: `https://jestjs.io/docs/expect`
+
+```$ make frontend-test```
 
 ### 7. Swagger URL
 
@@ -43,22 +48,17 @@ Test driven docker solution using VueJS, Flask, PostgresSQL, with swagger, & pre
 
 -----------------------------------------------------------
 
-
-### In case you need to regenerate SSL keys 
+### In case you need to regenerate SSL keys
 
 Open the command line and run these commands inside the ```services/nginx/ssl``` folder to generate a self signed certificate:
 
-
 ``` openssl req -new -newkey rsa:1024 -x509 -sha512 -days 365 -nodes -out nginx.crt -keyout nginx.key ```
-
 
 ``` openssl dhparam -out dhparam.pem 1024 ```
 
+-----------------------------------------------------------
 
------------------------------
-
-``` root@c9d9939bf36c:/usr/src/app# python manage.py seed_data mapping_concentrate.json ```
+``` $ python manage.py seed_data mapping_concentrate.json ```
 
 test un fichier
 ```python -m pytest -k test_referential.py -W ignore```
-

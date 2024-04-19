@@ -106,6 +106,9 @@
           "actions": "Actions"
         }
       }
+    },
+    "details": {
+      "graph": { "title": "Besoins en matière sèche", "btn": "Afficher les graphiques" }
     }
   }
 }

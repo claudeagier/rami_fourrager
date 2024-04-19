@@ -136,11 +136,11 @@ const routes = [
         },
       },
       // // Maps
-      // {
-      //   name: 'buttons ',
-      //   path: '/buttons',
-      //   component: () => import('@/views/simulator/component/Buttons'),
-      // },
+      {
+        name: 'notifications',
+        path: '/notifications',
+        component: () => import('@/components/examples/Notifications'),
+      },
     ],
     meta: {
       requiresAuth: true,

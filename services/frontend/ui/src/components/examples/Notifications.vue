@@ -39,7 +39,9 @@
               dismissible
               icon="mdi-bell"
             >
-              This is a notification with close button and icon and have many lines. You can see that the icon and the close button are always vertically aligned. This is a beautiful notification. So you don't have to worry about the style.
+              This is a notification with close button and icon and have many lines. You can see that the icon and the
+              close button are always vertically aligned. This is a beautiful notification. So you don't have to worry
+              about the style.
             </base-material-alert>
 
             <base-material-alert
@@ -48,7 +50,8 @@
               dismissible
               icon="mdi-bell"
             >
-              You can see that the icon and the close button are always vertically aligned. This is a beautiful notification. So you don't have to worry about the style.
+              You can see that the icon and the close button are always vertically aligned. This is a beautiful
+              notification. So you don't have to worry about the style.
             </base-material-alert>
           </v-card-text>
         </v-card>
@@ -72,7 +75,8 @@
               <span
                 class="text-uppercase"
                 v-text="color"
-              /> — This is a regular alert made with the color of "{{ color }}"
+              />
+              — This is a regular alert made with the color of "{{ color }}"
             </base-material-alert>
 
             <base-material-alert
@@ -120,7 +124,7 @@
                       color="secondary"
                       default
                       class="v-btn--block"
-                      @click="randomColor(), direction = dir, snackbar = true"
+                      @click="randomColor(), (direction = dir), (snackbar = true)"
                     >
                       {{ dir }}
                     </v-btn>
@@ -187,10 +191,11 @@
       :type="color"
       v-bind="{
         [parsedDirection[0]]: true,
-        [parsedDirection[1]]: true
+        [parsedDirection[1]]: true,
       }"
     >
-      Welcome to <span class="font-weight-bold">&nbsp;MATERIAL DASHBOARD&nbsp;</span> — a beautiful admin panel for every web developer.
+      Welcome to <span class="font-weight-bold">&nbsp;MATERIAL DASHBOARD&nbsp;</span> — a beautiful admin panel for
+      every web developer.
     </base-material-snackbar>
 
     <v-dialog
@@ -212,7 +217,12 @@
         </v-card-title>
 
         <v-card-text>
-          Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth. Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however a small line of blind text by the name of Lorem Ipsum decided to leave for the far World of Grammar.
+          Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind
+          texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A
+          small river named Duden flows by their place and supplies it with the necessary regelialia. It is a
+          paradisematic country, in which roasted parts of sentences fly into your mouth. Even the all-powerful Pointing
+          has no control about the blind texts it is an almost unorthographic life One day however a small line of blind
+          text by the name of Lorem Ipsum decided to leave for the far World of Grammar.
         </v-card-text>
 
         <v-card-actions>
@@ -264,9 +274,7 @@
               class="hidden-sm-and-down"
               md="4"
             >
-              <v-sheet>
-               
-              </v-sheet>
+              <v-sheet></v-sheet>
             </v-col>
 
             <v-col
@@ -284,13 +292,12 @@
               class="hidden-sm-and-down"
               md="4"
             >
-              <v-sheet>
-               
-              </v-sheet>
+              <v-sheet> </v-sheet>
             </v-col>
 
             <v-col cols="12">
-              If you have more questions, don't hesitate to contact us or send us a tweet @creativetim. We're here to help!
+              If you have more questions, don't hesitate to contact us or send us a tweet @creativetim. We're here to
+              help!
             </v-col>
           </v-row>
 
@@ -354,35 +361,23 @@
 
     data: () => ({
       color: 'info',
-      colors: [
-        'info',
-        'success',
-        'warning',
-        'error',
-      ],
+      colors: ['info', 'success', 'warning', 'error'],
       dialog: false,
       dialog2: false,
       dialog3: false,
       direction: 'top center',
-      directions: [
-        'top left',
-        'top center',
-        'top right',
-        'bottom left',
-        'bottom center',
-        'bottom right',
-      ],
+      directions: ['top left', 'top center', 'top right', 'bottom left', 'bottom center', 'bottom right'],
       snackbar: false,
     }),
 
     computed: {
-      parsedDirection () {
+      parsedDirection() {
         return this.direction.split(' ')
       },
     },
 
     methods: {
-      randomColor () {
+      randomColor() {
         this.color = this.colors[Math.floor(Math.random() * this.colors.length)]
       },
     },

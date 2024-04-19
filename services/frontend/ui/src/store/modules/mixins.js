@@ -1,41 +1,6 @@
 import _ from 'lodash'
 
 const fixFloatingPoint = (val, precision = 3) => Number.parseFloat(val.toPrecision(precision))
-
-const calculateEnergeticBesoin = (ufl, toModerate = false, potential = 1) => {
-  var moderator = 1
-  if (toModerate) {
-    moderator = 0.5367 * potential + 0.4582
-  }
-  return ufl * moderator
-}
-const calculateProteicBesoin = (pdi, toModerate = false, potential = 1) => {
-  var moderator = 1
-  if (toModerate) {
-    moderator = 0.6431 * potential + 0.3522
-  }
-  return pdi * moderator
-}
-// H272
-const calculateConcentratedUF = (batch) => {
-  const precision = 4
-  const concentratedFeedsByPeriod = batch.concentratedFeeds
-  var sum = concentratedFeedsByPeriod.map(({ period, feeds }, index) => {
-    const periodId = period.id
-    // UFL de la ration (en fonction du type d’animaux on ne prend pas la même colonne)* le pourcentage de ration
-    const sumUF = Object.values(feeds).reduce((acc, curr) => {
-      const UFcolumn = batch.profil.batch_type.UF_concentrated_value_considered
-
-      const UF = curr.type.nutritional_values[UFcolumn] * curr.quantity
-      // console.log('UFL : %d - Quantity : %d - UF: %d', curr.type.nutritional_values[UFcolumn], curr.quantity, UF)
-      return acc + UF
-    }, 0.0)
-    // console.log('period %d - sumUF: %d', periodId, fixFloatingPoint(sumUF, precision))
-    return fixFloatingPoint(sumUF, precision)
-  })
-  return sum
-}
-
 const deepEqual = (obj1, obj2) => {
   // Si les deux objets sont du même type, on les compare
   if (typeof obj1 === 'object' && typeof obj2 === 'object') {
@@ -57,37 +22,181 @@ const deepEqual = (obj1, obj2) => {
     return obj1 === obj2
   }
 }
+// ok
+const calculateTotalUE = (UEcolumn, feeds) => {
+  const precision = 4
+  return Object.values(feeds).reduce((acc, curr) => {
+    const DEF = fixFloatingPoint((curr.proportion / 100) * curr.type.nutritional_values[UEcolumn], precision)
+    return acc + DEF
+  }, 0.0)
+}
+// H233 besoin MS
+// ok
+const calculateBesoinMS = (ci = 1, ueColumn, feeds) => {
+  return fixFloatingPoint(ci / calculateTotalUE(ueColumn, feeds), 4)
+}
+// H234
+const calculateEnergeticBesoin = (ufl, toModerate = false, potential = 1) => {
+  var moderator = 1
+  if (toModerate) {
+    moderator = 0.5367 * potential + 0.4582
+  }
+  return ufl * moderator
+}
+// H235
+const calculateProteicBesoin = (pdi, toModerate = false, potential = 1) => {
+  var moderator = 1
+  if (toModerate) {
+    moderator = 0.6431 * potential + 0.3522
+  }
+  return pdi * moderator
+}
 
-export default {
-  deepEqual: function (obj1, obj2) {
-    // Si les deux objets sont du même type, on les compare
-    if (typeof obj1 === 'object' && typeof obj2 === 'object') {
-      // On vérifie si les deux objets ont le même nombre de propriétés
-      const keys1 = Object.keys(obj1)
-      const keys2 = Object.keys(obj2)
-      if (keys1.length !== keys2.length) {
-        return false
+// uniquement pour energeticCoverage
+// ok
+const getUFPasturesByPeriodBefore = (batch, totalAvailablePastureByPeriod) => {
+  const precision = 3
+  if (batch === undefined) {
+    console.error('batch_not_found')
+    return
+  }
+
+  return batch.classicFeeds.map(({ period, feeds }, index) => {
+    const periodId = period.id
+    const sumUF = Object.values(feeds).reduce((acc, curr) => {
+      const UFcolumn = batch.profil.batch_type.UF_value_considered
+      // si c'est des patures
+      var DEF = 0
+      if (curr.type.name === 'Pâture') {
+        // ajout des patures
+        if (totalAvailablePastureByPeriod['period_id_' + periodId] === undefined) {
+          console.error('farm dimensionning is not apply to the simulation')
+          return
+        }
+        const energyPasture = totalAvailablePastureByPeriod['period_id_' + periodId].energeticTotal
+        DEF = energyPasture * (curr.proportion / 100)
       }
-      // On compare récursivement les valeurs de chaque propriété
-      for (const key of keys1) {
-        if (!deepEqual(obj1[key], obj2[key])) {
-          return false
+      return acc + DEF
+    }, 0.0)
+    return sumUF
+  })
+}
+
+// 240 Pâture verte disponible (kg MS/animal/jour ou kgMS/jour si nb anx=0) les valeurs à afficher dans la simu
+const getAvailableGreenPastureByAnimal = (batch) => {
+  // pature disponible / nombre d'animaux pour la période du lot
+  // il faut prendre en compte tous les lots
+  // le modele nourri en premier le premier lot et ensuite les autres s'il reste des patures
+  // production total des patures / nb animaux total de tous les lots
+  // onmultiplie par le nombre d'animaux par lot,
+  // le problème c'est que chaque lot est nourri équitablement
+}
+
+// 243 Pâture reportée disponible (kgMS/animal Lot1/j) les valeurs à afficher dans la simu
+const getAvailableCarryoverPastureByAnimal = (batch) => {}
+
+// H249 uf apporté par les patures
+// il faut intégrer la stratégie de report
+// =I$246*X29+I$247*W29*0,92
+const getUFPasturesByPeriod = (batch, totalAvailablePastureByPeriod, after) => {
+  const precision = 3
+  if (batch === undefined) {
+    console.error('batch_not_found')
+    return
+  }
+  return {}
+  // (consommation pature verte * w 29) + (consommation pature reporté si report * w29 correspondant * 0.92)
+}
+
+// H267 ~ ok à préciser si nécessaire
+const getUFFeedsByPeriod = (batch, after = false) => {
+  const precision = 3
+  if (batch === undefined) {
+    console.error('batch_not_found')
+    return
+  }
+
+  return batch.classicFeeds.map(({ period, feeds }, index) => {
+    const batchValuesForPeriod = batch.profil.animal_profil_periods[index]
+    const UFcolumn = batch.profil.batch_type.UF_value_considered
+    const UEcolumn = batch.profil.batch_type.UE_value_considered
+    const sumUF = Object.values(feeds).reduce((acc, curr) => {
+      var UF = 0
+      if (curr.type.name !== 'Pâture') {
+        if (after) {
+          // ( H254 = proportion * (H233 = besoin MS)) * uf ration correspondant
+          const besoinMS = calculateBesoinMS(batchValuesForPeriod.CI, UEcolumn, feeds) // ok
+          UF = fixFloatingPoint((curr.proportion / 100) * curr.type.nutritional_values[UFcolumn] * besoinMS, precision)
+          // console.log('period %d - def: %d', period.id, UF)
+        } else {
+          UF = fixFloatingPoint((curr.proportion / 100) * curr.type.nutritional_values[UFcolumn], precision)
         }
       }
-      return true
-    } else {
-      // Si les objets sont de types différents, on les compare directement
-      return obj1 === obj2
-    }
-  },
-  getConcentratedUfSum: function (state, batchId) {
-    const batch = state.batchs[batchId]
-    if (batch === undefined) {
-      console.error('batch_not_found', batchId)
-      return
-    }
-    return calculateConcentratedUF(batch)
-  },
+      return acc + UF
+    }, 0.0)
+    return sumUF
+  })
+}
+
+// pour finalEnergeticCoverage
+// OK H272 uf apporté par les concentrés
+const getUFConcentratedByPeriod = (batch) => {
+  const precision = 4
+  if (batch === undefined) {
+    console.error('batch_not_found')
+    return
+  }
+  return batch.concentratedFeeds.map(({ period, feeds }, index) => {
+    // UFL de la ration (en fonction du type d’animaux on ne prend pas la même colonne)* le pourcentage de ration
+    const sumUF = Object.values(feeds).reduce((acc, curr) => {
+      const UFcolumn = batch.profil.batch_type.UF_concentrated_value_considered
+
+      const UF = curr.type.nutritional_values[UFcolumn] * curr.quantity
+      // console.log('UFL : %d - Quantity : %d - UF: %d', curr.type.nutritional_values[UFcolumn], curr.quantity, UF)
+      return acc + UF
+    }, 0.0)
+    // console.log('period %d - sumUF: %d', periodId, fixFloatingPoint(sumUF, precision))
+    return fixFloatingPoint(sumUF, precision)
+  })
+}
+
+const getFinalEnergeticCoverage = function (state, rootState, batchId) {
+  // c'est juste pour faire le test des différentes fonction
+  const finalEnergeticCoverage = []
+  const batch = state.batchs[batchId]
+  if (batch === undefined) {
+    console.error('batch_not_found', batchId)
+    return
+  }
+  const h272 = getUFConcentratedByPeriod(batch) // ok
+  const h267 = getUFFeedsByPeriod(batch, true)
+  const h249 = getUFPasturesByPeriod(batch, rootState.simulator.farm.totalAvailablePastureByPeriod)
+
+  // par periode
+  rootState.simulator.periods.forEach((period, index) => {
+    const periodId = period.id
+    const toModerate = batch.profil.batch_type.code === 'VL'
+    const potential = 1
+    // par period
+    const aprpr = batch.profil.animal_profil_periods.find((element) => element.period_id === periodId)
+    const ufl = aprpr.UFL
+    // H274 = H272+H267+h249 UF total
+    const h274 = h272[index] + h267[index] + h249[index]
+    const h234 = calculateEnergeticBesoin(ufl, toModerate, potential)
+
+    // H276 = H274 / H234 couverture UF
+    const h276 = h274 / h234
+
+    finalEnergeticCoverage[index] = _.round(h276 * 100)
+  })
+
+  return { concentratedUF: h272, pastureUF: h249, feedsUF: h267, final_coverage: finalEnergeticCoverage }
+}
+
+export default {
+  deepEqual,
+  getFinalEnergeticCoverage,
+
   getEnergeticCoverage: function (state, rootState, batchId, withConcentrated = false) {
     const precision = 3
     const batch = state.batchs[batchId]
@@ -95,38 +204,21 @@ export default {
       console.error('batch_not_found', batchId)
       return
     }
+    const pastureUF = getUFPasturesByPeriodBefore(batch, rootState.simulator.farm.totalAvailablePastureByPeriod, true)
+    const feedsUF = getUFFeedsByPeriod(batch, false)
+    // const concentratedUF = getUFConcentratedByPeriod(batch)
+
     const feedsByPeriod = batch.classicFeeds
 
     var energeticCoverage = feedsByPeriod.map(({ period, feeds }, index) => {
       const periodId = period.id
       const aprpr = batch.profil.animal_profil_periods.find((element) => element.period_id === periodId)
-      // UFL de la ration (en fonction du type d’animaux on ne prend pas la même colonne)* le pourcentage de ration
-      const sumUF = Object.values(feeds).reduce((acc, curr) => {
-        const UFcolumn = batch.profil.batch_type.UF_value_considered
-        // si c'est des patures
-        // on calcule l'UF pour l'ensemble des patures
-        var DEF = 0
-        if (curr.type.name === 'Pâture') {
-          // ajout des patures
-          if (rootState.simulator.farm.totalAvailablePastureByPeriod['period_id_' + periodId] === undefined) {
-            console.error('farm dimensionning is not apply to the simulation')
-            return
-          }
-          const energyPasture =
-            rootState.simulator.farm.totalAvailablePastureByPeriod['period_id_' + periodId].energeticTotal
-          DEF = energyPasture * (curr.proportion / 100)
-        } else {
-          // ajout des rations
-          DEF = (curr.proportion / 100) * curr.type.nutritional_values[UFcolumn]
-        }
 
-        return acc + DEF
-      }, 0.0)
-      const totalUE = Object.values(feeds).reduce((acc, curr) => {
-        const UEcolumn = batch.profil.batch_type.UE_value_considered
-        const DEF = (curr.proportion / 100) * curr.type.nutritional_values[UEcolumn]
-        return acc + DEF
-      }, 0.0)
+      var sumUF = pastureUF[index] + feedsUF[index]
+      // if (withConcentrated) {
+      //   sumUF += concentratedUF[index]
+      // }
+      const totalUE = calculateTotalUE(batch.profil.batch_type.UE_value_considered, feeds)
 
       const DEF = fixFloatingPoint(sumUF / totalUE, precision)
 
@@ -149,10 +241,11 @@ export default {
           const potential = 1
           ci_moderator = 0.1582 * potential + 0.8392
         }
-
+        // H234
         const besoin = calculateEnergeticBesoin(UFL, toModerate)
 
         if (CI > 0) {
+          // H234 / H232
           DERm = fixFloatingPoint(besoin / (CI * ci_moderator), precision)
         }
 
@@ -261,6 +354,7 @@ export default {
 
     return proteicCoverage
   },
+
   setTotalAvailablePasture: (state, rootState) => {
     const precision = 15
     const totalAvailablePastureByPeriod = {}
@@ -302,36 +396,121 @@ export default {
       }, 0.0)
 
       totalAvailablePastureByPeriod[key] = {
-        production_total: total,
-        energeticTotal: UF,
-        proteicTotal: PDI,
+        production_total: total, // H28
+        energeticTotal: UF, // W29
+        proteicTotal: PDI, // W30
       }
     })
 
     return totalAvailablePastureByPeriod
   },
-  dispatchProduction: (state, rootState, commit) => {
-    const barnStock = []
+  dispatchProduction: (state, rootState) => {
+    var totalBarnStock = []
+    var barnStockByPeriod = Array.from({ length: 13 }, () => null)
     const precision = 15
     const barnStockItems = rootState.simulator.barnStockItems
     for (let index = 0; index < rootState.simulator.periods.length; index++) {
-      console.log(index)
       for (const rotation of state.rotations) {
         const sp = rotation.stic.stic_periods[index]
-        console.log(sp)
         if (sp.farming_method !== '' && sp.production > 0) {
-          const foundStock = barnStock.find((item) => item.code === sp.farming_method)
-          if (!foundStock) {
-            barnStock.push({
-              ...barnStockItems.find((item) => item.code === sp.farming_method),
-              ...{ code: sp.farming_method, quantity: sp.production },
-            })
+          // répartition du stock au global
+          const foundTotalStock = totalBarnStock.find((item) => item.code === sp.farming_method)
+          if (!foundTotalStock) {
+            const selectedStock = barnStockItems.find((item) => item.code === sp.farming_method)
+            if (!selectedStock) {
+              // break
+            }
+            const stock = {
+              ...selectedStock,
+              quantity: fixFloatingPoint(sp.production, 4),
+            }
+            totalBarnStock.push(stock)
           } else {
-            foundStock.quantity.tons += sp.production
+            foundTotalStock.quantity += sp.production
+          }
+
+          // repartition du stock par période
+          const barnStockPeriod = barnStockByPeriod[index]
+          if (barnStockPeriod === null) {
+            const stockByPeriod = {
+              period_id: rootState.simulator.periods[index].id,
+              stock: [
+                {
+                  ...barnStockItems.find((item) => item.code === sp.farming_method),
+                  quantity: fixFloatingPoint(sp.production, 4),
+                },
+              ],
+            }
+            barnStockByPeriod[index] = stockByPeriod
+          } else {
+            const foundStock = barnStockPeriod.stock.find((item) => item.code === sp.farming_method)
+            if (foundStock) {
+              foundStock.quantity += sp.production
+            } else {
+              barnStockPeriod.stock.push({
+                ...barnStockItems.find((item) => item.code === sp.farming_method),
+                quantity: fixFloatingPoint(sp.production, 4),
+              })
+            }
           }
         }
       }
     }
-    return []
+    return { totalBarnStock: totalBarnStock, barnStockByPeriod: barnStockByPeriod }
+  },
+  getDryMatterProvided: (state, rootState, batchId) => {
+    const precision = 3
+    const batch = state.batchs[batchId]
+    if (batch === undefined) {
+      console.error('batch_not_found', batchId)
+      return
+    }
+
+    const UEcolumn = batch.profil.batch_type.UE_value_considered
+    const UFcolumn = batch.profil.batch_type.UF_value_considered
+
+    const finalEnergeticCoverage = getFinalEnergeticCoverage(state, rootState, batchId).final_coverage
+    var totalEnergeticCoverage = { name: 'totalEnergeticCoverage', data: finalEnergeticCoverage }
+    // const finalProteicCoverage = getFinalProteicCoverage(state, rootState, batchId)
+    // var totalProteicCoverage = { name: 'totalProteicCoverage', data: finalProteicCoverage }
+
+    var dryMatterProvidedPerFeed = {
+      P: { name: 'Pâture', data: Array.from({ length: 13 }, () => 0) },
+    }
+    rootState.simulator.barnStockItems.forEach((item) => {
+      if (item.code !== 'RC' && item.code !== 'RP') {
+        dryMatterProvidedPerFeed[item.code] = { name: item.name, data: Array.from({ length: 13 }, () => 0) }
+      }
+    })
+
+    var dryMatterNeeded = { name: 'dryMatterNeeded', data: [] }
+
+    rootState.simulator.periods.forEach((period, index) => {
+      // la quantité de matière sèche de chaque aliment
+      const batchValuesForPeriod = batch.profil.animal_profil_periods[index]
+      const feeds = batch.classicFeeds[index].feeds
+      const besoinMS = calculateBesoinMS(batchValuesForPeriod.CI, UEcolumn, feeds) // ok
+      dryMatterNeeded.data[index] = _.floor(besoinMS, 1)
+
+      feeds.forEach((feed) => {
+        if (feed.type.correspondingStock !== 'RC' && feed.type.correspondingStock !== 'RP') {
+          const q = fixFloatingPoint((feed.proportion / 100) * besoinMS, precision)
+          if (dryMatterProvidedPerFeed[feed.type.correspondingStock].data[index] > 0) {
+            dryMatterProvidedPerFeed[feed.type.correspondingStock].data[index] += q
+          } else {
+            dryMatterProvidedPerFeed[feed.type.correspondingStock].data[index] = q
+          }
+        }
+      })
+
+      // une série par aliment
+      // + une série pour les besoins MS
+    })
+    return {
+      dry_matter_provided_per_feed: dryMatterProvidedPerFeed,
+      dry_matter_needed: dryMatterNeeded,
+      total_energetic_coverage: totalEnergeticCoverage,
+      // "totalProteicCoverage": totalProteicCoverage
+    }
   },
 }

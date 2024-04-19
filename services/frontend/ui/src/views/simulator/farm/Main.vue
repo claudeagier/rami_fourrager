@@ -389,6 +389,7 @@
       applyToSimulation() {
         // this.$store.commit('setRotations', this.rotations)
         this.$store.dispatch('simulator/farm/setTotalAvailablePastureByPeriod')
+        this.$store.dispatch('simulator/farm/dispatchProduction')
       },
     },
   }

@@ -30,8 +30,8 @@
           </template>
           <v-card-text>
             <v-row>
-              <v-col cols="4">
-                <v-card>
+              <v-col cols="3">
+                <v-card id="batch-list">
                   <v-card-text>
                     <v-row>
                       <v-col cols="7"><span class="text-md-h3">Liste des lots</span></v-col>
@@ -52,91 +52,140 @@
                       @add-lot="addLot"
                       @cancel-add-lot="cancelAddLot"
                     />
-                    <v-card
-                      v-for="(lot, index) in lots"
-                      :key="index"
-                    >
-                      <v-card-title>Lot {{ index + 1 }}</v-card-title>
-                      <v-card-text>
-                        <v-row>
-                          <v-col cols="9"> {{ lot.count }} {{ lot.profil.name }} </v-col>
-                          <v-col>
-                            <v-icon
-                              @click="deleteLot(lot)"
-                              medium
-                            >
-                              mdi-delete
-                            </v-icon>
-                            <v-icon
-                              @click="showDetails(index)"
-                              large
-                              :color="pageColor"
-                            >
-                              mdi-play-box-outline
-                            </v-icon>
-                            <!-- <v-btn
+                    <v-divider></v-divider>
+                    <div class="scrollable-list">
+                      <v-card
+                        v-for="(lot, index) in lots"
+                        :key="index"
+                      >
+                        <v-card-title>Lot {{ index + 1 }}</v-card-title>
+                        <v-card-text>
+                          <v-row>
+                            <v-col cols="9"> {{ lot.count }} {{ lot.profil.name }} </v-col>
+                            <v-col>
+                              <v-icon
+                                @click="deleteLot(lot)"
+                                medium
+                              >
+                                mdi-delete
+                              </v-icon>
+                              <v-icon
+                                @click="showDetails(index)"
+                                large
+                                :color="pageColor"
+                              >
+                                mdi-play-box-outline
+                              </v-icon>
+                              <!-- <v-btn
                               @click="showDetails(index)"
                               :color="pageColor"
                             >
                               Voir plus
                             </v-btn> -->
-                          </v-col>
-                        </v-row>
-                      </v-card-text>
-                    </v-card>
+                            </v-col>
+                          </v-row>
+                        </v-card-text>
+                      </v-card>
+                    </div>
                   </v-card-text>
                 </v-card>
               </v-col>
-              <v-col cols="8">
-                <v-card v-if="selectedLot !== null">
+              <v-col cols="9">
+                <v-card
+                  id="batch-details"
+                  v-if="selectedLot !== null"
+                >
                   <v-card-title class="text-center justify-center py-6">
-                    <h1 class="font-weight-bold text-h2">Lot {{ selectedLot + 1 }}</h1>
+                    <v-row>
+                      <v-col cols="7">
+                        <h1 class="font-weight-bold text-h2">Lot {{ selectedLot + 1 }}</h1>
+                      </v-col>
+                      <v-col>
+                        <graphs-modal
+                          :selectedLot="selectedLot"
+                          :pageColor="pageColor"
+                        />
+                        <!-- <v-btn
+                          @click="toggleGraphModal"
+                          :color="pageColor"
+                          outlined
+                        >
+                          {{ $t('herd.details.graph.btn') }}
+                        </v-btn> -->
+                      </v-col>
+                    </v-row>
                   </v-card-title>
                   <v-card-text>
-                    <v-tabs
-                      centered
-                      :color="pageColor"
-                      fixed-tabs
+                    <!-- <div class="vertical-text">Lot {{ selectedLot + 1 }}</div> -->
+                    <v-row
+                      align="center"
+                      justify="start"
                     >
-                      <v-tab
-                        v-for="(tab, tabIndex) in ['Overview', 'Housing', 'Classic Feeds', 'Concentrated Feeds']"
-                        :key="tabIndex"
-                      >
-                        {{ tab }}
-                      </v-tab>
-                      <!-- batch Details -->
-                      <v-tab-item>
-                        <v-divider></v-divider>
-                        <batch-details
-                          :pageColor="pageColor"
-                          :selectedLot="selectedLot"
-                        />
-                      </v-tab-item>
-                      <!-- Housing Details -->
-                      <v-tab-item>
-                        <v-divider></v-divider>
-                        <housing-details
-                          :pageColor="pageColor"
-                          :selectedLot="selectedLot"
-                        />
-                      </v-tab-item>
-                      <!-- Classic Feeds Details -->
-                      <v-tab-item>
-                        <v-divider></v-divider>
-                        <classic-feed
-                          :pageColor="pageColor"
-                          :selectedLot="selectedLot"
-                        />
-                      </v-tab-item>
-                      <!-- Concentrated Feeds Details -->
-                      <v-tab-item>
-                        <v-divider></v-divider>
-                        <concentrated-feed
-                          :pageColor="pageColor"
-                          :selectedLot="selectedLot"
-                        />
-                      </v-tab-item>
-                    </v-tabs>
+                      <v-col cols="12">
+                        <v-tabs
+                          centered
+                          :color="pageColor"
+                          fixed-tabs
+                        >
+                          <v-tab
+                            v-for="(tab, tabIndex) in [
+                              'Overview',
+                              'Housing',
+                              'Classic Feeds',
+                              'Concentrated Feeds',
+                              'Pastures strategy',
+                            ]"
+                            :key="tabIndex"
+                          >
+                            {{ tab }}
+                          </v-tab>
+                          <!-- batch Details -->
+                          <v-tab-item>
+                            <v-divider></v-divider>
+                            <batch-details
+                              :pageColor="pageColor"
+                              :selectedLot="selectedLot"
+                            />
+                          </v-tab-item>
+                          <!-- Housing Details -->
+                          <v-tab-item>
+                            <v-divider></v-divider>
+                            <housing-details
+                              :pageColor="pageColor"
+                              :selectedLot="selectedLot"
+                            />
+                          </v-tab-item>
+                          <!-- Classic Feeds Details -->
+                          <v-tab-item>
+                            <v-divider></v-divider>
+                            <classic-feed
+                              :pageColor="pageColor"
+                              :selectedLot="selectedLot"
+                            />
+                          </v-tab-item>
+                          <!-- Concentrated Feeds Details -->
+                          <v-tab-item>
+                            <v-divider></v-divider>
+                            <concentrated-feed
+                              :pageColor="pageColor"
+                              :selectedLot="selectedLot"
+                            />
+                          </v-tab-item>
+                          <!-- Pasture Details -->
+                          <v-tab-item>
+                            <v-divider></v-divider>
+                            <pasture-details
+                              :pageColor="pageColor"
+                              :selectedLot="selectedLot"
+                            />
+                          </v-tab-item>
+                        </v-tabs>
+                      </v-col>
+                      <v-col>
+                        <!-- <feeds-requirements-graph :selectedLot="selectedLot" />
+                        <feeds-requirements-graph :selectedLot="selectedLot" /> -->
+                      </v-col>
+                    </v-row>
                   </v-card-text>
                 </v-card>
               </v-col>
@@ -154,6 +203,9 @@
   import HerdModal from './HerdModal'
   import HousingDetails from './HousingDetails.vue'
   import BatchDetails from './BatchDetails.vue'
+  import PastureDetails from './PastureDetails'
+  import GraphsModal from './GraphsModal.vue'
+  // import FeedsRequirementsGraph from './FeedsRequirementsGraph.vue'
 
   export default {
     name: 'Herd',
@@ -163,6 +215,9 @@
       ConcentratedFeed,
       ClassicFeed,
       BatchDetails,
+      PastureDetails,
+      GraphsModal,
+      // FeedsRequirementsGraph,
     },
     data() {
       return {
@@ -170,6 +225,7 @@
         animate: false,
         // pour la modale
         showModal: false,
+        showGraphModal: false,
         selectedLot: null,
         rules: {
           required: (val) => !!val || 'Ce champ est requis',
@@ -216,6 +272,9 @@
         // Activez l'animation en modifiant la valeur de la propriété animate
         this.animate = false
       },
+      toggleGraphModal() {
+        this.showGraphModal = true
+      },
       // pour le détail
       showDetails(index) {
         this.selectedLot = index
@@ -258,5 +317,30 @@
   /* Appliquez l'animation au bouton lorsque la classe animate-button est activée */
   .animate-button {
     animation: pulse 0.5s ease 3;
+  }
+
+  .scrollable-list {
+    overflow-y: auto;
+    max-height: calc(70vh - 100px); /* Adjust height according to your needs */
+  }
+
+  .scrollable-list::-webkit-scrollbar {
+    width: 0; /* remove scrollbar width */
+  }
+  .vertical-text {
+    background-color: #f0f0f0; /* Fond gris */
+    color: white;
+    font-size: 10em; /* Taille de la police */
+    font-weight: bold; /* Gras */
+    transform: rotate(-90deg); /* Rotation de 90 degrés */
+    display: flex; /* Utilisation de flexbox */
+    align-items: center; /* Alignement vertical */
+    justify-content: center; /* Alignement horizontal */
+    height: 0.6em;
+    width: auto;
+    /* position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 10; */
   }
 </style>

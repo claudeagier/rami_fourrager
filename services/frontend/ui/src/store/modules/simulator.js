@@ -74,6 +74,11 @@ export default {
     bilan: {},
   },
   mutations: {
+    setSimulation(state, { name, site, climaticYear }) {
+      state.name = name
+      state.site = site
+      state.climaticYear = climaticYear
+    },
     setIsLoading(state, { list, loaded }) {
       state.isLoading[list] = loaded
     },

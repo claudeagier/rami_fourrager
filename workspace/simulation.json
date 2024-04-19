@@ -1,48 +1,8 @@
 {
-  "simulator": {
+  "simulation": {
     "name": "nom de la simulation",
     "site": 17,
     "climaticYear": 49,
-    "allFarmingMethods": {
-      "classicFeeds": {
-        "FH": { "name": "foin", "feedType": "", "unity": "tMS/ha" },
-        "P": { "name": "Pature", "feedType": "", "unity": "kgMS/ha/j" },
-        "EH": { "name": "Ensilage et enrubannage d'herbe", "feedType": "", "unity": "tMS/ha" },
-        "EM": { "name": "Ensilage de maïs et sorgho (riche UF)", "feedType": "", "unity": "tMS/ha" },
-        "EL": { "name": "Ensilage de légumineuses (riche PDI)", "feedType": "", "unity": "tMS/ha" },
-        "FL": { "name": "Foin de légumineuses (riche PDI)", "feedType": "", "unity": "tMS/ha" }
-      },
-      "concentratedFeeds": {
-        "RC": { "name": "Céréales en grain", "feedType": "", "unity": "qtx/ha" },
-        "RP": { "name": "Protéagineux en grain", "feedType": "", "unity": "qtx/ha" }
-      }
-    },
-    "barnStockItems": [
-      { "code": "FH", "name": "foin", "unity": "tMS" },
-      { "code": "P", "name": "Pature", "unity": "kgMS/ha/j" },
-      { "code": "EH", "name": "Ensilage et enrubannage d'herbe", "unity": "tMS" },
-      { "code": "EM", "name": "Ensilage de maïs et sorgho (riche UF)", "unity": "tMS" },
-      { "code": "RC", "name": "Céréales en grain", "unity": "qtx", "concentrated": true },
-      { "code": "RP", "name": "Protéagineux en grain", "unity": "qtx", "concentrated": true },
-      { "code": "AS", "name": "autre stock", "unity": "tMS" },
-      { "code": "EL", "name": "Ensilage de légumineuses (riche PDI)", "unity": "tMS" },
-      { "code": "FL", "name": "Foin de légumineuses (riche PDI)", "unity": "tMS" }
-    ],
-    "periods": [
-      { "id": 1, "name": "P1" },
-      { "id": 2, "name": "P2" },
-      { "id": 3, "name": "P3" },
-      { "id": 4, "name": "P4" },
-      { "id": 5, "name": "P5" },
-      { "id": 6, "name": "P6" },
-      { "id": 7, "name": "P7" },
-      { "id": 8, "name": "P8" },
-      { "id": 9, "name": "P9" },
-      { "id": 10, "name": "P10" },
-      { "id": 11, "name": "P11" },
-      { "id": 12, "name": "P12" },
-      { "id": 13, "name": "P13" }
-    ],
     "farm": {
       "rotations": [
         {
@@ -417,11 +377,11 @@
       }
     },
     "barn": {
-      "totalStock": [
-        { "code": "FH", "name": "foin", "quantity": { "tons": 58 } },
-        { "code": "FH", "name": "foin", "quantity": { "tons": 58 } },
-        { "code": "EH", "name": "Ensilage et enrubannage d'herbe", "quantity": { "tons": 79 } },
-        { "code": "EM", "name": "Ensilage de maïs et sorgho (riche UF)", "quantity": { "tons": 66 } }
+      "initialStock": [
+        { "code": "FH", "name": "foin", "quantity": 58 },
+        { "code": "FH", "name": "foin", "quantity": 58 },
+        { "code": "EH", "name": "Ensilage et enrubannage d'herbe", "quantity": 79 },
+        { "code": "EM", "name": "Ensilage de maïs et sorgho (riche UF)", "quantity": 66 }
       ]
     },
     "herd": {
