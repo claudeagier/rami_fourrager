@@ -25,15 +25,35 @@ const deepEqual = (obj1, obj2) => {
 // ok
 const calculateTotalUE = (UEcolumn, feeds) => {
   const precision = 4
-  return Object.values(feeds).reduce((acc, curr) => {
-    const DEF = fixFloatingPoint((curr.proportion / 100) * curr.type.nutritional_values[UEcolumn], precision)
+
+  const totalProportion = Object.values(feeds).reduce((acc, curr) => {
+    return fixFloatingPoint(acc + curr.proportion / 100, 15)
+  }, 0.0)
+  console.log('totalProportion', totalProportion)
+  if (totalProportion < 1) {
+    return 1
+  }
+
+  const val = Object.values(feeds).reduce((acc, curr) => {
+    var DEF = 0
+    if (curr.proportion > 0 && curr.type.nutritional_values[UEcolumn]) {
+      DEF = fixFloatingPoint((curr.proportion / 100) * curr.type.nutritional_values[UEcolumn], precision)
+    }
     return acc + DEF
   }, 0.0)
+  return val > 0 ? val : 1
 }
 // H233 besoin MS
+// pourquoi est il fonction de totalUE des rations, le besoins de la vache devrait être indépendant.?
+// réponse le besoin en matière sèche dépend des valeurs nutritives des aliments apportés aliments apportés
 // ok
-const calculateBesoinMS = (ci = 1, ueColumn, feeds) => {
-  return fixFloatingPoint(ci / calculateTotalUE(ueColumn, feeds), 4)
+const calculateBesoinMS = (ci = 1, toModerate = false, potential = 1, ueColumn, feeds) => {
+  var moderator = 1
+  if (toModerate) {
+    moderator = 0.1582 * potential + 0.8392
+  }
+  const moderatedCI = ci * moderator
+  return fixFloatingPoint(moderatedCI / calculateTotalUE(ueColumn, feeds), 4)
 }
 // H234
 const calculateEnergeticBesoin = (ufl, toModerate = false, potential = 1) => {
@@ -69,7 +89,10 @@ const getUFPasturesByPeriodBefore = (batch, totalAvailablePastureByPeriod) => {
       var DEF = 0
       if (curr.type.name === 'Pâture') {
         // ajout des patures
-        if (totalAvailablePastureByPeriod['period_id_' + periodId] === undefined) {
+        if (
+          totalAvailablePastureByPeriod === null ||
+          totalAvailablePastureByPeriod['period_id_' + periodId] === undefined
+        ) {
           console.error('farm dimensionning is not apply to the simulation')
           return
         }
@@ -115,17 +138,20 @@ const getUFFeedsByPeriod = (batch, after = false) => {
     console.error('batch_not_found')
     return
   }
+  const UFcolumn = batch.profil.batch_type.UF_value_considered
+  const UEcolumn = batch.profil.batch_type.UE_value_considered
 
   return batch.classicFeeds.map(({ period, feeds }, index) => {
     const batchValuesForPeriod = batch.profil.animal_profil_periods[index]
-    const UFcolumn = batch.profil.batch_type.UF_value_considered
-    const UEcolumn = batch.profil.batch_type.UE_value_considered
+    const toModerate = batch.profil.batch_type.code === 'VL'
+    const potential = 1
+
     const sumUF = Object.values(feeds).reduce((acc, curr) => {
       var UF = 0
       if (curr.type.name !== 'Pâture') {
         if (after) {
           // ( H254 = proportion * (H233 = besoin MS)) * uf ration correspondant
-          const besoinMS = calculateBesoinMS(batchValuesForPeriod.CI, UEcolumn, feeds) // ok
+          const besoinMS = calculateBesoinMS(batchValuesForPeriod.CI, toModerate, potential, UEcolumn, feeds) // ok
           UF = fixFloatingPoint((curr.proportion / 100) * curr.type.nutritional_values[UFcolumn] * besoinMS, precision)
           // console.log('period %d - def: %d', period.id, UF)
         } else {
@@ -288,7 +314,10 @@ export default {
         // on calcule l'UF pour l'ensemble des patures
         var PDI = 0
         if (curr.type.name === 'Pâture') {
-          if (rootState.simulator.farm.totalAvailablePastureByPeriod['period_id_' + periodId] === undefined) {
+          if (
+            rootState.simulator.farm.totalAvailablePastureByPeriod === null ||
+            rootState.simulator.farm.totalAvailablePastureByPeriod['period_id_' + periodId] === undefined
+          ) {
             console.error('farm dimensionning is not apply to the simulation')
             return
           }
@@ -489,7 +518,9 @@ export default {
       // la quantité de matière sèche de chaque aliment
       const batchValuesForPeriod = batch.profil.animal_profil_periods[index]
       const feeds = batch.classicFeeds[index].feeds
-      const besoinMS = calculateBesoinMS(batchValuesForPeriod.CI, UEcolumn, feeds) // ok
+      const toModerate = batch.profil.batch_type.code === 'VL'
+      const potential = 1
+      const besoinMS = calculateBesoinMS(batchValuesForPeriod.CI, toModerate, potential, UEcolumn, feeds) // ok
       dryMatterNeeded.data[index] = _.floor(besoinMS, 1)
 
       feeds.forEach((feed) => {

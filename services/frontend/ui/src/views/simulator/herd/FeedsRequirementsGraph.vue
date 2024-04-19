@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-card>
     <div class="text-6 font-weight-medium">
       {{ $t('herd.details.graph.title') }}
     </div>
@@ -9,8 +9,9 @@
       autoresize
       theme="infographic"
       @mouseover="handleMouseOver"
+      :init-options="initOptions"
     />
-  </v-container>
+  </v-card>
 </template>
 
 <script>
@@ -52,6 +53,9 @@
         getProteicCoverageValues: 'getProteicCoverageByBatch',
         getDryMatterProvided: 'getDryMatterProvided',
       }),
+      initOptions() {
+        return { width: 600, height: 400 }
+      },
 
       options() {
         // const periods = this.periods
@@ -105,7 +109,6 @@
           // },
           yAxis: {
             type: 'value',
-            max: 20,
           },
           xAxis: {
             type: 'category',
@@ -145,8 +148,8 @@
 </script>
 
 <style scoped>
-  .feeds-requirements-chart {
+  /* .feeds-requirements-chart {
     height: 20em;
     width: 40em;
-  }
+  } */
 </style>

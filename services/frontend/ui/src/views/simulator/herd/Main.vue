@@ -101,17 +101,18 @@
                         <h1 class="font-weight-bold text-h2">Lot {{ selectedLot + 1 }}</h1>
                       </v-col>
                       <v-col>
-                        <graphs-modal
+                        <!-- <graphs-modal
                           :selectedLot="selectedLot"
                           :pageColor="pageColor"
-                        />
-                        <!-- <v-btn
+                        /> -->
+
+                        <v-btn
                           @click="toggleGraphModal"
                           :color="pageColor"
                           outlined
                         >
                           {{ $t('herd.details.graph.btn') }}
-                        </v-btn> -->
+                        </v-btn>
                       </v-col>
                     </v-row>
                   </v-card-title>
@@ -204,8 +205,8 @@
   import HousingDetails from './HousingDetails.vue'
   import BatchDetails from './BatchDetails.vue'
   import PastureDetails from './PastureDetails'
-  import GraphsModal from './GraphsModal.vue'
-  // import FeedsRequirementsGraph from './FeedsRequirementsGraph.vue'
+  // import GraphsModal from './GraphsModal.vue'
+  import FeedsRequirementsGraph from './FeedsRequirementsGraph.vue'
 
   export default {
     name: 'Herd',
@@ -216,7 +217,7 @@
       ClassicFeed,
       BatchDetails,
       PastureDetails,
-      GraphsModal,
+      // GraphsModal,
       // FeedsRequirementsGraph,
     },
     data() {
@@ -274,6 +275,11 @@
       },
       toggleGraphModal() {
         this.showGraphModal = true
+        this.$modal.show(
+          FeedsRequirementsGraph,
+          { selectedLot: this.selectedLot, pageColor: this.pageColor },
+          { draggable: true }
+        )
       },
       // pour le détail
       showDetails(index) {
