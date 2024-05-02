@@ -116,7 +116,7 @@ const getAvailableGreenPastureByAnimal = (batch) => {
 }
 
 // 243 Pâture reportée disponible (kgMS/animal Lot1/j) les valeurs à afficher dans la simu
-const getAvailableCarryoverPastureByAnimal = (batch) => {}
+const getAvailableCarryOverPastureByAnimal = (batch) => {}
 
 // H249 uf apporté par les patures
 // il faut intégrer la stratégie de report

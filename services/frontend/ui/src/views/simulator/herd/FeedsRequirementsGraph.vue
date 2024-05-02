@@ -1,17 +1,12 @@
 <template>
-  <v-card>
-    <div class="text-6 font-weight-medium">
-      {{ $t('herd.details.graph.title') }}
-    </div>
-    <v-chart
-      class="feeds-requirements-chart"
-      :option="options"
-      autoresize
-      theme="infographic"
-      @mouseover="handleMouseOver"
-      :init-options="initOptions"
-    />
-  </v-card>
+  <v-chart
+    class="feeds-requirements-chart"
+    :option="options"
+    autoresize
+    theme="infographic"
+    @mouseover="handleMouseOver"
+    :init-options="initOptions"
+  />
 </template>
 
 <script>
@@ -59,10 +54,8 @@
 
       options() {
         // const periods = this.periods
-        var series = []
         const periods = ['P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8', 'P9', 'P10', 'P11', 'P12', 'P13']
 
-        const rows = ['Protéique', 'Energétique']
         const data = this.getDryMatterProvided(this.selectedLot)
         console.log('data', data)
         var dryMatterProvidedPerFeedSeries = Object.values(data.dry_matter_provided_per_feed).map((feed) => {
@@ -73,10 +66,10 @@
             label: {
               show: false,
             },
-            emphasis: {
-              focus: 'item',
-              blurScope: 'global',
-            },
+            // emphasis: {
+            //   focus: 'serie',
+            //   blurScope: 'global',
+            // },
             tooltip: {
               valueFormatter: function (value) {
                 return value + ' kgMS'
@@ -88,18 +81,20 @@
         const colors = ['#5470C6', '#EE6666']
 
         return {
-          // tooltip: {
-          //   axisPointer: {
-          //     // Use axis to trigger tooltip
-          //     type: 'cross', // 'shadow' as default; can also be 'line' or 'shadow'
-          //   },
-          //   // formatter: '{a0} : {c0}',
-          //   // formatter: function (params) {
-          //   //   // console.log('params', params)
-          //   //   return TooltipGraph
-          //   // },
-          //   position: ['50%', '50%'],
-          // },
+          tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+              // Use axis to trigger tooltip
+              type: 'shadow', // 'shadow' as default; can also be 'line' or 'shadow'
+            },
+            triggerOn: 'click',
+            // formatter: '{a0} : {c0}',
+            // formatter: function (params) {
+            //   // console.log('params', params)
+            //   return TooltipGraph
+            // },
+            // position: ['50%', '50%'],
+          },
           // legend: {},
           // grid: {
           //   left: '3%',
@@ -107,6 +102,9 @@
           //   bottom: '3%',
           //   containLabel: true,
           // },
+          title: {
+            text: this.$t('herd.details.graph.title'),
+          },
           yAxis: {
             type: 'value',
           },
@@ -123,9 +121,9 @@
                 name: 'besoin MS',
                 type: 'line',
                 data: data.dry_matter_needed.data,
-                emphasis: {
-                  focus: 'serie',
-                },
+                // emphasis: {
+                //   focus: 'serie',
+                // },
                 smooth: true,
                 tooltip: {
                   valueFormatter: function (value) {

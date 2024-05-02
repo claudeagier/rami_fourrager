@@ -1,12 +1,30 @@
 <template>
-  <modal
-    :width="300"
-    :height="300"
-    :adaptive="true"
+  <v-dialog
+    v-model="showModal"
+    max-width="55em"
+    persistent
+    content-class="graph-modal"
+    hide-overlay
+    no-click-animation
   >
-    <feeds-requirements-graph :selectedLot="selectedLot" />
-  </modal>
+    <template v-slot:activator="{ on }">
+      <v-btn
+        class="mr-2"
+        :color="pageColor"
+        outlined
+        v-on="on"
+      >
+        {{ $t('herd.details.graph.btn') }}
+      </v-btn>
+    </template>
+    <v-card>
+      <v-card-text>
+        <feeds-requirements-graph :selectedLot="selectedLot" />
+      </v-card-text>
+    </v-card>
+  </v-dialog>
 </template>
+
 <script>
   import FeedsRequirementsGraph from './FeedsRequirementsGraph.vue'
 
@@ -51,6 +69,5 @@
     top: 0 !important;
     left: 0 !important;
     position: fixed !important;
-    overscroll-behavior: contain;
   }
 </style>
