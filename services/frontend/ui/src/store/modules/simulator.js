@@ -7,6 +7,7 @@ export default {
   namespaced: true,
   state: {
     simulationName: 'nom de la simulation',
+    createdAt: '',
     site: null,
     climaticYear: null,
     // TODO-BACK à aller chercher dans la base
@@ -75,7 +76,7 @@ export default {
   },
   mutations: {
     setSimulation(state, { name, site, climaticYear }) {
-      state.name = name
+      state.simulationName = name
       state.site = site
       state.climaticYear = climaticYear
     },
@@ -119,34 +120,70 @@ export default {
     },
   },
   actions: {
-    async fetchPeriods({ commit }) {
+    async fetchPeriods({ commit, dispatch }) {
       try {
         const response = await axios.get('/lists/period') // ajuster l'URL de l'API
         commit('setPeriods', response.data)
+        dispatch(
+          'toaster/addNotification',
+          {
+            message: 'notifications.fetch.period.success',
+            color: 'success', // ou 'error', 'warning', 'info', etc.
+            show: true,
+          },
+          { root: true }
+        )
       } catch (error) {
         console.error('Error fetching periods:', error)
+        dispatch(
+          'toaster/addNotification',
+          {
+            message: 'notifications.fetch.period.error',
+            color: 'error', // ou 'error', 'warning', 'info', etc.
+            show: true,
+          },
+          { root: true }
+        )
       }
     },
 
-    async fetchSites({ commit }) {
+    async fetchSites({ commit, dispatch }) {
       try {
         const response = await axios.get('/lists/site') // ajuster l'URL de l'API
         commit('setSites', response.data)
       } catch (error) {
         console.error('Error fetching sites:', error)
+        dispatch(
+          'toaster/addNotification',
+          {
+            message: 'notifications.fetch.sites.error',
+            color: 'error', // ou 'error', 'warning', 'info', etc.
+            show: true,
+          },
+          { root: true }
+        )
       }
     },
 
-    async fetchClimaticYears({ commit }, siteId) {
+    async fetchClimaticYears({ commit, dispatch }, siteId) {
       try {
         const response = await axios.get(`/climatic-years?siteId=${siteId}`) // ajuster l'URL de l'API
         commit('setClimaticYears', response.data)
       } catch (error) {
         console.error('Error fetching climatic years:', error)
+        dispatch(
+          'toaster/addNotification',
+          {
+            message: 'notifications.fetch.climaticYears.error',
+            color: 'error', // ou 'error', 'warning', 'info', etc.
+            show: true,
+          },
+          { root: true }
+        )
       }
     },
 
-    async fetchStics({ commit }, climaticYearId) {
+    async fetchStics({ commit, dispatch }, climaticYearId) {
       // const climaticYearId = 1
       commit('setIsLoading', { list: 'sticList', loaded: true })
       try {
@@ -155,51 +192,105 @@ export default {
         commit('setStics', response.data)
       } catch (error) {
         console.error('Error fetching climatic years:', error)
+        dispatch(
+          'toaster/addNotification',
+          {
+            message: 'notifications.fetch.stics.error',
+            color: 'error', // ou 'error', 'warning', 'info', etc.
+            show: true,
+          },
+          { root: true }
+        )
       }
     },
 
-    async fetchBatchTypes({ commit }) {
+    async fetchBatchTypes({ commit, dispatch }) {
       try {
         const response = await axios.get('/lists/batch-type')
         commit('setBatchTypes', response.data)
       } catch (error) {
         console.error('Error fetching batch types:', error)
+        dispatch(
+          'toaster/addNotification',
+          {
+            message: 'notifications.fetch.batchTypes.error',
+            color: 'error', // ou 'error', 'warning', 'info', etc.
+            show: true,
+          },
+          { root: true }
+        )
       }
     },
 
-    async fetchAnimalProfils({ commit }, batchTypeId) {
+    async fetchAnimalProfils({ commit, dispatch }, batchTypeId) {
       try {
         const response = await axios.get(`/animal-profiles?batchTypeId=${batchTypeId}`) // ajuster l'URL de l'API
         commit('setAnimalProfils', response.data)
       } catch (error) {
         commit('setAnimalProfils', [])
+        dispatch(
+          'toaster/addNotification',
+          {
+            message: 'notifications.fetch.animalProfils.error',
+            color: 'error', // ou 'error', 'warning', 'info', etc.
+            show: true,
+          },
+          { root: true }
+        )
       }
     },
 
-    async fetchFeedTypes({ commit }) {
+    async fetchFeedTypes({ commit, dispatch }) {
       try {
         const response = await axios.get('/lists/feed-type')
         commit('setFeedTypes', response.data)
       } catch (error) {
         console.error('Error fetching feed types:', error)
+        dispatch(
+          'toaster/addNotification',
+          {
+            message: 'notifications.fetch.feedTypes.error',
+            color: 'error', // ou 'error', 'warning', 'info', etc.
+            show: true,
+          },
+          { root: true }
+        )
       }
     },
 
-    async fetchConcentratedFeeds({ commit }) {
+    async fetchConcentratedFeeds({ commit, dispatch }) {
       try {
         const response = await axios.get('/lists/concentrated-feed')
         commit('setConcentratedFeeds', response.data)
       } catch (error) {
         console.error('Error fetching concentrated feeds:', error)
+        dispatch(
+          'toaster/addNotification',
+          {
+            message: 'notifications.fetch.cocentratedFeeds.error',
+            color: 'error', // ou 'error', 'warning', 'info', etc.
+            show: true,
+          },
+          { root: true }
+        )
       }
     },
 
-    async fetchHousingTypes({ commit }) {
+    async fetchHousingTypes({ commit, dispatch }) {
       try {
         const response = await axios.get('/lists/housing-type')
         commit('setHousingTypes', response.data)
       } catch (error) {
         console.error('Error fetching housing types:', error)
+        dispatch(
+          'toaster/addNotification',
+          {
+            message: 'notifications.fetch.housingTypes.error',
+            color: 'error', // ou 'error', 'warning', 'info', etc.
+            show: true,
+          },
+          { root: true }
+        )
       }
     },
   },

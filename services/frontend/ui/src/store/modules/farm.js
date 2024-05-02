@@ -132,10 +132,19 @@ export default {
       const totalAvailablePastureByPeriod = mixins.setTotalAvailablePasture(state, rootState)
       commit('setTotalAvailablePastureByPeriod', totalAvailablePastureByPeriod)
     },
-    dispatchProduction({ state, rootState, commit }) {
+    dispatchProduction({ state, rootState, commit, dispatch }) {
       const production = mixins.dispatchProduction(state, rootState)
       commit('simulator/barn/setTotalStock', production.totalBarnStock, { root: true })
       commit('simulator/barn/setStockByPeriod', production.barnStockByPeriod, { root: true })
+      dispatch(
+        'toaster/addNotification',
+        {
+          message: 'notifications.farm.apply_success',
+          color: 'success', // ou 'error', 'warning', 'info', etc.
+          show: true,
+        },
+        { root: true }
+      )
     },
   },
 }

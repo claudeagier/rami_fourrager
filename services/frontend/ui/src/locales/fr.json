@@ -114,6 +114,26 @@
     }
   },
   "notifications": {
-    "simulation_loaded_success": "La simulation a été chargé"
+    "simulation_loaded_success": "La simulation a été chargé",
+    "farm": { "apply_success": "les modifications sont appliquées à la simulation" },
+    "barn": {
+      "apply_success": "les modifications sont appliquées à la simulation",
+      "delete_item": "Elément supprimé"
+    },
+    "herd": {
+      "apply_success": "les modifications sont appliquées à la simulation",
+      "delete_batch_success": "Le lot a été supprimé"
+    },
+    "fetch": {
+      "period": { "success": "", "error": "Error fetching periods" },
+      "sites": { "success": "", "error": "Error fetching sites" },
+      "climaticYears": { "success": "", "error": "Error fetching climatic years" },
+      "stics": { "success": "", "error": "Error fetching stics" },
+      "batchTypes": { "success": "", "error": "Error fetching batch types" },
+      "animalProfils": { "success": "", "error": "Error fetching animal profils" },
+      "feedTypes": { "success": "", "error": "Error fetching feed types" },
+      "cocentratedFeeds": { "success": "", "error": "Error fetching concentrated feeds" },
+      "housingTypes": { "success": "", "error": "Error fetching housing types" }
+    }
   }
 }
