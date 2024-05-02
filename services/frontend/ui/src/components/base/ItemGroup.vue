@@ -35,7 +35,6 @@
         v-else
         :key="`item-${i}`"
         :item="child"
-        text
       />
     </template>
   </v-list-group>
@@ -73,33 +72,34 @@
 
     computed: {
       ...mapState(['barColor']),
-      children () {
-        return this.item.children.map(item => ({
+      children() {
+        return this.item.children.map((item) => ({
           ...item,
           to: !item.to ? undefined : `${this.item.group}/${item.to}`,
         }))
       },
-      computedText () {
+      computedText() {
+        console.log('item', this.item)
         if (!this.item || !this.item.title) return ''
 
         let text = ''
 
-        this.item.title.split(' ').forEach(val => {
+        this.item.title.split(' ').forEach((val) => {
           text += val.substring(0, 1)
         })
 
         return text
       },
-      group () {
+      group() {
         return this.genGroup(this.item.children)
       },
     },
 
     methods: {
-      genGroup (children) {
+      genGroup(children) {
         return children
-          .filter(item => item.to)
-          .map(item => {
+          .filter((item) => item.to)
+          .map((item) => {
             const parent = item.group || this.item.group
             let group = `${parent}/${kebabCase(item.to)}`
 
@@ -108,14 +108,15 @@
             }
 
             return group
-          }).join('|')
+          })
+          .join('|')
       },
     },
   }
 </script>
 
 <style>
-.v-list-group__activator p {
-  margin-bottom: 0;
-}
+  .v-list-group__activator p {
+    margin-bottom: 0;
+  }
 </style>
