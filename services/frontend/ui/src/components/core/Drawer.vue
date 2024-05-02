@@ -77,27 +77,28 @@
 
     data: () => ({
       items: [
+        { title: 'Workspace', icon: 'mdi-folder-cog-outline', to: '/workspace' },
         {
           title: 'Simulation',
-          icon: 'mdi-view-dashboard',
+          icon: 'mdi-head-cog-outline',
           to: '/',
           group: '',
           children: [
-            { title: 'dashboard', to: 'simulation' },
-            { title: 'barn.title', to: 'barn' },
-            { title: 'farm.title', to: 'farm' },
-            { title: 'herd.title', to: 'herd' },
-            { title: 'notifications', to: 'notifications' },
+            { title: 'dashboard', to: 'simulation', icon: 'mdi-view-dashboard' },
+            { title: 'barn.title', to: 'barn', icon: 'mdi-silo-outline' },
+            { title: 'farm.title', to: 'farm', icon: 'mdi-land-plots' },
+            { title: 'herd.title', to: 'herd', icon: 'mdi-cow' },
+            // { title: 'Notifications', to: 'notifications' },
           ],
         },
         {
-          icon: 'mdi-account',
+          icon: 'mdi-account-outline',
           title: 'user',
           to: '/user/profile',
         },
         {
           title: 'users',
-          icon: 'mdi-clipboard-outline',
+          icon: 'mdi-account-multiple-plus-outline',
           to: '/user/list',
         },
         // {

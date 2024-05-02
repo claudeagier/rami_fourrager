@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from '../views/auth/Login'
 import Register from '../views/auth/Register'
+import Workspace from '../views/workspace/Index'
 import store from '@/store'
 Vue.use(VueRouter)
 
@@ -20,6 +21,23 @@ const routes = [
     path: '/',
     component: () => import('@/views/Index'),
     children: [
+      // Workspace
+      {
+        name: 'workspace',
+        path: 'workspace',
+        component: () => import('@/views/workspace/Index'),
+        meta: {
+          breadCrumb(route) {
+            // const paramToPageB = route.params.paramToPageB;
+            return [
+              {
+                text: 'breadcrumb.workspace',
+                to: { name: 'workspace' },
+              },
+            ]
+          },
+        },
+      },
       // Dashboard
       {
         name: 'simulation',
@@ -136,21 +154,16 @@ const routes = [
         },
       },
       // // Maps
-      {
-        name: 'notifications',
-        path: '/notifications',
-        component: () => import('@/components/examples/Notifications'),
-      },
+      // {
+      //   name: 'notifications',
+      //   path: '/notifications',
+      //   component: () => import('@/components/examples/Notifications'),
+      // },
     ],
     meta: {
       requiresAuth: true,
     },
   },
-  // {
-  //   path: '/home',
-  //   name: 'home',
-  //   component: Home,
-  // },
   // {
   //   path: '/about',
   //   name: 'About',

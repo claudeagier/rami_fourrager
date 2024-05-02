@@ -4,9 +4,6 @@
     fluid
     tag="section"
   >
-    <div>
-      <workspace-export />
-    </div>
     <!-- <div>{{ simulator.simulationName }}</div> -->
     <v-row>
       <v-col
@@ -119,22 +116,6 @@
           >
             La Ferme
           </v-btn>
-          <!--
-          <p class="d-inline-flex font-weight-light ml-2 mt-1">
-            Last Last Campaign Performance
-          </p> -->
-
-          <!-- <template v-slot:actions>
-            <v-icon
-              class="mr-1"
-              small
-            >
-              mdi-clock-outline
-            </v-icon>
-            <span class="text-caption grey--text font-weight-light">
-              campaign sent 26 minutes ago
-            </span>
-          </template> -->
         </base-material-chart-card>
       </v-col>
       <!-- herd -->
@@ -188,22 +169,6 @@
           >
             Le troupeau
           </v-btn>
-          <!--
-          <p class="d-inline-flex font-weight-light ml-2 mt-1">
-            Last Last Campaign Performance
-          </p> -->
-
-          <!-- <template v-slot:actions>
-            <v-icon
-              class="mr-1"
-              small
-            >
-              mdi-clock-outline
-            </v-icon>
-            <span class="text-caption grey--text font-weight-light">
-              campaign sent 26 minutes ago
-            </span>
-          </template> -->
         </base-material-chart-card>
       </v-col>
     </v-row>
@@ -212,11 +177,10 @@
 
 <script>
   import { mapState, mapGetters, mapMutations } from 'vuex'
-  import WorkspaceExport from './WorkspaceExport.vue'
 
   export default {
     name: 'Dashboard',
-    components: { WorkspaceExport },
+    components: {},
     data() {
       return {
         dataCompletedTasksChart: {
@@ -289,33 +253,6 @@
         availablePastures: 'getAvailablePasture',
       }),
       farmGraph() {
-        // const rotations = this.$store.getters.farmRotation
-        // const rotationExample = {
-        //   soil: 'code baguettes',
-        //   name: 'nom de la baguette',
-        //   constraint: 'constraintSurfaces_key or null',
-        //   surface: 15,
-        //   stic: {
-        //     // les autres champs de stic db
-        //     stic_period: [
-        //       {
-        //         id: 1,
-        //         period_id: 1,
-        //         production: 2.5,
-        //         farming_method: 'P',
-        //       },
-        //     ],
-        //   },
-        // }
-        // rotations.forEach((rot) => {
-        //   const periods = rot.stic.stic_period
-        //   const count = Array.from({ length: periods.length }, () => 0)
-        //   for (let i = 0; i < periods; i++) {
-        //     if (periods[i].farming_method === 'P') {
-        //       count[periods[i].period_id] += periods[i].production // float
-        //     }
-        //   }
-        // })
         const periods = ['P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8', 'P9', 'P10', 'P11', 'P12', 'P13']
         const graph = {
           type: 'Bar',
