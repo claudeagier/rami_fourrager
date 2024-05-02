@@ -21,7 +21,6 @@
   "login": "Login Page",
   "maps": "Maps",
   "multi": "Multi Level Collapse",
-  "notifications": "Notifications",
   "pages": "Pages",
   "plan": "Choose Plan",
   "pricing": "Pricing",
@@ -44,6 +43,8 @@
   "wizard": "Wizard",
   "concentrated_feed": "Aliments concentrés",
   "Simulation": "Simulation",
+  "Workspace": "Espace de travail",
+  "Notifications": "Notifications",
   "Users": "Utilisateurs",
   "Profil": "Profil",
   "btn": {
@@ -52,6 +53,7 @@
     "add": "Ajouter"
   },
   "breadcrumb": {
+    "workspace": "Espace de travail",
     "simulation": "Simulation",
     "farm": "Ferme",
     "barn": "Grange",
@@ -110,5 +112,8 @@
     "details": {
       "graph": { "title": "Besoins en matière sèche", "btn": "Afficher les graphiques" }
     }
+  },
+  "notifications": {
+    "simulation_loaded_success": "La simulation a été chargé"
   }
 }

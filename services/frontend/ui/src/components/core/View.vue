@@ -1,5 +1,7 @@
 <template>
   <v-main>
+    <app-core-toaster />
+
     <router-view />
 
     <app-core-footer />
@@ -11,6 +13,7 @@
     name: 'AppCoreView',
 
     components: {
+      AppCoreToaster: () => import('@/components/core/Toaster'),
       AppCoreFooter: () => import('./Footer'),
     },
   }
