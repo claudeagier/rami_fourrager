@@ -450,7 +450,7 @@
               "UF_value_considered": "UFL",
               "UF_concentrated_value_considered": "UFL"
             },
-            "animal_profil_periods": [
+            "animal_profile_periods": [
               {
                 "period_id": 1,
                 "CI": 16.9051044578752,

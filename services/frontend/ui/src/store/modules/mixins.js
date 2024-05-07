@@ -142,7 +142,7 @@ const getUFFeedsByPeriod = (batch, after = false) => {
   const UEcolumn = batch.profil.batch_type.UE_value_considered
 
   return batch.classicFeeds.map(({ period, feeds }, index) => {
-    const batchValuesForPeriod = batch.profil.animal_profil_periods[index]
+    const batchValuesForPeriod = batch.profil.animal_profile_periods[index]
     const toModerate = batch.profil.batch_type.code === 'VL'
     const potential = 1
 
@@ -199,12 +199,12 @@ const getFinalEnergeticCoverage = function (state, rootState, batchId) {
   const h249 = getUFPasturesByPeriod(batch, rootState.simulator.farm.totalAvailablePastureByPeriod)
 
   // par periode
-  rootState.simulator.periods.forEach((period, index) => {
+  rootState.referential.periods.forEach((period, index) => {
     const periodId = period.id
     const toModerate = batch.profil.batch_type.code === 'VL'
     const potential = 1
     // par period
-    const aprpr = batch.profil.animal_profil_periods.find((element) => element.period_id === periodId)
+    const aprpr = batch.profil.animal_profile_periods.find((element) => element.period_id === periodId)
     const ufl = aprpr.UFL
     // H274 = H272+H267+h249 UF total
     const h274 = h272[index] + h267[index] + h249[index]
@@ -238,7 +238,7 @@ export default {
 
     var energeticCoverage = feedsByPeriod.map(({ period, feeds }, index) => {
       const periodId = period.id
-      const aprpr = batch.profil.animal_profil_periods.find((element) => element.period_id === periodId)
+      const aprpr = batch.profil.animal_profile_periods.find((element) => element.period_id === periodId)
 
       var sumUF = pastureUF[index] + feedsUF[index]
       // if (withConcentrated) {
@@ -306,7 +306,7 @@ export default {
     // console.log('getEC profil', batch.profil)
     var proteicCoverage = feedsByPeriod.map(({ period, feeds }, index) => {
       const periodId = period.id
-      const aprpr = batch.profil.animal_profil_periods.find((element) => element.period_id === periodId)
+      const aprpr = batch.profil.animal_profile_periods.find((element) => element.period_id === periodId)
 
       //    H237= somme pour chaque ration :UFL de la ration (en fonction du type d’animaux on ne prend pas la même colonne)* le pourcentage de ration
       const sumPDI = Object.values(feeds).reduce((acc, curr) => {
@@ -387,7 +387,7 @@ export default {
   setTotalAvailablePasture: (state, rootState) => {
     const precision = 15
     const totalAvailablePastureByPeriod = {}
-    rootState.simulator.periods.forEach((period) => {
+    rootState.referential.periods.forEach((period) => {
       const key = 'period_id_' + period.id
 
       const total = Object.values(state.rotations).reduce((total, rotation) => {
@@ -437,8 +437,8 @@ export default {
     var totalBarnStock = []
     var barnStockByPeriod = Array.from({ length: 13 }, () => null)
     const precision = 15
-    const barnStockItems = rootState.simulator.barnStockItems
-    for (let index = 0; index < rootState.simulator.periods.length; index++) {
+    const barnStockItems = rootState.referential.barnStockItems
+    for (let index = 0; index < rootState.referential.periods.length; index++) {
       for (const rotation of state.rotations) {
         const sp = rotation.stic.stic_periods[index]
         if (sp.farming_method !== '' && sp.production > 0) {
@@ -462,7 +462,7 @@ export default {
           const barnStockPeriod = barnStockByPeriod[index]
           if (barnStockPeriod === null) {
             const stockByPeriod = {
-              period_id: rootState.simulator.periods[index].id,
+              period_id: rootState.referential.periods[index].id,
               stock: [
                 {
                   ...barnStockItems.find((item) => item.code === sp.farming_method),
@@ -506,7 +506,7 @@ export default {
     var dryMatterProvidedPerFeed = {
       P: { name: 'Pâture', data: Array.from({ length: 13 }, () => 0) },
     }
-    rootState.simulator.barnStockItems.forEach((item) => {
+    rootState.referential.barnStockItems.forEach((item) => {
       if (item.code !== 'RC' && item.code !== 'RP') {
         dryMatterProvidedPerFeed[item.code] = { name: item.name, data: Array.from({ length: 13 }, () => 0) }
       }
@@ -514,9 +514,9 @@ export default {
 
     var dryMatterNeeded = { name: 'dryMatterNeeded', data: [] }
 
-    rootState.simulator.periods.forEach((period, index) => {
+    rootState.referential.periods.forEach((period, index) => {
       // la quantité de matière sèche de chaque aliment
-      const batchValuesForPeriod = batch.profil.animal_profil_periods[index]
+      const batchValuesForPeriod = batch.profil.animal_profile_periods[index]
       const feeds = batch.classicFeeds[index].feeds
       const toModerate = batch.profil.batch_type.code === 'VL'
       const potential = 1

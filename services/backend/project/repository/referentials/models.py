@@ -1,4 +1,5 @@
 from project import db, bcrypt
+from datetime import datetime, timezone
 
 
 class Period(db.Model):
@@ -10,8 +11,13 @@ class Period(db.Model):
     start_at = db.Column(db.String(100))
     end_at = db.Column(db.String(100))
     stic_periods = db.relationship('SticPeriod', backref='period', lazy=True)
-    animal_profil_periods = db.relationship(
-        'AnimalProfilPeriod', backref='period', lazy=True)
+    animal_profile_periods = db.relationship(
+        'AnimalProfilePeriod', backref='period', lazy=True)
+
+    created_at = db.Column(db.DateTime, default=datetime.now(timezone.utc))
+    updated_at = db.Column(
+        db.DateTime, default=datetime.now(timezone.utc), onupdate=datetime.now(timezone.utc))
+    deleted_at = db.Column(db.DateTime, nullable=True)
 
 
 class SticPeriod(db.Model):
@@ -41,6 +47,11 @@ class Stic(db.Model):
     detail_ITK = db.Column(db.String(255))
     stic_periods = db.relationship('SticPeriod', backref='stic', lazy=True)
 
+    created_at = db.Column(db.DateTime, default=datetime.now(timezone.utc))
+    updated_at = db.Column(
+        db.DateTime, default=datetime.now(timezone.utc), onupdate=datetime.now(timezone.utc))
+    deleted_at = db.Column(db.DateTime, nullable=True)
+
 
 class Site(db.Model):
     __tablename__ = 'site'
@@ -49,6 +60,11 @@ class Site(db.Model):
     name = db.Column(db.String(255))
     code = db.Column(db.String(255))  # son propre code
     climatic_years = db.relationship('ClimaticYear', backref='site', lazy=True)
+
+    created_at = db.Column(db.DateTime, default=datetime.now(timezone.utc))
+    updated_at = db.Column(
+        db.DateTime, default=datetime.now(timezone.utc), onupdate=datetime.now(timezone.utc))
+    deleted_at = db.Column(db.DateTime, nullable=True)
 
 
 class ClimaticYear(db.Model):
@@ -59,6 +75,11 @@ class ClimaticYear(db.Model):
     code = db.Column(db.String(255))  # son code
     site_id = db.Column(db.Integer, db.ForeignKey('site.id'))
     stics = db.relationship('Stic', backref='climatic_year', lazy=True)
+
+    created_at = db.Column(db.DateTime, default=datetime.now(timezone.utc))
+    updated_at = db.Column(
+        db.DateTime, default=datetime.now(timezone.utc), onupdate=datetime.now(timezone.utc))
+    deleted_at = db.Column(db.DateTime, nullable=True)
 
 
 class PastureType(db.Model):
@@ -71,6 +92,11 @@ class PastureType(db.Model):
     code = db.Column(db.String(255))  # son code
     stics = db.relationship('Stic', backref='pasture_type', lazy=True)
 
+    created_at = db.Column(db.DateTime, default=datetime.now(timezone.utc))
+    updated_at = db.Column(
+        db.DateTime, default=datetime.now(timezone.utc), onupdate=datetime.now(timezone.utc))
+    deleted_at = db.Column(db.DateTime, nullable=True)
+
 
 class ConcentratedFeed(db.Model):
     __tablename__ = 'concentrated_feed'
@@ -81,6 +107,11 @@ class ConcentratedFeed(db.Model):
     name = db.Column(db.String(255))
     code = db.Column(db.String(255))  # son code
     correspondingStock = db.Column(db.String(255))  # son code
+
+    created_at = db.Column(db.DateTime, default=datetime.now(timezone.utc))
+    updated_at = db.Column(
+        db.DateTime, default=datetime.now(timezone.utc), onupdate=datetime.now(timezone.utc))
+    deleted_at = db.Column(db.DateTime, nullable=True)
 
 # class Straw(db.Model):
 #     __tablename__ = 'straw'
@@ -100,6 +131,10 @@ class FeedType(db.Model):
     code = db.Column(db.String(255))  # son code
     correspondingStock = db.Column(db.String(255))  # son code
 
+    created_at = db.Column(db.DateTime, default=datetime.now(timezone.utc))
+    updated_at = db.Column(
+        db.DateTime, default=datetime.now(timezone.utc), onupdate=datetime.now(timezone.utc))
+    deleted_at = db.Column(db.DateTime, nullable=True)
 # à minorer pour les VA (=vache allaitantes)
 
 
@@ -125,21 +160,27 @@ class NutritionalValues(db.Model):
     feed_types = db.relationship(
         'FeedType', backref='nutritional_values', lazy=True)
 
+    created_at = db.Column(db.DateTime, default=datetime.now(timezone.utc))
+    updated_at = db.Column(
+        db.DateTime, default=datetime.now(timezone.utc), onupdate=datetime.now(timezone.utc))
+    deleted_at = db.Column(db.DateTime, nullable=True)
 
-class AnimalProfilPeriod(db.Model):
-    __tablename__ = 'animal_profil_period'
+
+class AnimalProfilePeriod(db.Model):
+    __tablename__ = 'animal_profile_period'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     period_id = db.Column(db.Integer, db.ForeignKey('period.id'))
-    animal_profil_id = db.Column(db.Integer, db.ForeignKey('animal_profil.id'))
+    animal_profile_id = db.Column(
+        db.Integer, db.ForeignKey('animal_profile.id'))
     CI = db.Column(db.Numeric, default=0)
     UFL = db.Column(db.Numeric, default=0)
     PDI = db.Column(db.Numeric, default=0)
     PL = db.Column(db.Numeric, default=0)
 
 
-class AnimalProfil(db.Model):
-    __tablename__ = 'animal_profil'
+class AnimalProfile(db.Model):
+    __tablename__ = 'animal_profile'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     batch_type_id = db.Column(db.Integer, db.ForeignKey('batch_type.id'))
@@ -154,8 +195,13 @@ class AnimalProfil(db.Model):
     weight_birth_kg = db.Column(db.Numeric, default=0)
     milk_product_kg = db.Column(db.Numeric, default=0)
     TR = db.Column(db.Numeric, default=0)
-    animal_profil_periods = db.relationship(
-        'AnimalProfilPeriod', backref='AnimalProfil', lazy=True)
+    animal_profile_periods = db.relationship(
+        'AnimalProfilePeriod', backref='AnimalProfile', lazy=True)
+
+    created_at = db.Column(db.DateTime, default=datetime.now(timezone.utc))
+    updated_at = db.Column(
+        db.DateTime, default=datetime.now(timezone.utc), onupdate=datetime.now(timezone.utc))
+    deleted_at = db.Column(db.DateTime, nullable=True)
 
 
 class BatchType(db.Model):
@@ -167,8 +213,13 @@ class BatchType(db.Model):
     UE_value_considered = db.Column(db.String(255))
     UF_value_considered = db.Column(db.String(255))
     UF_concentrated_value_considered = db.Column(db.String(255))
-    animal_profils = db.relationship(
-        'AnimalProfil', backref='batch_type', lazy=True)
+    animal_profiles = db.relationship(
+        'AnimalProfile', backref='batch_type', lazy=True)
+
+    created_at = db.Column(db.DateTime, default=datetime.now(timezone.utc))
+    updated_at = db.Column(
+        db.DateTime, default=datetime.now(timezone.utc), onupdate=datetime.now(timezone.utc))
+    deleted_at = db.Column(db.DateTime, nullable=True)
 
 
 class HousingType(db.Model):
@@ -178,3 +229,8 @@ class HousingType(db.Model):
     name = db.Column(db.String(255))
     code = db.Column(db.String(255))  # son code
     straw_requirement = db.Column(db.Numeric, default=0)
+
+    created_at = db.Column(db.DateTime, default=datetime.now(timezone.utc))
+    updated_at = db.Column(
+        db.DateTime, default=datetime.now(timezone.utc), onupdate=datetime.now(timezone.utc))
+    deleted_at = db.Column(db.DateTime, nullable=True)

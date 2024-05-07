@@ -115,7 +115,6 @@
       }
     },
     created() {
-      this.$store.dispatch('simulator/fetchFeedTypes')
       this.getEnergeticCoverageByBatch(this.selectedLot)
     },
     beforeMount() {
@@ -126,8 +125,7 @@
         getBatch: 'getBatch',
         getEnergeticCoverageByBatch: 'getEnergeticCoverageByBatch',
       }),
-      ...mapGetters('simulator', {
-        getClassicFeed: 'getClassicFeedByPeriod',
+      ...mapGetters('referential', {
         periods: 'periodList',
       }),
       feeds: {

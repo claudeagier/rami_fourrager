@@ -148,7 +148,6 @@
                                         <v-autocomplete
                                           v-model="rotationItem.stic"
                                           :items="sticList"
-                                          :loading="sticsLoaded"
                                           label="Code et Nom de la culture"
                                           item-text="name"
                                           item-value="id"
@@ -244,6 +243,7 @@
 
     data() {
       return {
+        sticList: [],
         pageColor: 'green',
         headers: [
           { text: 'Nom de la culture', value: 'name' },
@@ -288,18 +288,34 @@
         ],
       }
     },
+    created() {
+      if (this.climaticYear != null) {
+        this.sticList = this.getSticList(this.climaticYear)
+      } else {
+        console.error('climatic year required')
+        this.$store.dispatch(
+          'toaster/addNotification',
+          {
+            message: 'notifications.farm.errors.climatic_year_required',
+            color: 'error', // ou 'error', 'warning', 'info', etc.
+            show: true,
+          },
+          { root: true }
+        )
+      }
+    },
     computed: {
-      ...mapState('simulator', {
-        sticsLoaded: (state) => state.isLoading['sticList'],
-      }),
-      ...mapGetters('simulator', {
-        sticList: 'sticList',
+      ...mapGetters('referential', {
+        getSticList: 'sticList',
       }),
       ...mapGetters('simulator/farm', {
         dimensioning: 'dimensioning',
         rotations: 'rotations',
         validateRotation: 'validateRotation',
         validateSurface: 'validateSurface',
+      }),
+      ...mapGetters('simulator', {
+        climaticYear: 'climaticYearInfo',
       }),
       SAU: {
         get() {

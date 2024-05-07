@@ -109,9 +109,6 @@
         selectedPeriodIndex: 0,
       }
     },
-    created() {
-      this.$store.dispatch('simulator/fetchFeedTypes')
-    },
     beforeMount() {
       this.batch = this.getBatch(this.selectedLot)
     },
@@ -119,10 +116,10 @@
       ...mapGetters('simulator/herd', {
         getBatch: 'getBatch',
       }),
-      ...mapGetters('simulator', {
-        getConcentratedFeed: 'getConcentratedFeedByPeriod',
-        periods: 'periodList',
-      }),
+      // ...mapGetters('simulator', {
+      //   getConcentratedFeed: 'getConcentratedFeedByPeriod',
+      // }),
+      ...mapGetters('referential', { periods: 'periodList' }),
       feeds: {
         get() {
           return this.batch.concentratedFeeds[this.selectedPeriodIndex].feeds

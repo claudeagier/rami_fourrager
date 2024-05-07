@@ -7,7 +7,7 @@ module.exports = {
       poll: true,
     },
   },
-  transpileDependencies: ['vuetify', 'vue-echarts', 'resize-detector'],
+  transpileDependencies: ['vuetify', 'vue-echarts', 'resize-detector', 'vuex-persist'],
   chainWebpack: (config) => {
     config.resolve.extensions.clear().add('.ts').add('.tsx').add('.js').add('.vue').add('.json')
   },

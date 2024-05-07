@@ -1,8 +1,22 @@
 import axios from 'axios'
+import localForage from 'localforage'
+
+function getCurrentDateTime() {
+  var now = new Date()
+  var year = now.getFullYear()
+  var month = ('0' + (now.getMonth() + 1)).slice(-2) // Les mois sont 0-indexés, donc on ajoute 1
+  var day = ('0' + now.getDate()).slice(-2)
+  var hours = ('0' + now.getHours()).slice(-2)
+  var minutes = ('0' + now.getMinutes()).slice(-2)
+  var seconds = ('0' + now.getSeconds()).slice(-2)
+  var formattedDateTime = year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds
+  return formattedDateTime
+}
 
 export default {
   namespaced: true,
   state: {
+    lastConnectionDate: null,
     status: '',
     token: localStorage.getItem('token') || '',
     user: {},
@@ -22,6 +36,8 @@ export default {
     logout(state) {
       state.status = ''
       state.token = ''
+
+      state.lastConnectionDate = getCurrentDateTime()
     },
   },
   actions: {

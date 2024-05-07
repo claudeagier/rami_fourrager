@@ -16,7 +16,7 @@
         ></v-select>
         <v-select
           v-model="profil"
-          :items="animalProfils"
+          :items="animalProfiles"
           label="Profil"
           item-text="name"
           item-value="id"
@@ -74,6 +74,7 @@
     },
     data() {
       return {
+        animalProfiles: [],
         batch: null,
         rules: {
           required: (val) => !!val || 'Ce champ est requis',
@@ -82,9 +83,9 @@
       }
     },
     computed: {
-      ...mapGetters('simulator', {
+      ...mapGetters('referential', {
         batchTypes: 'batchTypeList',
-        animalProfils: 'animalProfilList',
+        getAnimalProfiles: 'animalProfileList',
         housingTypes: 'housingTypeList',
       }),
       ...mapGetters('simulator/herd', {
@@ -145,7 +146,7 @@
       }),
       loadProfils(type) {
         if (type.id) {
-          this.$store.dispatch('simulator/fetchAnimalProfils', type.id)
+          this.animalProfiles = this.getAnimalProfiles(type.id)
         }
       },
     },

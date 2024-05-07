@@ -130,9 +130,6 @@
         },
       },
     },
-    created() {
-      this.$store.dispatch('simulator/fetchConcentratedFeeds')
-    },
     data() {
       return {
         showModal: false,
@@ -146,7 +143,7 @@
       }
     },
     computed: {
-      ...mapGetters('simulator', {
+      ...mapGetters('referential', {
         feedTypes: 'concentratedFeedList',
       }),
     },

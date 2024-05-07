@@ -26,7 +26,7 @@
           ></v-select>
           <v-select
             v-model="lotItem.profil"
-            :items="animalProfils"
+            :items="animalProfiles"
             label="Profil"
             item-text="name"
             item-value="id"
@@ -77,6 +77,7 @@
     },
     data() {
       return {
+        animalProfiles: [],
         lotItem: {
           type: null,
           profil: null,
@@ -113,19 +114,16 @@
         },
       }
     },
-    created() {
-      this.$store.dispatch('simulator/fetchBatchTypes')
-    },
     computed: {
-      ...mapGetters('simulator', {
+      ...mapGetters('referential', {
         batchTypes: 'batchTypeList',
-        animalProfils: 'animalProfilList',
+        getAnimalProfiles: 'animalProfileList',
         periods: 'periodList',
       }),
     },
     methods: {
       loadProfils(item) {
-        this.$store.dispatch('simulator/fetchAnimalProfils', item.id)
+        this.animalProfiles = this.getAnimalProfiles(item.id)
       },
       addLot() {
         if (this.$refs.batchForm.validate()) {

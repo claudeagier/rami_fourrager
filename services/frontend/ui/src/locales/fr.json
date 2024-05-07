@@ -50,7 +50,8 @@
   "btn": {
     "save": "Enregistrer",
     "cancel": "Annuler",
-    "add": "Ajouter"
+    "add": "Ajouter",
+    "refresh_referential": "Rafraichir le référentiel"
   },
   "breadcrumb": {
     "workspace": "Espace de travail",
@@ -115,7 +116,12 @@
   },
   "notifications": {
     "simulation_loaded_success": "La simulation a été chargé",
-    "farm": { "apply_success": "les modifications sont appliquées à la simulation" },
+    "farm": {
+      "apply_success": "les modifications sont appliquées à la simulation",
+      "errors": {
+        "climatic_year_required": "L'année climatic est requise"
+      }
+    },
     "barn": {
       "apply_success": "les modifications sont appliquées à la simulation",
       "delete_item": "Elément supprimé"
@@ -125,15 +131,18 @@
       "delete_batch_success": "Le lot a été supprimé"
     },
     "fetch": {
-      "period": { "success": "", "error": "Error fetching periods" },
-      "sites": { "success": "", "error": "Error fetching sites" },
-      "climaticYears": { "success": "", "error": "Error fetching climatic years" },
-      "stics": { "success": "", "error": "Error fetching stics" },
-      "batchTypes": { "success": "", "error": "Error fetching batch types" },
-      "animalProfils": { "success": "", "error": "Error fetching animal profils" },
-      "feedTypes": { "success": "", "error": "Error fetching feed types" },
-      "cocentratedFeeds": { "success": "", "error": "Error fetching concentrated feeds" },
-      "housingTypes": { "success": "", "error": "Error fetching housing types" }
+      "period": { "success": "Les périodes sont à jour", "error": "Error fetching periods" },
+      "site": { "success": "Les sites sont à jour", "error": "Error fetching sites" },
+      "climatic_year": { "success": "les années climatiques sont à jour", "error": "Error fetching climatic years" },
+      "stic": { "success": "Les baguettes fourrage sont à jour", "error": "Error fetching stics" },
+      "batch_type": { "success": "Les types de bétails sont à jour", "error": "Error fetching batch types" },
+      "animal_profile": { "success": "Les profils animaux sont à jour", "error": "Error fetching animal profils" },
+      "feed_type": { "success": "les types d'aliment sont à jour", "error": "Error fetching feed types" },
+      "concentrated_feed": {
+        "success": "Les aliments concentrés sont à jour",
+        "error": "Error fetching concentrated feeds"
+      },
+      "housing_type": { "success": "Les types de logement sont à jour", "error": "Error fetching housing types" }
     }
   }
 }

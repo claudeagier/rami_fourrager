@@ -76,17 +76,17 @@ Table nutritional_values {
   source varchar  
 }
 
-Table animal_profil_period {
+Table animal_profile_period {
     id integer [primary key]
     period_id integer
-    animal_profil_id integer
+    animal_profile_id integer
     CI numeric
     UFL numeric
     PDI numeric
     PL numeric
 }
 
-Table animal_profil {
+Table animal_profile {
     id integer [primary key]
     batch_type_id integer
     name varchar
@@ -126,6 +126,6 @@ Ref: pasture_type.nutritional_values_id < nutritional_values.id
 Ref: feed_type.nutritional_values_id > nutritional_values.id
 // Ref: straw.nutritional_values_id > nutritional_values.id
 Ref: concentrated_feed.nutritional_values_id > nutritional_values.id
-Ref: period.id < animal_profil_period.period_id
-Ref: animal_profil.id < animal_profil_period.animal_profil_id
-Ref: batch_type.id < animal_profil.batch_type_id 
+Ref: period.id < animal_profile_period.period_id
+Ref: animal_profile.id < animal_profile_period.animal_profile_id
+Ref: batch_type.id < animal_profile.batch_type_id 

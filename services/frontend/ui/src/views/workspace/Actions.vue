@@ -63,14 +63,12 @@
       },
       importData(event) {
         if (event !== null && event !== undefined) {
-          console.log('event', event)
           const file = event
           const reader = new FileReader()
           reader.readAsText(file)
           reader.onload = (e) => {
             const jsonData = e.target.result
             const simulation = JSON.parse(jsonData)
-            // TODO-FRONT à modifier lorsque j'aurai l'import export standard
             this.setSimulation({
               name: simulation.simulationName,
               site: simulation.site,
@@ -79,10 +77,6 @@
             this.setFarm(simulation.farm)
             this.setBarn(simulation.barn)
             this.setHerd(simulation.herd)
-
-            // set lists
-            this.$store.dispatch('simulator/fetchClimaticYears', simulation.site)
-            this.$store.dispatch('simulator/fetchStics', simulation.climaticYear)
 
             // apply all
             this.$store.dispatch('simulator/barn/setStock')

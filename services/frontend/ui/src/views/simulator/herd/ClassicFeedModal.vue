@@ -141,7 +141,7 @@
       }
     },
     computed: {
-      ...mapGetters('simulator', {
+      ...mapGetters('referential', {
         feedTypes: 'feedTypeList',
       }),
     },

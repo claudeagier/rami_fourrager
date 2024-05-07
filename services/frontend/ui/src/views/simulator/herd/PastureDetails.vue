@@ -99,7 +99,7 @@
       }
     },
     computed: {
-      ...mapGetters('simulator', {
+      ...mapGetters('referential', {
         periods: 'periodList',
       }),
       ...mapGetters('simulator/herd', {

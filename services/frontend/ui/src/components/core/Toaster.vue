@@ -11,6 +11,7 @@
       :bottom="notification.bottom || bottom"
       :left="notification.left || left"
       :right="notification.right || right"
+      :centerd="notification.centered || centered"
       :multi-line="notification.multiLine || multiLine"
       :vertical="notification.vertical || vertical"
       :absolute="notification.absolute || absolute"
@@ -33,12 +34,13 @@
   export default {
     data() {
       return {
-        timeout: 2000,
+        timeout: 4000,
         top: true,
         bottom: false,
         left: false,
         right: true,
-        multiLine: false,
+        centered: false,
+        multiLine: true,
         vertical: false,
         absolute: false,
         dark: false,

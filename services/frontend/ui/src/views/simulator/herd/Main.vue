@@ -235,17 +235,11 @@
       }
     },
     created() {
-      this.$store.dispatch('simulator/fetchHousingTypes')
       if (this.lots.length <= 0) {
         this.animate = true
       }
     },
     computed: {
-      ...mapGetters('simulator', {
-        batchTypes: 'batchTypeList',
-        animalProfils: 'animalProfilList',
-        housingTypes: 'housingTypeList',
-      }),
       ...mapState('simulator/herd', {
         batchs: (state) => state.batchs,
       }),

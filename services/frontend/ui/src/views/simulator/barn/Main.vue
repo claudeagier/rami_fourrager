@@ -257,9 +257,7 @@
       // itemTypes() {
       //   return ['feed', 'concentrated_feed'] // You can retrieve these from the store if needed
       // },
-      ...mapGetters('simulator', {
-        // feedTypes: 'feedTypeList',
-        // concentratedFeeds: 'concentratedFeedList',
+      ...mapGetters('referential', {
         barnStockItems: 'barnStockItemList',
       }),
       ...mapGetters('simulator/barn', {
@@ -282,14 +280,10 @@
         ]
       },
     },
-    created() {
-      this.$store.dispatch('simulator/fetchFeedTypes')
-      this.$store.dispatch('simulator/fetchConcentratedFeeds')
-    },
+    created() {},
 
     methods: {
       getColor(concentrated) {
-        console.log('get color', concentrated)
         if (concentrated) {
           return 'grey'
         } else {
@@ -322,7 +316,6 @@
 
         // if (selectedFeed) {
         if (this.selectedItem) {
-          console.log('save ', this.selectedItem)
           this.$store.commit('simulator/barn/saveInitialStock', {
             // type: this.selectedItemType,
             ...this.selectedItem,
@@ -337,7 +330,6 @@
       },
 
       deleteItem(item) {
-        console.log('delete stock', item)
         this.$store.commit('simulator/barn/deleteBarnStockItem', item)
       },
 

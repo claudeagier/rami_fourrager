@@ -1,7 +1,8 @@
-from flask_restplus import Resource, fields, Namespace, marshal_with
+from flask_restplus import Resource, fields, Namespace, marshal_with, reqparse
 from project.repository.referentials.services import get_all, get_by_id
 
 generic_namespace = Namespace("generic")
+
 nutritional_values_fields = generic_namespace.model("Nutritional_values", {
     "UEL": fields.Float,
     "UEB": fields.Float,
@@ -15,6 +16,49 @@ nutritional_values_fields = generic_namespace.model("Nutritional_values", {
     # "source": fields.String,
 })
 
+batch_type = generic_namespace.model('BatchType', {
+    "id": fields.Integer,
+    "code": fields.String,
+    "name": fields.String,
+    "UE_value_considered": fields.String,
+    "UF_value_considered": fields.String,
+    "UF_concentrated_value_considered": fields.String,
+})
+
+animal_profil_period = generic_namespace.model("AnimalProfilePeriod", {
+    "period_id": fields.Integer,
+    "CI": fields.Float,
+    "UFL": fields.Float,
+    "PDI": fields.Float,
+    "PL": fields.Float,
+})
+stic_period_fields = generic_namespace.model("Stic_period", {
+    "id": fields.Integer,
+    "period_id": fields.Integer,
+    "production": fields.Float,
+    "farming_method": fields.String,
+})
+
+site = generic_namespace.model("Site", {
+    "id": fields.Integer,
+    "name": fields.String,
+    "code": fields.String,
+})
+
+climatic_year = generic_namespace.model("ClimaticYear", {
+    "id": fields.Integer,
+    "name": fields.String,
+    "code": fields.String,
+})
+
+pasture_type = generic_namespace.model("PastureType", {
+    "id": fields.Integer,
+    "name": fields.String,
+    "code": fields.String,
+    "nutritional_values": fields.Nested(nutritional_values_fields),
+})
+
+
 # Définition des modèles disponibles
 available_models = {
     "site": {
@@ -24,21 +68,21 @@ available_models = {
             "name": fields.String,
         }
     },
-    "feed-type": {
+    "feed_type": {
         "model_name": "FeedType",
         "fields": {
             "id": fields.Integer,
             "name": fields.String,
-            "correspondingStock":fields.String,
+            "correspondingStock": fields.String,
             "nutritional_values": fields.Nested(nutritional_values_fields)
         }
     },
-    "concentrated-feed": {
+    "concentrated_feed": {
         "model_name": "ConcentratedFeed",
         "fields": {
             "id": fields.Integer,
             "name": fields.String,
-            "correspondingStock":fields.String,
+            "correspondingStock": fields.String,
             "nutritional_values": fields.Nested(nutritional_values_fields)
 
         }
@@ -50,27 +94,68 @@ available_models = {
             "name": fields.String,
         }
     },
-    "batch-type": {
+    "batch_type": {
         "model_name": "BatchType",
         "fields": {
             "id": fields.Integer,
             "name": fields.String,
         }
     },
-    "housing-type": {
+    "housing_type": {
         "model_name": "HousingType",
         "fields": {
             "id": fields.Integer,
             "name": fields.String,
         }
     },
-    "climatic-year": {
+    "climatic_year": {
         "model_name": "ClimaticYear",
         "fields": {
             "id": fields.Integer,
             "name": fields.String,
+            "site_id": fields.Integer,
         }
     },
+    "animal_profile": {
+        "model_name": "AnimalProfile",
+        "fields": {
+            "id": fields.Integer,
+            "batch_type_id": fields.Integer,
+            "code": fields.String,
+            "name": fields.String,
+            "period_MB": fields.String,
+            "age_mois": fields.String,
+            "sem_MB": fields.String,
+            "weight_MB_kg": fields.Float,
+            "NEC_MB": fields.Float,
+            "lactation_duration": fields.String,
+            "weight_birth_kg": fields.Float,
+            "milk_product_kg": fields.Float,
+            "TR": fields.Float,
+            "batch_type": fields.Nested(batch_type),
+            "animal_profil_periods": fields.List(fields.Nested(animal_profil_period)),
+        }
+    },
+    "stic": {
+        "model_name": "Stic",
+        "fields": {
+            "id": fields.Integer,
+            "climatic_year_id": fields.Integer,
+            "pasture_type_id": fields.Integer,
+            "code": fields.String,
+            "name": fields.String,
+            "type": fields.String,
+            "rendement": fields.String,
+            "designation": fields.String,
+            "RU": fields.String,
+            "IN": fields.String,
+            "ITK": fields.String,
+            "detail_ITK": fields.String,
+            "stic_periods": fields.List(fields.Nested(stic_period_fields)),
+            "site": fields.Nested(site),
+            "pasture_type": fields.Nested(pasture_type),
+        }
+    }
     # Ajoutez d'autres modèles avec leurs champs correspondants si nécessaire
 }
 
@@ -86,13 +171,20 @@ class GenericModelList(Resource):
     @generic_namespace.response(404, "Models not found")
     def get(self, modelName):
         """Returns all instances of a given model."""
+        parser = reqparse.RequestParser()
+        parser.add_argument('lastConnectionDate', type=str)
+        args = parser.parse_args(strict=True)
+
+        lastConnectionDate = args['lastConnectionDate']
+
         if modelName not in available_models:
             generic_namespace.abort(404, f"Model {modelName} not found")
 
         model = models[modelName]
-        data = get_all(available_models[modelName]['model_name'])
-        if not data:
-            generic_namespace.abort(404, f"Models not found for {modelName}")
+        data = get_all(available_models[modelName]['model_name'],
+                       lastConnectionDate)
+        # if not data:
+        #     generic_namespace.abort(404, f"Models not found for {modelName}")
 
         @marshal_with(model)
         def response():

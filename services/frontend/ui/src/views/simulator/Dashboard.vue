@@ -37,7 +37,7 @@
           value="+245"
           sub-icon="mdi-clock"
           sub-text="Just Updated"
-          :dropdownOptions="climaticYearList"
+          :dropdownOptions="climaticYears"
           @change="handleCYchange"
         />
       </v-col>
@@ -183,6 +183,7 @@
     components: {},
     data() {
       return {
+        climaticYears: [],
         dataCompletedTasksChart: {
           data: {
             labels: ['12am', '3pm', '6pm', '9pm', '12pm', '3am', '6am', '9am'],
@@ -237,16 +238,18 @@
       }
     },
     created() {
-      this.$store.dispatch('simulator/fetchSites')
+      if (this.selectedSite) {
+        this.climaticYears = this.getClimaticYearList(this.selectedSite)
+      }
     },
     computed: {
       ...mapState('simulator', {
         selectedSite: (state) => state.site,
         selectedCY: (state) => state.climaticYear,
       }),
-      ...mapGetters('simulator', {
+      ...mapGetters('referential', {
         siteList: 'siteList',
-        climaticYearList: 'climaticYearList',
+        getClimaticYearList: 'climaticYearList',
         periods: 'periodList',
       }),
       ...mapGetters('simulator/farm', {
@@ -297,11 +300,11 @@
       }),
       handleSiteChange(id) {
         this.setSite(id)
-        this.$store.dispatch('simulator/fetchClimaticYears', id)
+        this.climaticYears = this.getClimaticYearList(id)
       },
       handleCYchange(id) {
+        //TODO-FRONT load all stics
         this.setClimaticYear(id)
-        this.$store.dispatch('simulator/fetchStics', id)
       },
     },
   }

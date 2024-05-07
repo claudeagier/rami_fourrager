@@ -190,9 +190,10 @@ const router = new VueRouter({
 })
 
 // TODO-FRONT ajouter la gestion des roles pour admin
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   if (to.matched.some((record) => record.meta.requiresAuth)) {
     if (!store.getters['auth/isLoggedIn'] || localStorage.getItem('token') === 'null') {
+      await store.restored
       next({
         path: '/login',
         params: { redirect: to.fullPath },
