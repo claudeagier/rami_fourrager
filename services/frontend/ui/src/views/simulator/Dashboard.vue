@@ -303,7 +303,7 @@
         this.climaticYears = this.getClimaticYearList(id)
       },
       handleCYchange(id) {
-        //TODO-FRONT load all stics
+        // TODO-FRONT load all stics
         this.setClimaticYear(id)
       },
     },
