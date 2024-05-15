@@ -16,12 +16,22 @@ function getCurrentDateTime() {
 // TODO-FRONT test all and continu
 async function fetch(what, since, commit, dispatch) {
   if (since === null || since < getCurrentDateTime()) {
-    console.log('inférieur')
     try {
       const response = await axios.get(`/lists/${what}?lastConnectionDate=${since}`) // ajuster l'URL de l'API
       if (response.data.length > 0) {
         // commit('addSites', response.data)
         commit('addToList', { whats: response.data, to: what + 's' })
+        dispatch(
+          'toaster/addNotification',
+          {
+            message: `notifications.fetch.${what}.success`,
+            color: 'success', // ou 'error', 'warning', 'info', etc.
+            show: true,
+          },
+          { root: true }
+        )
+      } else {
+        // TODO-FRONT faire quelquechose pour dire que c'est à jour return true
       }
     } catch (error) {
       console.error(`Error fetching ${what} :`, error)
@@ -34,18 +44,8 @@ async function fetch(what, since, commit, dispatch) {
         },
         { root: true }
       )
-      return
     }
   }
-  dispatch(
-    'toaster/addNotification',
-    {
-      message: `notifications.fetch.${what}.success`,
-      color: 'success', // ou 'error', 'warning', 'info', etc.
-      show: true,
-    },
-    { root: true }
-  )
 }
 async function getLastConnectionDate() {
   const workspace = await localForage.getItem('workspace')

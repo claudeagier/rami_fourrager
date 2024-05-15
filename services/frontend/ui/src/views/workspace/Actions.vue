@@ -1,94 +1,187 @@
 <template>
-  <v-container>
-    <v-btn @click="exportData">Exporter</v-btn>
-    <v-file-input
-      ref="fileInput"
-      @change="importData"
-    />
-  </v-container>
+  <base-material-card color="#065c4a">
+    <template v-slot:heading>
+      <v-row>
+        <v-col cols="10">
+          <div class="text-h3 font-weight-light">{{ $t('workspace.actions.title') }}</div>
+        </v-col>
+      </v-row>
+    </template>
+    <v-card-text>
+      <!-- création de l'espace de travail dans le state -->
+      <div v-if="workspace.tag === undefined">
+        {{ $t('workspace.actions.create.content') }}
+        <br />
+        <br />
+        {{ $t('workspace.actions.create.description') }}
+      </div>
+
+      <!-- si j'ai un workspace de paramétré dans le state avec un tag exporté -->
+
+      <div v-if="workspace.tag === 'exported'">
+        {{ $t('workspace.actions.import.content') }}
+        <br />
+        <br />
+        {{ $t('workspace.actions.import.description') }}
+      </div>
+
+      <!-- si un espace de travail dans le state mais qui n'est pas tagué exporté -->
+      <div v-if="workspace.tag === 'imported' || workspace.tag === 'created'">
+        {{ $t('workspace.actions.export.content') }}
+        <br />
+        <br />
+        {{ $t('workspace.actions.export.description') }}
+      </div>
+    </v-card-text>
+    <v-card-actions>
+      <v-spacer></v-spacer>
+      <v-btn
+        v-if="workspace.tag === undefined"
+        outlined
+        color="#065c4a"
+        @click="createWorkspace"
+      >
+        {{ $t('workspace.actions.create.btn') }}
+      </v-btn>
+      <v-btn
+        v-if="workspace.tag === undefined || workspace.tag === 'exported'"
+        outlined
+        color="#065c4a"
+        @click="showImportModal = true"
+      >
+        {{ $t('workspace.actions.import.btn') }}
+      </v-btn>
+      <v-dialog
+        persistent
+        no-click-animation
+        v-model="showImportModal"
+        max-width="600"
+      >
+        <v-card>
+          <v-card-title>{{ $t('workspace.actions.import.dialog.title') }}</v-card-title>
+          <v-card-text>
+            <v-file-input
+              ref="fileInput"
+              @change="importWorkspace"
+            />
+          </v-card-text>
+          <v-card-actions>
+            <v-btn
+              color="primary"
+              @click="showImportModal = false"
+            >
+              {{ $t('workspace.actions.import.dialog.btn_close') }}
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+      <v-btn
+        v-if="workspace.tag === 'imported' || workspace.tag === 'created'"
+        outlined
+        color="#065c4a"
+        @click="exportWorkspace"
+      >
+        {{ $t('workspace.actions.export.btn') }}
+      </v-btn>
+    </v-card-actions>
+  </base-material-card>
 </template>
 
 <script>
-  import { mapState, mapMutations, mapActions } from 'vuex'
+  import { mapMutations, mapGetters } from 'vuex'
 
   export default {
     name: 'Actions',
-    // mounted() {
-    //   // Cela simule le clic sur le bouton de sélection de fichier lorsqu'on clique sur le bouton "Importer"
-    //   // const fileInput = this.$refs.fileInput
-    //   // this.$refs.fileInput.addEventListener('click', () => {
-    //   //   fileInput.click()
-    //   // })
-    // },
+    data() {
+      return {
+        workspaceItem: { tag: 'created', simulations: [], stics: [], animalProfiles: [], feeds: [] },
+        showImportModal: false, // Ajout d'une propriété pour contrôler l'affichage de la modal d'importation
+      }
+    },
     computed: {
-      ...mapState('simulator', {
-        simulation: (state) => state,
+      ...mapGetters('workspace', {
+        getWorkspace: 'getWorkspace',
       }),
-      ...mapState('simulator/farm', {
-        farm: (state) => state,
-      }),
-      ...mapState('simulator/barn', {
-        barn: (state) => state,
-      }),
-      ...mapState('simulator/herd', {
-        herd: (state) => state,
-      }),
+
+      workspace: {
+        get() {
+          return this.getWorkspace
+        },
+      },
     },
     methods: {
-      ...mapMutations('simulator', { setSimulation: 'setSimulation' }),
-      ...mapMutations('simulator/farm', { setFarm: 'setFarm' }),
-      ...mapMutations('simulator/barn', { setBarn: 'setBarn' }),
-      ...mapMutations('simulator/herd', { setHerd: 'setHerd' }),
-      exportData() {
+      ...mapMutations('workspace', {
+        setWorkspace: 'setWorkspace',
+        refreshWorkspace: 'refreshWorkspace',
+        tagWorkspace: 'setTag',
+      }),
+
+      async exportWorkspace() {
         const data = {
-          name: this.simulation.simulationName,
-          site: this.simulation.site,
-          climaticYear: this.simulation.climaticYear,
-          farm: this.farm,
-          barn: this.barn,
-          herd: this.herd,
+          simulations: this.workspace.simulations,
+          stics: this.workspace.stics,
+          animalProfiles: this.workspace.animalProfiles,
+          feeds: this.workspace.feeds,
         }
+
         const jsonData = JSON.stringify(data)
+        try {
+          // Demander à l'utilisateur de choisir un emplacement pour enregistrer le fichier
+          const fileHandle = await window.showSaveFilePicker({
+            types: [
+              {
+                description: 'Fichiers JSON',
+                accept: {
+                  'application/json': ['.json'],
+                },
+              },
+            ],
+            suggestedName: this.fileName || 'workspace.json',
+            startIn: 'documents',
+          })
 
-        const blob = new Blob([jsonData], { type: 'application/json' })
-        const url = URL.createObjectURL(blob)
+          // Obtenir un objet FileSystemWritableFileStream pour écrire des données dans le fichier
+          const writableStream = await fileHandle.createWritable()
 
-        const a = document.createElement('a')
-        a.href = url
-        a.download = 'data.json'
-        document.body.appendChild(a)
-        a.click()
-        document.body.removeChild(a)
-        URL.revokeObjectURL(url)
+          // Écrire les données JSON dans le fichier
+          await writableStream.write(jsonData)
+
+          // Fermer le flux d'écriture
+          await writableStream.close()
+
+          this.tagWorkspace('exported')
+          // Afficher une notification de réussite
+          this.$store.dispatch('toaster/addNotification', {
+            message: 'notifications.file_exported_successfully',
+            color: 'success',
+            show: true,
+          })
+        } catch (error) {
+          console.error("Erreur lors de l'exportation du fichier:", error)
+        }
       },
-      importData(event) {
+      importWorkspace(event) {
         if (event !== null && event !== undefined) {
           const file = event
           const reader = new FileReader()
           reader.readAsText(file)
           reader.onload = (e) => {
             const jsonData = e.target.result
-            const simulation = JSON.parse(jsonData)
-            this.setSimulation({
-              name: simulation.simulationName,
-              site: simulation.site,
-              climaticYear: simulation.climaticYear,
-            })
-            this.setFarm(simulation.farm)
-            this.setBarn(simulation.barn)
-            this.setHerd(simulation.herd)
+            const workspace = JSON.parse(jsonData)
+            workspace.lastModifiedDate = file.lastModifiedDate.toLocaleDateString()
 
-            // apply all
-            this.$store.dispatch('simulator/barn/setStock')
-            this.$store.dispatch('simulator/farm/setTotalAvailablePastureByPeriod')
-            this.$store.dispatch('simulator/farm/dispatchProduction')
+            this.refreshWorkspace(workspace)
+
             this.$store.dispatch('toaster/addNotification', {
-              message: 'notifications.simulation_loaded_success',
-              color: 'success', // ou 'error', 'warning', 'info', etc.
+              message: 'notifications.workspace_loaded_success',
+              color: 'success',
               show: true,
             })
           }
         }
+      },
+      createWorkspace() {
+        this.setWorkspace(this.workspaceItem)
       },
     },
   }

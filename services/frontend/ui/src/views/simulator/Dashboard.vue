@@ -41,6 +41,9 @@
           @change="handleCYchange"
         />
       </v-col>
+      <v-col>
+        <v-btn @click="addSimulationToWorkspace">{{ $t('btn.addTOWorspace') }}</v-btn>
+      </v-col>
     </v-row>
     <v-row>
       <!-- barn -->
@@ -244,6 +247,7 @@
     },
     computed: {
       ...mapState('simulator', {
+        simulation: (state) => state,
         selectedSite: (state) => state.site,
         selectedCY: (state) => state.climaticYear,
       }),
@@ -298,6 +302,11 @@
         setSite: 'setSite',
         setClimaticYear: 'setClimaticYear',
       }),
+      addSimulationToWorkspace() {
+        // TODO-FRONT s'il n'y a pas de workspace de créé, indiquer à l'utilisateur de créer le workspace et ne pas commit
+
+        this.$store.commit('workspace/addSimulation', this.simulation)
+      },
       handleSiteChange(id) {
         this.setSite(id)
         this.climaticYears = this.getClimaticYearList(id)

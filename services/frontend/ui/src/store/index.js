@@ -8,6 +8,7 @@ import settings from './modules/settings'
 import drawer from './modules/drawer'
 import toaster from './modules/toaster'
 import referential from './modules/referential'
+import workspace from './modules/workspace'
 
 Vue.use(Vuex)
 const debug = process.env.NODE_ENV !== 'production'
@@ -32,6 +33,7 @@ const saveSubsetOfState = (state) => ({
     animal_profiles: state.referential.animal_profiles,
     housing_types: state.referential.housing_types,
   },
+  workspace: state.workspace,
 })
 
 const localStorage = new VuexPersist({
@@ -51,6 +53,7 @@ const vuexStore = new Vuex.Store({
     drawer,
     toaster,
     referential,
+    workspace,
   },
   mutations: { RESTORE_MUTATION: localStorage.RESTORE_MUTATION },
   strict: debug,

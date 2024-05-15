@@ -144,5 +144,77 @@
       },
       "housing_type": { "success": "Les types de logement sont à jour", "error": "Error fetching housing types" }
     }
+  },
+  "workspace": {
+    "referential": {
+      "title": "Le référentiel",
+      "content": "Le référentiel a été mis à jour le {date}",
+      "description": "Rafraichir le référentiel en cliquant ci-dessous",
+      "btn_refresh": "Rafraichir le référentiel"
+    },
+    "actions": {
+      "title": "L' espace de travail",
+      "create": {
+        "content": "Vous n'avez pas d'espace de travail",
+        "description": "Créer un nouvel espace de travail ou importer",
+        "btn": "Créer"
+      },
+      "import": {
+        "content": "Votre espace de travail a été sauvegardé précédemment ",
+        "description": "Importer votre espace de travail si des modifications ont été apporté",
+        "btn": "Importer",
+        "dialog": { "title": "Importer l'espace de travail", "btn_close": "Fermer" }
+      },
+      "export": {
+        "content": "Votre espace de travail n'a pas été sauvegardé sur votre ordinateur",
+        "description": "Exporter pour sauvegarder",
+        "btn": "Exporter"
+      }
+    },
+    "content": {
+      "title": "Votre espace de travail",
+      "tabs": {
+        "simulations": "Simulations",
+        "profiles": "Profils Animaux",
+        "stics": "Baguettes fourrages",
+        "feeds": "Cartes rations"
+      },
+      "datatables": {
+        "simulations": {
+          "header": {
+            "name": "Nom",
+            "description": "Description",
+            "lastModifiedDate": "Dernière Mise à jour",
+            "actions": "Actions"
+          },
+          "create": {
+            "btn": "Créer une nouvelle simulation",
+            "dialog": {
+              "title": "Créer une nouvelle simulation",
+              "btn_create": "Créer",
+              "btn_cancel": "Annuler"
+            }
+          }
+        },
+        "profiles": {
+          "header": {
+            "batchtype": "Type de lot",
+            "name": "Nom",
+            "actions": "Actions"
+          }
+        },
+        "stics": {
+          "header": {
+            "site": "Site",
+            "climatic_year": "Année climatique",
+            "name": "Nom de la baguette",
+            "actions": "Actions"
+          }
+        },
+        "feeds": {
+          "header": { "name": "Nom", "actions": "Actions" }
+        }
+      }
+    }
   }
 }

@@ -4,24 +4,85 @@
     fluid
     tag="section"
   >
-    <div>
-      <v-btn @click="refresh">{{ $t('btn.refresh_referential') }}</v-btn>
-    </div>
-    <div>
-      <actions />
-    </div>
+    <v-row>
+      <v-col cols="6">
+        <base-material-card color="#F39C12">
+          <template v-slot:heading>
+            <v-row>
+              <v-col cols="10">
+                <div class="text-h3 font-weight-light">{{ $t('workspace.referential.title') }}</div>
+              </v-col>
+            </v-row>
+          </template>
+          <v-card-text>
+            <!-- probleme de date -->
+            {{
+              $t('workspace.referential.content', { date: new Date(lastConnectionDate).toLocaleDateString('fr-FR') })
+            }}
+            <br />
+            <br />
+            {{ $t('workspace.referential.description') }}
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              outlined
+              color="#F39C12"
+              @click="refresh"
+            >
+              {{ $t('workspace.referential.btn_refresh') }}
+            </v-btn>
+          </v-card-actions>
+        </base-material-card>
+      </v-col>
+      <v-col>
+        <actions />
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="12">
+        <base-material-card color="primary">
+          <template v-slot:heading>
+            <v-row>
+              <v-col cols="10">
+                <div class="text-h3 font-weight-light">{{ $t('workspace.content.title') }}</div>
+              </v-col>
+            </v-row>
+          </template>
+          <v-card-text>
+            <workspace-content />
+          </v-card-text>
+        </base-material-card>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 <script>
+  import { mapState, mapGetters } from 'vuex'
   import Actions from './Actions.vue'
+  import WorkspaceContent from './Content.vue'
 
   export default {
     name: 'workspaceView',
     components: {
       Actions,
+      WorkspaceContent,
     },
     created() {
       this.loadReferential(false)
+    },
+    computed: {
+      ...mapState('auth', {
+        lastConnectionDate: 'lastConnectionDate',
+      }),
+      ...mapGetters('workspace', {
+        getWorkspace: 'getWorkspace',
+      }),
+      workspace: {
+        get() {
+          return this.getWorkspace
+        },
+      },
     },
     methods: {
       loadReferential(refresh) {
