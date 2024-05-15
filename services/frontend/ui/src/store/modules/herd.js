@@ -1,34 +1,6 @@
 import _ from 'lodash'
 import mixins from './mixins'
 
-// function calculatAvailablePasture(state, rootState) {
-//   stics = rootState.simulator.farm.rotations
-//   periods = rootState.simulator.periods
-
-//   const availablePastureByPeriod = Array.from(periods, (period) => ({
-//     period_id: period.id,
-//     totalAvailablePasture: 0,
-//   }))
-
-//   stics.forEach((stic) => {
-//     if (stic.type.indexOf('P') === 0) {
-//       stic_period.foreach((sp)=>{
-//         if (sp.farming_method === 'p') {
-//           availablePastureByPeriod.find(e=>e.period_id === )
-//         }
-//         return { periodId: p.period_id, availablePasture: availablePasture }
-//       })
-//       })
-//       console.log('je calcule')
-//       availablePastureByPeriod.find(e=>e.period_id === ) = stic.stic_period.map((p) => {
-//         if (p.farming_method === 'p') {
-//         }
-//         return { periodId: p.period_id, availablePasture: availablePasture }
-//       })
-//     }
-//   })
-// }
-
 export default {
   namespaced: true,
   state: {

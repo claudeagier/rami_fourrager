@@ -159,7 +159,6 @@
         this.openModal(this.selectedPeriodIndex)
       },
       saveItem(item) {
-        console.log('save item', this.oldFeedItem)
         if (this.oldFeedItem !== null) {
           // Modification
           this.$store.commit('simulator/herd/updateClassicFeed', {

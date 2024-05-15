@@ -29,7 +29,6 @@ const calculateTotalUE = (UEcolumn, feeds) => {
   const totalProportion = Object.values(feeds).reduce((acc, curr) => {
     return fixFloatingPoint(acc + curr.proportion / 100, 15)
   }, 0.0)
-  console.log('totalProportion', totalProportion)
   if (totalProportion < 1) {
     return 1
   }
@@ -389,8 +388,8 @@ export default {
     const totalAvailablePastureByPeriod = {}
     rootState.referential.periods.forEach((period) => {
       const key = 'period_id_' + period.id
-
       const total = Object.values(state.rotations).reduce((total, rotation) => {
+        // find stic in sticList
         const sp = rotation.stic.stic_periods.find((el) => el.period_id === period.id)
         var calcul = 0
         if (sp.farming_method === 'P' && sp.production > 0) {
@@ -398,8 +397,8 @@ export default {
         }
         return total + calcul
       }, 0) // ok
-
       const UF = Object.values(state.rotations).reduce((uf, rotation) => {
+        // find stic in sticList
         const sp = rotation.stic.stic_periods.find((el) => el.period_id === period.id)
         var num = 0
         if (sp.farming_method === 'P' && sp.production > 0) {
@@ -412,6 +411,7 @@ export default {
       }, 0.0)
 
       const PDI = Object.values(state.rotations).reduce((pdi, rotation) => {
+        // find stic in sticList
         const sp = rotation.stic.stic_periods.find((el) => el.period_id === period.id)
         if (sp.farming_method === 'P' && sp.production > 0) {
           const calcul = sp.production * rotation.surface
@@ -440,6 +440,7 @@ export default {
     const barnStockItems = rootState.referential.barnStockItems
     for (let index = 0; index < rootState.referential.periods.length; index++) {
       for (const rotation of state.rotations) {
+        // find stic in sticList
         const sp = rotation.stic.stic_periods[index]
         if (sp.farming_method !== '' && sp.production > 0) {
           // répartition du stock au global

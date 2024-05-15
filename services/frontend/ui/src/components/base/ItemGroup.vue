@@ -79,7 +79,6 @@
         }))
       },
       computedText() {
-        console.log('item', this.item)
         if (!this.item || !this.item.title) return ''
 
         let text = ''
