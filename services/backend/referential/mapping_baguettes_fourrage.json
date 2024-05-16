@@ -1,0 +1,159 @@
+{
+  "fichier_baguettes_fourrage.csv": {
+    "model": "Stic",
+    "column_mapping": {
+      "Abrev_baguette": "name",
+      "type": "type",
+      "Rdt_paille": "rendement",
+      "Designation_baguettes": "designation",
+      "RU": "RU",
+      "IN": "IN",
+      "ITK": "ITK",
+      "Détail_ITK": "detail_ITK"
+    },
+    "uniqueness_constraints": {
+      "onParent": ["name", "type"],
+      "onRelation": [
+        {
+          "relation_name": "climatic_year",
+          "contraint_mapping": {
+            "annee": "name"
+          }
+        }
+      ]
+    },
+    "relations": {
+      "climatic_year": {
+        "model": "ClimaticYear",
+        "to_fill": "False",
+        "column_mapping": {
+          "annee": "name"
+        },
+        "uniqueness_constraints": {
+          "onParent": ["name"],
+          "onRelation": [
+            {
+              "relation_name": "site",
+              "contraint_mapping": {
+                "site": "name"
+              }
+            }
+          ]
+        },
+        "required": "True"
+      },
+      "pasture_type": {
+        "model": "PastureType",
+        "to_fill": "False",
+        "column_mapping": {
+          "Type_pature": "name"
+        },
+        "uniqueness_constraints": {
+          "onParent": ["name"]
+        },
+        "required": "False"
+      }
+    },
+    "has_pivot": {
+      "model": "SticPeriod",
+      "on": "stic_id",
+      "is_pivot": {
+        "with": "Period",
+        "on": "period_id",
+        "with_mapping": [
+          {
+            "on_name": "1",
+            "column_mapping": {
+              "P1": "production",
+              "M1": "farming_method"
+            }
+          },
+          {
+            "on_name": "2",
+            "column_mapping": {
+              "P2": "production",
+              "M2": "farming_method"
+            }
+          },
+          {
+            "on_name": "3",
+            "column_mapping": {
+              "P3": "production",
+              "M3": "farming_method"
+            }
+          },
+          {
+            "on_name": "4",
+            "column_mapping": {
+              "P4": "production",
+              "M4": "farming_method"
+            }
+          },
+          {
+            "on_name": "5",
+            "column_mapping": {
+              "P5": "production",
+              "M5": "farming_method"
+            }
+          },
+          {
+            "on_name": "6",
+            "column_mapping": {
+              "P6": "production",
+              "M6": "farming_method"
+            }
+          },
+          {
+            "on_name": "7",
+            "column_mapping": {
+              "P7": "production",
+              "M7": "farming_method"
+            }
+          },
+          {
+            "on_name": "8",
+            "column_mapping": {
+              "P8": "production",
+              "M8": "farming_method"
+            }
+          },
+          {
+            "on_name": "9",
+            "column_mapping": {
+              "P9": "production",
+              "M9": "farming_method"
+            }
+          },
+          {
+            "on_name": "10",
+            "column_mapping": {
+              "P10": "production",
+              "M10": "farming_method"
+            }
+          },
+          {
+            "on_name": "11",
+            "column_mapping": {
+              "P11": "production",
+              "M11": "farming_method"
+            }
+          },
+          {
+            "on_name": "12",
+            "column_mapping": {
+              "P12": "production",
+              "M12": "farming_method"
+            }
+          },
+          {
+            "on_name": "13",
+            "column_mapping": {
+              "P13": "production",
+              "M13": "farming_method"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

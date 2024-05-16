@@ -1,0 +1,29 @@
+{
+  "fichier_aliments_concentres.csv": {
+    "model": "ConcentratedFeed",
+    "column_mapping": {
+      "nom": "name"
+    },
+    "uniqueness_constraints": {
+      "onParent": ["name"]
+    },
+    "relations": {
+      "nutritional_values": {
+        "model": "NutritionalValues",
+        "to_fill": "True",
+        "column_mapping": {
+          "UFL": "UFL",
+          "UFV": "UFV",
+          "PDIN": "PDIN",
+          "PDIE": "PDIE",
+          "PDIinf": "PDI_inf",
+          "source": "source"
+        },
+        "uniqueness_constraints": {
+          "onParent": ["UFL", "UFV", "PDIN", "PDIE", "PDI_inf"]
+        },
+        "required": "True"
+      }
+    }
+  }
+}
