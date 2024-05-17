@@ -44,6 +44,7 @@
             type="number"
             label="Nb d'animaux présents"
             hide-spin-buttons
+            min="0"
             :color="pageColor"
           ></v-text-field>
           <v-text-field
@@ -52,6 +53,7 @@
             type="number"
             label="Jours de présence en bâtiment (/28)"
             hide-spin-buttons
+            min="0"
             :color="pageColor"
           ></v-text-field>
         </v-card>

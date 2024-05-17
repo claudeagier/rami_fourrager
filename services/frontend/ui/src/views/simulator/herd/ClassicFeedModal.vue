@@ -54,6 +54,7 @@
                     type="number"
                     :rules="[rules.required, rules.integer]"
                     hide-spin-buttons
+                    min="0"
                   ></v-text-field>
                 </v-col>
               </v-row>

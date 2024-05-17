@@ -40,6 +40,7 @@
             label="Nombre d'animaux"
             type="number"
             hide-spin-buttons
+            min="0"
           ></v-text-field>
         </v-card-text>
         <v-card-actions>

@@ -37,6 +37,7 @@
                       type="number"
                       class="period-input"
                       hide-spin-buttons
+                      min="0"
                     ></v-text-field>
                   </td>
                 </tr>
@@ -52,6 +53,7 @@
                       type="number"
                       class="period-input"
                       hide-spin-buttons
+                      min="0"
                     ></v-text-field>
                   </td>
                 </tr>

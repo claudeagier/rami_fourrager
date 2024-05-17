@@ -54,6 +54,7 @@
                     :rules="[rules.required]"
                     clearable
                     hide-spin-buttons
+                    min="0"
                   ></v-text-field>
                 </v-col>
               </v-row>

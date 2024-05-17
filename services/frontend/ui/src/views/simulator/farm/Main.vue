@@ -47,6 +47,7 @@
                             :rules="required"
                             type="number"
                             hide-spin-buttons
+                            min="0"
                           ></v-text-field>
                         </v-col>
                         <v-col cols="12">
@@ -61,6 +62,7 @@
                             :rules="constraintRules"
                             type="number"
                             hide-spin-buttons
+                            min="0"
                           ></v-text-field>
                           <v-text-field
                             v-model.number="ploughable"
@@ -68,18 +70,21 @@
                             :rules="constraintRules"
                             type="number"
                             hide-spin-buttons
+                            min="0"
                           ></v-text-field>
                           <v-text-field
                             v-model.number="superficial"
                             label="superficial"
                             :rules="constraintRules"
                             type="number"
+                            min="0"
                           ></v-text-field>
                           <v-text-field
                             v-model.number="reachable"
                             label="reachable"
                             :rules="constraintRules"
                             type="number"
+                            min="0"
                             hide-spin-buttons
                           ></v-text-field>
                         </v-col>

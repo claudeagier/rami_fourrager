@@ -11,13 +11,9 @@
       >
         <base-material-card>
           <template v-slot:heading>
-            <div class="text-h3 font-weight-light">
-              Edit Profile
-            </div>
+            <div class="text-h3 font-weight-light">Edit Profile</div>
 
-            <div class="text-subtitle-1 font-weight-light">
-              Complete your profile
-            </div>
+            <div class="text-subtitle-1 font-weight-light">Complete your profile</div>
           </template>
 
           <v-form>
@@ -108,6 +104,7 @@
                     class="purple-input"
                     label="Postal Code"
                     type="number"
+                    min="0"
                   />
                 </v-col>
 
@@ -145,16 +142,13 @@
           avatar=""
         >
           <v-card-text class="text-center">
-            <h6 class="text-h4 mb-1 grey--text">
-              CEO / CO-FOUNDER
-            </h6>
+            <h6 class="text-h4 mb-1 grey--text">CEO / CO-FOUNDER</h6>
 
-            <h4 class="text-h3 font-weight-light mb-3 black--text">
-              Alec Thompson
-            </h4>
+            <h4 class="text-h3 font-weight-light mb-3 black--text">Alec Thompson</h4>
 
             <p class="font-weight-light grey--text">
-              Don't be scared of the truth because we need to restart the human foundation in truth And I love you like Kanye loves Kanye I love Rick Owens’ bed design but the back is...
+              Don't be scared of the truth because we need to restart the human foundation in truth And I love you like
+              Kanye loves Kanye I love Rick Owens’ bed design but the back is...
             </p>
 
             <v-btn

@@ -157,6 +157,7 @@
                                         :label="$t('barn.modal.quantity', { unity: selectedItem?.unity })"
                                         type="number"
                                         hide-spin-buttons
+                                        min="0"
                                       ></v-text-field>
                                     </v-col>
                                   </v-row>

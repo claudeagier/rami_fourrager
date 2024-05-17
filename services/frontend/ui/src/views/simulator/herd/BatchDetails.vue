@@ -30,6 +30,7 @@
           :rules="[rules.required, rules.integer]"
           label="Nombre d'animaux"
           type="number"
+          min="0"
           :color="pageColor"
           hide-spin-buttons
         ></v-text-field>
