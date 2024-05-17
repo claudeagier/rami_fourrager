@@ -211,10 +211,25 @@
             "actions": "Actions"
           }
         },
-        "feeds": {
-          "header": { "name": "Nom", "actions": "Actions" }
+        "classicFeeds": {
+          "header": { "name": "Nom", "actions": "Actions" },
+          "create": {
+            "btn": "Ajouter une carte ration",
+            "dialog": {
+              "title": "Créer une nouvelle carte ration",
+              "btn_create": "Créer",
+              "btn_cancel": "Annuler",
+              "correspondingStock": "Stock correspondant",
+              "name": "Nom de la ration",
+              "nutritional_values": "Valeurs nutritionnelles de la ration"
+            }
+          }
         }
       }
     }
+  },
+  "validation": {
+    "required": "Une valeur est requise",
+    "number": "La valeur doit être numérique"
   }
 }

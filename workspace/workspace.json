@@ -26,19 +26,84 @@
               "ITK": "",
               "detail_ITK": "",
               "stic_periods": [
-                { "id": 28302, "period_id": 1, "production": 0, "farming_method": "" },
-                { "id": 28303, "period_id": 2, "production": 0, "farming_method": "" },
-                { "id": 28304, "period_id": 3, "production": 0, "farming_method": "" },
-                { "id": 28305, "period_id": 4, "production": 0, "farming_method": "" },
-                { "id": 28306, "period_id": 5, "production": 0, "farming_method": "" },
-                { "id": 28307, "period_id": 6, "production": 0, "farming_method": "" },
-                { "id": 28308, "period_id": 7, "production": 0, "farming_method": "RP" },
-                { "id": 28309, "period_id": 8, "production": 30, "farming_method": "RC" },
-                { "id": 28310, "period_id": 9, "production": 0, "farming_method": "" },
-                { "id": 28311, "period_id": 10, "production": 0, "farming_method": "" },
-                { "id": 28312, "period_id": 11, "production": 0, "farming_method": "" },
-                { "id": 28313, "period_id": 12, "production": 0, "farming_method": "" },
-                { "id": 28314, "period_id": 13, "production": 0, "farming_method": "" }
+                {
+                  "id": 28302,
+                  "period_id": 1,
+                  "production": 0,
+                  "farming_method": ""
+                },
+                {
+                  "id": 28303,
+                  "period_id": 2,
+                  "production": 0,
+                  "farming_method": ""
+                },
+                {
+                  "id": 28304,
+                  "period_id": 3,
+                  "production": 0,
+                  "farming_method": ""
+                },
+                {
+                  "id": 28305,
+                  "period_id": 4,
+                  "production": 0,
+                  "farming_method": ""
+                },
+                {
+                  "id": 28306,
+                  "period_id": 5,
+                  "production": 0,
+                  "farming_method": ""
+                },
+                {
+                  "id": 28307,
+                  "period_id": 6,
+                  "production": 0,
+                  "farming_method": ""
+                },
+                {
+                  "id": 28308,
+                  "period_id": 7,
+                  "production": 0,
+                  "farming_method": "RP"
+                },
+                {
+                  "id": 28309,
+                  "period_id": 8,
+                  "production": 30,
+                  "farming_method": "RC"
+                },
+                {
+                  "id": 28310,
+                  "period_id": 9,
+                  "production": 0,
+                  "farming_method": ""
+                },
+                {
+                  "id": 28311,
+                  "period_id": 10,
+                  "production": 0,
+                  "farming_method": ""
+                },
+                {
+                  "id": 28312,
+                  "period_id": 11,
+                  "production": 0,
+                  "farming_method": ""
+                },
+                {
+                  "id": 28313,
+                  "period_id": 12,
+                  "production": 0,
+                  "farming_method": ""
+                },
+                {
+                  "id": 28314,
+                  "period_id": 13,
+                  "production": 0,
+                  "farming_method": ""
+                }
               ],
               "ClimaticYear": { "id": null, "name": null, "code": null },
               "site": { "id": null, "name": null, "code": null },
@@ -78,19 +143,84 @@
               "ITK": "",
               "detail_ITK": "",
               "stic_periods": [
-                { "id": 28315, "period_id": 1, "production": 0, "farming_method": "" },
-                { "id": 28316, "period_id": 2, "production": 0, "farming_method": "" },
-                { "id": 28317, "period_id": 3, "production": 0, "farming_method": "" },
-                { "id": 28318, "period_id": 4, "production": 0, "farming_method": "" },
-                { "id": 28319, "period_id": 5, "production": 0, "farming_method": "" },
-                { "id": 28320, "period_id": 6, "production": 0, "farming_method": "" },
-                { "id": 28321, "period_id": 7, "production": 0, "farming_method": "" },
-                { "id": 28322, "period_id": 8, "production": 0, "farming_method": "" },
-                { "id": 28323, "period_id": 9, "production": 0, "farming_method": "" },
-                { "id": 28324, "period_id": 10, "production": 10, "farming_method": "EM" },
-                { "id": 28325, "period_id": 11, "production": 0, "farming_method": "" },
-                { "id": 28326, "period_id": 12, "production": 0, "farming_method": "" },
-                { "id": 28327, "period_id": 13, "production": 0, "farming_method": "" }
+                {
+                  "id": 28315,
+                  "period_id": 1,
+                  "production": 0,
+                  "farming_method": ""
+                },
+                {
+                  "id": 28316,
+                  "period_id": 2,
+                  "production": 0,
+                  "farming_method": ""
+                },
+                {
+                  "id": 28317,
+                  "period_id": 3,
+                  "production": 0,
+                  "farming_method": ""
+                },
+                {
+                  "id": 28318,
+                  "period_id": 4,
+                  "production": 0,
+                  "farming_method": ""
+                },
+                {
+                  "id": 28319,
+                  "period_id": 5,
+                  "production": 0,
+                  "farming_method": ""
+                },
+                {
+                  "id": 28320,
+                  "period_id": 6,
+                  "production": 0,
+                  "farming_method": ""
+                },
+                {
+                  "id": 28321,
+                  "period_id": 7,
+                  "production": 0,
+                  "farming_method": ""
+                },
+                {
+                  "id": 28322,
+                  "period_id": 8,
+                  "production": 0,
+                  "farming_method": ""
+                },
+                {
+                  "id": 28323,
+                  "period_id": 9,
+                  "production": 0,
+                  "farming_method": ""
+                },
+                {
+                  "id": 28324,
+                  "period_id": 10,
+                  "production": 10,
+                  "farming_method": "EM"
+                },
+                {
+                  "id": 28325,
+                  "period_id": 11,
+                  "production": 0,
+                  "farming_method": ""
+                },
+                {
+                  "id": 28326,
+                  "period_id": 12,
+                  "production": 0,
+                  "farming_method": ""
+                },
+                {
+                  "id": 28327,
+                  "period_id": 13,
+                  "production": 0,
+                  "farming_method": ""
+                }
               ],
               "ClimaticYear": { "id": null, "name": null, "code": null },
               "site": { "id": null, "name": null, "code": null },
@@ -130,19 +260,84 @@
               "ITK": "",
               "detail_ITK": "",
               "stic_periods": [
-                { "id": 27353, "period_id": 1, "production": 4.5, "farming_method": "P" },
-                { "id": 27354, "period_id": 2, "production": 11.3159375, "farming_method": "P" },
-                { "id": 27355, "period_id": 3, "production": 23.5428125, "farming_method": "P" },
-                { "id": 27356, "period_id": 4, "production": 30.9702232142857, "farming_method": "P" },
-                { "id": 27357, "period_id": 5, "production": 31.821875, "farming_method": "P" },
-                { "id": 27358, "period_id": 6, "production": 17.2527678571429, "farming_method": "P" },
-                { "id": 27359, "period_id": 7, "production": 11, "farming_method": "P" },
-                { "id": 27360, "period_id": 8, "production": 9, "farming_method": "P" },
-                { "id": 27361, "period_id": 9, "production": 10, "farming_method": "P" },
-                { "id": 27362, "period_id": 10, "production": 11, "farming_method": "P" },
-                { "id": 27363, "period_id": 11, "production": 9.41973214285714, "farming_method": "P" },
-                { "id": 27364, "period_id": 12, "production": 5.79223214285714, "farming_method": "P" },
-                { "id": 27365, "period_id": 13, "production": 4.45598214285714, "farming_method": "P" }
+                {
+                  "id": 27353,
+                  "period_id": 1,
+                  "production": 4.5,
+                  "farming_method": "P"
+                },
+                {
+                  "id": 27354,
+                  "period_id": 2,
+                  "production": 11.3159375,
+                  "farming_method": "P"
+                },
+                {
+                  "id": 27355,
+                  "period_id": 3,
+                  "production": 23.5428125,
+                  "farming_method": "P"
+                },
+                {
+                  "id": 27356,
+                  "period_id": 4,
+                  "production": 30.9702232142857,
+                  "farming_method": "P"
+                },
+                {
+                  "id": 27357,
+                  "period_id": 5,
+                  "production": 31.821875,
+                  "farming_method": "P"
+                },
+                {
+                  "id": 27358,
+                  "period_id": 6,
+                  "production": 17.2527678571429,
+                  "farming_method": "P"
+                },
+                {
+                  "id": 27359,
+                  "period_id": 7,
+                  "production": 11,
+                  "farming_method": "P"
+                },
+                {
+                  "id": 27360,
+                  "period_id": 8,
+                  "production": 9,
+                  "farming_method": "P"
+                },
+                {
+                  "id": 27361,
+                  "period_id": 9,
+                  "production": 10,
+                  "farming_method": "P"
+                },
+                {
+                  "id": 27362,
+                  "period_id": 10,
+                  "production": 11,
+                  "farming_method": "P"
+                },
+                {
+                  "id": 27363,
+                  "period_id": 11,
+                  "production": 9.41973214285714,
+                  "farming_method": "P"
+                },
+                {
+                  "id": 27364,
+                  "period_id": 12,
+                  "production": 5.79223214285714,
+                  "farming_method": "P"
+                },
+                {
+                  "id": 27365,
+                  "period_id": 13,
+                  "production": 4.45598214285714,
+                  "farming_method": "P"
+                }
               ],
               "ClimaticYear": { "id": null, "name": null, "code": null },
               "site": { "id": null, "name": null, "code": null },
@@ -182,19 +377,84 @@
               "ITK": "",
               "detail_ITK": "",
               "stic_periods": [
-                { "id": 28263, "period_id": 1, "production": 0, "farming_method": "" },
-                { "id": 28264, "period_id": 2, "production": 0, "farming_method": "" },
-                { "id": 28265, "period_id": 3, "production": 0, "farming_method": "" },
-                { "id": 28266, "period_id": 4, "production": 3, "farming_method": "EH" },
-                { "id": 28267, "period_id": 5, "production": 34.0601785714286, "farming_method": "P" },
-                { "id": 28268, "period_id": 6, "production": 14.9951785714286, "farming_method": "P" },
-                { "id": 28269, "period_id": 7, "production": 5.87464285714286, "farming_method": "P" },
-                { "id": 28270, "period_id": 8, "production": 0.931964285714286, "farming_method": "P" },
-                { "id": 28271, "period_id": 9, "production": 0.333928571428571, "farming_method": "P" },
-                { "id": 28272, "period_id": 10, "production": 8.78, "farming_method": "P" },
-                { "id": 28273, "period_id": 11, "production": 9.08089285714286, "farming_method": "P" },
-                { "id": 28274, "period_id": 12, "production": 5.36035714285714, "farming_method": "P" },
-                { "id": 28275, "period_id": 13, "production": 3.66464285714286, "farming_method": "P" }
+                {
+                  "id": 28263,
+                  "period_id": 1,
+                  "production": 0,
+                  "farming_method": ""
+                },
+                {
+                  "id": 28264,
+                  "period_id": 2,
+                  "production": 0,
+                  "farming_method": ""
+                },
+                {
+                  "id": 28265,
+                  "period_id": 3,
+                  "production": 0,
+                  "farming_method": ""
+                },
+                {
+                  "id": 28266,
+                  "period_id": 4,
+                  "production": 3,
+                  "farming_method": "EH"
+                },
+                {
+                  "id": 28267,
+                  "period_id": 5,
+                  "production": 34.0601785714286,
+                  "farming_method": "P"
+                },
+                {
+                  "id": 28268,
+                  "period_id": 6,
+                  "production": 14.9951785714286,
+                  "farming_method": "P"
+                },
+                {
+                  "id": 28269,
+                  "period_id": 7,
+                  "production": 5.87464285714286,
+                  "farming_method": "P"
+                },
+                {
+                  "id": 28270,
+                  "period_id": 8,
+                  "production": 0.931964285714286,
+                  "farming_method": "P"
+                },
+                {
+                  "id": 28271,
+                  "period_id": 9,
+                  "production": 0.333928571428571,
+                  "farming_method": "P"
+                },
+                {
+                  "id": 28272,
+                  "period_id": 10,
+                  "production": 8.78,
+                  "farming_method": "P"
+                },
+                {
+                  "id": 28273,
+                  "period_id": 11,
+                  "production": 9.08089285714286,
+                  "farming_method": "P"
+                },
+                {
+                  "id": 28274,
+                  "period_id": 12,
+                  "production": 5.36035714285714,
+                  "farming_method": "P"
+                },
+                {
+                  "id": 28275,
+                  "period_id": 13,
+                  "production": 3.66464285714286,
+                  "farming_method": "P"
+                }
               ],
               "ClimaticYear": { "id": null, "name": null, "code": null },
               "site": { "id": null, "name": null, "code": null },
@@ -234,19 +494,84 @@
               "ITK": "",
               "detail_ITK": "",
               "stic_periods": [
-                { "id": 27366, "period_id": 1, "production": 0, "farming_method": "" },
-                { "id": 27367, "period_id": 2, "production": 0, "farming_method": "" },
-                { "id": 27368, "period_id": 3, "production": 0, "farming_method": "" },
-                { "id": 27370, "period_id": 5, "production": 0, "farming_method": "" },
-                { "id": 27371, "period_id": 6, "production": 0, "farming_method": "" },
-                { "id": 27372, "period_id": 7, "production": 4, "farming_method": "FH" },
-                { "id": 27369, "period_id": 4, "production": 3, "farming_method": "EH" },
-                { "id": 27373, "period_id": 8, "production": 0.01125, "farming_method": "P" },
-                { "id": 27374, "period_id": 9, "production": 0.023392857142857, "farming_method": "P" },
-                { "id": 27375, "period_id": 10, "production": 4.95821428571429, "farming_method": "P" },
-                { "id": 27376, "period_id": 11, "production": 10.61375, "farming_method": "P" },
-                { "id": 27377, "period_id": 12, "production": 4.88196428571429, "farming_method": "P" },
-                { "id": 27378, "period_id": 13, "production": 3.91839285714286, "farming_method": "P" }
+                {
+                  "id": 27366,
+                  "period_id": 1,
+                  "production": 0,
+                  "farming_method": ""
+                },
+                {
+                  "id": 27367,
+                  "period_id": 2,
+                  "production": 0,
+                  "farming_method": ""
+                },
+                {
+                  "id": 27368,
+                  "period_id": 3,
+                  "production": 0,
+                  "farming_method": ""
+                },
+                {
+                  "id": 27370,
+                  "period_id": 5,
+                  "production": 0,
+                  "farming_method": ""
+                },
+                {
+                  "id": 27371,
+                  "period_id": 6,
+                  "production": 0,
+                  "farming_method": ""
+                },
+                {
+                  "id": 27372,
+                  "period_id": 7,
+                  "production": 4,
+                  "farming_method": "FH"
+                },
+                {
+                  "id": 27369,
+                  "period_id": 4,
+                  "production": 3,
+                  "farming_method": "EH"
+                },
+                {
+                  "id": 27373,
+                  "period_id": 8,
+                  "production": 0.01125,
+                  "farming_method": "P"
+                },
+                {
+                  "id": 27374,
+                  "period_id": 9,
+                  "production": 0.023392857142857,
+                  "farming_method": "P"
+                },
+                {
+                  "id": 27375,
+                  "period_id": 10,
+                  "production": 4.95821428571429,
+                  "farming_method": "P"
+                },
+                {
+                  "id": 27376,
+                  "period_id": 11,
+                  "production": 10.61375,
+                  "farming_method": "P"
+                },
+                {
+                  "id": 27377,
+                  "period_id": 12,
+                  "production": 4.88196428571429,
+                  "farming_method": "P"
+                },
+                {
+                  "id": 27378,
+                  "period_id": 13,
+                  "production": 3.91839285714286,
+                  "farming_method": "P"
+                }
               ],
               "ClimaticYear": { "id": null, "name": null, "code": null },
               "site": { "id": null, "name": null, "code": null },
@@ -286,19 +611,84 @@
               "ITK": "",
               "detail_ITK": "",
               "stic_periods": [
-                { "id": 27379, "period_id": 1, "production": 0, "farming_method": "" },
-                { "id": 27380, "period_id": 2, "production": 0, "farming_method": "" },
-                { "id": 27381, "period_id": 3, "production": 0, "farming_method": "" },
-                { "id": 27382, "period_id": 4, "production": 0, "farming_method": "" },
-                { "id": 27383, "period_id": 5, "production": 3.5, "farming_method": "EH" },
-                { "id": 27384, "period_id": 6, "production": 14.8051785714286, "farming_method": "P" },
-                { "id": 27385, "period_id": 7, "production": 3.88785714285714, "farming_method": "P" },
-                { "id": 27386, "period_id": 8, "production": 0.358928571428571, "farming_method": "P" },
-                { "id": 27387, "period_id": 9, "production": 0.855714285714286, "farming_method": "P" },
-                { "id": 27388, "period_id": 10, "production": 6.77339285714286, "farming_method": "P" },
-                { "id": 27389, "period_id": 11, "production": 8.56, "farming_method": "P" },
-                { "id": 27390, "period_id": 12, "production": 5.16392857142857, "farming_method": "P" },
-                { "id": 27391, "period_id": 13, "production": 4.97875, "farming_method": "P" }
+                {
+                  "id": 27379,
+                  "period_id": 1,
+                  "production": 0,
+                  "farming_method": ""
+                },
+                {
+                  "id": 27380,
+                  "period_id": 2,
+                  "production": 0,
+                  "farming_method": ""
+                },
+                {
+                  "id": 27381,
+                  "period_id": 3,
+                  "production": 0,
+                  "farming_method": ""
+                },
+                {
+                  "id": 27382,
+                  "period_id": 4,
+                  "production": 0,
+                  "farming_method": ""
+                },
+                {
+                  "id": 27383,
+                  "period_id": 5,
+                  "production": 3.5,
+                  "farming_method": "EH"
+                },
+                {
+                  "id": 27384,
+                  "period_id": 6,
+                  "production": 14.8051785714286,
+                  "farming_method": "P"
+                },
+                {
+                  "id": 27385,
+                  "period_id": 7,
+                  "production": 3.88785714285714,
+                  "farming_method": "P"
+                },
+                {
+                  "id": 27386,
+                  "period_id": 8,
+                  "production": 0.358928571428571,
+                  "farming_method": "P"
+                },
+                {
+                  "id": 27387,
+                  "period_id": 9,
+                  "production": 0.855714285714286,
+                  "farming_method": "P"
+                },
+                {
+                  "id": 27388,
+                  "period_id": 10,
+                  "production": 6.77339285714286,
+                  "farming_method": "P"
+                },
+                {
+                  "id": 27389,
+                  "period_id": 11,
+                  "production": 8.56,
+                  "farming_method": "P"
+                },
+                {
+                  "id": 27390,
+                  "period_id": 12,
+                  "production": 5.16392857142857,
+                  "farming_method": "P"
+                },
+                {
+                  "id": 27391,
+                  "period_id": 13,
+                  "production": 4.97875,
+                  "farming_method": "P"
+                }
               ],
               "ClimaticYear": { "id": null, "name": null, "code": null },
               "site": { "id": null, "name": null, "code": null },
@@ -338,19 +728,84 @@
               "ITK": "",
               "detail_ITK": "",
               "stic_periods": [
-                { "id": 28289, "period_id": 1, "production": 0, "farming_method": "" },
-                { "id": 28290, "period_id": 2, "production": 0, "farming_method": "" },
-                { "id": 28291, "period_id": 3, "production": 0, "farming_method": "" },
-                { "id": 28292, "period_id": 4, "production": 0, "farming_method": "" },
-                { "id": 28293, "period_id": 5, "production": 0, "farming_method": "" },
-                { "id": 28294, "period_id": 6, "production": 4, "farming_method": "FH" },
-                { "id": 28295, "period_id": 7, "production": 0, "farming_method": "P" },
-                { "id": 28296, "period_id": 8, "production": 0, "farming_method": "P" },
-                { "id": 28297, "period_id": 9, "production": 0, "farming_method": "P" },
-                { "id": 28298, "period_id": 10, "production": 0, "farming_method": "P" },
-                { "id": 28299, "period_id": 11, "production": 0, "farming_method": "P" },
-                { "id": 28300, "period_id": 12, "production": 0, "farming_method": "P" },
-                { "id": 28301, "period_id": 13, "production": 0, "farming_method": "P" }
+                {
+                  "id": 28289,
+                  "period_id": 1,
+                  "production": 0,
+                  "farming_method": ""
+                },
+                {
+                  "id": 28290,
+                  "period_id": 2,
+                  "production": 0,
+                  "farming_method": ""
+                },
+                {
+                  "id": 28291,
+                  "period_id": 3,
+                  "production": 0,
+                  "farming_method": ""
+                },
+                {
+                  "id": 28292,
+                  "period_id": 4,
+                  "production": 0,
+                  "farming_method": ""
+                },
+                {
+                  "id": 28293,
+                  "period_id": 5,
+                  "production": 0,
+                  "farming_method": ""
+                },
+                {
+                  "id": 28294,
+                  "period_id": 6,
+                  "production": 4,
+                  "farming_method": "FH"
+                },
+                {
+                  "id": 28295,
+                  "period_id": 7,
+                  "production": 0,
+                  "farming_method": "P"
+                },
+                {
+                  "id": 28296,
+                  "period_id": 8,
+                  "production": 0,
+                  "farming_method": "P"
+                },
+                {
+                  "id": 28297,
+                  "period_id": 9,
+                  "production": 0,
+                  "farming_method": "P"
+                },
+                {
+                  "id": 28298,
+                  "period_id": 10,
+                  "production": 0,
+                  "farming_method": "P"
+                },
+                {
+                  "id": 28299,
+                  "period_id": 11,
+                  "production": 0,
+                  "farming_method": "P"
+                },
+                {
+                  "id": 28300,
+                  "period_id": 12,
+                  "production": 0,
+                  "farming_method": "P"
+                },
+                {
+                  "id": 28301,
+                  "period_id": 13,
+                  "production": 0,
+                  "farming_method": "P"
+                }
               ],
               "pasture_type": {
                 "id": 4,
@@ -374,15 +829,28 @@
         "totalAvailablePastureByPeriod": null,
         "dimensioning": {
           "SAU": 120,
-          "constrainedSurfaces": { "irrigable": null, "ploughable": null, "superficial": null, "reachable": null }
+          "constrainedSurfaces": {
+            "irrigable": null,
+            "ploughable": null,
+            "superficial": null,
+            "reachable": null
+          }
         }
       },
       "barn": {
         "initialStock": [
           { "code": "FH", "name": "foin", "quantity": 58 },
           { "code": "FH", "name": "foin", "quantity": 58 },
-          { "code": "EH", "name": "Ensilage et enrubannage d'herbe", "quantity": 79 },
-          { "code": "EM", "name": "Ensilage de maïs et sorgho (riche UF)", "quantity": 66 }
+          {
+            "code": "EH",
+            "name": "Ensilage et enrubannage d'herbe",
+            "quantity": 79
+          },
+          {
+            "code": "EM",
+            "name": "Ensilage de maïs et sorgho (riche UF)",
+            "quantity": 66
+          }
         ]
       },
       "herd": {
@@ -507,21 +975,76 @@
             },
             "count": 78,
             "housing": {
-              "type": { "id": 5, "name": "Logettes tête à tête en conduite fumier" },
+              "type": {
+                "id": 5,
+                "name": "Logettes tête à tête en conduite fumier"
+              },
               "presence": [
-                { "period": { "id": 1, "name": "P1" }, "animalCount": 78, "days": 28 },
-                { "period": { "id": 2, "name": "P2" }, "animalCount": 78, "days": 22.4 },
-                { "period": { "id": 3, "name": "P3" }, "animalCount": 78, "days": 12.6 },
-                { "period": { "id": 4, "name": "P4" }, "animalCount": 78, "days": 7 },
-                { "period": { "id": 5, "name": "P5" }, "animalCount": 78, "days": 0 },
-                { "period": { "id": 6, "name": "P6" }, "animalCount": 78, "days": 6.16 },
-                { "period": { "id": 7, "name": "P7" }, "animalCount": 78, "days": 16.8 },
-                { "period": { "id": 8, "name": "P8" }, "animalCount": 78, "days": 21 },
-                { "period": { "id": 9, "name": "P9" }, "animalCount": 78, "days": 21 },
-                { "period": { "id": 10, "name": "P10" }, "animalCount": 78, "days": 12.6 },
-                { "period": { "id": 11, "name": "P11" }, "animalCount": 78, "days": 11.2 },
-                { "period": { "id": 12, "name": "P12" }, "animalCount": 78, "days": 19.6 },
-                { "period": { "id": 13, "name": "P13" }, "animalCount": 78, "days": 25.2 }
+                {
+                  "period": { "id": 1, "name": "P1" },
+                  "animalCount": 78,
+                  "days": 28
+                },
+                {
+                  "period": { "id": 2, "name": "P2" },
+                  "animalCount": 78,
+                  "days": 22.4
+                },
+                {
+                  "period": { "id": 3, "name": "P3" },
+                  "animalCount": 78,
+                  "days": 12.6
+                },
+                {
+                  "period": { "id": 4, "name": "P4" },
+                  "animalCount": 78,
+                  "days": 7
+                },
+                {
+                  "period": { "id": 5, "name": "P5" },
+                  "animalCount": 78,
+                  "days": 0
+                },
+                {
+                  "period": { "id": 6, "name": "P6" },
+                  "animalCount": 78,
+                  "days": 6.16
+                },
+                {
+                  "period": { "id": 7, "name": "P7" },
+                  "animalCount": 78,
+                  "days": 16.8
+                },
+                {
+                  "period": { "id": 8, "name": "P8" },
+                  "animalCount": 78,
+                  "days": 21
+                },
+                {
+                  "period": { "id": 9, "name": "P9" },
+                  "animalCount": 78,
+                  "days": 21
+                },
+                {
+                  "period": { "id": 10, "name": "P10" },
+                  "animalCount": 78,
+                  "days": 12.6
+                },
+                {
+                  "period": { "id": 11, "name": "P11" },
+                  "animalCount": 78,
+                  "days": 11.2
+                },
+                {
+                  "period": { "id": 12, "name": "P12" },
+                  "animalCount": 78,
+                  "days": 19.6
+                },
+                {
+                  "period": { "id": 13, "name": "P13" },
+                  "animalCount": 78,
+                  "days": 25.2
+                }
               ]
             },
             "classicFeeds": [
@@ -1881,5 +2404,5 @@
   ],
   "stics": [],
   "animalProfiles": [],
-  "feeds": []
+  "classicFeeds": []
 }

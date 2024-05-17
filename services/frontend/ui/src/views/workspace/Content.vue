@@ -320,61 +320,11 @@
                   vertical
                 />
                 <v-spacer></v-spacer>
-                <v-btn
-                  outlined
-                  color="primary"
-                  @click="showSimulationModal = true"
-                >
-                  {{ $t('workspace.content.datatables.simulations.create.btn') }}
-                </v-btn>
-                <v-dialog
-                  persistent
-                  no-click-animation
-                  v-model="showSimulationModal"
-                  max-width="600"
-                >
-                  <v-card>
-                    <v-card-title>{{
-                      $t('workspace.content.datatables.simulations.create.dialog.title')
-                    }}</v-card-title>
-                    <v-form
-                      ref="simulationForm"
-                      v-model="validSimulation"
-                      @submit.prevent="createSimulation"
-                      lazy-validation
-                    >
-                      <v-card-text>
-                        <v-text-field
-                          v-model="simulationItem.name"
-                          label="Nom"
-                          :rules="[simulationRules.required]"
-                        ></v-text-field>
-                        <v-textarea
-                          v-model="simulationItem.description"
-                          label="Description"
-                        ></v-textarea>
-                      </v-card-text>
-                      <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn
-                          outlined
-                          color="green"
-                          type="submit"
-                          :disabled="!validSimulation"
-                        >
-                          {{ $t('workspace.content.datatables.simulations.create.dialog.btn_create') }}
-                        </v-btn>
-                        <v-btn
-                          color="grey"
-                          outlined
-                          @click="cancelCreateSimulation"
-                        >
-                          {{ $t('workspace.content.datatables.simulations.create.dialog.btn_cancel') }}
-                        </v-btn>
-                      </v-card-actions>
-                    </v-form>
-                  </v-card>
-                </v-dialog>
+                <classic-feed-modal
+                  :forceOpen="openClassicFeedModal"
+                  :item="feedItem"
+                  @add-item="createClassicFeed"
+                />
               </v-toolbar>
             </template>
             <template v-slot:item.actions="{ item }">
@@ -390,13 +340,17 @@
 <script>
   import { mapState, mapMutations, mapGetters } from 'vuex'
   import simulationSchema from '@/schemas/simulation'
+  import ClassicFeedModal from './ClassicFeedModal.vue'
   export default {
     name: 'WorkspaceContent',
+    components: { ClassicFeedModal },
     data() {
       return {
         selectedRows: [],
         showSimulationModal: false,
         simulationItem: {},
+        feedItem: null,
+        openClassicFeedModal: false,
         validSimulation: false,
         simulationRules: {
           required: (val) => !!val || 'Ce champ est requis',
@@ -461,8 +415,12 @@
       },
       feedHeaders() {
         return [
-          { text: this.$t('workspace.content.datatables.feeds.header.name'), value: 'feedName' },
-          { text: this.$t('workspace.content.datatables.feeds.header.actions'), value: 'actions', sortable: false },
+          { text: this.$t('workspace.content.datatables.classicFeeds.header.name'), value: 'feedName' },
+          {
+            text: this.$t('workspace.content.datatables.classicFeeds.header.actions'),
+            value: 'actions',
+            sortable: false,
+          },
         ]
       },
     },
@@ -552,9 +510,14 @@
       exportStic(stic) {
         // Ajoutez ici la logique pour exporter le stic
       },
-      modifyFeed(feed) {
-        // Ajoutez ici la logique pour modifier le feed
+      createClassicFeed(feed) {
+        console.log('create', feed)
       },
+      editFeed(feed) {
+        // Ajoutez ici la logique pour modifier le feed
+        this.openClassicFeedModal = true
+      },
+      deleteFeed(feed) {},
       exportFeed(feed) {
         // Ajoutez ici la logique pour exporter le feed
       },

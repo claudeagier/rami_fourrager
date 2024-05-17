@@ -89,12 +89,12 @@
 
 <script>
   import { mapMutations, mapGetters } from 'vuex'
+  import workspaceSchema from '@/schemas/workspace'
 
   export default {
     name: 'Actions',
     data() {
       return {
-        workspaceItem: { tag: 'created', simulations: [], stics: [], animalProfiles: [], feeds: [] },
         showImportModal: false, // Ajout d'une propriété pour contrôler l'affichage de la modal d'importation
       }
     },
@@ -121,7 +121,7 @@
           simulations: this.workspace.simulations,
           stics: this.workspace.stics,
           animalProfiles: this.workspace.animalProfiles,
-          feeds: this.workspace.feeds,
+          classicFeeds: this.workspace.classicFeeds,
         }
 
         const jsonData = JSON.stringify(data)
@@ -181,7 +181,7 @@
         }
       },
       createWorkspace() {
-        this.setWorkspace(this.workspaceItem)
+        this.setWorkspace({ ...workspaceSchema })
       },
     },
   }
