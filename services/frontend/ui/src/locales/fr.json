@@ -5,7 +5,6 @@
   "charts": "Charts",
   "components": "Components",
   "ct": "CT",
-  "dashboard": "Dashboard",
   "simulation": "Simulation",
   "dtables": "Data Tables",
   "eforms": "Extended Forms",
@@ -47,11 +46,20 @@
   "Notifications": "Notifications",
   "Users": "Utilisateurs",
   "Profil": "Profil",
+  "confirmation_dialog": {
+    "title": "Confirmer",
+    "description": "Vous n'avez pas enregistré les modifications apportées à la simulation",
+    "question": "Êtes-vous sûr de vouloir quitter cette page ?",
+    "btn_confirm": "OUI",
+    "btn_cancel": "NON"
+  },
   "btn": {
     "save": "Enregistrer",
     "cancel": "Annuler",
     "add": "Ajouter",
-    "refresh_referential": "Rafraichir le référentiel"
+    "refresh": "Actualiser",
+    "refresh_referential": "Actualiser le référentiel",
+    "complete": "Compléter"
   },
   "breadcrumb": {
     "workspace": "Espace de travail",
@@ -61,6 +69,19 @@
     "herd": "Troupeau",
     "users": "Utilisateurs",
     "profile": "Profil"
+  },
+  "dashboard": {
+    "title": "Tableau de bord",
+    "no_simulation_dialog": {
+      "title": "Pas de simulation",
+      "row1": "Rendez-vous dans l'espave de travail",
+      "for": "pour",
+      "row2": "Charger une simulation existante",
+      "or": "ou",
+      "row3": "Créer une nouvelle simulation",
+      "btn_workspace": "Espace de travail"
+    },
+    "simulation": { "name": "Nom de la simulation : {name}" }
   },
   "barn": {
     "title": "La grange",
@@ -143,12 +164,17 @@
         "error": "Error fetching concentrated feeds"
       },
       "housing_type": { "success": "Les types de logement sont à jour", "error": "Error fetching housing types" }
+    },
+    "workspace": {
+      "file_exported_successfully": "Fichier exporté",
+      "file_imported_successfully": "Fichier importé"
     }
   },
   "workspace": {
     "referential": {
       "title": "Le référentiel",
-      "content": "Le référentiel a été mis à jour le {date}",
+      "uptodate": "Le référentiel a été mis à jour le {date}",
+      "toUpdate": "Le référentiel est à mettre à jour",
       "description": "Rafraichir le référentiel en cliquant ci-dessous",
       "btn_refresh": "Rafraichir le référentiel"
     },
@@ -212,12 +238,12 @@
           }
         },
         "classicFeeds": {
-          "header": { "name": "Nom", "actions": "Actions" },
+          "header": { "name": "Nom", "actions": "Actions", "correspondingStock": "Type de production" },
           "create": {
             "btn": "Ajouter une carte ration",
             "dialog": {
               "title": "Créer une nouvelle carte ration",
-              "btn_create": "Créer",
+              "btn_create": "Enregistrer",
               "btn_cancel": "Annuler",
               "correspondingStock": "Stock correspondant",
               "name": "Nom de la ration",

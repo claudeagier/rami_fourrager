@@ -15,13 +15,22 @@
             </v-row>
           </template>
           <v-card-text>
-            <!-- probleme de date -->
-            {{
-              $t('workspace.referential.content', { date: new Date(lastConnectionDate).toLocaleDateString('fr-FR') })
-            }}
-            <br />
-            <br />
-            {{ $t('workspace.referential.description') }}
+            <div v-if="lastConnectionDate">
+              {{
+                $t('workspace.referential.uptodate', { date: new Date(lastConnectionDate).toLocaleDateString('fr-FR') })
+              }}
+              <br />
+              <br />
+              {{ $t('workspace.referential.description') }}
+            </div>
+            <div v-else>
+              {{
+                $t('workspace.referential.toUpdate', { date: new Date(lastConnectionDate).toLocaleDateString('fr-FR') })
+              }}
+              <br />
+              <br />
+              {{ $t('workspace.referential.description') }}
+            </div>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>

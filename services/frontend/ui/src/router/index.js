@@ -2,8 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from '../views/auth/Login'
 import Register from '../views/auth/Register'
-import Workspace from '../views/workspace/Index'
 import store from '@/store'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -38,10 +38,19 @@ const routes = [
           },
         },
       },
+    ],
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: '/',
+    component: () => import('@/views/Index'),
+    children: [
       // Dashboard
       {
         name: 'simulation',
-        path: 'simulation',
+        path: 'simulation/dashboard',
         component: () => import('@/views/simulator/Dashboard'),
         meta: {
           breadCrumb(route) {
@@ -57,7 +66,7 @@ const routes = [
       },
       {
         name: 'barn',
-        path: 'barn',
+        path: 'simulation/barn',
         component: () => import('@/views/simulator/barn/Main'),
         meta: {
           breadCrumb(route) {
@@ -77,7 +86,7 @@ const routes = [
       },
       {
         name: 'farm',
-        path: 'farm',
+        path: 'simulation/farm',
         component: () => import('@/views/simulator/farm/Main'),
         meta: {
           breadCrumb(route) {
@@ -97,7 +106,7 @@ const routes = [
       },
       {
         name: 'herd',
-        path: 'herd',
+        path: 'simulation/herd',
         component: () => import('@/views/simulator/herd/Main'),
         meta: {
           breadCrumb(route) {
@@ -205,4 +214,5 @@ router.beforeEach(async (to, from, next) => {
     next()
   }
 })
+
 export default router

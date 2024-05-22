@@ -1,27 +1,7 @@
 import _ from 'lodash'
 
 const fixFloatingPoint = (val, precision = 3) => Number.parseFloat(val.toPrecision(precision))
-const deepEqual = (obj1, obj2) => {
-  // Si les deux objets sont du même type, on les compare
-  if (typeof obj1 === 'object' && typeof obj2 === 'object') {
-    // On vérifie si les deux objets ont le même nombre de propriétés
-    const keys1 = Object.keys(obj1)
-    const keys2 = Object.keys(obj2)
-    if (keys1.length !== keys2.length) {
-      return false
-    }
-    // On compare récursivement les valeurs de chaque propriété
-    for (const key of keys1) {
-      if (!deepEqual(obj1[key], obj2[key])) {
-        return false
-      }
-    }
-    return true
-  } else {
-    // Si les objets sont de types différents, on les compare directement
-    return obj1 === obj2
-  }
-}
+
 // ok
 const calculateTotalUE = (UEcolumn, feeds) => {
   const precision = 4
@@ -219,7 +199,6 @@ const getFinalEnergeticCoverage = function (state, rootState, batchId) {
 }
 
 export default {
-  deepEqual,
   getFinalEnergeticCoverage,
 
   getEnergeticCoverage: function (state, rootState, batchId, withConcentrated = false) {

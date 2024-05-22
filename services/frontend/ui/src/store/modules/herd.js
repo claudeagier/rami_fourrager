@@ -1,5 +1,6 @@
 import _ from 'lodash'
 import mixins from './mixins'
+import { deepEqual } from '../../plugins/utils'
 
 export default {
   namespaced: true,
@@ -63,7 +64,7 @@ export default {
 
     updateClassicFeed(state, { batchId, periodId, newFeed, oldFeed }) {
       const classicFeeds = state.batchs[batchId].classicFeeds[periodId].feeds
-      const feedIndex = classicFeeds.findIndex((feed) => mixins.deepEqual(feed, oldFeed))
+      const feedIndex = classicFeeds.findIndex((feed) => deepEqual(feed, oldFeed))
       if (feedIndex > -1) {
         classicFeeds.splice(feedIndex, 1, newFeed)
       }

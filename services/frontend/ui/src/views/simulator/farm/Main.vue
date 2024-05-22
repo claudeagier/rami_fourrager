@@ -243,13 +243,13 @@
 
 <script>
   import { mapGetters } from 'vuex'
-  // TODO-FRONT modifier la manière de chargé les stics dans la simulation pour les changements d'années climatiques
-  // seulement mettre le nom de la baguette et customiser la recherche de l'autocomplete
-  // il faut aussi voir pour la fonction apply qui va rechercher les baguettes dans la liste par le site et l'année climatique et le nom de la baguette pour les calculs
-  // on ne prend plus les stic dans le state mais dans la liste filtré
+  import navigationGuard from '@/mixins/navigationGuard'
   export default {
     name: 'Farm',
-
+    mixins: [navigationGuard],
+    confirmNavigation(callback) {
+      this.$confirmNavigation(callback)
+    },
     data() {
       return {
         sticList: [],

@@ -1,17 +1,6 @@
 import axios from '@plugins/axios'
 import localForage from 'localforage'
-
-function getCurrentDateTime() {
-  var now = new Date()
-  var year = now.getFullYear()
-  var month = ('0' + (now.getMonth() + 1)).slice(-2) // Les mois sont 0-indexés, donc on ajoute 1
-  var day = ('0' + now.getDate()).slice(-2)
-  var hours = ('0' + now.getHours()).slice(-2)
-  var minutes = ('0' + now.getMinutes()).slice(-2)
-  var seconds = ('0' + now.getSeconds()).slice(-2)
-  var formattedDateTime = year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds
-  return formattedDateTime
-}
+import { getCurrentDateTime, deepCopy } from '@/plugins/utils'
 
 // TODO-FRONT test all and continu
 async function fetch(what, since, commit, dispatch) {
@@ -51,6 +40,18 @@ async function getLastConnectionDate() {
   const workspace = await localForage.getItem('workspace')
   const lcd = workspace.auth.lastConnectionDate
   return lcd
+}
+
+function mergeLists(dbList, customList) {
+  const lastItem = dbList[dbList.length - 1]
+  if (Object.prototype.hasOwnProperty.call(lastItem, 'id')) {
+    dbList.push(
+      ...customList.map((cl, index) => {
+        return { id: lastItem.id + index + 1, ...deepCopy(cl) }
+      })
+    )
+  }
+  return dbList
 }
 export default {
   namespaced: true,
@@ -96,6 +97,12 @@ export default {
         return !state[to].some((existing) => existing.id === what.id)
       })
       state[to].push(...uniqueNew)
+    },
+    addCustomList(state, { whats, to }) {
+      const customList = whats.map((w) => {
+        return {}
+      })
+      state[to].push(...customList)
     },
   },
   actions: {
@@ -146,8 +153,12 @@ export default {
   },
   getters: {
     // select lists
-    animalProfileList: (state) => (batchTypeId) => {
-      return state.animal_profiles.filter((ap) => {
+    animalProfileList: (state, getters, rootState) => (batchTypeId) => {
+      var list = state.animal_profiles
+      if (rootState.workspace.workspace.animalProfiles.length > 0) {
+        list = mergeLists([...state.animal_profiles], [...rootState.workspace.workspace.animalProfiles])
+      }
+      return list.filter((ap) => {
         return ap.batch_type_id === batchTypeId
       })
     },
@@ -158,12 +169,22 @@ export default {
         return cy.site_id === siteId
       })
     },
-    feedTypeList: (state) => state.feed_types,
+    feedTypeList: (state, getters, rootState) => {
+      var list = state.feed_types
+      if (rootState.workspace.workspace.classicFeeds.length > 0) {
+        list = mergeLists([...state.feed_types], [...rootState.workspace.workspace.classicFeeds])
+      }
+      return list
+    },
     housingTypeList: (state) => state.housing_types,
     periodList: (state) => state.periods,
     siteList: (state) => state.sites,
-    sticList: (state) => (climaticYearId) => {
-      return state.stics.filter((stic) => {
+    sticList: (state, getters, rootState) => (climaticYearId) => {
+      var list = state.stics
+      if (rootState.workspace.workspace.stics.length > 0) {
+        list = mergeLists([...state.stics], [...rootState.workspace.workspace.stics])
+      }
+      return list.filter((stic) => {
         return stic.climatic_year_id === climaticYearId
       })
     },

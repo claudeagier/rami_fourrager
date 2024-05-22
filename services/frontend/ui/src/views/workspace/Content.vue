@@ -36,14 +36,14 @@
                 <v-btn
                   outlined
                   color="primary"
-                  @click="showSimulationModal = true"
+                  @click="dialogs.simulation = true"
                 >
                   {{ $t('workspace.content.datatables.simulations.create.btn') }}
                 </v-btn>
                 <v-dialog
                   persistent
                   no-click-animation
-                  v-model="showSimulationModal"
+                  v-model="dialogs.simulation"
                   max-width="600"
                 >
                   <v-card>
@@ -70,19 +70,19 @@
                       <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn
+                          color="grey"
+                          text
+                          @click="cancelCreateSimulation"
+                        >
+                          {{ $t('workspace.content.datatables.simulations.create.dialog.btn_cancel') }}
+                        </v-btn>
+                        <v-btn
                           outlined
                           color="green"
                           type="submit"
                           :disabled="!validSimulation"
                         >
                           {{ $t('workspace.content.datatables.simulations.create.dialog.btn_create') }}
-                        </v-btn>
-                        <v-btn
-                          color="grey"
-                          outlined
-                          @click="cancelCreateSimulation"
-                        >
-                          {{ $t('workspace.content.datatables.simulations.create.dialog.btn_cancel') }}
                         </v-btn>
                       </v-card-actions>
                     </v-form>
@@ -161,14 +161,14 @@
                 <v-btn
                   outlined
                   color="primary"
-                  @click="showSimulationModal = true"
+                  @click="dialogs.simulation = true"
                 >
                   {{ $t('workspace.content.datatables.simulations.create.btn') }}
                 </v-btn>
                 <v-dialog
                   persistent
                   no-click-animation
-                  v-model="showSimulationModal"
+                  v-model="dialogs.simulation"
                   max-width="600"
                 >
                   <v-card>
@@ -215,7 +215,7 @@
                 </v-dialog>
               </v-toolbar>
             </template>
-            <template v-slot:item.actions="{ item }">
+            <template v-slot:[`item.actions`]="{ item }">
               <v-btn @click="modifyAnimalProfile(item)">Modifier</v-btn>
             </template>
           </v-data-table>
@@ -243,14 +243,14 @@
                 <v-btn
                   outlined
                   color="primary"
-                  @click="showSimulationModal = true"
+                  @click="dialogs.simulation = true"
                 >
                   {{ $t('workspace.content.datatables.simulations.create.btn') }}
                 </v-btn>
                 <v-dialog
                   persistent
                   no-click-animation
-                  v-model="showSimulationModal"
+                  v-model="dialogs.simulation"
                   max-width="600"
                 >
                   <v-card>
@@ -297,7 +297,7 @@
                 </v-dialog>
               </v-toolbar>
             </template>
-            <template v-slot:item.actions="{ item }">
+            <template v-slot:[`item.actions`]="{ item }">
               <v-btn @click="modifyStic(item)">Modifier</v-btn>
             </template>
           </v-data-table>
@@ -305,7 +305,7 @@
         <v-tab-item>
           <!-- <div>datatable des feeds du workpsace avec un bouton exporter pour exporter la liste -->
           <v-data-table
-            :items="workspace.feeds"
+            :items="workspace.classicFeeds"
             :headers="feedHeaders"
           >
             <template v-slot:top>
@@ -321,15 +321,28 @@
                 />
                 <v-spacer></v-spacer>
                 <classic-feed-modal
-                  :forceOpen="openClassicFeedModal"
-                  :item="feedItem"
-                  @add-item="createClassicFeed"
+                  :forceOpen="dialogs.classicFeed"
+                  :item="classicFeedItem"
+                  @add-item="saveClassicFeed"
+                  @cancel-modal="closeModal"
                 />
               </v-toolbar>
             </template>
-            <template v-slot:item.actions="{ item }">
-              <v-btn @click="modifyFeed(item)">Modifier</v-btn>
-              <v-btn @click="exportFeed(item)">Exporter</v-btn>
+            <template v-slot:[`item.actions`]="{ item }">
+              <v-icon
+                @click="deleteClassicFeed(item)"
+                small
+              >
+                mdi-delete
+              </v-icon>
+              <v-icon
+                @click="editClassicFeed(item)"
+                medium
+                color="green"
+                background-color="green"
+              >
+                mdi-square-edit-outline
+              </v-icon>
             </template>
           </v-data-table>
         </v-tab-item>
@@ -338,24 +351,35 @@
   </div>
 </template>
 <script>
-  import { mapState, mapMutations, mapGetters } from 'vuex'
+  import { mapState, mapGetters, mapActions } from 'vuex'
   import simulationSchema from '@/schemas/simulation'
   import ClassicFeedModal from './ClassicFeedModal.vue'
+  import { deepCopy } from '@/plugins/utils'
   export default {
     name: 'WorkspaceContent',
     components: { ClassicFeedModal },
     data() {
       return {
+        dialogs: {
+          simulation: false,
+          classicFeed: false,
+        },
         selectedRows: [],
-        showSimulationModal: false,
         simulationItem: {},
-        feedItem: null,
+        classicFeedItem: null,
+        oldClassicFeedItem: null,
         openClassicFeedModal: false,
         validSimulation: false,
         simulationRules: {
           required: (val) => !!val || 'Ce champ est requis',
           integer: (val) => /^\d+$/.test(val) || 'Ce champ doit être un entier',
         },
+      }
+    },
+    created() {
+      const sim = this.getActivatedSimulation
+      if (sim) {
+        this.loadSimulation(sim)
       }
     },
     computed: {
@@ -370,6 +394,7 @@
       }),
       ...mapGetters('workspace', {
         getWorkspace: 'getWorkspace',
+        getActivatedSimulation: 'getActivatedSimulation',
       }),
 
       workspace: {
@@ -415,7 +440,11 @@
       },
       feedHeaders() {
         return [
-          { text: this.$t('workspace.content.datatables.classicFeeds.header.name'), value: 'feedName' },
+          { text: this.$t('workspace.content.datatables.classicFeeds.header.name'), value: 'name' },
+          {
+            text: this.$t('workspace.content.datatables.classicFeeds.header.correspondingStock'),
+            value: 'correspondingStock',
+          },
           {
             text: this.$t('workspace.content.datatables.classicFeeds.header.actions'),
             value: 'actions',
@@ -425,11 +454,7 @@
       },
     },
     methods: {
-      ...mapMutations('workspace', { activateSimulation: 'activateSimulation' }),
-      ...mapMutations('simulator', { setSimulation: 'setSimulation' }),
-      ...mapMutations('simulator/farm', { setFarm: 'setFarm' }),
-      ...mapMutations('simulator/barn', { setBarn: 'setBarn' }),
-      ...mapMutations('simulator/herd', { setHerd: 'setHerd' }),
+      ...mapActions('workspace', { loadSimulator: 'loadSimulator' }),
 
       createSimulation() {
         if (this.$refs.simulationForm.validate()) {
@@ -442,10 +467,10 @@
           this.resetForm()
         }
 
-        this.showSimulationModal = false
+        this.closeModal('simulation')
       },
       cancelCreateSimulation() {
-        this.showSimulationModal = false
+        this.closeModal('simulation')
         this.resetForm()
       },
       resetForm() {
@@ -453,21 +478,8 @@
         this.simulationItem = {}
       },
       loadSimulation(simulation) {
-        this.setSimulation({
-          name: simulation.name,
-          site: simulation.site,
-          climaticYear: simulation.climaticYear,
-          loaded: true,
-        })
-        this.activateSimulation(simulation)
-        this.setFarm(simulation.farm)
-        this.setBarn(simulation.barn)
-        this.setHerd(simulation.herd)
+        this.loadSimulator(simulation)
 
-        // apply all
-        this.$store.dispatch('simulator/barn/setStock')
-        this.$store.dispatch('simulator/farm/setTotalAvailablePastureByPeriod')
-        this.$store.dispatch('simulator/farm/dispatchProduction')
         this.$store.dispatch('toaster/addNotification', {
           message: 'notifications.simulation_loaded_success',
           color: 'success',
@@ -499,27 +511,48 @@
       },
 
       modifyAnimalProfile(profile) {
-        // Ajoutez ici la logique pour modifier le profil animal
+        // TODO-FRONT Ajoutez ici la logique pour modifier le profil animal
       },
       exportAnimalProfile(profile) {
-        // Ajoutez ici la logique pour exporter le profil animal
+        // TODO-FRONT Ajoutez ici la logique pour exporter le profil animal
       },
       modifyStic(stic) {
-        // Ajoutez ici la logique pour modifier le stic
+        // TODO-FRONT Ajoutez ici la logique pour modifier le stic
       },
       exportStic(stic) {
-        // Ajoutez ici la logique pour exporter le stic
+        // TODO-FRONT Ajoutez ici la logique pour exporter le stic
       },
-      createClassicFeed(feed) {
-        console.log('create', feed)
+      closeModal(dialog) {
+        this.dialogs[dialog] = false
+        this.oldClassicFeedItem = null
+        this.classicFeedItem = null
       },
-      editFeed(feed) {
-        // Ajoutez ici la logique pour modifier le feed
-        this.openClassicFeedModal = true
+      saveClassicFeed(feed) {
+        if (this.oldClassicFeedItem !== null) {
+          // Modification
+          this.$store.commit('workspace/updateClassicFeed', {
+            newFeed: feed,
+            oldFeed: this.oldClassicFeedItem,
+          })
+        } else {
+          // Ajout
+          this.$store.commit('workspace/addClassicFeed', {
+            newFeed: feed,
+          })
+        }
+        this.closeModal('classicFeed')
+        this.classicFeedItem = null
+        this.oldClassicFeedItem = null
       },
-      deleteFeed(feed) {},
-      exportFeed(feed) {
-        // Ajoutez ici la logique pour exporter le feed
+
+      editClassicFeed(feed) {
+        this.oldClassicFeedItem = deepCopy(feed)
+        this.classicFeedItem = deepCopy(feed)
+        this.dialogs.classicFeed = true
+      },
+
+      deleteClassicFeed(feed) {
+        this.$store.commit('workspace/deleteClassicFeed', feed)
       },
     },
   }

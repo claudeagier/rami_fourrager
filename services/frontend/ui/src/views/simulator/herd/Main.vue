@@ -207,9 +207,14 @@
   import PastureDetails from './PastureDetails'
   import GraphsModal from './GraphsModal.vue'
   import FeedsRequirementsGraph from './FeedsRequirementsGraph.vue'
+  import navigationGuard from '@/mixins/navigationGuard'
 
   export default {
     name: 'Herd',
+    mixins: [navigationGuard],
+    confirmNavigation(callback) {
+      this.$confirmNavigation(callback)
+    },
     components: {
       HerdModal,
       HousingDetails,

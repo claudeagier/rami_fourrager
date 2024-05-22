@@ -25,23 +25,12 @@ export default {
     //     RP: { name: 'Protéagineux en grain', feedType: '', unity: 'qtx/ha' },
     //   },
     // },
-    // isLoading: {
-    //   animalProfileList: false,
-    //   batchTypeList: false,
-    //   concentratedFeedList: false,
-    //   climaticYearList: false,
-    //   feedTypeList: false,
-    //   housingTypeList: false,
-    //   periodList: false,
-    //   siteList: false,
-    //   sticList: false,
-    // },
-
-    // bilan: {},
   },
   mutations: {
-    setSimulation(state, { name, site, climaticYear }) {
-      state.simulationName = name
+    setSimulation(state, { name, site, climaticYear, loaded, description }) {
+      state.name = name
+      state.loaded = loaded
+      state.description = description
       state.site = site
       state.climaticYear = climaticYear
     },
@@ -59,10 +48,6 @@ export default {
   },
   actions: {},
   getters: {
-    // loaders
-    // isLoading: (state) => (list) => {
-    //   return state.isLoading[list]
-    // },
     simulationName: (state) => state.name,
     balanceSheet: (state) => state.bilan,
     climaticYearInfo: (state) => state.climaticYear,

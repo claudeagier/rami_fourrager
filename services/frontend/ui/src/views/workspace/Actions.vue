@@ -47,34 +47,10 @@
         v-if="workspace.tag === undefined || workspace.tag === 'exported'"
         outlined
         color="#065c4a"
-        @click="showImportModal = true"
+        @click="importWorkspace"
       >
         {{ $t('workspace.actions.import.btn') }}
       </v-btn>
-      <v-dialog
-        persistent
-        no-click-animation
-        v-model="showImportModal"
-        max-width="600"
-      >
-        <v-card>
-          <v-card-title>{{ $t('workspace.actions.import.dialog.title') }}</v-card-title>
-          <v-card-text>
-            <v-file-input
-              ref="fileInput"
-              @change="importWorkspace"
-            />
-          </v-card-text>
-          <v-card-actions>
-            <v-btn
-              color="primary"
-              @click="showImportModal = false"
-            >
-              {{ $t('workspace.actions.import.dialog.btn_close') }}
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
       <v-btn
         v-if="workspace.tag === 'imported' || workspace.tag === 'created'"
         outlined
@@ -114,9 +90,12 @@
         setWorkspace: 'setWorkspace',
         refreshWorkspace: 'refreshWorkspace',
         tagWorkspace: 'setTag',
+        deactivateAllSimulation: 'deactivateAllSimulation',
       }),
 
       async exportWorkspace() {
+        this.deactivateAllSimulation()
+
         const data = {
           simulations: this.workspace.simulations,
           stics: this.workspace.stics,
@@ -152,7 +131,7 @@
           this.tagWorkspace('exported')
           // Afficher une notification de réussite
           this.$store.dispatch('toaster/addNotification', {
-            message: 'notifications.file_exported_successfully',
+            message: 'notifications.workspace.file_exported_successfully',
             color: 'success',
             show: true,
           })
@@ -160,10 +139,23 @@
           console.error("Erreur lors de l'exportation du fichier:", error)
         }
       },
-      importWorkspace(event) {
-        if (event !== null && event !== undefined) {
-          const file = event
+      async importWorkspace() {
+        try {
+          const [fileHandle] = await window.showOpenFilePicker({
+            types: [
+              {
+                description: 'Fichiers JSON',
+                accept: {
+                  'application/json': ['.json'],
+                },
+              },
+            ],
+            suggestedName: this.fileName || 'workspace.json',
+            startIn: 'documents',
+          })
+          const file = await fileHandle.getFile()
           const reader = new FileReader()
+
           reader.readAsText(file)
           reader.onload = (e) => {
             const jsonData = e.target.result
@@ -173,13 +165,16 @@
             this.refreshWorkspace(workspace)
 
             this.$store.dispatch('toaster/addNotification', {
-              message: 'notifications.workspace_loaded_success',
+              message: 'notifications.workspace.file_imported_successfully',
               color: 'success',
               show: true,
             })
           }
+        } catch (error) {
+          console.error('Error selecting file:', error)
         }
       },
+
       createWorkspace() {
         this.setWorkspace({ ...workspaceSchema })
       },

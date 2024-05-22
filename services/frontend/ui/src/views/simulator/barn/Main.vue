@@ -226,9 +226,15 @@
 
 <script>
   import { mapState, mapGetters } from 'vuex'
+  import navigationGuard from '@/mixins/navigationGuard'
+
   // TODO-FRONT ajouter les stock de concentré et les stocks de paille
   export default {
     name: 'Barn',
+    mixins: [navigationGuard],
+    confirmNavigation(callback) {
+      this.$confirmNavigation(callback)
+    },
     data: () => ({
       pageColor: 'brown',
       // selectedItemType: null,

@@ -81,14 +81,13 @@
         {
           title: 'Simulation',
           icon: 'mdi-head-cog-outline',
-          to: '/',
-          group: '',
+          // to: '/',
+          group: '/simulation',
           children: [
-            { title: 'dashboard', to: 'simulation', icon: 'mdi-view-dashboard' },
+            { title: 'dashboard.title', to: 'dashboard', icon: 'mdi-view-dashboard' },
             { title: 'barn.title', to: 'barn', icon: 'mdi-silo-outline' },
             { title: 'farm.title', to: 'farm', icon: 'mdi-land-plots' },
             { title: 'herd.title', to: 'herd', icon: 'mdi-cow' },
-            // { title: 'Notifications', to: 'notifications' },
           ],
         },
         {

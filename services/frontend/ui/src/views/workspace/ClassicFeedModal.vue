@@ -1,8 +1,10 @@
 <template>
   <div>
     <v-dialog
-      max-width="500px"
+      max-width="600px"
       v-model="showModal"
+      persistent
+      no-click-animation
     >
       <template v-slot:activator="{ on }">
         <v-btn
@@ -28,7 +30,7 @@
               > -->
 
         <v-form
-          ref="classicFeedForm"
+          ref="workspaceClassicFeedForm"
           @submit.prevent="saveItem"
           v-model="valid"
           lazy-validation
@@ -66,6 +68,8 @@
                   :label="key"
                   :rules="[rules.number]"
                   type="number"
+                  min="0"
+                  hide-spin-buttons
                 ></v-text-field>
               </v-col>
             </v-row>
@@ -100,7 +104,6 @@
 </template>
 <script>
   import { mapGetters } from 'vuex'
-  import classicFeedSchema from '@/schemas/classicFeed'
 
   export default {
     name: 'classicFeedModal',
@@ -121,7 +124,21 @@
           if (newValue != null) {
             this.feedItem = newValue
           } else {
-            this.feedItem = { ...classicFeedSchema }
+            this.feedItem = {
+              name: '',
+              correspondingStock: '',
+              nutritional_values: {
+                UEL: 0,
+                UEB: 0,
+                UEM: 0,
+                UFL: 0,
+                PDI_inf: 0,
+                UFV: 0,
+                PDIN: 0,
+                PDIE: 0,
+                rejection: 0,
+              },
+            }
           }
         },
       },
@@ -138,7 +155,7 @@
       return {
         showModal: false,
         valid: true,
-        feedItem: { ...classicFeedSchema },
+        feedItem: null,
         rules: {
           required: (value) => !!value || this.$t('validation.required'),
           number: (value) => (!isNaN(value) && isFinite(value)) || this.$t('validation.number'),
@@ -154,6 +171,7 @@
       cancelModal() {
         this.showModal = false
         this.clearFeedItem()
+        this.$emit('cancel-modal', 'classicFeed')
       },
       clearFeedItem() {
         this.feedItem = {
@@ -172,13 +190,13 @@
           },
         }
         this.oldFeedItem = null
-        this.$refs.classicFeedForm.reset()
+        this.$refs.workspaceClassicFeedForm.resetValidation()
       },
       saveItem() {
-        if (this.$refs.classicFeedForm.validate()) {
+        if (this.$refs.workspaceClassicFeedForm.validate()) {
           this.$emit('add-item', this.feedItem)
-          this.clearFeedItem()
           this.showModal = false
+          this.clearFeedItem()
         } else {
           return false
         }
