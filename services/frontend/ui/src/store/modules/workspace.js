@@ -62,6 +62,25 @@ export default {
       const finded = state.workspace.classicFeeds.indexOf(classicFeed)
       state.workspace.classicFeeds.splice(finded, 1)
     },
+
+    // generics
+    addItem(state, { dialog, newItem }) {
+      const d = dialog + 's'
+      state.workspace[d].push(newItem)
+    },
+    updateItem(state, { dialog, newItem, oldItem }) {
+      const d = dialog + 's'
+      const items = state.workspace[d]
+      const index = items.findIndex((el) => deepEqual(el, oldItem))
+      if (index > -1) {
+        items.splice(index, 1, newItem)
+      }
+    },
+    deleteItem(state, { dialog, item }) {
+      const d = dialog + 's'
+      const finded = state.workspace[d].indexOf(item)
+      state.workspace[d].splice(finded, 1)
+    },
   },
   actions: {
     loadSimulator({ state, commit, dispatch, getters }, simulation) {

@@ -56,14 +56,34 @@ function mergeLists(dbList, customList) {
 export default {
   namespaced: true,
   state: {
-    sites: [],
-    climatic_years: [],
-    feed_types: [],
-    concentrated_feeds: [],
-    stics: [],
-    batch_types: [],
     animal_profiles: [],
+    barnStockItems: [
+      { code: 'FH', name: 'foin', unity: 'tMS' },
+      // { code: 'P', name: 'Pature', unity: 'kgMS/ha/j' },
+      { code: 'EH', name: "Ensilage et enrubannage d'herbe", unity: 'tMS' },
+      { code: 'EM', name: 'Ensilage de maïs et sorgho (riche UF)', unity: 'tMS' },
+      { code: 'RC', name: 'Céréales en grain', unity: 'qtx', concentrated: true },
+      { code: 'RP', name: 'Protéagineux en grain', unity: 'qtx', concentrated: true },
+      { code: 'AS', name: 'autre stock', unity: 'tMS' },
+      { code: 'EL', name: 'Ensilage de légumineuses (riche PDI)', unity: 'tMS' },
+      { code: 'FL', name: 'Foin de légumineuses (riche PDI)', unity: 'tMS' },
+    ],
+    batch_types: [],
+    climatic_years: [],
+    concentrated_feeds: [],
+    farming_methods: [
+      { code: 'FH', name: 'foin', feedType: '', unity: 'tMS/ha' },
+      { code: 'P', name: 'Pature', feedType: '', unity: 'kgMS/ha/j' },
+      { code: 'EH', name: "Ensilage et enrubannage d'herbe", feedType: '', unity: 'tMS/ha' },
+      { code: 'EM', name: 'Ensilage de maïs et sorgho (riche UF)', feedType: '', unity: 'tMS/ha' },
+      { code: 'EL', name: 'Ensilage de légumineuses (riche PDI)', feedType: '', unity: 'tMS/ha' },
+      { code: 'FL', name: 'Foin de légumineuses (riche PDI)', feedType: '', unity: 'tMS/ha' },
+      { code: 'RC', name: 'Céréales en grain', feedType: '', unity: 'qtx/ha' },
+      { code: 'RP', name: 'Protéagineux en grain', feedType: '', unity: 'qtx/ha' },
+    ],
+    feed_types: [],
     housing_types: [],
+    pasture_types: [],
     periods: [
       { id: 1, name: 'P1' },
       { id: 2, name: 'P2' },
@@ -79,17 +99,8 @@ export default {
       { id: 12, name: 'P12' },
       { id: 13, name: 'P13' },
     ],
-    barnStockItems: [
-      { code: 'FH', name: 'foin', unity: 'tMS' },
-      // { code: 'P', name: 'Pature', unity: 'kgMS/ha/j' },
-      { code: 'EH', name: "Ensilage et enrubannage d'herbe", unity: 'tMS' },
-      { code: 'EM', name: 'Ensilage de maïs et sorgho (riche UF)', unity: 'tMS' },
-      { code: 'RC', name: 'Céréales en grain', unity: 'qtx', concentrated: true },
-      { code: 'RP', name: 'Protéagineux en grain', unity: 'qtx', concentrated: true },
-      { code: 'AS', name: 'autre stock', unity: 'tMS' },
-      { code: 'EL', name: 'Ensilage de légumineuses (riche PDI)', unity: 'tMS' },
-      { code: 'FL', name: 'Foin de légumineuses (riche PDI)', unity: 'tMS' },
-    ],
+    sites: [],
+    stics: [],
   },
   mutations: {
     addToList(state, { whats, to }) {
@@ -150,6 +161,10 @@ export default {
       const since = !refresh ? await getLastConnectionDate() : null
       fetch('housing_type', since, commit, dispatch)
     },
+    async fetchPastureTypes({ commit, dispatch }, refresh) {
+      const since = !refresh ? await getLastConnectionDate() : null
+      fetch('pasture_type', since, commit, dispatch)
+    },
   },
   getters: {
     // select lists
@@ -162,13 +177,15 @@ export default {
         return ap.batch_type_id === batchTypeId
       })
     },
+    barnStockItemList: (state) => state.barnStockItems,
     batchTypeList: (state) => state.batch_types,
-    concentratedFeedList: (state) => state.concentrated_feeds,
     climaticYearList: (state) => (siteId) => {
       return state.climatic_years.filter((cy) => {
         return cy.site_id === siteId
       })
     },
+    concentratedFeedList: (state) => state.concentrated_feeds,
+    farmingMethodList: (state) => state.farming_methods,
     feedTypeList: (state, getters, rootState) => {
       var list = state.feed_types
       if (rootState.workspace.workspace.classicFeeds.length > 0) {
@@ -177,8 +194,18 @@ export default {
       return list
     },
     housingTypeList: (state) => state.housing_types,
+    pastureTypeList: (state) => state.pasture_types,
     periodList: (state) => state.periods,
     siteList: (state) => state.sites,
+    getSiteByClimaticYearId: (state) => (climaticYearId) => {
+      const cy = state.climatic_years.find((el) => el.id === climaticYearId)
+      if (cy) {
+        return state.sites.find((el) => el.id === cy.site_id)
+      }
+    },
+    getClimaticYearById: (state) => (id) => {
+      return state.climatic_years.find((el) => el.id === id)
+    },
     sticList: (state, getters, rootState) => (climaticYearId) => {
       var list = state.stics
       if (rootState.workspace.workspace.stics.length > 0) {
@@ -188,6 +215,5 @@ export default {
         return stic.climatic_year_id === climaticYearId
       })
     },
-    barnStockItemList: (state) => state.barnStockItems,
   },
 }

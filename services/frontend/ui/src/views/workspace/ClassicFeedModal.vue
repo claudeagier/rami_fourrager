@@ -194,7 +194,7 @@
       },
       saveItem() {
         if (this.$refs.workspaceClassicFeedForm.validate()) {
-          this.$emit('add-item', this.feedItem)
+          this.$emit('add-item', { dialogName: 'classicFeed', item: this.feedItem })
           this.showModal = false
           this.clearFeedItem()
         } else {

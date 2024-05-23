@@ -59,7 +59,8 @@
     "add": "Ajouter",
     "refresh": "Actualiser",
     "refresh_referential": "Actualiser le référentiel",
-    "complete": "Compléter"
+    "complete": "Compléter",
+    "copy": "Copier"
   },
   "breadcrumb": {
     "workspace": "Espace de travail",
@@ -69,6 +70,42 @@
     "herd": "Troupeau",
     "users": "Utilisateurs",
     "profile": "Profil"
+  },
+  "notifications": {
+    "simulation_loaded_success": "La simulation a été chargé",
+    "farm": {
+      "apply_success": "les modifications sont appliquées à la simulation",
+      "errors": {
+        "climatic_year_required": "L'année climatic est requise"
+      }
+    },
+    "barn": {
+      "apply_success": "les modifications sont appliquées à la simulation",
+      "delete_item": "Elément supprimé"
+    },
+    "herd": {
+      "apply_success": "les modifications sont appliquées à la simulation",
+      "delete_batch_success": "Le lot a été supprimé"
+    },
+    "fetch": {
+      "period": { "success": "Les périodes sont à jour", "error": "Error fetching periods" },
+      "site": { "success": "Les sites sont à jour", "error": "Error fetching sites" },
+      "climatic_year": { "success": "les années climatiques sont à jour", "error": "Error fetching climatic years" },
+      "stic": { "success": "Les baguettes fourrage sont à jour", "error": "Error fetching stics" },
+      "batch_type": { "success": "Les types de bétails sont à jour", "error": "Error fetching batch types" },
+      "pasture_type": { "success": "Les types de pâtures sont à jour", "error": "Error fetching pasture types" },
+      "animal_profile": { "success": "Les profils animaux sont à jour", "error": "Error fetching animal profils" },
+      "feed_type": { "success": "les types d'aliment sont à jour", "error": "Error fetching feed types" },
+      "concentrated_feed": {
+        "success": "Les aliments concentrés sont à jour",
+        "error": "Error fetching concentrated feeds"
+      },
+      "housing_type": { "success": "Les types de logement sont à jour", "error": "Error fetching housing types" }
+    },
+    "workspace": {
+      "file_exported_successfully": "Fichier exporté",
+      "file_imported_successfully": "Fichier importé"
+    }
   },
   "dashboard": {
     "title": "Tableau de bord",
@@ -133,41 +170,6 @@
     },
     "details": {
       "graph": { "title": "Besoins en matière sèche", "btn": "Afficher les graphiques" }
-    }
-  },
-  "notifications": {
-    "simulation_loaded_success": "La simulation a été chargé",
-    "farm": {
-      "apply_success": "les modifications sont appliquées à la simulation",
-      "errors": {
-        "climatic_year_required": "L'année climatic est requise"
-      }
-    },
-    "barn": {
-      "apply_success": "les modifications sont appliquées à la simulation",
-      "delete_item": "Elément supprimé"
-    },
-    "herd": {
-      "apply_success": "les modifications sont appliquées à la simulation",
-      "delete_batch_success": "Le lot a été supprimé"
-    },
-    "fetch": {
-      "period": { "success": "Les périodes sont à jour", "error": "Error fetching periods" },
-      "site": { "success": "Les sites sont à jour", "error": "Error fetching sites" },
-      "climatic_year": { "success": "les années climatiques sont à jour", "error": "Error fetching climatic years" },
-      "stic": { "success": "Les baguettes fourrage sont à jour", "error": "Error fetching stics" },
-      "batch_type": { "success": "Les types de bétails sont à jour", "error": "Error fetching batch types" },
-      "animal_profile": { "success": "Les profils animaux sont à jour", "error": "Error fetching animal profils" },
-      "feed_type": { "success": "les types d'aliment sont à jour", "error": "Error fetching feed types" },
-      "concentrated_feed": {
-        "success": "Les aliments concentrés sont à jour",
-        "error": "Error fetching concentrated feeds"
-      },
-      "housing_type": { "success": "Les types de logement sont à jour", "error": "Error fetching housing types" }
-    },
-    "workspace": {
-      "file_exported_successfully": "Fichier exporté",
-      "file_imported_successfully": "Fichier importé"
     }
   },
   "workspace": {
@@ -235,6 +237,33 @@
             "climatic_year": "Année climatique",
             "name": "Nom de la baguette",
             "actions": "Actions"
+          },
+          "create": {
+            "btn": "Ajouter une baguette fourrage",
+            "dialog": {
+              "create_title": "Créer une baguette fourrage",
+              "update_title": "Modifer la baguette fourrage",
+              "subheader": { "copy": "Copier une baguette existante", "pasture_type": "Le type de pâture (si pâture)" },
+              "site": "Site",
+              "climatic_year": "Année climatique",
+              "stic_to_copy": "Code et Nom de la culture",
+              "pasture_select": "Choisir un type de pâture",
+              "tabs": {
+                "infos": "Le détail",
+                "productions": "La production par période"
+              },
+              "name": "Nom de la baguette",
+              "type": "Type de baguette",
+              "rendement": "Rendement en paille",
+              "designation": "Désignation de la baguette",
+              "RU": "RU",
+              "IN": "IN",
+              "ITK": "ITK",
+              "detail_ITK": "Détail ITK",
+              "period": "Numéro de période",
+              "production": "Production",
+              "farming_method": "type de production"
+            }
           }
         },
         "classicFeeds": {

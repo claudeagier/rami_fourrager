@@ -103,6 +103,7 @@
         this.$store.dispatch('referential/fetchFeedTypes', refresh)
         this.$store.dispatch('referential/fetchConcentratedFeeds', refresh)
         this.$store.dispatch('referential/fetchHousingTypes', refresh)
+        this.$store.dispatch('referential/fetchPastureTypes', refresh)
       },
       refresh() {
         this.loadReferential(true)

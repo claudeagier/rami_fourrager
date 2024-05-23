@@ -1,23 +1,29 @@
 export function deepEqual(obj1, obj2) {
-  // Si les deux objets sont du même type, on les compare
-  if (typeof obj1 === 'object' && typeof obj2 === 'object') {
-    // On vérifie si les deux objets ont le même nombre de propriétés
-    const keys1 = Object.keys(obj1)
-    const keys2 = Object.keys(obj2)
-    if (keys1.length !== keys2.length) {
+  // Si les deux objets sont identiques, ils sont égaux
+  if (obj1 === obj2) {
+    return true
+  }
+
+  // Si l'un des objets est null ou que les deux objets ne sont pas de type 'object', ils ne sont pas égaux
+  if (obj1 === null || obj2 === null || typeof obj1 !== 'object' || typeof obj2 !== 'object') {
+    return false
+  }
+
+  // On vérifie si les deux objets ont le même nombre de propriétés
+  const keys1 = Object.keys(obj1)
+  const keys2 = Object.keys(obj2)
+  if (keys1.length !== keys2.length) {
+    return false
+  }
+
+  // On compare récursivement les valeurs de chaque propriété
+  for (const key of keys1) {
+    if (!deepEqual(obj1[key], obj2[key])) {
       return false
     }
-    // On compare récursivement les valeurs de chaque propriété
-    for (const key of keys1) {
-      if (!deepEqual(obj1[key], obj2[key])) {
-        return false
-      }
-    }
-    return true
-  } else {
-    // Si les objets sont de types différents, on les compare directement
-    return obj1 === obj2
   }
+
+  return true
 }
 export function deepCopy(obj) {
   if (typeof obj !== 'object' || obj === null) {

@@ -47,7 +47,6 @@
             color="red"
             icon="mdi-earth"
             title="Site"
-            value="+245"
             sub-icon="mdi-clock"
             sub-text="Just Updated"
             :dropdownOptions="siteList"

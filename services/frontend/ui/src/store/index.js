@@ -24,14 +24,16 @@ localForage.config({
 const saveSubsetOfState = (state) => ({
   auth: { lastConnectionDate: state.auth.lastConnectionDate },
   referential: {
-    sites: state.referential.sites,
-    climatic_years: state.referential.climatic_years,
-    feed_types: state.referential.feed_types,
-    concentrated_feeds: state.referential.concentrated_feeds,
-    stics: state.referential.stics,
-    batch_types: state.referential.batch_types,
     animal_profiles: state.referential.animal_profiles,
+    batch_types: state.referential.batch_types,
+    climatic_years: state.referential.climatic_years,
+    concentrated_feeds: state.referential.concentrated_feeds,
+    farming_methods: state.referential.farming_methods,
+    feed_types: state.referential.feed_types,
     housing_types: state.referential.housing_types,
+    pasture_types: state.referential.pasture_types,
+    sites: state.referential.sites,
+    stics: state.referential.stics,
   },
   workspace: state.workspace,
 })

@@ -12,8 +12,8 @@
         >
           {{ $t('workspace.content.tabs.' + tab) }}
         </v-tab>
+        <!-- <div>datatable des simulations du workpsace -->
         <v-tab-item>
-          <!-- <div>datatable des simulations du workpsace -->
           <v-data-table
             :items="workspace.simulations"
             :headers="simulationHeaders"
@@ -40,54 +40,12 @@
                 >
                   {{ $t('workspace.content.datatables.simulations.create.btn') }}
                 </v-btn>
-                <v-dialog
-                  persistent
-                  no-click-animation
-                  v-model="dialogs.simulation"
-                  max-width="600"
-                >
-                  <v-card>
-                    <v-card-title>{{
-                      $t('workspace.content.datatables.simulations.create.dialog.title')
-                    }}</v-card-title>
-                    <v-form
-                      ref="simulationForm"
-                      v-model="validSimulation"
-                      @submit.prevent="createSimulation"
-                      lazy-validation
-                    >
-                      <v-card-text>
-                        <v-text-field
-                          v-model="simulationItem.name"
-                          label="Nom"
-                          :rules="[simulationRules.required]"
-                        ></v-text-field>
-                        <v-textarea
-                          v-model="simulationItem.description"
-                          label="Description"
-                        ></v-textarea>
-                      </v-card-text>
-                      <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn
-                          color="grey"
-                          text
-                          @click="cancelCreateSimulation"
-                        >
-                          {{ $t('workspace.content.datatables.simulations.create.dialog.btn_cancel') }}
-                        </v-btn>
-                        <v-btn
-                          outlined
-                          color="green"
-                          type="submit"
-                          :disabled="!validSimulation"
-                        >
-                          {{ $t('workspace.content.datatables.simulations.create.dialog.btn_create') }}
-                        </v-btn>
-                      </v-card-actions>
-                    </v-form>
-                  </v-card>
-                </v-dialog>
+                <simulation-modal
+                  :dialog.sync="dialogs.simulation"
+                  @add-item="saveItem"
+                  @cancel-modal="closeModal"
+                  :item="newItems.simulation"
+                />
               </v-toolbar>
             </template>
             <template v-slot:item="{ item }">
@@ -138,9 +96,9 @@
             </template>
           </v-data-table>
         </v-tab-item>
+        <!-- <div>datatable des animalProfiles du workpsace avec un bouton exporter pour exporter la liste -->
         <v-tab-item>
-          <!-- <div>datatable des animalProfiles du workpsace avec un bouton exporter pour exporter la liste -->
-          <v-data-table
+          <!-- <v-data-table
             :items="workspace.animalProfiles"
             :headers="animalProfileHeaders"
             fixed-header
@@ -177,18 +135,18 @@
                     }}</v-card-title>
                     <v-form
                       ref="simulationForm"
-                      v-model="validSimulation"
+                      v-model="valid.simulation"
                       @submit.prevent="createSimulation"
                       lazy-validation
                     >
                       <v-card-text>
                         <v-text-field
-                          v-model="simulationItem.name"
+                          v-model="newItems.simulation.name"
                           label="Nom"
-                          :rules="[simulationRules.required]"
+                          :rules="[rules.required]"
                         ></v-text-field>
                         <v-textarea
-                          v-model="simulationItem.description"
+                          v-model="newItems.simulation.description"
                           label="Description"
                         ></v-textarea>
                       </v-card-text>
@@ -198,7 +156,7 @@
                           outlined
                           color="green"
                           type="submit"
-                          :disabled="!validSimulation"
+                          :disabled="!valid.simulation"
                         >
                           {{ $t('workspace.content.datatables.simulations.create.dialog.btn_create') }}
                         </v-btn>
@@ -218,10 +176,10 @@
             <template v-slot:[`item.actions`]="{ item }">
               <v-btn @click="modifyAnimalProfile(item)">Modifier</v-btn>
             </template>
-          </v-data-table>
+          </v-data-table> -->
         </v-tab-item>
+        <!-- <div>datatable des stics du workpsace avec un bouton exporter pour exporter la liste -->
         <v-tab-item>
-          <!-- <div>datatable des stics du workpsace avec un bouton exporter pour exporter la liste -->
           <v-data-table
             :items="workspace.stics"
             :headers="sticHeaders"
@@ -243,67 +201,57 @@
                 <v-btn
                   outlined
                   color="primary"
-                  @click="dialogs.simulation = true"
+                  @click="dialogs.stic = true"
                 >
-                  {{ $t('workspace.content.datatables.simulations.create.btn') }}
+                  {{ $t('workspace.content.datatables.stics.create.btn') }}
                 </v-btn>
-                <v-dialog
-                  persistent
-                  no-click-animation
-                  v-model="dialogs.simulation"
-                  max-width="600"
-                >
-                  <v-card>
-                    <v-card-title>{{
-                      $t('workspace.content.datatables.simulations.create.dialog.title')
-                    }}</v-card-title>
-                    <v-form
-                      ref="simulationForm"
-                      v-model="validSimulation"
-                      @submit.prevent="createSimulation"
-                      lazy-validation
-                    >
-                      <v-card-text>
-                        <v-text-field
-                          v-model="simulationItem.name"
-                          label="Nom"
-                          :rules="[simulationRules.required]"
-                        ></v-text-field>
-                        <v-textarea
-                          v-model="simulationItem.description"
-                          label="Description"
-                        ></v-textarea>
-                      </v-card-text>
-                      <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn
-                          outlined
-                          color="green"
-                          type="submit"
-                          :disabled="!validSimulation"
-                        >
-                          {{ $t('workspace.content.datatables.simulations.create.dialog.btn_create') }}
-                        </v-btn>
-                        <v-btn
-                          color="grey"
-                          outlined
-                          @click="cancelCreateSimulation"
-                        >
-                          {{ $t('workspace.content.datatables.simulations.create.dialog.btn_cancel') }}
-                        </v-btn>
-                      </v-card-actions>
-                    </v-form>
-                  </v-card>
-                </v-dialog>
+                <stic-modal
+                  :dialog.sync="dialogs.stic"
+                  @add-item="saveItem"
+                  @cancel-modal="closeModal"
+                  :item="newItems.stic"
+                />
               </v-toolbar>
             </template>
-            <template v-slot:[`item.actions`]="{ item }">
-              <v-btn @click="modifyStic(item)">Modifier</v-btn>
+            <template v-slot:item="{ item }">
+              <tr>
+                <!-- Apply green color if loaded -->
+                <td>
+                  {{ getSite(item.climatic_year_id).name }}
+                  <!-- Replace with appropriate data -->
+                </td>
+                <td>
+                  {{ getClimaticYearById(item.climatic_year_id).name }}
+                  <!-- Replace with appropriate data -->
+                </td>
+                <td>
+                  {{ item.name }}
+                  <!-- Replace with appropriate data -->
+                </td>
+                <td>
+                  <!-- <template v-slot:[`item.actions`]="{ item }"> -->
+                  <v-icon
+                    @click="deleteItem('stic', item)"
+                    small
+                  >
+                    mdi-delete
+                  </v-icon>
+                  <v-icon
+                    @click="editItem('stic', item)"
+                    medium
+                    color="green"
+                    background-color="green"
+                  >
+                    mdi-square-edit-outline
+                  </v-icon>
+                  <!-- </template> -->
+                </td>
+              </tr>
             </template>
           </v-data-table>
         </v-tab-item>
+        <!-- <div>datatable des feeds du workpsace avec un bouton exporter pour exporter la liste -->
         <v-tab-item>
-          <!-- <div>datatable des feeds du workpsace avec un bouton exporter pour exporter la liste -->
           <v-data-table
             :items="workspace.classicFeeds"
             :headers="feedHeaders"
@@ -322,21 +270,21 @@
                 <v-spacer></v-spacer>
                 <classic-feed-modal
                   :forceOpen="dialogs.classicFeed"
-                  :item="classicFeedItem"
-                  @add-item="saveClassicFeed"
+                  :item="newItems.classicFeed"
+                  @add-item="saveItem"
                   @cancel-modal="closeModal"
                 />
               </v-toolbar>
             </template>
             <template v-slot:[`item.actions`]="{ item }">
               <v-icon
-                @click="deleteClassicFeed(item)"
+                @click="deleteItem('classicFeed', item)"
                 small
               >
                 mdi-delete
               </v-icon>
               <v-icon
-                @click="editClassicFeed(item)"
+                @click="editItem('classicFeed', item)"
                 medium
                 color="green"
                 background-color="green"
@@ -352,25 +300,36 @@
 </template>
 <script>
   import { mapState, mapGetters, mapActions } from 'vuex'
-  import simulationSchema from '@/schemas/simulation'
-  import ClassicFeedModal from './ClassicFeedModal.vue'
   import { deepCopy } from '@/plugins/utils'
+  import ClassicFeedModal from './ClassicFeedModal.vue'
+  import SticModal from './SticModal.vue'
+  import SimulationModal from './SimulationModal.vue'
+
   export default {
     name: 'WorkspaceContent',
-    components: { ClassicFeedModal },
+    components: { ClassicFeedModal, SticModal, SimulationModal },
     data() {
       return {
         dialogs: {
           simulation: false,
           classicFeed: false,
+          stic: false,
+        },
+        newItems: {
+          simulation: null,
+          classicFeed: null,
+          stic: null,
+        },
+        oldItems: {
+          simulation: null,
+          classicFeed: null,
+          stic: null,
+        },
+        valid: {
+          simulation: false,
         },
         selectedRows: [],
-        simulationItem: {},
-        classicFeedItem: null,
-        oldClassicFeedItem: null,
-        openClassicFeedModal: false,
-        validSimulation: false,
-        simulationRules: {
+        rules: {
           required: (val) => !!val || 'Ce champ est requis',
           integer: (val) => /^\d+$/.test(val) || 'Ce champ doit être un entier',
         },
@@ -395,6 +354,10 @@
       ...mapGetters('workspace', {
         getWorkspace: 'getWorkspace',
         getActivatedSimulation: 'getActivatedSimulation',
+      }),
+      ...mapGetters('referential', {
+        getSite: 'getSiteByClimaticYearId',
+        getClimaticYearById: 'getClimaticYearById',
       }),
 
       workspace: {
@@ -434,7 +397,7 @@
         return [
           { text: this.$t('workspace.content.datatables.stics.header.site'), value: 'site' },
           { text: this.$t('workspace.content.datatables.stics.header.climatic_year'), value: 'climaticYear' },
-          { text: this.$t('workspace.content.datatables.stics.header.name'), value: 'baguetteName' },
+          { text: this.$t('workspace.content.datatables.stics.header.name'), value: 'name' },
           { text: this.$t('workspace.content.datatables.stics.header.actions'), value: 'actions', sortable: false },
         ]
       },
@@ -456,27 +419,6 @@
     methods: {
       ...mapActions('workspace', { loadSimulator: 'loadSimulator' }),
 
-      createSimulation() {
-        if (this.$refs.simulationForm.validate()) {
-          const sim = simulationSchema
-          sim.name = this.simulationItem.name
-          sim.description = this.simulationItem.description
-
-          this.$store.commit('workspace/addSimulation', sim)
-        } else {
-          this.resetForm()
-        }
-
-        this.closeModal('simulation')
-      },
-      cancelCreateSimulation() {
-        this.closeModal('simulation')
-        this.resetForm()
-      },
-      resetForm() {
-        this.$refs.simulationForm.reset()
-        this.simulationItem = {}
-      },
       loadSimulation(simulation) {
         this.loadSimulator(simulation)
 
@@ -510,49 +452,41 @@
         URL.revokeObjectURL(url)
       },
 
-      modifyAnimalProfile(profile) {
-        // TODO-FRONT Ajoutez ici la logique pour modifier le profil animal
+      closeModal(dialogName) {
+        this.dialogs[dialogName] = false
+        this.oldItems[dialogName] = null
+        this.newItems[dialogName] = null
       },
-      exportAnimalProfile(profile) {
-        // TODO-FRONT Ajoutez ici la logique pour exporter le profil animal
-      },
-      modifyStic(stic) {
-        // TODO-FRONT Ajoutez ici la logique pour modifier le stic
-      },
-      exportStic(stic) {
-        // TODO-FRONT Ajoutez ici la logique pour exporter le stic
-      },
-      closeModal(dialog) {
-        this.dialogs[dialog] = false
-        this.oldClassicFeedItem = null
-        this.classicFeedItem = null
-      },
-      saveClassicFeed(feed) {
-        if (this.oldClassicFeedItem !== null) {
+
+      // datatables
+      saveItem({ dialogName, item }) {
+        if (this.oldItems[dialogName] !== null && this.oldItems[dialogName] !== undefined) {
           // Modification
-          this.$store.commit('workspace/updateClassicFeed', {
-            newFeed: feed,
-            oldFeed: this.oldClassicFeedItem,
+          this.$store.commit('workspace/updateItem', {
+            dialog: dialogName,
+            newItem: deepCopy(item),
+            oldItem: deepCopy(this.oldItems[dialogName]),
           })
         } else {
           // Ajout
-          this.$store.commit('workspace/addClassicFeed', {
-            newFeed: feed,
+          this.$store.commit('workspace/addItem', {
+            dialog: dialogName,
+            newItem: deepCopy(item),
           })
         }
-        this.closeModal('classicFeed')
-        this.classicFeedItem = null
-        this.oldClassicFeedItem = null
+        this.closeModal(dialogName)
+        // this.newItems[dialogName] = null
+        // this.oldItems[dialogName] = null
       },
 
-      editClassicFeed(feed) {
-        this.oldClassicFeedItem = deepCopy(feed)
-        this.classicFeedItem = deepCopy(feed)
-        this.dialogs.classicFeed = true
+      editItem(dialogName, item) {
+        this.oldItems[dialogName] = deepCopy(item)
+        this.newItems[dialogName] = deepCopy(item)
+        this.dialogs[dialogName] = true
       },
 
-      deleteClassicFeed(feed) {
-        this.$store.commit('workspace/deleteClassicFeed', feed)
+      deleteItem(dialogName, item) {
+        this.$store.commit('workspace/deleteItem', { dialog: dialogName, item: item })
       },
     },
   }
