@@ -25,7 +25,7 @@ batch_type = generic_namespace.model('BatchType', {
     "UF_concentrated_value_considered": fields.String,
 })
 
-animal_profil_period = generic_namespace.model("AnimalProfilePeriod", {
+animal_profile_period = generic_namespace.model("AnimalProfilePeriod", {
     "period_id": fields.Integer,
     "CI": fields.Float,
     "UFL": fields.Float,
@@ -133,7 +133,7 @@ available_models = {
             "milk_product_kg": fields.Float,
             "TR": fields.Float,
             "batch_type": fields.Nested(batch_type),
-            "animal_profil_periods": fields.List(fields.Nested(animal_profil_period)),
+            "animal_profile_periods": fields.List(fields.Nested(animal_profile_period)),
         }
     },
     "stic": {
@@ -141,7 +141,7 @@ available_models = {
         "fields": {
             "id": fields.Integer,
             "climatic_year_id": fields.Integer,
-            "pasture_type_id": fields.Integer,
+            # "pasture_type_id": fields.Integer,
             "code": fields.String,
             "name": fields.String,
             "type": fields.String,
@@ -152,8 +152,15 @@ available_models = {
             "ITK": fields.String,
             "detail_ITK": fields.String,
             "stic_periods": fields.List(fields.Nested(stic_period_fields)),
-            "site": fields.Nested(site),
             "pasture_type": fields.Nested(pasture_type),
+        }
+    },
+    "pasture_type": {
+        "model_name": "PastureType",
+        "fields": {
+            "id": fields.Integer,
+            "name": fields.String,
+            # "nutritional_values": fields.Nested(nutritional_values_fields)
         }
     }
     # Ajoutez d'autres modèles avec leurs champs correspondants si nécessaire

@@ -196,7 +196,7 @@ class AnimalProfile(db.Model):
     milk_product_kg = db.Column(db.Numeric, default=0)
     TR = db.Column(db.Numeric, default=0)
     animal_profile_periods = db.relationship(
-        'AnimalProfilePeriod', backref='AnimalProfile', lazy=True)
+        'AnimalProfilePeriod', backref='animal_profile', lazy=True)
 
     created_at = db.Column(db.DateTime, default=datetime.now(timezone.utc))
     updated_at = db.Column(
