@@ -46,6 +46,16 @@
   "Notifications": "Notifications",
   "Users": "Utilisateurs",
   "Profil": "Profil",
+  "Periods": "Périodes",
+  "Sites": "Sites",
+  "ClimaticYears": "Années climatiques",
+  "Stics": "Baguettes fourrage",
+  "BatchTypes": "Types de bétails",
+  "PastureTypes": "Types de pâtures sont à jour",
+  "AnimalProfiles": "Profils animaux",
+  "FeedTypes": "Types d'aliment",
+  "ConcentratedFeeds": "Aliments concentrés",
+  "HousingTypes": "Types de logement sont à jour",
   "confirmation_dialog": {
     "title": "Confirmer",
     "description": "Vous n'avez pas enregistré les modifications apportées à la simulation",
@@ -88,19 +98,7 @@
       "delete_batch_success": "Le lot a été supprimé"
     },
     "fetch": {
-      "Periods": { "success": "Les périodes sont à jour", "error": "Error fetching periods" },
-      "Sites": { "success": "Les sites sont à jour", "error": "Error fetching sites" },
-      "ClimaticYears": { "success": "les années climatiques sont à jour", "error": "Error fetching climatic years" },
-      "Stics": { "success": "Les baguettes fourrage sont à jour", "error": "Error fetching stics" },
-      "BatchTypes": { "success": "Les types de bétails sont à jour", "error": "Error fetching batch types" },
-      "PastureTypes": { "success": "Les types de pâtures sont à jour", "error": "Error fetching pasture types" },
-      "AnimalProfiles": { "success": "Les profils animaux sont à jour", "error": "Error fetching animal profils" },
-      "FeedTypes": { "success": "les types d'aliment sont à jour", "error": "Error fetching feed types" },
-      "ConcentratedFeeds": {
-        "success": "Les aliments concentrés sont à jour",
-        "error": "Error fetching concentrated feeds"
-      },
-      "HousingTypes": { "success": "Les types de logement sont à jour", "error": "Error fetching housing types" }
+      "success": "Les {itemName} sont à jour"
     },
     "workspace": {
       "file_exported": {
@@ -226,9 +224,12 @@
             "dialog": {
               "title": "Créer une nouvelle simulation",
               "btn_create": "Créer",
-              "btn_cancel": "Annuler"
+              "btn_cancel": "Annuler",
+              "add_success": "La simulation est créée",
+              "add_error": "La simulation n'a pas été créée"
             }
-          }
+          },
+          "delete_success": "La simulation est supprimée"
         },
         "profiles": {
           "header": {

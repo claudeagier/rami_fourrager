@@ -303,7 +303,7 @@
       } else {
         console.error('climatic year required')
         this.$toast({
-          message: 'notifications.farm.errors.climatic_year_required',
+          message: this.$t('notifications.farm.errors.climatic_year_required'),
           type: 'error',
           timeout: 5000,
         })

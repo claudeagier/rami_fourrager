@@ -422,7 +422,7 @@
       loadSimulation(simulation) {
         this.loadSimulator(simulation)
         this.$toast({
-          message: 'notifications.simulation_loaded_success',
+          message: this.$t('notifications.simulation_loaded_success'),
           type: 'success',
           timeout: 3000,
         })
@@ -431,6 +431,11 @@
       },
       deleteSimulation(simulation) {
         this.$store.commit('workspace/deleteSimulation', simulation)
+        this.$toast({
+          message: this.$t('workspace.content.datatables.simulations.delete_success'),
+          type: 'success',
+          timeout: 3000,
+        })
       },
       exportSimulation(simulation) {
         const data = {

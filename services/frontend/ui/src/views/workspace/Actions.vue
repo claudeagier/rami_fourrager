@@ -131,14 +131,14 @@
           this.tagWorkspace('exported')
           // Afficher une notification de réussite
           this.$toast({
-            message: 'notifications.workspace.file_exported.successfully',
+            message: this.$t('notifications.workspace.file_exported.successfully'),
             type: 'success',
             timeout: 3000,
           })
         } catch (error) {
           console.error("Erreur lors de l'exportation du fichier:", error)
           this.$toast({
-            message: 'notifications.workspace.file_exported.error',
+            message: this.$t('notifications.workspace.file_exported.error'),
             type: 'error',
             timeout: 5000,
           })
@@ -170,7 +170,7 @@
             this.refreshWorkspace(workspace)
 
             this.$toast({
-              message: 'notifications.workspace.file_imported.successfully',
+              message: this.$t('notifications.workspace.file_imported.successfully'),
               type: 'success',
               timeout: 3000,
             })
@@ -178,7 +178,7 @@
         } catch (error) {
           console.error('Error selecting file:', error)
           this.$toast({
-            message: 'notifications.workspace.file_imported.error',
+            message: this.$t('notifications.workspace.file_imported.error'),
             type: 'error',
             timeout: 5000,
           })

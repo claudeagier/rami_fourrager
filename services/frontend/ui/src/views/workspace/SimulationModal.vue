@@ -49,6 +49,7 @@
 
 <script>
   import simulationSchema from '@/schemas/simulation'
+  import { deepCopy } from '@/plugins/utils'
 
   export default {
     name: 'SticModal',
@@ -64,7 +65,7 @@
         immediate: true,
         handler(newValue, oldValue) {
           if (newValue != null) {
-            this.simulation = newValue
+            this.simulation = deepCopy(newValue)
           }
         },
       },
@@ -94,9 +95,19 @@
           sim.name = this.simulation.name
           sim.description = this.simulation.description
 
-          this.$store.commit('workspace/addSimulation', sim)
+          this.$store.commit('workspace/addSimulation', deepCopy(sim))
+          this.$toast({
+            message: this.$t('workspace.content.datatables.simulations.create.dialog.add_success'),
+            type: 'success',
+            timeout: 3000,
+          })
+          this.cancelModal()
         } else {
-          this.resetForm()
+          this.$toast({
+            message: this.$st('workspace.content.datatables.simulations.create.dialog.add_error'),
+            type: 'warning',
+            timeout: 5000,
+          })
         }
       },
     },

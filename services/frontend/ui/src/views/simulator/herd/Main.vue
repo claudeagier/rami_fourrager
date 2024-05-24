@@ -266,7 +266,7 @@
       applyToSimulation() {
         // this.$store.commit('setBatchs', this.lots)
         this.$toast({
-          message: 'notifications.herd.aplly_success',
+          message: this.$t('notifications.herd.aplly_success'),
           type: 'success',
           timeout: 3000,
         })
@@ -315,7 +315,7 @@
         this.selectedLot = null
         this.$store.commit('simulator/herd/deleteBatch', lot)
         this.$toast({
-          message: 'notifications.herd.delete_batch_success',
+          message: this.$t('notifications.herd.delete_batch_success'),
           type: 'success',
           timeout: 3000,
         })

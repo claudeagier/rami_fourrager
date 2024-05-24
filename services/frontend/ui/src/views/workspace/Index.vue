@@ -100,7 +100,7 @@
           .dispatch(url, refresh)
           .then(
             this.$toast({
-              message: `notifications.fetch.${what}.success`,
+              message: this.$t('notifications.fetch.success', { itemName: this.$t(what) }),
               type: 'info', // 'info', 'warning', 'error'
               timeout: 3000, // optional, defaults to 5000
             })
@@ -108,7 +108,7 @@
           .catch((err) => {
             console.error(err)
             this.$toast({
-              message: `notifications.fetch.${what}.error`,
+              message: this.$t('notifications.fetch.error', { itemName: what }),
               type: 'error', // 'info', 'warning', 'error'
               icon: 'mdi-check-circle', // any Vuetify icon
               timeout: 5000, // optional, defaults to 5000

@@ -311,7 +311,7 @@
         })
         this.activateSimulation(simulation)
         this.$toast({
-          message: 'notifications.simulation_loaded_success',
+          message: this.$t('notifications.simulation_loaded_success'),
           type: 'success',
           timeout: 3000,
         })

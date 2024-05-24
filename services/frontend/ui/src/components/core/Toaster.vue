@@ -12,7 +12,7 @@
       @input="removeToast(index)"
       :value="true"
     >
-      {{ $t(toast.message) }}
+      {{ toast.message }}
     </v-alert>
   </transition-group>
 </template>
