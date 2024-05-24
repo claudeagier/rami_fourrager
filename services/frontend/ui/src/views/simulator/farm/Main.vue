@@ -302,15 +302,11 @@
         this.sticList = this.getSticList(this.climaticYear)
       } else {
         console.error('climatic year required')
-        this.$store.dispatch(
-          'toaster/addNotification',
-          {
-            message: 'notifications.farm.errors.climatic_year_required',
-            color: 'error', // ou 'error', 'warning', 'info', etc.
-            show: true,
-          },
-          { root: true }
-        )
+        this.$toast({
+          message: 'notifications.farm.errors.climatic_year_required',
+          type: 'error',
+          timeout: 5000,
+        })
       }
     },
     computed: {

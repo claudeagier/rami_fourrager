@@ -136,15 +136,6 @@ export default {
       const production = mixins.dispatchProduction(state, rootState)
       commit('simulator/barn/setTotalStock', production.totalBarnStock, { root: true })
       commit('simulator/barn/setStockByPeriod', production.barnStockByPeriod, { root: true })
-      dispatch(
-        'toaster/addNotification',
-        {
-          message: 'notifications.farm.apply_success',
-          color: 'success', // ou 'error', 'warning', 'info', etc.
-          show: true,
-        },
-        { root: true }
-      )
     },
   },
 }

@@ -8,31 +8,13 @@ async function fetch(what, since, commit, dispatch) {
     try {
       const response = await axios.get(`/lists/${what}?lastConnectionDate=${since}`) // ajuster l'URL de l'API
       if (response.data.length > 0) {
-        // commit('addSites', response.data)
         commit('addToList', { whats: response.data, to: what + 's' })
-        dispatch(
-          'toaster/addNotification',
-          {
-            message: `notifications.fetch.${what}.success`,
-            color: 'success', // ou 'error', 'warning', 'info', etc.
-            show: true,
-          },
-          { root: true }
-        )
       } else {
         // TODO-FRONT faire quelquechose pour dire que c'est à jour return true
       }
     } catch (error) {
       console.error(`Error fetching ${what} :`, error)
-      dispatch(
-        'toaster/addNotification',
-        {
-          message: `notifications.fetch.${what}.error`,
-          color: 'error', // ou 'error', 'warning', 'info', etc.
-          show: true,
-        },
-        { root: true }
-      )
+      throw error
     }
   }
 }

@@ -310,11 +310,10 @@
           loaded: true,
         })
         this.activateSimulation(simulation)
-
-        this.$store.dispatch('toaster/addNotification', {
+        this.$toast({
           message: 'notifications.simulation_loaded_success',
-          color: 'success',
-          show: true,
+          type: 'success',
+          timeout: 3000,
         })
         // this.$router.push('/simulation')
       },

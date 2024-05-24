@@ -265,10 +265,10 @@
       // pour le parent
       applyToSimulation() {
         // this.$store.commit('setBatchs', this.lots)
-        this.$store.dispatch('toaster/addNotification', {
-          message: 'notifications.herd.apply_success',
-          color: 'success', // ou 'error', 'warning', 'info', etc.
-          show: true,
+        this.$toast({
+          message: 'notifications.herd.aplly_success',
+          type: 'success',
+          timeout: 3000,
         })
       },
       showHerdModal() {
@@ -314,10 +314,10 @@
       deleteLot(lot) {
         this.selectedLot = null
         this.$store.commit('simulator/herd/deleteBatch', lot)
-        this.$store.dispatch('toaster/addNotification', {
+        this.$toast({
           message: 'notifications.herd.delete_batch_success',
-          color: 'success', // ou 'error', 'warning', 'info', etc.
-          show: true,
+          type: 'success',
+          timeout: 3000,
         })
       },
     },

@@ -6,7 +6,6 @@ import simulator from './modules/simulator'
 import auth from './modules/auth'
 import settings from './modules/settings'
 import drawer from './modules/drawer'
-import toaster from './modules/toaster'
 import referential from './modules/referential'
 import workspace from './modules/workspace'
 
@@ -53,7 +52,6 @@ const vuexStore = new Vuex.Store({
     settings,
     simulator,
     drawer,
-    toaster,
     referential,
     workspace,
   },

@@ -94,16 +94,43 @@
       },
     },
     methods: {
+      fetch(what, refresh) {
+        const url = 'referential/fetch' + what
+        this.$store
+          .dispatch(url, refresh)
+          .then(
+            this.$toast({
+              message: `notifications.fetch.${what}.success`,
+              type: 'info', // 'info', 'warning', 'error'
+              timeout: 3000, // optional, defaults to 5000
+            })
+          )
+          .catch((err) => {
+            console.error(err)
+            this.$toast({
+              message: `notifications.fetch.${what}.error`,
+              type: 'error', // 'info', 'warning', 'error'
+              icon: 'mdi-check-circle', // any Vuetify icon
+              timeout: 5000, // optional, defaults to 5000
+            })
+          })
+      },
       loadReferential(refresh) {
-        this.$store.dispatch('referential/fetchSites', refresh)
-        this.$store.dispatch('referential/fetchClimaticYears', refresh)
-        this.$store.dispatch('referential/fetchStics', refresh)
-        this.$store.dispatch('referential/fetchBatchTypes', refresh)
-        this.$store.dispatch('referential/fetchAnimalProfiles', refresh)
-        this.$store.dispatch('referential/fetchFeedTypes', refresh)
-        this.$store.dispatch('referential/fetchConcentratedFeeds', refresh)
-        this.$store.dispatch('referential/fetchHousingTypes', refresh)
-        this.$store.dispatch('referential/fetchPastureTypes', refresh)
+        const referential = [
+          'Sites',
+          'ClimaticYears',
+          'Stics',
+          'BatchTypes',
+          'AnimalProfiles',
+          'FeedTypes',
+          'ConcentratedFeeds',
+          'HousingTypes',
+          'PastureTypes',
+        ]
+
+        referential.forEach((what) => {
+          this.fetch(what, refresh)
+        })
       },
       refresh() {
         this.loadReferential(true)

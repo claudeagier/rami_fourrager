@@ -1,67 +1,68 @@
-<!-- components/Toaster.vue -->
 <template>
-  <div>
-    <v-snackbar
-      v-for="(notification, index) in notifications"
-      :value="notification.show"
-      :key="index"
-      :timeout="notification.timeout || timeout"
-      :color="notification.color || 'info'"
-      :top="notification.top || top"
-      :bottom="notification.bottom || bottom"
-      :left="notification.left || left"
-      :right="notification.right || right"
-      :centerd="notification.centered || centered"
-      :multi-line="notification.multiLine || multiLine"
-      :vertical="notification.vertical || vertical"
-      :absolute="notification.absolute || absolute"
-      :dark="notification.dark || dark"
-      :outlined="notification.outlined || outlined"
-      :rounded="notification.rounded || rounded"
-      :shaped="notification.shaped || shaped"
-      :tile="notification.tile || tile"
-      @click="removeNotification(index)"
+  <transition-group
+    name="toast"
+    tag="div"
+    class="toast-container"
+  >
+    <v-alert
+      v-for="(toast, index) in toasts"
+      :key="toast.id"
+      :type="toast.type"
+      dismissible
+      @input="removeToast(index)"
+      :value="true"
     >
-      {{ $t(notification.message) }}
-
-      <v-icon @click="removeNotification(index)"> $vuetify.icons.cancel </v-icon>
-    </v-snackbar>
-  </div>
+      {{ $t(toast.message) }}
+    </v-alert>
+  </transition-group>
 </template>
 
 <script>
-  import { mapState, mapMutations } from 'vuex'
   export default {
     data() {
       return {
-        timeout: 4000,
-        top: true,
-        bottom: false,
-        left: false,
-        right: true,
-        centered: false,
-        multiLine: true,
-        vertical: false,
-        absolute: false,
-        dark: false,
-        outlined: false,
-        rounded: false,
-        shaped: false,
-        tile: false,
+        toasts: [],
       }
     },
-    computed: {
-      ...mapState('toaster', {
-        notifications: (state) => state.notifications,
-      }),
-      // notifications() {
-      //   return this.$store.state.notification.notifications
-      // },
-    },
     methods: {
-      removeNotification(index) {
-        this.$store.dispatch('toaster/removeNotification', index)
+      addToast(toast) {
+        const id = Math.floor(Math.random() * 500000)
+        this.toasts.push({ id, ...toast })
+        if (!toast.timeout) {
+          setTimeout(() => {
+            this.removeToastById(id)
+          }, 5000) // Default timeout
+        } else {
+          setTimeout(() => {
+            this.removeToastById(id)
+          }, toast.timeout)
+        }
+      },
+      removeToast(index) {
+        this.toasts.splice(index, 1)
+      },
+      removeToastById(id) {
+        this.toasts = this.toasts.filter((toast) => toast.id !== id)
       },
     },
   }
 </script>
+
+<style scoped>
+  .toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+  }
+  .toast-enter-active,
+  .toast-leave-active {
+    transition: opacity 0.5s;
+  }
+  .toast-enter,
+  .toast-leave-to {
+    opacity: 0;
+  }
+</style>

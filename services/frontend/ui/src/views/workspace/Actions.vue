@@ -130,13 +130,18 @@
 
           this.tagWorkspace('exported')
           // Afficher une notification de réussite
-          this.$store.dispatch('toaster/addNotification', {
-            message: 'notifications.workspace.file_exported_successfully',
-            color: 'success',
-            show: true,
+          this.$toast({
+            message: 'notifications.workspace.file_exported.successfully',
+            type: 'success',
+            timeout: 3000,
           })
         } catch (error) {
           console.error("Erreur lors de l'exportation du fichier:", error)
+          this.$toast({
+            message: 'notifications.workspace.file_exported.error',
+            type: 'error',
+            timeout: 5000,
+          })
         }
       },
       async importWorkspace() {
@@ -164,14 +169,19 @@
 
             this.refreshWorkspace(workspace)
 
-            this.$store.dispatch('toaster/addNotification', {
-              message: 'notifications.workspace.file_imported_successfully',
-              color: 'success',
-              show: true,
+            this.$toast({
+              message: 'notifications.workspace.file_imported.successfully',
+              type: 'success',
+              timeout: 3000,
             })
           }
         } catch (error) {
           console.error('Error selecting file:', error)
+          this.$toast({
+            message: 'notifications.workspace.file_imported.error',
+            type: 'error',
+            timeout: 5000,
+          })
         }
       },
 

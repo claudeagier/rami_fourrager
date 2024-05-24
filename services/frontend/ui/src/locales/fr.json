@@ -88,23 +88,29 @@
       "delete_batch_success": "Le lot a été supprimé"
     },
     "fetch": {
-      "period": { "success": "Les périodes sont à jour", "error": "Error fetching periods" },
-      "site": { "success": "Les sites sont à jour", "error": "Error fetching sites" },
-      "climatic_year": { "success": "les années climatiques sont à jour", "error": "Error fetching climatic years" },
-      "stic": { "success": "Les baguettes fourrage sont à jour", "error": "Error fetching stics" },
-      "batch_type": { "success": "Les types de bétails sont à jour", "error": "Error fetching batch types" },
-      "pasture_type": { "success": "Les types de pâtures sont à jour", "error": "Error fetching pasture types" },
-      "animal_profile": { "success": "Les profils animaux sont à jour", "error": "Error fetching animal profils" },
-      "feed_type": { "success": "les types d'aliment sont à jour", "error": "Error fetching feed types" },
-      "concentrated_feed": {
+      "Periods": { "success": "Les périodes sont à jour", "error": "Error fetching periods" },
+      "Sites": { "success": "Les sites sont à jour", "error": "Error fetching sites" },
+      "ClimaticYears": { "success": "les années climatiques sont à jour", "error": "Error fetching climatic years" },
+      "Stics": { "success": "Les baguettes fourrage sont à jour", "error": "Error fetching stics" },
+      "BatchTypes": { "success": "Les types de bétails sont à jour", "error": "Error fetching batch types" },
+      "PastureTypes": { "success": "Les types de pâtures sont à jour", "error": "Error fetching pasture types" },
+      "AnimalProfiles": { "success": "Les profils animaux sont à jour", "error": "Error fetching animal profils" },
+      "FeedTypes": { "success": "les types d'aliment sont à jour", "error": "Error fetching feed types" },
+      "ConcentratedFeeds": {
         "success": "Les aliments concentrés sont à jour",
         "error": "Error fetching concentrated feeds"
       },
-      "housing_type": { "success": "Les types de logement sont à jour", "error": "Error fetching housing types" }
+      "HousingTypes": { "success": "Les types de logement sont à jour", "error": "Error fetching housing types" }
     },
     "workspace": {
-      "file_exported_successfully": "Fichier exporté",
-      "file_imported_successfully": "Fichier importé"
+      "file_exported": {
+        "successfully": "Le fichier a été exporté",
+        "error": "Le fichier n'a pas été exporté correctement"
+      },
+      "file_imported": {
+        "successfully": "Le fichier a été importé",
+        "error": "Le fichier n'a pas été importé correctement"
+      }
     }
   },
   "dashboard": {
