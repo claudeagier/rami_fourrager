@@ -49,3 +49,11 @@ export function getCurrentDateTime() {
   var formattedDateTime = year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds
   return formattedDateTime
 }
+
+function removeDiacritics(str) {
+  return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+}
+
+export function transformToAppCode(fromValue) {
+  return removeDiacritics(fromValue.trim().toLowerCase().replace(/ /g, '_'))
+}

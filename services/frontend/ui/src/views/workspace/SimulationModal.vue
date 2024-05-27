@@ -6,7 +6,7 @@
     max-width="600"
   >
     <v-card>
-      <v-card-title>{{ $t('workspace.content.datatables.simulations.create.dialog.title') }}</v-card-title>
+      <v-card-title>{{ $t('workspace.content.datatables.simulation.create.dialog.title') }}</v-card-title>
       <v-form
         ref="simulationForm"
         v-model="valid"
@@ -31,7 +31,7 @@
             text
             @click="cancelModal"
           >
-            {{ $t('workspace.content.datatables.simulations.create.dialog.btn_cancel') }}
+            {{ $t('workspace.content.datatables.simulation.create.dialog.btn_cancel') }}
           </v-btn>
           <v-btn
             outlined
@@ -39,7 +39,7 @@
             type="submit"
             :disabled="!valid"
           >
-            {{ $t('workspace.content.datatables.simulations.create.dialog.btn_create') }}
+            {{ $t('workspace.content.datatables.simulation.create.dialog.btn_create') }}
           </v-btn>
         </v-card-actions>
       </v-form>
@@ -97,14 +97,14 @@
 
           this.$store.commit('workspace/addSimulation', deepCopy(sim))
           this.$toast({
-            message: this.$t('workspace.content.datatables.simulations.create.dialog.add_success'),
+            message: this.$t('workspace.content.datatables.simulation.create.dialog.add_success'),
             type: 'success',
             timeout: 3000,
           })
           this.cancelModal()
         } else {
           this.$toast({
-            message: this.$st('workspace.content.datatables.simulations.create.dialog.add_error'),
+            message: this.$st('workspace.content.datatables.simulation.create.dialog.add_error'),
             type: 'warning',
             timeout: 5000,
           })

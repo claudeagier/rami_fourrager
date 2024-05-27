@@ -12,19 +12,22 @@
           required
           :color="pageColor"
           :item-color="pageColor"
-          @change="loadProfils"
+          @change="loadProfiles"
         ></v-select>
-        <v-select
-          v-model="profil"
+        <v-autocomplete
+          v-model="profile"
           :items="animalProfiles"
-          label="Profil"
+          :label="$t('herd.details.profile')"
+          :item-color="pageColor"
+          :color="pageColor"
           item-text="name"
           item-value="id"
-          :color="pageColor"
-          :item-color="pageColor"
+          filled
           return-object
           required
-        ></v-select>
+          clearable
+        >
+        </v-autocomplete>
         <v-text-field
           v-model.number="count"
           :rules="[rules.required, rules.integer]"
@@ -69,7 +72,7 @@
         immediate: true,
         handler(newValue, oldValue) {
           this.batch = this.getBatch(newValue)
-          this.loadProfils(this.batch.type)
+          this.loadProfiles(this.batch.type)
         },
       },
     },
@@ -104,12 +107,12 @@
           })
         },
       },
-      profil: {
+      profile: {
         get() {
-          return this.batch.profil
+          return this.batch.profile
         },
         set(val) {
-          this.setBatchProfil({
+          this.setBatchProfile({
             batchId: this.selectedLot,
             value: val,
           })
@@ -141,11 +144,11 @@
     methods: {
       ...mapMutations('simulator/herd', {
         setBatchType: 'setBatchType',
-        setBatchProfil: 'setBatchProfil',
+        setBatchProfile: 'setBatchProfile',
         setBatchCount: 'setBatchCount',
         setBatchHousingType: 'setBatchHousingType',
       }),
-      loadProfils(type) {
+      loadProfiles(type) {
         if (type.id) {
           this.animalProfiles = this.getAnimalProfiles(type.id)
         }

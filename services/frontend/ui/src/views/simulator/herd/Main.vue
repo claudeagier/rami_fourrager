@@ -61,7 +61,7 @@
                         <v-card-title>Lot {{ index + 1 }}</v-card-title>
                         <v-card-text>
                           <v-row>
-                            <v-col cols="9"> {{ lot.count }} {{ lot.profil.name }} </v-col>
+                            <v-col cols="9"> {{ lot.count }} {{ lot.profile.name }} </v-col>
                             <v-col>
                               <v-icon
                                 @click="deleteLot(lot)"

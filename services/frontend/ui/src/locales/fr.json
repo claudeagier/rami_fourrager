@@ -146,6 +146,7 @@
   },
   "herd": {
     "title": "Le troupeau",
+    "modal": { "profile": "Profil" },
     "classicfeed": {
       "tabs": {
         "title": "Période {period}",
@@ -173,7 +174,8 @@
       }
     },
     "details": {
-      "graph": { "title": "Besoins en matière sèche", "btn": "Afficher les graphiques" }
+      "graph": { "title": "Besoins en matière sèche", "btn": "Afficher les graphiques" },
+      "profile": "Profil"
     }
   },
   "workspace": {
@@ -206,13 +208,13 @@
     "content": {
       "title": "Votre espace de travail",
       "tabs": {
-        "simulations": "Simulations",
-        "profiles": "Profils Animaux",
-        "stics": "Baguettes fourrages",
-        "feeds": "Cartes rations"
+        "simulation": "Simulations",
+        "animalProfile": "Profils Animaux",
+        "stic": "Baguettes fourrages",
+        "feed": "Cartes rations"
       },
       "datatables": {
-        "simulations": {
+        "simulation": {
           "header": {
             "name": "Nom",
             "description": "Description",
@@ -231,14 +233,44 @@
           },
           "delete_success": "La simulation est supprimée"
         },
-        "profiles": {
+        "animalProfile": {
           "header": {
             "batchtype": "Type de lot",
             "name": "Nom",
             "actions": "Actions"
+          },
+          "create": {
+            "btn": "Ajouter un profil animal",
+            "dialog": {
+              "create_title": "Créer un profil animal",
+              "update_title": "Modifer la baguette fourrage",
+              "subheader": { "copy": "Copier un profil existant" },
+              "animalProfile_to_copy": "Code et Nom du profil à copier",
+              "batchType_select": "Type d'animal à copier",
+              "tabs": {
+                "infos": "Le détail",
+                "besoins": "Les besoins"
+              },
+              "period": "Période",
+              "name": "Nom du profil",
+              "period_MB": "Période de mise bas",
+              "age_mois": "Age en mois",
+              "sem_MB": "Semaine de mise bas",
+              "weight_MB_kg": "poids à la mise bas en kg",
+              "NEC_MB": "NEC_MB",
+              "lactation_duration": "Durée de lacatation",
+              "weight_birth_kg": "Poids à la naissance en kg",
+              "milk_product_kg": "production de lait en kg",
+              "TR": "TR",
+              "IN": "IN",
+              "CI": "CI",
+              "UFL": "UFL",
+              "PDI": "PDI",
+              "PL": "PL"
+            }
           }
         },
-        "stics": {
+        "stic": {
           "header": {
             "site": "Site",
             "climatic_year": "Année climatique",
@@ -273,7 +305,7 @@
             }
           }
         },
-        "classicFeeds": {
+        "classicFeed": {
           "header": { "name": "Nom", "actions": "Actions", "correspondingStock": "Type de production" },
           "create": {
             "btn": "Ajouter une carte ration",

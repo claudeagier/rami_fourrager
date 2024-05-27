@@ -17,6 +17,7 @@ const routes = [
     name: 'Register',
     component: Register,
   },
+  { path: '/', redirect: '/workspace' },
   {
     path: '/',
     component: () => import('@/views/Index'),

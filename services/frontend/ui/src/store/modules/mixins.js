@@ -63,7 +63,7 @@ const getUFPasturesByPeriodBefore = (batch, totalAvailablePastureByPeriod) => {
   return batch.classicFeeds.map(({ period, feeds }, index) => {
     const periodId = period.id
     const sumUF = Object.values(feeds).reduce((acc, curr) => {
-      const UFcolumn = batch.profil.batch_type.UF_value_considered
+      const UFcolumn = batch.profile.batch_type.UF_value_considered
       // si c'est des patures
       var DEF = 0
       if (curr.type.name === 'Pâture') {
@@ -117,12 +117,12 @@ const getUFFeedsByPeriod = (batch, after = false) => {
     console.error('batch_not_found')
     return
   }
-  const UFcolumn = batch.profil.batch_type.UF_value_considered
-  const UEcolumn = batch.profil.batch_type.UE_value_considered
+  const UFcolumn = batch.profile.batch_type.UF_value_considered
+  const UEcolumn = batch.profile.batch_type.UE_value_considered
 
   return batch.classicFeeds.map(({ period, feeds }, index) => {
-    const batchValuesForPeriod = batch.profil.animal_profile_periods[index]
-    const toModerate = batch.profil.batch_type.code === 'VL'
+    const batchValuesForPeriod = batch.profile.animal_profile_periods[index]
+    const toModerate = batch.profile.batch_type.code === 'VL'
     const potential = 1
 
     const sumUF = Object.values(feeds).reduce((acc, curr) => {
@@ -154,7 +154,7 @@ const getUFConcentratedByPeriod = (batch) => {
   return batch.concentratedFeeds.map(({ period, feeds }, index) => {
     // UFL de la ration (en fonction du type d’animaux on ne prend pas la même colonne)* le pourcentage de ration
     const sumUF = Object.values(feeds).reduce((acc, curr) => {
-      const UFcolumn = batch.profil.batch_type.UF_concentrated_value_considered
+      const UFcolumn = batch.profile.batch_type.UF_concentrated_value_considered
 
       const UF = curr.type.nutritional_values[UFcolumn] * curr.quantity
       // console.log('UFL : %d - Quantity : %d - UF: %d', curr.type.nutritional_values[UFcolumn], curr.quantity, UF)
@@ -180,10 +180,10 @@ const getFinalEnergeticCoverage = function (state, rootState, batchId) {
   // par periode
   rootState.referential.periods.forEach((period, index) => {
     const periodId = period.id
-    const toModerate = batch.profil.batch_type.code === 'VL'
+    const toModerate = batch.profile.batch_type.code === 'VL'
     const potential = 1
     // par period
-    const aprpr = batch.profil.animal_profile_periods.find((element) => element.period_id === periodId)
+    const aprpr = batch.profile.animal_profile_periods.find((element) => element.period_id === periodId)
     const ufl = aprpr.UFL
     // H274 = H272+H267+h249 UF total
     const h274 = h272[index] + h267[index] + h249[index]
@@ -216,13 +216,13 @@ export default {
 
     var energeticCoverage = feedsByPeriod.map(({ period, feeds }, index) => {
       const periodId = period.id
-      const aprpr = batch.profil.animal_profile_periods.find((element) => element.period_id === periodId)
+      const aprpr = batch.profile.animal_profile_periods.find((element) => element.period_id === periodId)
 
       var sumUF = pastureUF[index] + feedsUF[index]
       // if (withConcentrated) {
       //   sumUF += concentratedUF[index]
       // }
-      const totalUE = calculateTotalUE(batch.profil.batch_type.UE_value_considered, feeds)
+      const totalUE = calculateTotalUE(batch.profile.batch_type.UE_value_considered, feeds)
 
       const DEF = fixFloatingPoint(sumUF / totalUE, precision)
 
@@ -240,7 +240,7 @@ export default {
         // pas saisie pour l'instant
         var ci_moderator = 1
         var toModerate = false
-        if (batch.profil.batch_type.code === 'VL') {
+        if (batch.profile.batch_type.code === 'VL') {
           toModerate = true
           const potential = 1
           ci_moderator = 0.1582 * potential + 0.8392
@@ -284,7 +284,7 @@ export default {
     // console.log('getEC profil', batch.profil)
     var proteicCoverage = feedsByPeriod.map(({ period, feeds }, index) => {
       const periodId = period.id
-      const aprpr = batch.profil.animal_profile_periods.find((element) => element.period_id === periodId)
+      const aprpr = batch.profile.animal_profile_periods.find((element) => element.period_id === periodId)
 
       //    H237= somme pour chaque ration :UFL de la ration (en fonction du type d’animaux on ne prend pas la même colonne)* le pourcentage de ration
       const sumPDI = Object.values(feeds).reduce((acc, curr) => {
@@ -310,7 +310,7 @@ export default {
         return acc + PDI
       }, 0)
       const totalUE = Object.values(feeds).reduce((acc, curr) => {
-        const UEcolumn = batch.profil.batch_type.UE_value_considered
+        const UEcolumn = batch.profile.batch_type.UE_value_considered
         const UE = (curr.proportion / 100) * curr.type.nutritional_values[UEcolumn]
         return acc + UE
       }, 0)
@@ -331,7 +331,7 @@ export default {
         // pas saisie pour l'instant
         var ci_moderator = 1
         var toModerate = false
-        if (batch.profil.batch_type.code === 'VL') {
+        if (batch.profile.batch_type.code === 'VL') {
           toModerate = true
           const potential = 1
           ci_moderator = 0.1582 * potential + 0.8392
@@ -475,8 +475,8 @@ export default {
       return
     }
 
-    const UEcolumn = batch.profil.batch_type.UE_value_considered
-    const UFcolumn = batch.profil.batch_type.UF_value_considered
+    const UEcolumn = batch.profile.batch_type.UE_value_considered
+    const UFcolumn = batch.profile.batch_type.UF_value_considered
 
     const finalEnergeticCoverage = getFinalEnergeticCoverage(state, rootState, batchId).final_coverage
     var totalEnergeticCoverage = { name: 'totalEnergeticCoverage', data: finalEnergeticCoverage }
@@ -496,9 +496,9 @@ export default {
 
     rootState.referential.periods.forEach((period, index) => {
       // la quantité de matière sèche de chaque aliment
-      const batchValuesForPeriod = batch.profil.animal_profile_periods[index]
+      const batchValuesForPeriod = batch.profile.animal_profile_periods[index]
       const feeds = batch.classicFeeds[index].feeds
-      const toModerate = batch.profil.batch_type.code === 'VL'
+      const toModerate = batch.profile.batch_type.code === 'VL'
       const potential = 1
       const besoinMS = calculateBesoinMS(batchValuesForPeriod.CI, toModerate, potential, UEcolumn, feeds) // ok
       dryMatterNeeded.data[index] = _.floor(besoinMS, 1)

@@ -7,7 +7,7 @@
         fixed-tabs
       >
         <v-tab
-          v-for="(tab, tabIndex) in ['simulations', 'profiles', 'stics', 'feeds']"
+          v-for="(tab, tabIndex) in ['simulation', 'animalProfile', 'stic', 'feed']"
           :key="tabIndex"
         >
           {{ $t('workspace.content.tabs.' + tab) }}
@@ -38,7 +38,7 @@
                   color="primary"
                   @click="dialogs.simulation = true"
                 >
-                  {{ $t('workspace.content.datatables.simulations.create.btn') }}
+                  {{ $t('workspace.content.datatables.simulation.create.btn') }}
                 </v-btn>
                 <simulation-modal
                   :dialog.sync="dialogs.simulation"
@@ -98,7 +98,7 @@
         </v-tab-item>
         <!-- <div>datatable des animalProfiles du workpsace avec un bouton exporter pour exporter la liste -->
         <v-tab-item>
-          <!-- <v-data-table
+          <v-data-table
             :items="workspace.animalProfiles"
             :headers="animalProfileHeaders"
             fixed-header
@@ -119,64 +119,35 @@
                 <v-btn
                   outlined
                   color="primary"
-                  @click="dialogs.simulation = true"
+                  @click="dialogs.animalProfile = true"
                 >
-                  {{ $t('workspace.content.datatables.simulations.create.btn') }}
+                  {{ $t('workspace.content.datatables.animalProfile.create.btn') }}
                 </v-btn>
-                <v-dialog
-                  persistent
-                  no-click-animation
-                  v-model="dialogs.simulation"
-                  max-width="600"
-                >
-                  <v-card>
-                    <v-card-title>{{
-                      $t('workspace.content.datatables.simulations.create.dialog.title')
-                    }}</v-card-title>
-                    <v-form
-                      ref="simulationForm"
-                      v-model="valid.simulation"
-                      @submit.prevent="createSimulation"
-                      lazy-validation
-                    >
-                      <v-card-text>
-                        <v-text-field
-                          v-model="newItems.simulation.name"
-                          label="Nom"
-                          :rules="[rules.required]"
-                        ></v-text-field>
-                        <v-textarea
-                          v-model="newItems.simulation.description"
-                          label="Description"
-                        ></v-textarea>
-                      </v-card-text>
-                      <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn
-                          outlined
-                          color="green"
-                          type="submit"
-                          :disabled="!valid.simulation"
-                        >
-                          {{ $t('workspace.content.datatables.simulations.create.dialog.btn_create') }}
-                        </v-btn>
-                        <v-btn
-                          color="grey"
-                          outlined
-                          @click="cancelCreateSimulation"
-                        >
-                          {{ $t('workspace.content.datatables.simulations.create.dialog.btn_cancel') }}
-                        </v-btn>
-                      </v-card-actions>
-                    </v-form>
-                  </v-card>
-                </v-dialog>
+                <animal-profile-modal
+                  :dialog.sync="dialogs.animalProfile"
+                  @add-item="saveItem"
+                  @cancel-modal="closeModal"
+                  :item="newItems.animalProfile"
+                />
               </v-toolbar>
             </template>
             <template v-slot:[`item.actions`]="{ item }">
-              <v-btn @click="modifyAnimalProfile(item)">Modifier</v-btn>
+              <v-icon
+                @click="deleteItem('animalProfile', item)"
+                small
+              >
+                mdi-delete
+              </v-icon>
+              <v-icon
+                @click="editItem('animalProfile', item)"
+                medium
+                color="green"
+                background-color="green"
+              >
+                mdi-square-edit-outline
+              </v-icon>
             </template>
-          </v-data-table> -->
+          </v-data-table>
         </v-tab-item>
         <!-- <div>datatable des stics du workpsace avec un bouton exporter pour exporter la liste -->
         <v-tab-item>
@@ -203,7 +174,7 @@
                   color="primary"
                   @click="dialogs.stic = true"
                 >
-                  {{ $t('workspace.content.datatables.stics.create.btn') }}
+                  {{ $t('workspace.content.datatables.stic.create.btn') }}
                 </v-btn>
                 <stic-modal
                   :dialog.sync="dialogs.stic"
@@ -304,29 +275,30 @@
   import ClassicFeedModal from './ClassicFeedModal.vue'
   import SticModal from './SticModal.vue'
   import SimulationModal from './SimulationModal.vue'
+  import AnimalProfileModal from './AnimalProfileModal.vue'
 
   export default {
     name: 'WorkspaceContent',
-    components: { ClassicFeedModal, SticModal, SimulationModal },
+    components: { ClassicFeedModal, SticModal, SimulationModal, AnimalProfileModal },
     data() {
       return {
         dialogs: {
           simulation: false,
           classicFeed: false,
           stic: false,
+          animalProfile: false,
         },
         newItems: {
           simulation: null,
           classicFeed: null,
           stic: null,
+          animalProfile: null,
         },
         oldItems: {
           simulation: null,
           classicFeed: null,
           stic: null,
-        },
-        valid: {
-          simulation: false,
+          animalProfile: null,
         },
         selectedRows: [],
         rules: {
@@ -372,15 +344,15 @@
       },
       simulationHeaders() {
         return [
-          { text: this.$t('workspace.content.datatables.simulations.header.name'), value: 'name' },
-          { text: this.$t('workspace.content.datatables.simulations.header.description'), value: 'description' },
+          { text: this.$t('workspace.content.datatables.simulation.header.name'), value: 'name' },
+          { text: this.$t('workspace.content.datatables.simulation.header.description'), value: 'description' },
           {
-            text: this.$t('workspace.content.datatables.simulations.header.lastModifiedDate'),
+            text: this.$t('workspace.content.datatables.simulation.header.lastModifiedDate'),
             value: 'lastModifiedDate',
             dataType: 'Date',
           },
           {
-            text: this.$t('workspace.content.datatables.simulations.header.actions'),
+            text: this.$t('workspace.content.datatables.simulation.header.actions'),
             value: 'actions',
             sortable: false,
           },
@@ -388,28 +360,32 @@
       },
       animalProfileHeaders() {
         return [
-          { text: this.$t('workspace.content.datatables.profiles.header.batchtype'), value: 'batchType' },
-          { text: this.$t('workspace.content.datatables.profiles.header.name'), value: 'profileName' },
-          { text: this.$t('workspace.content.datatables.profiles.header.actions'), value: 'actions', sortable: false },
+          { text: this.$t('workspace.content.datatables.animalProfile.header.batchtype'), value: 'batch_type.name' },
+          { text: this.$t('workspace.content.datatables.animalProfile.header.name'), value: 'name' },
+          {
+            text: this.$t('workspace.content.datatables.animalProfile.header.actions'),
+            value: 'actions',
+            sortable: false,
+          },
         ]
       },
       sticHeaders() {
         return [
-          { text: this.$t('workspace.content.datatables.stics.header.site'), value: 'site' },
-          { text: this.$t('workspace.content.datatables.stics.header.climatic_year'), value: 'climaticYear' },
-          { text: this.$t('workspace.content.datatables.stics.header.name'), value: 'name' },
-          { text: this.$t('workspace.content.datatables.stics.header.actions'), value: 'actions', sortable: false },
+          { text: this.$t('workspace.content.datatables.stic.header.site'), value: 'site' },
+          { text: this.$t('workspace.content.datatables.stic.header.climatic_year'), value: 'climaticYear' },
+          { text: this.$t('workspace.content.datatables.stic.header.name'), value: 'name' },
+          { text: this.$t('workspace.content.datatables.stic.header.actions'), value: 'actions', sortable: false },
         ]
       },
       feedHeaders() {
         return [
-          { text: this.$t('workspace.content.datatables.classicFeeds.header.name'), value: 'name' },
+          { text: this.$t('workspace.content.datatables.classicFeed.header.name'), value: 'name' },
           {
-            text: this.$t('workspace.content.datatables.classicFeeds.header.correspondingStock'),
+            text: this.$t('workspace.content.datatables.classicFeed.header.correspondingStock'),
             value: 'correspondingStock',
           },
           {
-            text: this.$t('workspace.content.datatables.classicFeeds.header.actions'),
+            text: this.$t('workspace.content.datatables.classicFeed.header.actions'),
             value: 'actions',
             sortable: false,
           },
@@ -432,7 +408,7 @@
       deleteSimulation(simulation) {
         this.$store.commit('workspace/deleteSimulation', simulation)
         this.$toast({
-          message: this.$t('workspace.content.datatables.simulations.delete_success'),
+          message: this.$t('workspace.content.datatables.simulation.delete_success'),
           type: 'success',
           timeout: 3000,
         })

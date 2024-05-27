@@ -12,12 +12,12 @@
           v-on="on"
           outlined
         >
-          {{ $t('workspace.content.datatables.classicFeeds.create.btn') }}
+          {{ $t('workspace.content.datatables.classicFeed.create.btn') }}
         </v-btn>
       </template>
       <v-card>
         <v-card-title>
-          <span class="text-h5"> {{ $t('workspace.content.datatables.classicFeeds.create.dialog.title') }} </span>
+          <span class="text-h5"> {{ $t('workspace.content.datatables.classicFeed.create.dialog.title') }} </span>
         </v-card-title>
 
         <!-- <v-card-text>
@@ -39,7 +39,7 @@
             <v-text-field
               v-model="feedItem.name"
               :rules="[rules.required]"
-              :label="$t('workspace.content.datatables.classicFeeds.create.dialog.name')"
+              :label="$t('workspace.content.datatables.classicFeed.create.dialog.name')"
               required
             ></v-text-field>
 
@@ -48,12 +48,12 @@
               :items="barnStockItems"
               item-text="name"
               item-value="code"
-              :label="$t('workspace.content.datatables.classicFeeds.create.dialog.correspondingStock')"
+              :label="$t('workspace.content.datatables.classicFeed.create.dialog.correspondingStock')"
               :rules="[rules.required]"
             ></v-select>
 
             <v-subheader>{{
-              $t('workspace.content.datatables.classicFeeds.create.dialog.nutritional_values')
+              $t('workspace.content.datatables.classicFeed.create.dialog.nutritional_values')
             }}</v-subheader>
 
             <v-row>
@@ -86,7 +86,7 @@
               color="grey"
               text
             >
-              {{ $t('workspace.content.datatables.classicFeeds.create.dialog.btn_cancel') }}
+              {{ $t('workspace.content.datatables.classicFeed.create.dialog.btn_cancel') }}
             </v-btn>
             <v-btn
               color="primary"
@@ -94,7 +94,7 @@
               outlined
               :disabled="!valid"
             >
-              {{ $t('workspace.content.datatables.classicFeeds.create.dialog.btn_create') }}
+              {{ $t('workspace.content.datatables.classicFeed.create.dialog.btn_create') }}
             </v-btn>
           </v-card-actions>
         </v-form>

@@ -10,13 +10,13 @@
           v-if="!copyDisabled"
           class="text-h5"
         >
-          {{ $t('workspace.content.datatables.stics.create.dialog.create_title') }}
+          {{ $t('workspace.content.datatables.stic.create.dialog.create_title') }}
         </span>
         <span
           v-if="copyDisabled"
           class="text-h5"
         >
-          {{ $t('workspace.content.datatables.stics.create.dialog.update_title') }}
+          {{ $t('workspace.content.datatables.stic.create.dialog.update_title') }}
         </span>
       </v-card-title>
       <v-form
@@ -32,13 +32,13 @@
                 elevation="2"
                 class="pa-6"
               >
-                <v-subheader>{{ $t('workspace.content.datatables.stics.create.dialog.subheader.copy') }}</v-subheader>
+                <v-subheader>{{ $t('workspace.content.datatables.stic.create.dialog.subheader.copy') }}</v-subheader>
                 <v-row justify="center">
                   <v-col cols="10">
                     <v-select
                       v-model="site"
                       :items="siteList"
-                      :label="$t('workspace.content.datatables.stics.create.dialog.site')"
+                      :label="$t('workspace.content.datatables.stic.create.dialog.site')"
                       item-text="name"
                       item-value="id"
                       clearable
@@ -49,7 +49,7 @@
                     <v-select
                       v-model="climaticYear"
                       :items="climaticYears"
-                      :label="$t('workspace.content.datatables.stics.create.dialog.climatic_year')"
+                      :label="$t('workspace.content.datatables.stic.create.dialog.climatic_year')"
                       item-text="name"
                       item-value="id"
                       clearable
@@ -61,7 +61,7 @@
                     <v-autocomplete
                       v-model="sticToCopy"
                       :items="sticList"
-                      :label="$t('workspace.content.datatables.stics.create.dialog.stic_to_copy')"
+                      :label="$t('workspace.content.datatables.stic.create.dialog.stic_to_copy')"
                       item-text="name"
                       item-value="id"
                       dense
@@ -86,7 +86,7 @@
               </v-sheet>
               <v-divider class="mt-5"></v-divider>
               <v-subheader>{{
-                $t('workspace.content.datatables.stics.create.dialog.subheader.pasture_type')
+                $t('workspace.content.datatables.stic.create.dialog.subheader.pasture_type')
               }}</v-subheader>
               <v-sheet
                 elevation="2"
@@ -96,7 +96,7 @@
                 <v-select
                   v-model="stic.pasture_type"
                   :items="pastureTypeList"
-                  :label="$t('workspace.content.datatables.stics.create.dialog.pasture_select')"
+                  :label="$t('workspace.content.datatables.stic.create.dialog.pasture_select')"
                   item-text="name"
                   item-value="id"
                   return-object
@@ -115,7 +115,7 @@
                   v-for="(tab, tabIndex) in ['infos', 'productions']"
                   :key="tabIndex"
                 >
-                  {{ $t('workspace.content.datatables.stics.create.dialog.tabs.' + tab) }}
+                  {{ $t('workspace.content.datatables.stic.create.dialog.tabs.' + tab) }}
                 </v-tab>
                 <v-tab-item>
                   <v-sheet
@@ -124,38 +124,38 @@
                   >
                     <v-text-field
                       v-model="stic.name"
-                      :label="$t('workspace.content.datatables.stics.create.dialog.name')"
+                      :label="$t('workspace.content.datatables.stic.create.dialog.name')"
                       required
                     ></v-text-field>
 
                     <v-text-field
                       v-model="stic.type"
-                      :label="$t('workspace.content.datatables.stics.create.dialog.type')"
+                      :label="$t('workspace.content.datatables.stic.create.dialog.type')"
                       required
                     ></v-text-field>
                     <v-text-field
                       v-model="stic.rendement"
-                      :label="$t('workspace.content.datatables.stics.create.dialog.rendement')"
+                      :label="$t('workspace.content.datatables.stic.create.dialog.rendement')"
                     ></v-text-field>
                     <v-text-field
                       v-model="stic.designation"
-                      :label="$t('workspace.content.datatables.stics.create.dialog.designation')"
+                      :label="$t('workspace.content.datatables.stic.create.dialog.designation')"
                     ></v-text-field>
                     <v-text-field
                       v-model="stic.RU"
-                      :label="$t('workspace.content.datatables.stics.create.dialog.RU')"
+                      :label="$t('workspace.content.datatables.stic.create.dialog.RU')"
                     ></v-text-field>
                     <v-text-field
                       v-model="stic.IN"
-                      :label="$t('workspace.content.datatables.stics.create.dialog.IN')"
+                      :label="$t('workspace.content.datatables.stic.create.dialog.IN')"
                     ></v-text-field>
                     <v-text-field
                       v-model="stic.ITK"
-                      :label="$t('workspace.content.datatables.stics.create.dialog.ITK')"
+                      :label="$t('workspace.content.datatables.stic.create.dialog.ITK')"
                     ></v-text-field>
                     <v-text-field
                       v-model="stic.detail_ITK"
-                      :label="$t('workspace.content.datatables.stics.create.dialog.detail_ITK')"
+                      :label="$t('workspace.content.datatables.stic.create.dialog.detail_ITK')"
                     ></v-text-field>
                   </v-sheet>
                 </v-tab-item>
@@ -173,7 +173,7 @@
                       <template v-slot:item.production="{ item }">
                         <v-text-field
                           v-model.number="item.production"
-                          :label="$t('workspace.content.datatables.stics.create.dialog.production')"
+                          :label="$t('workspace.content.datatables.stic.create.dialog.production')"
                           hide-details
                           dense
                           single-line
@@ -189,7 +189,7 @@
                           :items="farmingMethods"
                           :item-text="formatFarmingMethod"
                           item-value="code"
-                          :label="$t('workspace.content.datatables.stics.create.dialog.farming_method')"
+                          :label="$t('workspace.content.datatables.stic.create.dialog.farming_method')"
                           hide-details
                           clearable
                           single-line
@@ -229,7 +229,7 @@
 
 <script>
   import { mapGetters } from 'vuex'
-  import { deepCopy } from '@/plugins/utils'
+  import { deepCopy, transformToAppCode } from '@/plugins/utils'
 
   export default {
     name: 'SticModal',
@@ -283,12 +283,12 @@
         stic: {},
         periodHeaders: [
           {
-            text: this.$t('workspace.content.datatables.stics.create.dialog.period'),
+            text: this.$t('workspace.content.datatables.stic.create.dialog.period'),
             value: 'period_id',
             align: 'start',
           },
-          { text: this.$t('workspace.content.datatables.stics.create.dialog.production'), value: 'production' },
-          { text: this.$t('workspace.content.datatables.stics.create.dialog.farming_method'), value: 'farming_method' },
+          { text: this.$t('workspace.content.datatables.stic.create.dialog.production'), value: 'production' },
+          { text: this.$t('workspace.content.datatables.stic.create.dialog.farming_method'), value: 'farming_method' },
         ],
         valid: true,
         rules: {
@@ -360,6 +360,10 @@
       },
       saveItem() {
         if (this.$refs.sticForm.validate()) {
+          if (this.stic.id) {
+            delete this.stic.id
+          }
+          this.stic.code = transformToAppCode(this.stic.name)
           this.$emit('add-item', { dialogName: 'stic', item: deepCopy(this.stic) })
           this.clearItem()
         } else {

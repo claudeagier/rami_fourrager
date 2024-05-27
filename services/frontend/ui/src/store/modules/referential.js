@@ -193,9 +193,10 @@ export default {
       if (rootState.workspace.workspace.stics.length > 0) {
         list = mergeLists([...state.stics], [...rootState.workspace.workspace.stics])
       }
-      return list.filter((stic) => {
+      const filtered = list.filter((stic) => {
         return stic.climatic_year_id === climaticYearId
       })
+      return filtered
     },
   },
 }

@@ -31,8 +31,8 @@ export default {
     setBatchType(state, { batchId, value }) {
       state.batchs[batchId].type = value
     },
-    setBatchProfil(state, { batchId, value }) {
-      state.batchs[batchId].profil = value
+    setBatchProfile(state, { batchId, value }) {
+      state.batchs[batchId].profile = value
     },
     setBatchCount(state, { batchId, value }) {
       state.batchs[batchId].count = value

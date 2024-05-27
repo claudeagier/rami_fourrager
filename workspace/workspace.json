@@ -857,7 +857,7 @@
         "batchs": [
           {
             "type": { "id": 6, "name": "Vaches laitières" },
-            "profil": {
+            "profile": {
               "id": 570,
               "batch_type_id": 6,
               "code": "vl_vel_29_mois_etales_700_kg_7000_kg_lait_tr=25%",

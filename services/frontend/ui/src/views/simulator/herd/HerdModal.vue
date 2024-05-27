@@ -21,19 +21,22 @@
             item-value="id"
             return-object
             :rules="[rules.required]"
-            @change="loadProfils"
+            @change="loadProfiles"
             :allow-overflow="true"
           ></v-select>
-          <v-select
-            v-model="lotItem.profil"
+          <v-autocomplete
+            v-model="lotItem.profile"
             :items="animalProfiles"
-            label="Profil"
+            :label="$t('herd.modal.profile')"
+            :rules="[rules.required]"
             item-text="name"
             item-value="id"
             return-object
-            :rules="[rules.required]"
+            required
+            clearable
             :allow-overflow="true"
-          ></v-select>
+          >
+          </v-autocomplete>
           <v-text-field
             v-model.number="lotItem.count"
             :rules="[rules.required, rules.integer]"
@@ -81,7 +84,7 @@
         animalProfiles: [],
         lotItem: {
           type: null,
-          profil: null,
+          profile: null,
           count: 0,
           housing: {
             type: null,
@@ -123,7 +126,7 @@
       }),
     },
     methods: {
-      loadProfils(item) {
+      loadProfiles(item) {
         this.animalProfiles = this.getAnimalProfiles(item.id)
       },
       addLot() {
@@ -146,7 +149,7 @@
       resetForm() {
         this.lotItem = {
           type: null,
-          profil: null,
+          profile: null,
           count: 0,
           housing: {
             type: null,
