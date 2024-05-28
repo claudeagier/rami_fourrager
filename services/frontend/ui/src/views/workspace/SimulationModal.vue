@@ -48,7 +48,6 @@
 </template>
 
 <script>
-  import simulationSchema from '@/schemas/simulation'
   import { deepCopy } from '@/plugins/utils'
 
   export default {
@@ -91,7 +90,27 @@
       },
       saveItem() {
         if (this.$refs.simulationForm.validate()) {
-          const sim = simulationSchema
+          const sim = {
+            name: '',
+            site: null,
+            climaticYear: null,
+            lastModifiedDate: '',
+            loaded: false,
+            farm: {
+              rotations: [],
+              totalAvailablePastureByPeriod: null,
+              dimensioning: {
+                SAU: null,
+                constrainedSurfaces: { irrigable: null, ploughable: null, superficial: null, reachable: null },
+              },
+            },
+            barn: {
+              initialStock: [],
+            },
+            herd: {
+              batchs: [],
+            },
+          }
           sim.name = this.simulation.name
           sim.description = this.simulation.description
 

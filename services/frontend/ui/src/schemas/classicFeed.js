@@ -1,15 +1,11 @@
 export default {
-  name: '',
-  correspondingStock: '',
-  nutritional_values: {
-    UEL: 0,
-    UEB: 0,
-    UEM: 0,
-    UFL: 0,
-    PDI_inf: 0,
-    UFV: 0,
-    PDIN: 0,
-    PDIE: 0,
-    rejection: 0,
+  id: '/classicFeed',
+  type: 'object',
+  properties: {
+    id: { type: 'integer' },
+    name: { type: 'string' },
+    correspondingStock: { type: 'string' },
+    nutritional_values: { $ref: '/nutritionalValues' },
   },
+  required: ['name', 'correspondingStock', 'nutritional_values'],
 }

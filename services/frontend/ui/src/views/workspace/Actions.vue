@@ -44,7 +44,6 @@
         {{ $t('workspace.actions.create.btn') }}
       </v-btn>
       <v-btn
-        v-if="workspace.tag === undefined || workspace.tag === 'exported'"
         outlined
         color="#065c4a"
         @click="importWorkspace"
@@ -65,7 +64,8 @@
 
 <script>
   import { mapMutations, mapGetters } from 'vuex'
-  import workspaceSchema from '@/schemas/workspace'
+  import { validateJson } from '@/plugins/utils'
+  import { ValidatorResultError } from 'jsonschema'
 
   export default {
     name: 'Actions',
@@ -158,17 +158,21 @@
             suggestedName: this.fileName || 'workspace.json',
             startIn: 'documents',
           })
+
           const file = await fileHandle.getFile()
-          const reader = new FileReader()
 
-          reader.readAsText(file)
-          reader.onload = (e) => {
-            const jsonData = e.target.result
-            const workspace = JSON.parse(jsonData)
-            workspace.lastModifiedDate = file.lastModifiedDate.toLocaleDateString()
-
-            this.refreshWorkspace(workspace)
-
+          const jsonData = await this.readFileAsText(file)
+          const workspace = JSON.parse(jsonData)
+          var isValid = false
+          try {
+            isValid = await validateJson(workspace, 'workspace')
+          } catch (error) {
+            console.error('Validation error:', error)
+            throw error
+          }
+          if (isValid) {
+            workspace.lastModifiedDate = new Date(file.lastModified).toLocaleDateString()
+            await this.refreshWorkspace(workspace)
             this.$toast({
               message: this.$t('notifications.workspace.file_imported.successfully'),
               type: 'success',
@@ -176,17 +180,43 @@
             })
           }
         } catch (error) {
-          console.error('Error selecting file:', error)
-          this.$toast({
-            message: this.$t('notifications.workspace.file_imported.error'),
-            type: 'error',
-            timeout: 5000,
-          })
+          console.error('Error selecting file:', error instanceof ValidatorResultError, error)
+          if (error instanceof ValidatorResultError) {
+            error.errors.forEach((err) => {
+              this.$toast({
+                message: this.$t('notifications.workspace.file_imported.error', {
+                  msg: `Error of ${err.stack}`,
+                }),
+                type: 'error',
+                timeout: 5000,
+              })
+            })
+          } else {
+            this.$toast({
+              message: this.$t('notifications.workspace.file_imported.error', { msg: error.message }),
+              type: 'error',
+              timeout: 5000,
+            })
+          }
         }
+      },
+      readFileAsText(file) {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader()
+          reader.readAsText(file)
+          reader.onload = () => resolve(reader.result)
+          reader.onerror = (error) => reject(error)
+        })
       },
 
       createWorkspace() {
-        this.setWorkspace({ ...workspaceSchema })
+        this.setWorkspace({
+          tag: 'created',
+          simulations: [],
+          stics: [],
+          animalProfiles: [],
+          classicFeeds: [],
+        })
       },
     },
   }

@@ -107,7 +107,7 @@
       },
       "file_imported": {
         "successfully": "Le fichier a été importé",
-        "error": "Le fichier n'a pas été importé correctement"
+        "error": "Le fichier n'a pas été importé correctement error : {msg}"
       }
     }
   },

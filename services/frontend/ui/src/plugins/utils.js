@@ -1,3 +1,5 @@
+import jsonSchemaValidator from '@/plugins/jsonSchemaValidator'
+
 export function deepEqual(obj1, obj2) {
   // Si les deux objets sont identiques, ils sont égaux
   if (obj1 === obj2) {
@@ -56,4 +58,25 @@ function removeDiacritics(str) {
 
 export function transformToAppCode(fromValue) {
   return removeDiacritics(fromValue.trim().toLowerCase().replace(/ /g, '_'))
+}
+
+export async function validateJson(data, schemaName) {
+  const options = {
+    nestedErrors: true,
+    throwFirst: true,
+  }
+
+  let isValid = false
+  try {
+    const schemaModule = await import('@/schemas/' + schemaName + '.js')
+    const schema = schemaModule.default || schemaModule
+    const validation = jsonSchemaValidator.validate(data, schema, options)
+    isValid = validation.valid
+    if (!isValid) {
+      throw new Error('Validation Error')
+    }
+    return isValid
+  } catch (error) {
+    throw error
+  }
 }

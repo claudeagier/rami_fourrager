@@ -1,7 +1,24 @@
 export default {
-  tag: 'created',
-  simulations: [],
-  stics: [],
-  animalProfiles: [],
-  classicFeeds: []
+  // $schema: 'http://json-schema.org/draft-07/schema#',
+  id: '/workspace',
+  type: 'object',
+  properties: {
+    simulations: {
+      type: 'array',
+      items: { $ref: '/simulation' },
+    },
+    stics: {
+      type: 'array',
+      items: { $ref: '/stic' },
+    },
+    animalProfiles: {
+      type: 'array',
+      items: { $ref: '/animalProfile' },
+    },
+    classicFeeds: {
+      type: 'array',
+      items: { $ref: '/classicFeed' },
+    },
+  },
+  required: ['simulations', 'stics', 'animalProfiles', 'classicFeeds'],
 }
