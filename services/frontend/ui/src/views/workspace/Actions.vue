@@ -133,14 +133,14 @@
           this.$toast({
             message: this.$t('notifications.workspace.file_exported.successfully'),
             type: 'success',
-            timeout: 3000,
+            timeout: 300,
           })
         } catch (error) {
           console.error("Erreur lors de l'exportation du fichier:", error)
           this.$toast({
             message: this.$t('notifications.workspace.file_exported.error'),
             type: 'error',
-            timeout: 5000,
+            timeout: 500,
           })
         }
       },
@@ -180,18 +180,18 @@
             })
           }
         } catch (error) {
-          console.error('Error selecting file:', error instanceof ValidatorResultError, error)
           if (error instanceof ValidatorResultError) {
             error.errors.forEach((err) => {
               this.$toast({
                 message: this.$t('notifications.workspace.file_imported.error', {
-                  msg: `Error of ${err.stack}`,
+                  msg: `${err.stack}`,
                 }),
                 type: 'error',
                 timeout: 5000,
               })
             })
           } else {
+            console.error('Error selecting file:', error)
             this.$toast({
               message: this.$t('notifications.workspace.file_imported.error', { msg: error.message }),
               type: 'error',

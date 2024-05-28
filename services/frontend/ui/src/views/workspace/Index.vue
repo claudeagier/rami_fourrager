@@ -102,7 +102,7 @@
             this.$toast({
               message: this.$t('notifications.fetch.success', { itemName: this.$t(what) }),
               type: 'info', // 'info', 'warning', 'error'
-              timeout: 3000, // optional, defaults to 5000
+              timeout: 300, // optional, defaults to 5000
             })
           )
           .catch((err) => {
