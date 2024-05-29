@@ -1,6 +1,6 @@
 import Vue from 'vue'
-import { use, registerTheme } from 'echarts/core'
-import { CanvasRenderer } from 'echarts/renderers'
+import { use, init, registerTheme } from 'echarts/core'
+import { CanvasRenderer, SVGRenderer } from 'echarts/renderers'
 import { HeatmapChart, BarChart, LineChart } from 'echarts/charts'
 import theme from './echartTheme.json'
 import {
@@ -9,6 +9,7 @@ import {
   LegendComponent,
   GridComponent,
   VisualMapComponent,
+  ToolboxComponent,
 } from 'echarts/components'
 import VChart, { THEME_KEY } from 'vue-echarts'
 
@@ -22,6 +23,7 @@ use([
   VisualMapComponent,
   GridComponent,
   LineChart,
+  ToolboxComponent,
 ])
 registerTheme('infographic', theme)
 

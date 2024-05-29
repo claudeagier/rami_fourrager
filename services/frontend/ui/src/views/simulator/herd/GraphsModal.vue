@@ -1,38 +1,19 @@
 <template>
-  <v-dialog
-    v-model="showModal"
-    max-width="55em"
-    persistent
-    content-class="graph-modal"
-    hide-overlay
-    no-click-animation
+  <v-btn
+    :color="pageColor"
+    outlined
+    @click="dynamic"
   >
-    <template v-slot:activator="{ on }">
-      <v-btn
-        class="mr-2"
-        :color="pageColor"
-        outlined
-        v-on="on"
-      >
-        {{ $t('herd.details.graph.btn') }}
-      </v-btn>
-    </template>
-    <v-card>
-      <v-card-text>
-        <feeds-requirements-graph :selectedLot="selectedLot" />
-      </v-card-text>
-    </v-card>
-  </v-dialog>
+    {{ $t('herd.details.graph.btn') }}
+  </v-btn>
 </template>
-
 <script>
-  import FeedsRequirementsGraph from './FeedsRequirementsGraph.vue'
+  import CustomModal from '@/components/base/CustomModal.vue'
+  import GraphsLayout from './GraphsLayout.vue'
+  import VTitle from './VTitle.vue'
 
   export default {
     name: 'GraphsModal',
-    components: {
-      FeedsRequirementsGraph,
-    },
     props: {
       selectedLot: {
         type: null,
@@ -43,31 +24,65 @@
         required: true,
       },
     },
-    watch: {
-      selectedLot: {
-        immediate: true,
-        handler(newValue, oldValue) {
-          // this.batch = this.getBatch(newValue)
-        },
-      },
-    },
-    data() {
-      return {
-        showModal: false,
-      }
-    },
     methods: {
-      handleScroll(event) {
-        event.preventDefault() // Si nécessaire
-        // Votre logique de gestion du défilement ici
+      dynamic() {
+        this.$vfm.show({
+          component: CustomModal,
+          bind: {
+            name: 'VDynamicAdvancedModal',
+            hideOverlay: true,
+            clickToClose: false,
+            resize: true,
+            drag: true,
+            preventClick: true,
+          },
+          // on: {
+          //   // event by custom-modal
+          //   confirm(close) {
+          //     console.log('confirm')
+          //     close()
+          //   },
+          //   cancel(close) {
+          //     console.log('cancel')
+          //     close()
+          //   },
+          //   // event by vue-final-modal
+          //   'click-outside'() {
+          //     console.log('@click-outside')
+          //   },
+          //   'before-open'() {
+          //     console.log('@before-open')
+          //   },
+          //   opened() {
+          //     console.log('@opened')
+          //   },
+          //   'before-close'() {
+          //     console.log('@before-close')
+          //   },
+          //   closed() {
+          //     console.log('@closed')
+          //   },
+          // },
+          slots: {
+            title: {
+              component: VTitle,
+              bind: {
+                text: {
+                  key: 'herd.details.modal.title',
+                  params: { batch: this.selectedLot + 1 },
+                },
+              },
+            },
+            default: {
+              component: GraphsLayout,
+              bind: {
+                selectedLot: this.selectedLot,
+                pageColor: this.pageColor,
+              },
+            },
+          },
+        })
       },
     },
   }
 </script>
-<style>
-  .graph-modal.v-dialog:not(.v-dialog--fullscreen) {
-    top: 0 !important;
-    left: 0 !important;
-    position: fixed !important;
-  }
-</style>

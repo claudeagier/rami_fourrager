@@ -49,7 +49,7 @@
         getDryMatterProvided: 'getDryMatterProvided',
       }),
       initOptions() {
-        return { width: 600, height: 400 }
+        return { width: 800, height: 300 }
       },
 
       options() {
@@ -83,24 +83,34 @@
           tooltip: {
             trigger: 'axis',
             axisPointer: {
-              // Use axis to trigger tooltip
               type: 'shadow', // 'shadow' as default; can also be 'line' or 'shadow'
             },
             triggerOn: 'click',
-            // formatter: '{a0} : {c0}',
-            // formatter: function (params) {
-            //   // console.log('params', params)
-            //   return TooltipGraph
-            // },
-            // position: ['50%', '50%'],
           },
-          // legend: {},
-          // grid: {
-          //   left: '3%',
-          //   right: '4%',
-          //   bottom: '3%',
-          //   containLabel: true,
-          // },
+          toolbox: {
+            show: true,
+            feature: {
+              // dataZoom: {
+              //   yAxisIndex: 'none',
+              // },
+              // dataView: { readOnly: false },
+              // magicType: { type: ['line', 'bar'] },
+              // restore: {},
+              saveAsImage: {},
+            },
+          },
+          legend: {
+            type: 'scroll',
+            orient: 'vertical',
+            right: 'right',
+            top: 'middle',
+          },
+          grid: {
+            left: '3%',
+            right: '30%',
+            bottom: '3%',
+            containLabel: true,
+          },
           title: {
             text: this.$t('herd.details.graph.title'),
           },
@@ -137,16 +147,7 @@
       },
     },
     methods: {
-      handleMouseOver(params) {
-        // console.log('mouseover', params)
-      },
+      handleMouseOver(params) {},
     },
   }
 </script>
-
-<style scoped>
-  /* .feeds-requirements-chart {
-    height: 20em;
-    width: 40em;
-  } */
-</style>

@@ -105,14 +105,6 @@
                           :selectedLot="selectedLot"
                           :pageColor="pageColor"
                         />
-                        <!-- <v-modal /> -->
-                        <!-- <v-btn
-                          @click="toggleGraphModal"
-                          :color="pageColor"
-                          outlined
-                        >
-                          {{ $t('herd.details.graph.btn') }}
-                        </v-btn> -->
                       </v-col>
                     </v-row>
                   </v-card-title>
@@ -205,9 +197,8 @@
   import HousingDetails from './HousingDetails.vue'
   import BatchDetails from './BatchDetails.vue'
   import PastureDetails from './PastureDetails'
-  import GraphsModal from './GraphsModal.vue'
-  import FeedsRequirementsGraph from './FeedsRequirementsGraph.vue'
   import navigationGuard from '@/mixins/navigationGuard'
+  import GraphsModal from './GraphsModal.vue'
 
   export default {
     name: 'Herd',
@@ -223,7 +214,6 @@
       BatchDetails,
       PastureDetails,
       GraphsModal,
-      // FeedsRequirementsGraph,
     },
     data() {
       return {
