@@ -1,6 +1,6 @@
 <template>
   <v-chart
-    class="feeds-requirements-chart"
+    class="pasture-strategy-chart"
     :option="options"
     autoresize
     theme="infographic"
@@ -11,13 +11,12 @@
 
 <script>
   import { mapState, mapGetters } from 'vuex'
-  import TooltipGraph from './TooltipGraph.vue'
   const tooltip = {
     name: 'tooltip',
   }
 
   export default {
-    name: 'FeedsRequirementsGraph',
+    name: 'GraphFeedsRequirements',
     props: {
       selectedLot: {
         type: null,

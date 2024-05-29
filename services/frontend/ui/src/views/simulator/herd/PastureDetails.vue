@@ -1,73 +1,70 @@
 <template>
   <v-container>
-    <housing-graph
-      :selectedLot="selectedLot"
-      :selection="selectedPeriodIndex"
-    />
-
-    <v-tabs
-      centered
-      :color="pageColor"
-    >
-      <v-tab
-        v-for="(period, index) in periods"
-        :key="index"
-        @click="periodSelected(index)"
-      >
-        Période {{ period.id }}
-      </v-tab>
-      <v-tab-item
-        v-for="(period, index) in periods"
-        :key="index"
-      >
-        <v-toolbar
-          color="white"
-          flat
-        >
-          <v-toolbar-title> Présence en batiment pour la période {{ period.id }} </v-toolbar-title>
-          <v-divider
-            class="mx-4"
-            inset
-            vertical
-          ></v-divider>
-          <v-spacer></v-spacer>
-          <duplicate-modal
-            :ids="periods"
-            :sourceItem="period"
-            @duplicate="duplicate"
-          />
-        </v-toolbar>
-        <v-card>
-          <v-text-field
-            v-model.number="animalCount"
-            :rules="[rules.required, rules.integer, presenceRule]"
-            type="number"
-            label="Nb d'animaux présents"
-            hide-spin-buttons
-            min="0"
-            :color="pageColor"
-          ></v-text-field>
-          <v-text-field
-            v-model.number="days"
-            :rules="[rules.required, daysRule]"
-            type="number"
-            label="Jours de présence en bâtiment (/28)"
-            hide-spin-buttons
-            min="0"
-            :color="pageColor"
-          ></v-text-field>
-        </v-card>
-      </v-tab-item>
-    </v-tabs>
+    <v-simple-table>
+      <thead>
+        <tr>
+          <th></th>
+          <th
+            v-for="(period, index) in periods"
+            :key="index"
+          >
+            Période {{ period.id }}
+          </th>
+          <!-- <th>Période</th>
+          <th>Nb d'animaux présents</th>
+          <th>Jours de présence en bâtiment (/28)</th>
+          <th>Autre Propriété 1</th>
+          <th>Autre Propriété 2</th> -->
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Animal count</td>
+          <td
+            v-for="(period, index) in periods"
+            :key="index"
+          >
+            <v-text-field
+              v-model.number="animalCount[index]"
+              :rules="[rules.required, rules.integer, presenceRule]"
+              type="number"
+              label="Nb d'animaux présents"
+              hide-spin-buttons
+              min="0"
+              :color="pageColor"
+              @input="updateAnimalCount(index, $event)"
+            ></v-text-field>
+          </td>
+        </tr>
+        <tr>
+          <td>Présence</td>
+          <td
+            v-for="(period, index) in periods"
+            :key="index"
+          >
+            <v-text-field
+              v-model.number="days[index]"
+              :rules="[rules.required, daysRule]"
+              type="number"
+              label="Jours de présence en bâtiment (/28)"
+              hide-spin-buttons
+              min="0"
+              :color="pageColor"
+              @input="updateDays(index, $event)"
+            ></v-text-field>
+          </td>
+        </tr>
+      </tbody>
+    </v-simple-table>
   </v-container>
 </template>
+
 <script>
   import { mapGetters, mapMutations } from 'vuex'
-  import HousingGraph from './HousingGraph.vue'
-  import DuplicateModal from './DuplicateModal.vue'
+  // import DuplicateModal from './DuplicateModal.vue'
 
   export default {
-    name: 'pastureDetails',
+    name: 'PastureDetails',
     props: {
       selectedLot: {
         type: null,
@@ -79,16 +76,11 @@
       },
     },
     components: {
-      HousingGraph,
-      DuplicateModal,
+      // HousingGraph,
+      // DuplicateModal,
     },
-    watch: {
-      selectedLot: {
-        immediate: true, // Execute lorsque le composant est monté
-        handler(newValue, oldValue) {
-          this.batch = this.getBatch(newValue)
-        },
-      },
+    beforeMount() {
+      this.batch = this.getBatch(this.selectedLot)
     },
     data() {
       return {
@@ -108,29 +100,11 @@
         getHousingDetailByPeriod: 'getHousingDetailByPeriod',
         getBatch: 'getBatch',
       }),
-      animalCount: {
-        get() {
-          return this.batch.housing.presence[this.selectedPeriodIndex].animalCount
-        },
-        set(val) {
-          this.setAnimalCount({
-            batchId: this.selectedLot,
-            periodId: this.selectedPeriodIndex,
-            value: val,
-          })
-        },
+      animalCount() {
+        return this.periods.map((_, index) => this.getAnimalCount(index))
       },
-      days: {
-        get() {
-          return this.batch.housing.presence[this.selectedPeriodIndex].days
-        },
-        set(val) {
-          this.setDays({
-            batchId: this.selectedLot,
-            periodId: this.selectedPeriodIndex,
-            value: val,
-          })
-        },
+      days() {
+        return this.periods.map((_, index) => this.getDays(index))
       },
     },
     methods: {
@@ -138,14 +112,24 @@
         setAnimalCount: 'setHousingAnimalCountByPeriod',
         setDays: 'setHousingDaysByPeriod',
       }),
-      periodSelected(period) {
-        this.selectedPeriodIndex = period
+      getAnimalCount(index) {
+        return this.batch.housing.presence[index].animalCount
       },
-      duplicate({ source, targets }) {
-        this.$store.commit('simulator/herd/duplicatePresenceByPeriod', {
+      updateAnimalCount(index, value) {
+        this.setAnimalCount({
           batchId: this.selectedLot,
-          source: source,
-          targets: targets,
+          periodId: index,
+          value: value,
+        })
+      },
+      getDays(index) {
+        return this.batch.housing.presence[index].days
+      },
+      updateDays(index, value) {
+        this.setDays({
+          batchId: this.selectedLot,
+          periodId: index,
+          value: value,
         })
       },
       presenceRule(val) {

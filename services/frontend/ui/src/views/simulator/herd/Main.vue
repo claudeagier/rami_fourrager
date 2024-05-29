@@ -267,23 +267,6 @@
         // Activez l'animation en modifiant la valeur de la propriété animate
         this.animate = false
       },
-      toggleGraphModal() {
-        // const modalConfig = {
-        //   name: 'feedsrequiredModal',
-        //   draggable: true,
-        //   // resizable: true,
-        //   // minWidth: 300,
-        //   // minHeight: 300,
-        //   clickToClose: false,
-        //   height: 'auto',
-        // }
-        this.showGraphModal = true
-        // this.$modal.show(
-        //   FeedsRequirementsGraph,
-        //   { selectedLot: this.selectedLot, pageColor: this.pageColor },
-        //   modalConfig
-        // )
-      },
       // pour le détail
       showDetails(index) {
         this.selectedLot = index

@@ -1,16 +1,16 @@
 <template>
   <v-card>
-    <feeds-requirements-graph :selectedLot="selectedLot" />
+    <graph-feeds-requirements :selectedLot="selectedLot" />
   </v-card>
 </template>
 
 <script>
-  import FeedsRequirementsGraph from './FeedsRequirementsGraph.vue'
+  import GraphFeedsRequirements from './GraphFeedsRequirements.vue'
 
   export default {
     name: 'GraphsLayout',
     components: {
-      FeedsRequirementsGraph,
+      GraphFeedsRequirements,
     },
     props: {
       selectedLot: {

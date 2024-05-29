@@ -85,17 +85,52 @@ const getUFPasturesByPeriodBefore = (batch, totalAvailablePastureByPeriod) => {
 }
 
 // 240 Pâture verte disponible (kg MS/animal/jour ou kgMS/jour si nb anx=0) les valeurs à afficher dans la simu
+// il faut prendre en compte tous les lots
+// le modele nourri en premier le premier lot et ensuite les autres s'il reste des patures
 const getAvailableGreenPastureByAnimal = (batch) => {
-  // pature disponible / nombre d'animaux pour la période du lot
-  // il faut prendre en compte tous les lots
-  // le modele nourri en premier le premier lot et ensuite les autres s'il reste des patures
-  // production total des patures / nb animaux total de tous les lots
-  // onmultiplie par le nombre d'animaux par lot,
-  // le problème c'est que chaque lot est nourri équitablement
+  // pature verte disponible pour lot 1 totalAvailablePastureByPeriod[period].production_total / nombre d'animaux
+  // reste du premier lot (I$240-I$246)*$LOT1.I$7
+  // consommation du second lot : reste de premier lot/nb animaux lot2
+  // reste du second lot (I$292-I$298)*$LOT2.I$7
+  //consommation du lot 3 : reste de second lot/nbanimaux lot3
 }
 
+// 650 : excès pâture après passage des lots (kgMS/jour)
+// H28-SUM(H246*$LOT1.H7;H298*$LOT2.H7;$LOT3.H7*H350;$LOT4.H7*H402;$LOT5.H7*H454;$LOT6.H7*H506;$LOT7.H7*H558;$LOT8.H7*H610)
+// pature verte dispo total totalAvailablePastureByPeriod[period].production_total - la somme des patures vertes consommé pour chaque lot * le nomnre d'animaux de chaque lot
+
+// 241 Consommation pâture prévue par la ration (kgMS/animal/j)
+// =(IF($calcul.B$39=1;$LOT1.I15;0)+IF($calcul.B$41=1;$LOT1.I16;0)+IF($calcul.B$43=1;$LOT1.I17;0)+IF($calcul.B$45=1;$LOT1.I18;0))*I233
+// la proprotion de la ration pature * besoin en mmatière seche 233
+
+// 242 Consommation max pâture "verte"
+// le plus petit entre 240 et 241
+
 // 243 Pâture reportée disponible (kgMS/animal Lot1/j) les valeurs à afficher dans la simu
-const getAvailableCarryOverPastureByAnimal = (batch) => {}
+const getAvailableCarryOverPastureByAnimal = (batch) => {
+  // h650 / nombre d'animaux pour la période du lot
+  // h650 : excès pâture après passage des lots (kgMS/jour) de la période précédente
+}
+
+// 244 Consommation max du pool de pâture "reportée"  (kg MS/animal/jour)
+// le plus petit entre 243 et 241
+
+// 246 consommation pature verte
+const getGreenPastureConsumption = (batch) => {
+  // si report pature = 1
+  // prendre le plus petit nombre des deux entre
+  // 242 Consommation max pâture "verte"
+  // et 241 Consommation pâture prévue par la ration (kgMS/animal/j) - 244 Consommation max du pool de pâture "reportée"  (kg MS/animal/jour)
+  // sinon 242 Consommation max pâture "verte"
+}
+
+// 247 consommation pature reporté si report
+const getCarryOverPastureConsumption = (batch) => {
+  // si report pature = 1
+  // 244
+  // sinon
+  // MIN(I244;I241-I242)
+}
 
 // H249 uf apporté par les patures
 // il faut intégrer la stratégie de report
@@ -106,8 +141,11 @@ const getUFPasturesByPeriod = (batch, totalAvailablePastureByPeriod, after) => {
     console.error('batch_not_found')
     return
   }
+
   return {}
-  // (consommation pature verte * w 29) + (consommation pature reporté si report * w29 correspondant * 0.92)
+  // (consommation pature verte * x 29) + (consommation pature reporté si report * w29 correspondant * 0.92)
+  // x29 = totalAvailablePasture[period].energeticTotal
+  // w29 = totalAvailablePasture[period-1].energeticTotal
 }
 
 // H267 ~ ok à préciser si nécessaire
@@ -198,9 +236,11 @@ const getFinalEnergeticCoverage = function (state, rootState, batchId) {
   return { concentratedUF: h272, pastureUF: h249, feedsUF: h267, final_coverage: finalEnergeticCoverage }
 }
 
+const getFinalProteicCoverage = function (state, rootState, batchId) {}
+
 export default {
   getFinalEnergeticCoverage,
-
+  getFinalProteicCoverage,
   getEnergeticCoverage: function (state, rootState, batchId, withConcentrated = false) {
     const precision = 3
     const batch = state.batchs[batchId]
