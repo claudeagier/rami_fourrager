@@ -41,6 +41,7 @@
     computed: {
       ...mapGetters('referential', {
         periods: 'periodList',
+        farming_methods: 'farming_methods', // a enlever si j'en ai pas le besoin
       }),
       ...mapGetters('simulator/herd', {
         getBatch: 'getBatch',
@@ -58,6 +59,19 @@
 
         const data = this.getDryMatterProvided(this.selectedLot)
         var dryMatterProvidedPerFeedSeries = Object.values(data.dry_matter_provided_per_feed).map((feed) => {
+          const colors = {
+            P: '#00CC00',
+            STRAW: '#FFF59D',
+            FH: '#009933',
+            EH: '#00FF00',
+            EM: 'orange',
+            RC: '',
+            RP: '',
+            AS: '#E5E8E8',
+            EL: '#CC6666',
+            FL: '#FF66FF',
+          }
+
           return {
             name: feed.name,
             type: 'bar',
@@ -75,6 +89,7 @@
               },
             },
             data: feed.data,
+            itemStyle: { color: colors[feed.code] },
           }
         })
         const colors = ['#5470C6', '#EE6666']

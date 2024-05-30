@@ -28,10 +28,11 @@
     ]
   },
   "simulator": {
-    "name": "nom de la simulation",
+    "name": "simulation 1",
     "site": 17,
     "climaticYear": 49,
-
+    "lastModifiedDate": "15/04/2024",
+    "loaded": false,
     "farm": {
       "rotations": [
         {
@@ -66,8 +67,6 @@
               { "id": 28313, "period_id": 12, "production": 0, "farming_method": "" },
               { "id": 28314, "period_id": 13, "production": 0, "farming_method": "" }
             ],
-            "ClimaticYear": { "id": null, "name": null, "code": null },
-            "site": { "id": null, "name": null, "code": null },
             "pasture_type": {
               "id": null,
               "name": null,
@@ -378,8 +377,6 @@
               { "id": 28300, "period_id": 12, "production": 0, "farming_method": "P" },
               { "id": 28301, "period_id": 13, "production": 0, "farming_method": "P" }
             ],
-            "ClimaticYear": { "id": null, "name": null, "code": null },
-            "site": { "id": null, "name": null, "code": null },
             "pasture_type": {
               "id": 4,
               "name": "Pâture gram/leg",
@@ -406,19 +403,20 @@
       }
     },
     "barn": {
-      "totalStock": [
-        { "code": "FH", "name": "foin", "quantity": { "tons": 58 } },
-        { "code": "FH", "name": "foin", "quantity": { "tons": 58 } },
-        { "code": "EH", "name": "Ensilage et enrubannage d'herbe", "quantity": { "tons": 79 } },
-        { "code": "EM", "name": "Ensilage de maïs et sorgho (riche UF)", "quantity": { "tons": 66 } }
+      "initialStock": [
+        { "code": "FH", "name": "foin", "quantity": 58 },
+        { "code": "FH", "name": "foin", "quantity": 58 },
+        { "code": "EH", "name": "Ensilage et enrubannage d'herbe", "quantity": 79 },
+        { "code": "EM", "name": "Ensilage de maïs et sorgho (riche UF)", "quantity": 66 }
       ]
     },
     "herd": {
       "batchs": [
         {
           "type": { "id": 6, "name": "Vaches laitières" },
+          "priorityOrder":0,
           "profile": {
-            "id": 145,
+            "id": 570,
             "batch_type_id": 6,
             "code": "vl_vel_29_mois_etales_700_kg_7000_kg_lait_tr=25%",
             "name": "VL vel 29 mois étalés 700 kg 7000 kg lait TR=25%",
@@ -1904,6 +1902,7 @@
           ]
         }
       ]
-    }
+    },
+    "description": ""
   }
 }

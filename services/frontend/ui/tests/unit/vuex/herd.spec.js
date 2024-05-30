@@ -59,6 +59,7 @@ describe('herds mutations', () => {
     }
     expect(result.final_coverage).toEqual(outputs.herd.energetic.final_coverage)
   })
+
   it('Dry Matter Provided', () => {
     const res = mixins.getDryMatterProvided(state, rootState, batchId)
     expect(res.dry_matter_needed.data).toEqual(outputs.herd.dry_matter_coverage.dry_matter_needed)

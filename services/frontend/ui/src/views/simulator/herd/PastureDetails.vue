@@ -85,6 +85,7 @@
     data() {
       return {
         batch: null,
+        pastureStrategy: Array.from({ length: 13 }, (v, k) => ({ period_id: k + 1, carryOver: 0 })),
         selectedPeriodIndex: 0,
         rules: {
           required: (val) => !!val || 'Ce champ est requis',

@@ -186,7 +186,7 @@
                           </v-dialog>
                         </v-toolbar>
                       </template>
-                      <template v-slot:item.concentrated="{ value }">
+                      <template v-slot:[`item.concentrated`]="{ value }">
                         <v-chip :color="getColor(value)"> {{ !value ? '' : $t('barn.table.concentrated') }}</v-chip>
                       </template>
                       <template v-slot:[`item.actions`]="{ item }">

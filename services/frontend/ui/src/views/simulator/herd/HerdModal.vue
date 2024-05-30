@@ -83,6 +83,8 @@
       return {
         animalProfiles: [],
         lotItem: {
+          // 0 est le plus important, n'est pas appliqué
+          priorityOrder: null,
           type: null,
           profile: null,
           count: 0,

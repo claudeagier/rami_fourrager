@@ -168,7 +168,7 @@
                       dense
                       :options="{ itemsPerPage: 13 }"
                     >
-                      <template v-slot:item.CI="{ item }">
+                      <template v-slot:[`item.CI`]="{ item }">
                         <v-text-field
                           v-model.number="item.CI"
                           :label="$t('workspace.content.datatables.animalProfile.create.dialog.CI')"
@@ -182,7 +182,7 @@
                         ></v-text-field>
                       </template>
 
-                      <template v-slot:item.UFL="{ item }">
+                      <template v-slot:[`item.UFL`]="{ item }">
                         <v-text-field
                           v-model.number="item.UFL"
                           :label="$t('workspace.content.datatables.animalProfile.create.dialog.UFL')"
@@ -196,7 +196,7 @@
                         ></v-text-field>
                       </template>
 
-                      <template v-slot:item.PDI="{ item }">
+                      <template v-slot:[`item.PDI`]="{ item }">
                         <v-text-field
                           v-model.number="item.PDI"
                           :label="$t('workspace.content.datatables.animalProfile.create.dialog.PDI')"
@@ -210,7 +210,7 @@
                         ></v-text-field>
                       </template>
 
-                      <template v-slot:item.PL="{ item }">
+                      <template v-slot:[`item.PL`]="{ item }">
                         <v-text-field
                           v-model.number="item.PL"
                           :label="$t('workspace.content.datatables.animalProfile.create.dialog.PL')"

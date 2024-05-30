@@ -170,7 +170,7 @@
                       dense
                       :options="{ itemsPerPage: 13 }"
                     >
-                      <template v-slot:item.production="{ item }">
+                      <template v-slot:[`item.production`]="{ item }">
                         <v-text-field
                           v-model.number="item.production"
                           :label="$t('workspace.content.datatables.stic.create.dialog.production')"
@@ -183,7 +183,7 @@
                           hide-spin-buttons
                         ></v-text-field>
                       </template>
-                      <template v-slot:item.farming_method="{ item }">
+                      <template v-slot:[`item.farming_method`]="{ item }">
                         <v-select
                           v-model="item.farming_method"
                           :items="farmingMethods"
