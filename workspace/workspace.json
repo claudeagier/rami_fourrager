@@ -854,6 +854,8 @@
       "herd": {
         "batchs": [
           {
+            "id": 0,
+            "priorityOrder": 0,
             "type": { "id": 6, "name": "Vaches laitières" },
             "profile": {
               "id": 145,
@@ -2394,9 +2396,26 @@
                   }
                 ]
               }
+            ],
+            "pastureStrategy": [
+              { "carryOver": 0 },
+              { "carryOver": 0 },
+              { "carryOver": 0 },
+              { "carryOver": 1 },
+              { "carryOver": 1 },
+              { "carryOver": 1 },
+              { "carryOver": 1 },
+              { "carryOver": 1 },
+              { "carryOver": 1 },
+              { "carryOver": 1 },
+              { "carryOver": 1 },
+              { "carryOver": 1 },
+              { "carryOver": 0 }
             ]
           },
           {
+            "id": 1,
+            "priorityOrder": 1,
             "type": { "id": 1, "name": "Génisses de renouvellement" },
             "profile": {
               "id": 285,
@@ -2418,7 +2437,7 @@
                 "name": "Génisses de renouvellement",
                 "UE_value_considered": "UEB",
                 "UF_value_considered": "UFL",
-                "UF_concentrated_value_considered": null
+                "UF_concentrated_value_considered": "UFL"
               },
               "animal_profile_periods": [
                 {
@@ -3649,6 +3668,21 @@
                   }
                 ]
               }
+            ],
+            "pastureStrategy": [
+              { "carryOver": 0 },
+              { "carryOver": 0 },
+              { "carryOver": 1 },
+              { "carryOver": 1 },
+              { "carryOver": 1 },
+              { "carryOver": 1 },
+              { "carryOver": 1 },
+              { "carryOver": 1 },
+              { "carryOver": 1 },
+              { "carryOver": 1 },
+              { "carryOver": 1 },
+              { "carryOver": 1 },
+              { "carryOver": 1 }
             ]
           }
         ]

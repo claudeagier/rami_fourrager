@@ -1,6 +1,6 @@
 // herd.spec.js
 // Jest expect documentation https://jestjs.io/docs/expect
-import mixins from '@/store/modules/mixins'
+import { setTotalAvailablePasture, dispatchProduction } from '@/store/modules/mixins'
 import farmStore from '@/store/modules/farm'
 // Importer la fonction pour lire un fichier JSON
 import fs from 'fs'
@@ -18,15 +18,14 @@ describe('farm mutations', () => {
 
   it('farms', () => {
     // apply mutation
-    var t = mixins.setTotalAvailablePasture(state, rootState)
+    var t = setTotalAvailablePasture(state, rootState)
     state.totalAvailablePastureByPeriod = t
     var result = farmStore.getters.getAvailablePasture(state)
     // assert result
     expect(result).toHaveLength(13)
   })
   it('farms dispatch production', () => {
-    const result = mixins.dispatchProduction(state, rootState)
-    // console.log('reuslt', result)
+    const result = dispatchProduction(state, rootState)
     expect(result.barnStockByPeriod).toHaveLength(13)
   })
 })

@@ -84,6 +84,7 @@
         animalProfiles: [],
         lotItem: {
           // 0 est le plus important, n'est pas appliqué
+          id: null,
           priorityOrder: null,
           type: null,
           profile: null,
@@ -110,6 +111,7 @@
             //   feeds:[]
             // }
           ],
+          pastureStrategy: [],
         },
         selectedType: null,
         animalCount: null,
@@ -126,6 +128,9 @@
         getAnimalProfiles: 'animalProfileList',
         periods: 'periodList',
       }),
+      ...mapGetters('herd', {
+        getNewBatchId: 'getNewBatchId',
+      }),
     },
     methods: {
       loadProfiles(item) {
@@ -138,8 +143,15 @@
             animalCount: 0,
             days: 0,
           }))
-          this.lotItem.classicFeeds = Array.from(this.periods, (period) => ({ period: period, feeds: [] }))
+          // TODO-FRONT pour l'instant le premier créé est le premier servi
+          this.lotItem.id = this.getNewBatchId()
+          this.lotItem.priorityOrder = this.lotItem.id
+          this.lotItem.classicFeeds = Array.from(this.periods, (period) => ({
+            period: period,
+            feeds: [],
+          }))
           this.lotItem.concentratedFeeds = Array.from(this.periods, (period) => ({ period: period, feeds: [] }))
+          this.lotItem.pastureStrategy = Array.from(this.periods, (period) => ({ carryOver: null }))
           this.$emit('add-lot', this.lotItem)
           this.resetForm()
         }
@@ -150,8 +162,11 @@
       },
       resetForm() {
         this.lotItem = {
+          id: null,
+          priorityOrder: null,
           type: null,
           profile: null,
+
           count: 0,
           housing: {
             type: null,
@@ -159,6 +174,7 @@
           },
           classicFeeds: [],
           concentratedFeeds: [],
+          pastureStrategy: [],
         }
         this.$refs.batchForm.reset()
       },

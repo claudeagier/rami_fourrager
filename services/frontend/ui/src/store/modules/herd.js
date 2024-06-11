@@ -1,5 +1,13 @@
 import _ from 'lodash'
-import mixins from './mixins'
+import {
+  getAvailableGreenPasture,
+  getAvailableCarryOverPastureByAnimal,
+  getEnergeticCoverage,
+  getProteicCoverage,
+  getFinalEnergeticCoverage,
+  getFinalProteicCoverage,
+  getDryMatterProvided,
+} from './mixins'
 import { deepEqual } from '../../plugins/utils'
 
 export default {
@@ -86,7 +94,7 @@ export default {
     },
     updateConcentratedFeed(state, { batchId, periodId, newFeed, oldFeed }) {
       const concentratedFeeds = state.batchs[batchId].concentratedFeeds[periodId].feeds
-      const feedIndex = concentratedFeeds.findIndex((feed) => mixins.deepEqual(feed, oldFeed))
+      const feedIndex = concentratedFeeds.findIndex((feed) => deepEqual(feed, oldFeed))
       if (feedIndex > -1) {
         concentratedFeeds.splice(feedIndex, 1, newFeed)
       }
@@ -105,10 +113,18 @@ export default {
         ]
       })
     },
+
+    // pasture
+    setPastureStrategy(state, { batchId, periodId, val }) {
+      state.batchs[batchId].pastureStrategy[periodId].carryOver = val ? 0 : 1
+    },
   },
   getters: {
     getBatch: (state) => (batchId) => {
       return state.batchs[batchId]
+    },
+    getPastureStrategy: (state) => (batchId) => {
+      return state.batchs[batchId].pastureStrategy
     },
     getHousingDetailByPeriod: (state) => (batchId, periodId) => {
       return state.batchs[batchId].housing.presence[periodId]
@@ -126,17 +142,45 @@ export default {
           }
         }
       },
+    getNewBatchId: (state) => {
+      return state.batchs.length
+    },
+
+    getAvailableGreenPastureByAnimal: (state, getters, rootState) => (batchId) => {
+      return getAvailableGreenPasture(state, rootState, batchId)
+    },
+    getAvailableCarryOverPastureByAnimal: (state, getters, rootState) => (batchId) => {
+      const availableCarryOver = []
+      rootState.referential.periods.forEach((period, index) => {
+        availableCarryOver[index] = _.round(
+          getAvailableCarryOverPastureByAnimal(
+            state.batchs[batchId],
+            index,
+            rootState.simulator.farm.totalAvailablePastureByPeriod,
+            state.batchs
+          )
+        )
+      })
+      return availableCarryOver
+    },
 
     // Couverture des besoins énergétiques /animal UFL estimé pour l’ensemble des rations saisie pour un animal
     getEnergeticCoverageByBatch: (state, getters, rootState) => (batchId) => {
-      return mixins.getEnergeticCoverage(state, rootState, batchId)
+      return getEnergeticCoverage(state, rootState, batchId)
     },
 
     getProteicCoverageByBatch: (state, getters, rootState) => (batchId) => {
-      return mixins.getProteicCoverage(state, rootState, batchId)
+      return getProteicCoverage(state, rootState, batchId)
+    },
+    getFinalEnergeticCoverageByBatch: (state, getters, rootState) => (batchId) => {
+      return getFinalEnergeticCoverage(state, rootState, batchId)
+    },
+
+    getFinalProteicCoverageByBatch: (state, getters, rootState) => (batchId) => {
+      return getFinalProteicCoverage(state, rootState, batchId)
     },
     getDryMatterProvided: (state, getters, rootState) => (batchId) => {
-      return mixins.getDryMatterProvided(state, rootState, batchId)
+      return getDryMatterProvided(state, rootState, batchId)
     },
   },
 }

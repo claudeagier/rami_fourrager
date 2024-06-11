@@ -24,6 +24,14 @@
         required: true,
       },
     },
+    watch: {
+      selectedLot: {
+        immediate: true,
+        handler(newValue, oldValue) {
+          this.selectedLot = newValue
+        },
+      },
+    },
     methods: {
       dynamic() {
         this.$vfm.show({
@@ -36,33 +44,6 @@
             drag: true,
             preventClick: true,
           },
-          // on: {
-          //   // event by custom-modal
-          //   confirm(close) {
-          //     console.log('confirm')
-          //     close()
-          //   },
-          //   cancel(close) {
-          //     console.log('cancel')
-          //     close()
-          //   },
-          //   // event by vue-final-modal
-          //   'click-outside'() {
-          //     console.log('@click-outside')
-          //   },
-          //   'before-open'() {
-          //     console.log('@before-open')
-          //   },
-          //   opened() {
-          //     console.log('@opened')
-          //   },
-          //   'before-close'() {
-          //     console.log('@before-close')
-          //   },
-          //   closed() {
-          //     console.log('@closed')
-          //   },
-          // },
           slots: {
             title: {
               component: VTitle,

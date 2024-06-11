@@ -10,11 +10,7 @@
 </template>
 
 <script>
-  import { mapState, mapGetters } from 'vuex'
-  import TooltipGraph from './TooltipGraph.vue'
-  const tooltip = {
-    name: 'tooltip',
-  }
+  import { mapGetters } from 'vuex'
 
   export default {
     name: 'GraphFeedsRequirements',
@@ -41,12 +37,9 @@
     computed: {
       ...mapGetters('referential', {
         periods: 'periodList',
-        farming_methods: 'farming_methods', // a enlever si j'en ai pas le besoin
       }),
       ...mapGetters('simulator/herd', {
         getBatch: 'getBatch',
-        getEnergeticCoverageValues: 'getEnergeticCoverageByBatch',
-        getProteicCoverageValues: 'getProteicCoverageByBatch',
         getDryMatterProvided: 'getDryMatterProvided',
       }),
       initOptions() {
@@ -79,10 +72,6 @@
             label: {
               show: false,
             },
-            // emphasis: {
-            //   focus: 'serie',
-            //   blurScope: 'global',
-            // },
             tooltip: {
               valueFormatter: function (value) {
                 return value + ' kgMS'
@@ -98,7 +87,7 @@
           tooltip: {
             trigger: 'axis',
             axisPointer: {
-              type: 'shadow', // 'shadow' as default; can also be 'line' or 'shadow'
+              type: 'shadow',
             },
             triggerOn: 'click',
           },
@@ -142,12 +131,9 @@
           series: [
             ...[
               {
-                name: 'besoin MS',
+                name: this.$t('herd.details.graph.ms'),
                 type: 'line',
                 data: data.dry_matter_needed.data,
-                // emphasis: {
-                //   focus: 'serie',
-                // },
                 smooth: true,
                 tooltip: {
                   valueFormatter: function (value) {

@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import mixins from './mixins'
+import { setTotalAvailablePasture, dispatchProduction } from './mixins'
 export default {
   namespaced: true,
   state: {
@@ -128,12 +128,11 @@ export default {
   },
   actions: {
     setTotalAvailablePastureByPeriod({ state, rootState, commit }) {
-      // TODO-FRONT on a peut être pas le rootState ici
-      const totalAvailablePastureByPeriod = mixins.setTotalAvailablePasture(state, rootState)
+      const totalAvailablePastureByPeriod = setTotalAvailablePasture(state, rootState)
       commit('setTotalAvailablePastureByPeriod', totalAvailablePastureByPeriod)
     },
     dispatchProduction({ state, rootState, commit, dispatch }) {
-      const production = mixins.dispatchProduction(state, rootState)
+      const production = dispatchProduction(state, rootState)
       commit('simulator/barn/setTotalStock', production.totalBarnStock, { root: true })
       commit('simulator/barn/setStockByPeriod', production.barnStockByPeriod, { root: true })
     },

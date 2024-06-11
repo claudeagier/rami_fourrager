@@ -1,16 +1,23 @@
 <template>
-  <v-card>
-    <graph-feeds-requirements :selectedLot="selectedLot" />
-  </v-card>
+  <div>
+    <v-card>
+      <graph-feeds-requirements :selected-lot="selectedLot" />
+    </v-card>
+    <v-card>
+      <graph-coverage :selected-lot="selectedLot" />
+    </v-card>
+  </div>
 </template>
 
 <script>
+  import GraphCoverage from './GraphCoverage.vue'
   import GraphFeedsRequirements from './GraphFeedsRequirements.vue'
 
   export default {
     name: 'GraphsLayout',
     components: {
       GraphFeedsRequirements,
+      GraphCoverage,
     },
     props: {
       selectedLot: {
@@ -21,25 +28,6 @@
         type: String,
         required: true,
       },
-    },
-    watch: {
-      selectedLot: {
-        immediate: true,
-        handler(newValue, oldValue) {
-          // this.batch = this.getBatch(newValue)
-        },
-      },
-    },
-    data() {
-      return {
-        // showModal: false,
-      }
-    },
-    methods: {
-      // handleScroll(event) {
-      //   event.preventDefault() // Si nécessaire
-      //   // Votre logique de gestion du défilement ici
-      // },
     },
   }
 </script>

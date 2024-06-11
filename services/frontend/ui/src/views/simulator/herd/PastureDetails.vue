@@ -8,50 +8,40 @@
             v-for="(period, index) in periods"
             :key="index"
           >
-            Période {{ period.id }}
+            {{ $t('herd.pasture.table.period', { id: period.id }) }}
           </th>
-          <!-- <th>Période</th>
-          <th>Nb d'animaux présents</th>
-          <th>Jours de présence en bâtiment (/28)</th>
-          <th>Autre Propriété 1</th>
-          <th>Autre Propriété 2</th> -->
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td>Animal count</td>
+          <td>{{ $t('herd.pasture.table.available') }}</td>
           <td
             v-for="(period, index) in periods"
             :key="index"
           >
-            <v-text-field
-              v-model.number="animalCount[index]"
-              :rules="[rules.required, rules.integer, presenceRule]"
-              type="number"
-              label="Nb d'animaux présents"
-              hide-spin-buttons
-              min="0"
-              :color="pageColor"
-              @input="updateAnimalCount(index, $event)"
-            ></v-text-field>
+            {{ availablePasture[index] }}
           </td>
         </tr>
         <tr>
-          <td>Présence</td>
+          <td>{{ $t('herd.pasture.table.carryOver') }}</td>
           <td
             v-for="(period, index) in periods"
             :key="index"
           >
-            <v-text-field
-              v-model.number="days[index]"
-              :rules="[rules.required, daysRule]"
-              type="number"
-              label="Jours de présence en bâtiment (/28)"
-              hide-spin-buttons
-              min="0"
-              :color="pageColor"
-              @input="updateDays(index, $event)"
-            ></v-text-field>
+            {{ availableCarryOver[index] }}
+          </td>
+        </tr>
+
+        <tr>
+          <td>{{ $t('herd.pasture.table.report') }}</td>
+          <td
+            v-for="(period, index) in periods"
+            :key="index"
+          >
+            <pasture-strategy-form
+              :selected-lot="selectedLot"
+              :period="index"
+            ></pasture-strategy-form>
           </td>
         </tr>
       </tbody>
@@ -60,11 +50,12 @@
 </template>
 
 <script>
-  import { mapGetters, mapMutations } from 'vuex'
-  // import DuplicateModal from './DuplicateModal.vue'
+  import { mapGetters } from 'vuex'
+  import PastureStrategyForm from './PastureStrategyForm.vue'
 
   export default {
     name: 'PastureDetails',
+    components: { PastureStrategyForm },
     props: {
       selectedLot: {
         type: null,
@@ -75,17 +66,17 @@
         required: true,
       },
     },
-    components: {
-      // HousingGraph,
-      // DuplicateModal,
-    },
-    beforeMount() {
-      this.batch = this.getBatch(this.selectedLot)
+    watch: {
+      selectedLot: {
+        immediate: true,
+        handler(newValue, oldValue) {
+          this.batch = this.getBatch(newValue)
+        },
+      },
     },
     data() {
       return {
         batch: null,
-        pastureStrategy: Array.from({ length: 13 }, (v, k) => ({ period_id: k + 1, carryOver: 0 })),
         selectedPeriodIndex: 0,
         rules: {
           required: (val) => !!val || 'Ce champ est requis',
@@ -98,51 +89,15 @@
         periods: 'periodList',
       }),
       ...mapGetters('simulator/herd', {
-        getHousingDetailByPeriod: 'getHousingDetailByPeriod',
         getBatch: 'getBatch',
+        getAvailableGreenPastureByAnimal: 'getAvailableGreenPastureByAnimal',
+        getAvailableCarryOverPastureByAnimal: 'getAvailableCarryOverPastureByAnimal',
       }),
-      animalCount() {
-        return this.periods.map((_, index) => this.getAnimalCount(index))
+      availablePasture() {
+        return this.getAvailableGreenPastureByAnimal(this.selectedLot)
       },
-      days() {
-        return this.periods.map((_, index) => this.getDays(index))
-      },
-    },
-    methods: {
-      ...mapMutations('simulator/herd', {
-        setAnimalCount: 'setHousingAnimalCountByPeriod',
-        setDays: 'setHousingDaysByPeriod',
-      }),
-      getAnimalCount(index) {
-        return this.batch.housing.presence[index].animalCount
-      },
-      updateAnimalCount(index, value) {
-        this.setAnimalCount({
-          batchId: this.selectedLot,
-          periodId: index,
-          value: value,
-        })
-      },
-      getDays(index) {
-        return this.batch.housing.presence[index].days
-      },
-      updateDays(index, value) {
-        this.setDays({
-          batchId: this.selectedLot,
-          periodId: index,
-          value: value,
-        })
-      },
-      presenceRule(val) {
-        if (!val) return true
-        return (
-          parseInt(val) <= parseInt(this.batch.count) ||
-          "La présence en bâtiment doit être inférieure ou égale au nombre d'animaux"
-        )
-      },
-      daysRule(val) {
-        if (!val) return true
-        return parseInt(val) <= 28 || 'Le nombre de jours de présence doit être inférieur ou égal à 28'
+      availableCarryOver() {
+        return this.getAvailableCarryOverPastureByAnimal(this.selectedLot)
       },
     },
   }
