@@ -10,7 +10,7 @@
           v-on="on"
           outlined
         >
-          Add a concentrated feed
+          {{ $t('herd.concentratedfeed.modal.btn_add') }}
         </v-btn>
       </template>
       <v-form
@@ -21,7 +21,7 @@
       >
         <v-card>
           <v-card-title>
-            <span class="text-h5"> Add a concentrated feed </span>
+            <span class="text-h5"> {{ $t('herd.concentratedfeed.modal.title') }} </span>
           </v-card-title>
 
           <v-card-text>
@@ -37,7 +37,7 @@
                     :items="feedTypes"
                     item-text="name"
                     item-value="id"
-                    label="Feed Type"
+                    :label="$t('herd.concentratedfeed.modal.type')"
                     return-object
                     :rules="[rules.required]"
                   ></v-select>
@@ -49,7 +49,7 @@
                 >
                   <v-text-field
                     v-model.number="feedItem.quantity"
-                    label="Quantity (kg brut/animal/j)"
+                    :label="$t('herd.concentratedfeed.modal.quantity')"
                     type="number"
                     :rules="[rules.required]"
                     clearable
@@ -68,16 +68,15 @@
               color="grey"
               text
             >
-              Cancel
+              {{ $t('btn.cancel') }}
             </v-btn>
             <v-btn
               color="primary"
-              text
               type="submit"
               outlined
               :disabled="!valid"
             >
-              Save
+              {{ $t('btn.save') }}
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -138,8 +137,8 @@
         feedItem: null,
         valid: true,
         rules: {
-          required: (val) => !!val || 'Ce champ est requis',
-          integer: (val) => /^\d+$/.test(val) || 'Ce champ doit être un entier',
+          required: (val) => !!val || this.$t('validation.required'),
+          integer: (val) => /^\d+$/.test(val) || this.$t('validation.integer'),
         },
       }
     },

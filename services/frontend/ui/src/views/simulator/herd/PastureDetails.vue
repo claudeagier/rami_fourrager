@@ -79,8 +79,8 @@
         batch: null,
         selectedPeriodIndex: 0,
         rules: {
-          required: (val) => !!val || 'Ce champ est requis',
-          integer: (val) => /^\d+$/.test(val) || 'Ce champ doit être un entier',
+          required: (val) => !!val || this.$t('validation.required'),
+          integer: (val) => /^\d+$/.test(val) || this.$t('validation.integer'),
         },
       }
     },

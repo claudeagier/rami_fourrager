@@ -14,7 +14,7 @@
         :key="index"
         @click="periodSelected(index)"
       >
-        Période {{ period.id }}
+        {{ $t('period', { id: period.id }) }}
       </v-tab>
       <v-tab-item
         v-for="(period, index) in periods"
@@ -24,7 +24,7 @@
           color="white"
           flat
         >
-          <v-toolbar-title> Présence en batiment pour la période {{ period.id }} </v-toolbar-title>
+          <v-toolbar-title> {{ $t('herd.housing.title', { id: period.id }) }} </v-toolbar-title>
           <v-divider
             class="mx-4"
             inset
@@ -42,7 +42,7 @@
             v-model.number="animalCount"
             :rules="[rules.required, rules.integer, presenceRule]"
             type="number"
-            label="Nb d'animaux présents"
+            :label="$t('herd.housing.count')"
             hide-spin-buttons
             min="0"
             :color="pageColor"
@@ -51,7 +51,7 @@
             v-model.number="days"
             :rules="[rules.required, daysRule]"
             type="number"
-            label="Jours de présence en bâtiment (/28)"
+            :label="$t('herd.housing.presence')"
             hide-spin-buttons
             min="0"
             :color="pageColor"
@@ -84,7 +84,7 @@
     },
     watch: {
       selectedLot: {
-        immediate: true, // Execute lorsque le composant est monté
+        immediate: true,
         handler(newValue, oldValue) {
           this.batch = this.getBatch(newValue)
         },
@@ -95,8 +95,8 @@
         batch: null,
         selectedPeriodIndex: 0,
         rules: {
-          required: (val) => !!val || 'Ce champ est requis',
-          integer: (val) => /^\d+$/.test(val) || 'Ce champ doit être un entier',
+          required: (val) => !!val || this.$t('validation.required'),
+          integer: (val) => /^\d+$/.test(val) || this.$t('validation.integer'),
         },
       }
     },
@@ -150,14 +150,11 @@
       },
       presenceRule(val) {
         if (!val) return true
-        return (
-          parseInt(val) <= parseInt(this.batch.count) ||
-          "La présence en bâtiment doit être inférieure ou égale au nombre d'animaux"
-        )
+        return parseInt(val) <= parseInt(this.batch.count) || this.$t('validation.herd.housing.presence')
       },
       daysRule(val) {
         if (!val) return true
-        return parseInt(val) <= 28 || 'Le nombre de jours de présence doit être inférieur ou égal à 28'
+        return parseInt(val) <= 28 || this.$t('validation.herd.housing.days')
       },
     },
   }

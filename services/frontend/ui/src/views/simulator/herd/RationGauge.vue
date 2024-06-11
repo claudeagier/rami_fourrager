@@ -3,11 +3,15 @@
     <v-row>
       <v-col cols="12">
         <v-progress-linear
-          :height="10"
+          :height="15"
           :color="totalProportion > 100 ? 'red' : color"
           :value="totalProportion"
           dense
-        />
+        >
+          <template v-slot:default="{ value }">
+            <span class="font-weight-light"> {{ value }} % </span>
+          </template>
+        </v-progress-linear>
       </v-col>
     </v-row>
   </v-container>

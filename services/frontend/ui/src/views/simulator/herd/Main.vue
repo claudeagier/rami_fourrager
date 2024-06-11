@@ -13,8 +13,8 @@
           <template v-slot:heading>
             <v-row>
               <v-col cols="10">
-                <div class="text-h3 font-weight-light">Le troupeau</div>
-                <div class="text-subtitle-1 font-weight-light">Complete your herd</div>
+                <div class="text-h3 font-weight-light">{{ $t('herd.main.title') }}</div>
+                <div class="text-subtitle-1 font-weight-light">{{ $t('herd.main.subtitle') }}</div>
               </v-col>
               <v-col>
                 <v-btn
@@ -23,7 +23,7 @@
                   outlined
                   @click="applyToSimulation"
                 >
-                  Appliquer à la simulation
+                  {{ $t('btn.apply') }}
                 </v-btn>
               </v-col>
             </v-row>
@@ -32,21 +32,22 @@
             <v-row>
               <v-col cols="3">
                 <v-card id="batch-list">
+                  <v-card-title>
+                    <v-col cols="6">
+                      <span class="text-md-h3">{{ $t('herd.main.list.title') }}</span>
+                    </v-col>
+                    <v-col>
+                      <v-btn
+                        @click="showHerdModal"
+                        :color="pageColor"
+                        outlined
+                        :class="{ 'animate-button': animate }"
+                      >
+                        {{ $t('herd.main.list.btn_add') }}
+                      </v-btn>
+                    </v-col>
+                  </v-card-title>
                   <v-card-text>
-                    <v-row>
-                      <v-col cols="7"><span class="text-md-h3">Liste des lots</span></v-col>
-                      <v-col>
-                        <v-btn
-                          @click="showHerdModal"
-                          :color="pageColor"
-                          outlined
-                          :class="{ 'animate-button': animate }"
-                        >
-                          Ajouter un lot
-                        </v-btn>
-                      </v-col>
-                    </v-row>
-
                     <herd-modal
                       :showModal="showModal"
                       @add-lot="addLot"
@@ -58,10 +59,12 @@
                         v-for="(lot, index) in lots"
                         :key="index"
                       >
-                        <v-card-title>Lot {{ index + 1 }}</v-card-title>
+                        <v-card-title>{{ $t('herd.main.card.title', { id: index + 1 }) }}</v-card-title>
                         <v-card-text>
                           <v-row>
-                            <v-col cols="9"> {{ lot.count }} {{ lot.profile.name }} </v-col>
+                            <v-col cols="9">
+                              {{ $t('herd.main.card.description', { count: lot.count, name: lot.profile.name }) }}
+                            </v-col>
                             <v-col>
                               <v-icon
                                 @click="deleteLot(lot)"
@@ -98,7 +101,9 @@
                   <v-card-title class="text-center justify-center py-6">
                     <v-row>
                       <v-col cols="7">
-                        <h1 class="font-weight-bold text-h2">Lot {{ selectedLot + 1 }}</h1>
+                        <h1 class="font-weight-bold text-h2">
+                          {{ $t('herd.main.details.title', { id: selectedLot + 1 }) }}
+                        </h1>
                       </v-col>
                       <v-col>
                         <graphs-modal
@@ -122,11 +127,11 @@
                         >
                           <v-tab
                             v-for="(tab, tabIndex) in [
-                              'Overview',
-                              'Housing',
-                              'Classic Feeds',
-                              'Concentrated Feeds',
-                              'Pastures strategy',
+                              $t('herd.main.details.tabs.overview'),
+                              $t('herd.main.details.tabs.housing'),
+                              $t('herd.main.details.tabs.classicfeed'),
+                              $t('herd.main.details.tabs.concentratedfeed'),
+                              $t('herd.main.details.tabs.pasture'),
                             ]"
                             :key="tabIndex"
                           >
@@ -190,7 +195,7 @@
   </v-container>
 </template>
 <script>
-  import { mapState, mapGetters } from 'vuex'
+  import { mapState } from 'vuex'
   import ClassicFeed from './ClassicFeed.vue'
   import ConcentratedFeed from './ConcentratedFeed.vue'
   import HerdModal from './HerdModal'
@@ -224,8 +229,8 @@
         showGraphModal: false,
         selectedLot: null,
         rules: {
-          required: (val) => !!val || 'Ce champ est requis',
-          integer: (val) => /^\d+$/.test(val) || 'Ce champ doit être un entier',
+          required: (val) => !!val || this.$t('validation.required'),
+          integer: (val) => /^\d+$/.test(val) || this.$t('validation.integer'),
         },
       }
     },

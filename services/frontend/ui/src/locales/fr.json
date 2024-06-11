@@ -56,6 +56,7 @@
   "FeedTypes": "Types d'aliment",
   "ConcentratedFeeds": "Aliments concentrés",
   "HousingTypes": "Types de logement sont à jour",
+  "period": "Période {id}",
   "confirmation_dialog": {
     "title": "Confirmer",
     "description": "Vous n'avez pas enregistré les modifications apportées à la simulation",
@@ -64,13 +65,23 @@
     "btn_cancel": "NON"
   },
   "btn": {
+    "login": "Connexion",
     "save": "Enregistrer",
     "cancel": "Annuler",
     "add": "Ajouter",
     "refresh": "Actualiser",
     "refresh_referential": "Actualiser le référentiel",
     "complete": "Compléter",
-    "copy": "Copier"
+    "copy": "Copier",
+    "duplicate": "Dupliquer",
+    "apply": "Appliquer à la simulation"
+  },
+  "auth": {
+    "login": {
+      "title": "Connexion",
+      "email": "Email",
+      "password": "Mot de passe"
+    }
   },
   "breadcrumb": {
     "workspace": "Espace de travail",
@@ -126,6 +137,11 @@
   },
   "barn": {
     "title": "La grange",
+    "main": {
+      "title": "La grange",
+      "subtitle": "Gérer votre grange",
+      "btn_apply": "Appliquer à la simulation"
+    },
     "modal": {
       "title": "Ajouter à la grange",
       "add_btn": "Ajouter un stock",
@@ -142,11 +158,80 @@
     }
   },
   "farm": {
-    "title": "La ferme"
+    "title": "La ferme",
+    "main": {
+      "title": "La ferme",
+      "subtitle": "Gérer votre ferme",
+      "btn_apply": "Appliquer à la simulation"
+    },
+    "dimensioning": {
+      "title": "Dimensionnement de la Ferme",
+      "sau": "Surface Agricole Utile (SAU)",
+      "constrainedSurfaces": "Surfaces à Contraintes",
+      "irrigable": "irrigable",
+      "ploughable": "ploughable",
+      "superficial": "superficial",
+      "reachable": "reachable"
+    },
+    "rotations": {
+      "title": "Saisie de l'assolement",
+      "table": {
+        "title": "Assolement des Cultures",
+        "btn_add": "Allouer une surface",
+        "headers": {
+          "name": "Nom de la culture",
+          "constraint": "Contrainte",
+          "surface": "Surface",
+          "actions": "Actions"
+        }
+      },
+      "modal": {
+        "title": "Ajouter un nouveau Sol",
+        "name": "Code et Nom de la culture",
+        "constraint": "Contrainte",
+        "surface": "Surface"
+      }
+    }
   },
   "herd": {
     "title": "Le troupeau",
-    "modal": { "profile": "Profil" },
+    "main": {
+      "title": "Le troupeau",
+      "subtitle": "Gérer votre troupeau",
+      "list": {
+        "title": "Liste des lots",
+        "btn_add": "Ajouter"
+      },
+      "card": {
+        "title": "Lot {id}",
+        "description": "{count} {name}"
+      },
+      "details": {
+        "title": "Lot {id}",
+        "tabs": {
+          "overview": "Général",
+          "housing": "Présence",
+          "classicfeed": "Rations",
+          "concentratedfeed": "Concentrés",
+          "pasture": "Pâtures"
+        }
+      }
+    },
+    "modal": {
+      "title": "Nouveau lot",
+      "profile": "Profil",
+      "type": "Type de bétail",
+      "count": "Nombre d'animaux"
+    },
+    "housing": {
+      "title": "Présence en batiment pour la période {id}",
+      "count": "Nombre d'animaux présents",
+      "presence": "Jours de présence en bâtiment (/28)",
+      "graph": {
+        "days": "Durée de présence",
+        "count": "Animaux présents"
+      }
+    },
     "classicfeed": {
       "tabs": {
         "title": "Période {period}",
@@ -157,9 +242,15 @@
           "actions": "Actions"
         }
       },
-      "modal": { "title": "Ajouter une ration" },
+      "modal": {
+        "title": "Ajouter une ration",
+        "feedtype": "Ration",
+        "proportion": "Proportion (en %)"
+      },
       "graph": {
-        "title": "Couverture des Besoins"
+        "title": "Couverture des Besoins",
+        "energetic": "Energétique",
+        "proteic": "Protéique"
       }
     },
     "concentratedfeed": {
@@ -171,12 +262,36 @@
           "quantity": "Quantité (kg brut/animal/j)",
           "actions": "Actions"
         }
+      },
+      "modal": {
+        "btn_add": "Ajouter un concentré",
+        "title": "Ajouter un aliment concentré",
+        "type": "Type de concentré",
+        "quantity": "Quantité ( en kg brut/animal/j)"
       }
+    },
+    "pasture": {
+      "table": {
+        "period": "Période {id}",
+        "available": "Pâture disponible",
+        "carryOver": "Pature reportée disponible",
+        "report": "Reporter ?"
+      },
+      "form": {}
     },
     "details": {
       "modal": { "title": "Graphiques du Lot {batch}" },
-      "graph": { "title": "Besoins en matière sèche", "btn": "Afficher les graphiques" },
-      "profile": "Profil"
+      "graph": { "title": "Besoins en matière sèche", "ms": "Besoin MS", "btn": "Afficher les graphiques" },
+      "profile": "Profil",
+      "type": "Type de bétail",
+      "count": "Nombre d'animaux",
+      "housing_types": "Type de logement"
+    },
+    "duplication": {
+      "title": "Dupliquer des périodes",
+      "source": "Elément source",
+      "target": "Eléments cibles",
+      "selectall": "Tout sélectionner"
     }
   },
   "workspace": {
@@ -325,6 +440,20 @@
   },
   "validation": {
     "required": "Une valeur est requise",
-    "number": "La valeur doit être numérique"
+    "number": "La valeur doit être numérique",
+    "integer": "Ce champ doit être un entier",
+    "arraynotempty": "Ce champ est requis",
+    "farm": {
+      "dimensioning": {
+        "overSAU": "la somme des surfaces contraintes dépasse la SAU",
+        "over_constrained_surface": "La surface contrainte est dépassée"
+      }
+    },
+    "herd": {
+      "housing": {
+        "presence": "La présence en bâtiment doit être inférieure ou égale au nombre d'animaux",
+        "days": "Le nombre de jours de présence doit être inférieur ou égal à 28"
+      }
+    }
   }
 }

@@ -5,7 +5,7 @@
         <v-select
           v-model="type"
           :items="batchTypes"
-          label="Type de bétail"
+          :label="$t('herd.details.type')"
           item-text="name"
           item-value="id"
           return-object
@@ -31,7 +31,7 @@
         <v-text-field
           v-model.number="count"
           :rules="[rules.required, rules.integer]"
-          label="Nombre d'animaux"
+          :label="$t('herd.details.count')"
           type="number"
           min="0"
           :color="pageColor"
@@ -44,7 +44,7 @@
           item-text="name"
           item-value="id"
           return-object
-          label="Type de logement"
+          :label="$t('herd.details.housing_types')"
           :color="pageColor"
           :item-color="pageColor"
         ></v-select>
@@ -53,7 +53,7 @@
   </v-container>
 </template>
 <script>
-  import { mapState, mapGetters, mapMutations } from 'vuex'
+  import { mapGetters, mapMutations } from 'vuex'
 
   export default {
     name: 'batchDetails',
@@ -81,8 +81,8 @@
         animalProfiles: [],
         batch: null,
         rules: {
-          required: (val) => !!val || 'Ce champ est requis',
-          integer: (val) => /^\d+$/.test(val) || 'Ce champ doit être un entier',
+          required: (val) => !!val || this.$t('valiation.required'),
+          integer: (val) => /^\d+$/.test(val) || this.$t('validation.integer'),
         },
       }
     },

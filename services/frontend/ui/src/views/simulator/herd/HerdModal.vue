@@ -5,7 +5,7 @@
     max-width="40em"
   >
     <v-card>
-      <v-card-title>Ajouter un lot</v-card-title>
+      <v-card-title>{{ $t('herd.modal.title') }}</v-card-title>
       <v-form
         ref="batchForm"
         @submit.prevent="addLot"
@@ -16,7 +16,7 @@
           <v-select
             v-model="lotItem.type"
             :items="batchTypes"
-            label="Type de bétail"
+            :label="$t('herd.modal.type')"
             item-text="name"
             item-value="id"
             return-object
@@ -40,7 +40,7 @@
           <v-text-field
             v-model.number="lotItem.count"
             :rules="[rules.required, rules.integer]"
-            label="Nombre d'animaux"
+            :label="$t('herd.modal.count')"
             type="number"
             hide-spin-buttons
             min="0"
@@ -53,7 +53,7 @@
             color="grey"
             @click="cancelAddLot"
           >
-            Annuler
+            {{ $t('btn.cancel') }}
           </v-btn>
           <v-btn
             :disabled="!valid"
@@ -61,7 +61,7 @@
             color="primary"
             outlined
           >
-            Ajouter
+            {{ $t('btn.save') }}
           </v-btn>
         </v-card-actions>
       </v-form>
@@ -117,8 +117,8 @@
         animalCount: null,
         valid: true,
         rules: {
-          required: (val) => !!val || 'Ce champ est requis',
-          integer: (val) => /^\d+$/.test(val) || 'Ce champ doit être un entier',
+          required: (val) => !!val || this.$t('validation.required'),
+          integer: (val) => /^\d+$/.test(val) || this.$t('validation.integer'),
         },
       }
     },

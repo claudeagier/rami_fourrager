@@ -11,7 +11,7 @@
         text
         v-on="on"
       >
-        Dupliquer
+        {{ $t('btn.duplicate') }}
       </v-btn>
     </template>
     <v-form
@@ -21,12 +21,12 @@
       lazy-validation
     >
       <v-card>
-        <v-card-title>Choisissez les éléments cibles</v-card-title>
+        <v-card-title>{{ $t('herd.duplication.title') }}</v-card-title>
         <v-card-text>
           <v-text-field
             :v-model="sourceItem"
             :value="sourceItem.name"
-            label="Elément source"
+            :label="$t('herd.duplication.source')"
             readonly
           >
           </v-text-field>
@@ -35,7 +35,7 @@
             :items="sources"
             item-text="name"
             item-value="id"
-            label="Éléments cibles"
+            :label="$t('herd.duplication.target')"
             multiple
             outlined
             dense
@@ -53,7 +53,7 @@
                 ripple
               >
                 <template v-slot:label>
-                  <span> Select All </span>
+                  <span> {{ $t('herd.duplication.selectall') }} </span>
                 </template>
               </v-checkbox>
               <v-divider />
@@ -67,7 +67,7 @@
             text
             @click="close"
           >
-            Annuler
+            {{ $t('btn.cancel') }}
           </v-btn>
           <v-btn
             color="primary"
@@ -75,7 +75,7 @@
             outlined
             :disabled="!valid"
           >
-            Dupliquer
+            {{ $t('btn.duplicate') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -111,8 +111,8 @@
         valid: true,
         sources: [],
         rules: {
-          required: (val) => !!val || 'Ce champ est requis',
-          notEmpty: (val) => val.length > 0,
+          required: (val) => !!val || this.$t('validation.required'),
+          notEmpty: (val) => val.length > 0 || this.$t('validation.arraynotempty'),
         },
         dialog: false,
         selectedTargets: [],
@@ -128,8 +128,7 @@
           })
           this.close()
         } else {
-          // Gérer le cas où une sélection n'a pas été faite
-          console.error("Veuillez sélectionner l'élément source et les éléments cibles.")
+          // no selection
         }
       },
       toggleSelectAll() {

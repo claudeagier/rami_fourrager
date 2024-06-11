@@ -13,8 +13,8 @@
           <template v-slot:heading>
             <v-row>
               <v-col cols="10">
-                <div class="text-h3 font-weight-light">La grange</div>
-                <div class="text-subtitle-1 font-weight-light">Complete your barn</div>
+                <div class="text-h3 font-weight-light">{{ $t('barn.main.title') }}</div>
+                <div class="text-subtitle-1 font-weight-light">{{ $t('barn.main.subtitle') }}</div>
               </v-col>
               <v-col>
                 <div>
@@ -24,7 +24,7 @@
                     outlined
                     @click="applyToSimulation"
                   >
-                    Appliquer à la simulation
+                    {{ $t('btn.apply') }}
                   </v-btn>
                 </div>
               </v-col>

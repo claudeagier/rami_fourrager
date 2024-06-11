@@ -65,7 +65,7 @@
       options() {
         const periods = ['P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8', 'P9', 'P10', 'P11', 'P12', 'P13']
         const housingData = this.getBatch(this.selectedLot).housing.presence
-        const rows = ['Durée', 'animaux']
+        const rows = [this.$t('herd.housing.graph.days'), this.$t('herd.housing.graph.count')]
         const dataDays = []
         const dataAnimals = []
         for (let i = 0; i < housingData.length; i++) {

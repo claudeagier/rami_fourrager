@@ -37,7 +37,7 @@
                     :items="feedTypes"
                     item-text="name"
                     item-value="id"
-                    label="Feed Type"
+                    :label="$t('herd.classicfeed.modal.feedtype')"
                     return-object
                     :rules="[rules.required]"
                     clearable
@@ -50,7 +50,7 @@
                 >
                   <v-text-field
                     v-model.number="feedItem.proportion"
-                    label="Proportion (%)"
+                    :label="$t('herd.classicfeed.modal.proportion')"
                     type="number"
                     :rules="[rules.required, rules.integer]"
                     hide-spin-buttons
@@ -136,8 +136,8 @@
         feedItem: null,
         valid: true,
         rules: {
-          required: (val) => !!val || 'Ce champ est requis',
-          integer: (val) => /^\d+$/.test(val) || 'Ce champ doit être un entier',
+          required: (val) => !!val || this.$t('validation.required'),
+          integer: (val) => /^\d+$/.test(val) || this.$t('validation.integer'),
         },
       }
     },

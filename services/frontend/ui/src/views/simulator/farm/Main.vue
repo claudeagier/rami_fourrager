@@ -13,9 +13,9 @@
           <template v-slot:heading>
             <v-row>
               <v-col cols="10">
-                <div class="text-h3 font-weight-light">La Ferme</div>
+                <div class="text-h3 font-weight-light">{{ $t('farm.main.title') }}</div>
 
-                <div class="text-subtitle-1 font-weight-light">Complete your farm</div>
+                <div class="text-subtitle-1 font-weight-light">{{ $t('farm.main.subtitle') }}</div>
               </v-col>
               <v-col>
                 <div>
@@ -25,7 +25,7 @@
                     outlined
                     @click="applyToSimulation"
                   >
-                    Appliquer à la simulation
+                    {{ $t('btn.apply') }}
                   </v-btn>
                 </div>
               </v-col>
@@ -36,14 +36,14 @@
               <!-- Card pour le dimensionnement de la ferme -->
               <v-col cols="5">
                 <v-card>
-                  <v-card-title>Dimensionnement de la Ferme</v-card-title>
+                  <v-card-title>{{ $t('farm.dimensioning.title') }}</v-card-title>
                   <v-card-text>
                     <v-form @submit.prevent="saveFarmDimensioning">
                       <v-row>
                         <v-col cols="12">
                           <v-text-field
                             v-model.number="SAU"
-                            label="SAU (Surface Agricole Utile)"
+                            :label="$t('farm.dimensioning.sau')"
                             :rules="required"
                             type="number"
                             hide-spin-buttons
@@ -52,13 +52,13 @@
                         </v-col>
                         <v-col cols="12">
                           <v-divider></v-divider>
-                          <v-subheader>Surfaces à Contraintes</v-subheader>
+                          <v-subheader>{{ $t('farm.dimensioning.constrainedSurfaces') }}</v-subheader>
                         </v-col>
                         <!-- Constrained Surfaces inputs -->
                         <v-col cols="12">
                           <v-text-field
                             v-model.number="irrigable"
-                            label="irrigable"
+                            :label="$t('farm.dimensioning.irrigable')"
                             :rules="constraintRules"
                             type="number"
                             hide-spin-buttons
@@ -66,7 +66,7 @@
                           ></v-text-field>
                           <v-text-field
                             v-model.number="ploughable"
-                            label="ploughable"
+                            :label="$t('farm.dimensioning.ploughable')"
                             :rules="constraintRules"
                             type="number"
                             hide-spin-buttons
@@ -74,14 +74,14 @@
                           ></v-text-field>
                           <v-text-field
                             v-model.number="superficial"
-                            label="superficial"
+                            :label="$t('farm.dimensioning.superficial')"
                             :rules="constraintRules"
                             type="number"
                             min="0"
                           ></v-text-field>
                           <v-text-field
                             v-model.number="reachable"
-                            label="reachable"
+                            :label="$t('farm.dimensioning.reachable')"
                             :rules="constraintRules"
                             type="number"
                             min="0"
@@ -106,7 +106,7 @@
               <!-- Card pour la saisie des rotations des cultures -->
               <v-col cols="7">
                 <v-card>
-                  <v-card-title>Saisie de l'assolement</v-card-title>
+                  <v-card-title>{{ $t('farm.rotations.title') }}</v-card-title>
                   <v-card-text>
                     <v-data-table
                       :headers="headers"
@@ -119,7 +119,7 @@
                           color="white"
                           flat
                         >
-                          <v-toolbar-title> Assolement des Cultures </v-toolbar-title>
+                          <v-toolbar-title> {{ $t('farm.rotations.table.title') }} </v-toolbar-title>
                           <v-divider
                             class="mx-4"
                             inset
@@ -132,7 +132,7 @@
                             @click="showRotationItemDialog = true"
                             outlined
                           >
-                            Allouer une surface
+                            {{ $t('farm.rotations.table.btn_add') }}
                           </v-btn>
                           <v-dialog
                             v-model="showRotationItemDialog"
@@ -145,7 +145,7 @@
                               lazy-validation
                             >
                               <v-card>
-                                <v-card-title> Ajouter un nouveau Sol </v-card-title>
+                                <v-card-title> {{ $t('farm.rotations.modal.title') }} </v-card-title>
                                 <v-card-text>
                                   <v-container>
                                     <v-row>
@@ -154,7 +154,7 @@
                                         <v-autocomplete
                                           v-model="rotationItem.stic"
                                           :items="sticList"
-                                          label="Code et Nom de la culture"
+                                          :label="$t('farm.rotations.modal.name')"
                                           item-text="name"
                                           item-value="id"
                                           dense
@@ -169,7 +169,7 @@
                                         <v-select
                                           v-model="rotationItem.constraint"
                                           :items="constraintsList"
-                                          label="Contrainte"
+                                          :label="$t('farm.rotations.modal.constraint')"
                                           item-text="name"
                                           item-value="id"
                                           return-object
@@ -180,7 +180,7 @@
                                       <v-col cols="12">
                                         <v-text-field
                                           v-model.number="rotationItem.surface"
-                                          label="Surface"
+                                          :label="$t('farm.rotations.modal.surface')"
                                           :rules="[...required, ...rotationRules]"
                                           type="number"
                                           hide-spin-buttons
@@ -196,16 +196,15 @@
                                     color="grey"
                                     @click="cancelRotationDialog"
                                   >
-                                    Annuler
+                                    {{ $t('btn.cancel') }}
                                   </v-btn>
                                   <v-btn
                                     color="primary"
-                                    text
                                     type="submit"
                                     outlined
                                     :disabled="!valid"
                                   >
-                                    Enregistrer
+                                    {{ $t('btn.save') }}
                                   </v-btn>
                                 </v-card-actions>
                               </v-card>
@@ -255,16 +254,16 @@
         sticList: [],
         pageColor: 'green',
         headers: [
-          { text: 'Nom de la culture', value: 'name' },
-          { text: 'Contrainte', value: 'constraint.name' },
-          { text: 'Surface', value: 'surface' },
-          { text: 'Actions', value: 'actions', sortable: false },
+          { text: this.$t('farm.rotations.table.headers.name'), value: 'name' },
+          { text: this.$t('farm.rotations.table.headers.constraint'), value: 'constraint.name' },
+          { text: this.$t('farm.rotations.table.headers.surface'), value: 'surface' },
+          { text: this.$t('farm.rotations.table.headers.actions'), value: 'actions', sortable: false },
         ],
         constraintsList: [
-          { id: 1, name: 'irrigable' },
-          { id: 2, name: 'ploughable' },
-          { id: 3, name: 'superficial' },
-          { id: 4, name: 'reachable' },
+          { id: 1, name: this.$t('farm.dimensioning.irrigable') },
+          { id: 2, name: this.$t('farm.dimensioning.ploughable') },
+          { id: 3, name: this.$t('farm.dimensioning.superficial') },
+          { id: 4, name: this.$t('farm.dimensioning.reachable') },
         ],
         rotationItem: {
           // soil: '',
@@ -279,19 +278,20 @@
         valid: true,
         required: [
           (v) => {
-            return !!v || 'Field is required'
+            return !!v || this.$t('validation.required')
           },
         ],
         constraintRules: [
           // (v) => !!v || 'Surface is required',
           (v) => {
-            return this.validateSurface || 'la somme des surfaces contraintes dépasse la SAU'
+            return this.validateSurface || this.$t('validation.farm.dimensioning.overSAU')
           },
         ],
         rotationRules: [
           (v) => {
             return (
-              this.validateRotation(this.rotationItem, this.oldRotationitem) || 'La surface contrainte est dépassée'
+              this.validateRotation(this.rotationItem, this.oldRotationitem) ||
+              this.$t('validation.farm.dimensioning.over_constrained_surface')
             )
           },
         ],

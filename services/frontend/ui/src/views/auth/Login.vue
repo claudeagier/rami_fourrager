@@ -1,24 +1,13 @@
 <template>
-  <v-container
-    class="fill-height"
-    fluid
-  >
+  <v-app>
     <v-row
       align="center"
       justify="center"
     >
-      <v-col
-        cols="12"
-        md="4"
-        sm="8"
-      >
+      <v-col cols="6">
         <base-material-card color="green">
           <template v-slot:heading>
-            <div class="text-h3 font-weight-light">Login</div>
-            <!--
-              <div class="text-subtitle-1 font-weight-light">
-                Created using Roboto Font Family
-              </div> -->
+            <div class="text-h3 font-weight-light">{{ $t('auth.login.title') }}</div>
           </template>
 
           <v-card-text>
@@ -29,18 +18,18 @@
               <v-form>
                 <v-text-field
                   v-model="email"
-                  label="Email"
+                  :label="$t('auth.login.email')"
                   name="login"
-                  prepend-icon="person"
+                  prepend-icon="mdi-account"
                   type="text"
                 />
 
                 <v-text-field
                   id="password"
                   v-model="password"
-                  label="Password"
+                  :label="$t('auth.login.password')"
                   name="password"
-                  prepend-icon="lock"
+                  prepend-icon="mdi-lock"
                   type="password"
                 />
               </v-form>
@@ -52,13 +41,13 @@
               color="primary"
               @click="login"
             >
-              Login
+              {{ $t('btn.login') }}
             </v-btn>
           </v-card-actions>
         </base-material-card>
       </v-col>
     </v-row>
-  </v-container>
+  </v-app>
 </template>
 
 <script>
@@ -82,5 +71,3 @@
     },
   }
 </script>
-
-<style scoped></style>
