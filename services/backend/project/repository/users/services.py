@@ -11,7 +11,7 @@ def get_all_users():
 
 
 def get_user_by_id(user_id):
-    t = User.query.filter_by(id=user_id).options(joinedload('*')).first()
+    t = User.query.filter_by(id=user_id).first()
     return t
 
 
@@ -20,6 +20,7 @@ def get_user_by_email(email):
 
 
 def add_user(username, email, password, authorization):
+    # auth = get_authorization_by_name(authorization)
     user = User(username=username, email=email,
                 password=password, authorization=authorization)
     db.session.add(user)
@@ -27,9 +28,11 @@ def add_user(username, email, password, authorization):
     return user
 
 
-def update_user(user, username, email):
+def update_user(user, username, email, authorization):
     user.username = username
     user.email = email
+    user.authorization = authorization
+
     db.session.commit()
     return user
 
@@ -46,3 +49,7 @@ def get_Authorizations():
 
 def get_authorization_by_name(name):
     return Authorization.query.filter_by(name=name).first()
+
+
+def get_authorization_by_id(id):
+    return Authorization.query.get(id)

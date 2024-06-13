@@ -13,25 +13,41 @@ from project.repository.users.services import (
     get_user_by_id,
     update_user,
     delete_user,
-    get_authorization_by_name
+    get_authorization_by_id
+    # get_authorization_by_name
 )
 
 
 users_namespace = Namespace("users")
 
+
+class AuthorizationName(fields.Raw):
+    def format(self, value):
+        return value.name
+
+
+authorization = users_namespace.model("Authorization", {
+    "name": fields.String(required=True)
+})
 user = users_namespace.model(
     "User",
     {
         "id": fields.Integer(readOnly=True),
         "username": fields.String(required=True),
         "email": fields.String(required=True),
-        "created_date": fields.DateTime,
+        "authorization": AuthorizationName(attribute='authorization')
+
+        # "created_date": fields.DateTime,
     },
 )
 
 user_post = users_namespace.inherit(
-    "User post", user, {"password": fields.String(
-        required=True), "role": fields.String(required=True)}
+    "User authorization",
+    user,
+    {
+        "password": fields.String(required=True),
+        # "role": fields.String(required=True)
+    }
 )
 
 
@@ -52,11 +68,13 @@ class UsersList(Resource):
         username = post_data.get("username")
         email = post_data.get("email")
         password = post_data.get("password")
-        authorization_name = post_data.get("role")
+        authorization_id = post_data.get("authorization")
+        # authorization_name = post_data.get("authorization")
 
-        authorization = get_authorization_by_name(authorization_name)
+        authorization = get_authorization_by_id(authorization_id)
+        # authorization = get_authorization_by_name(authorization_name)
         if not authorization:
-            response_object["message"] = "Sorry, that role doesn't exist"
+            response_object["message"] = "Sorry, that authorization doesn't exist"
             return response_object, 400
 
         response_object = {}
@@ -91,12 +109,15 @@ class Users(Resource):
         post_data = request.get_json()
         username = post_data.get("username")
         email = post_data.get("email")
+        authorization_id = post_data.get("authorization")
+        authorization = get_authorization_by_id(authorization_id)
+
         response_object = {}
 
         user = get_user_by_id(user_id)
         if not user:
             users_namespace.abort(404, f"User {user_id} does not exist")
-        update_user(user, username, email)
+        update_user(user, username, email, authorization)
         response_object["message"] = f"{user.id} was updated!"
         return response_object, 200
 

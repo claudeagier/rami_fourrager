@@ -15,11 +15,19 @@ from project.repository.users.services import (get_user_by_email, get_user_by_id
 
 auth_namespace = Namespace("auth")
 
+
+class AuthorizationName(fields.Raw):
+    def format(self, value):
+        return value.name
+
+
 user = auth_namespace.model(
     "User",
-    {"username": fields.String(required=True),
-     "email": fields.String(required=True),
-     "authorization": fields.Integer(required=True)},
+    {
+        "username": fields.String(required=True),
+        "email": fields.String(required=True),
+        "authorization": AuthorizationName(attribute='authorization')
+    },
 )
 
 full_user = auth_namespace.inherit(
@@ -84,6 +92,7 @@ class Login(Resource):
         refresh_token = user.encode_token(user.id, "refresh")
 
         response_object = {
+            # "user": user,
             "access_token": access_token.decode(),
             "refresh_token": refresh_token.decode(),
         }
@@ -102,7 +111,7 @@ class Refresh(Resource):
 
         try:
             resp = User.decode_token(refresh_token)
-            user = get_user_by_id(resp)
+            user = get_user_by_id(resp['user_id'])
             if not user:
                 auth_namespace.abort(401, "Invalid token")
             access_token = user.encode_token(user.id, "access")
@@ -132,7 +141,7 @@ class Status(Resource):
             try:
                 access_token = auth_header.split(" ")[1]
                 resp = User.decode_token(access_token)
-                user = get_user_by_id(resp)
+                user = get_user_by_id(resp['user_id'])
                 if not user:
                     auth_namespace.abort(401, "Invalid token")
                 return user, 200

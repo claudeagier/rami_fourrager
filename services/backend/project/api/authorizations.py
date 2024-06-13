@@ -14,25 +14,24 @@ from project.api.utils.decorators import authorization_required
 from project.repository.users.services import (get_Authorizations)  # noqa isort:skip
 
 
-role_namespace = Namespace("role")
+authorization_namespace = Namespace("authorization")
 
-authorization = role_namespace.model("Authorization", {
+authorization = authorization_namespace.model("Authorization", {
     "id": fields.Integer,
     "name": fields.String,
 })
 
 
 class AuthorizationList(Resource):
-    @role_namespace.marshal_with(authorization, as_list=True)
-    @role_namespace.response(201, "Success")
-    @role_namespace.response(400, "Sorry. That email already exists.")
+    @authorization_namespace.marshal_with(authorization, as_list=True)
+    @authorization_namespace.response(201, "Success")
     @authorization_required('admin')
     def get(self):
-        roles = get_Authorizations()
-        if not roles:
-            role_namespace.abort(
+        authorizations = get_Authorizations()
+        if not authorizations:
+            authorization_namespace.abort(
                 404, f"Authorizations not found")
-        return roles, 200
+        return authorizations, 200
 
 
-role_namespace.add_resource(AuthorizationList, "")
+authorization_namespace.add_resource(AuthorizationList, "")
