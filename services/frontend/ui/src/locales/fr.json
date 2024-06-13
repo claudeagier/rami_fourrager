@@ -35,7 +35,6 @@
   "tabs": "Tabs",
   "timeline": "Timeline",
   "typography": "Typography",
-  "user": "profil",
   "users": "utilisateurs",
   "vforms": "Validation Forms",
   "widgets": "Widgets",
@@ -436,6 +435,22 @@
           }
         }
       }
+    }
+  },
+  "user": {
+    "list": {
+      "title": "Liste des utilisateurs",
+      "btn_add": "Ajouter un utilisateur"
+    },
+    "modal": {
+      "new": "Nouvel utilisateur",
+      "edit": "Moditifer l'utilisateur : {name}",
+      "username": "nom d'utilisateur",
+      "email": "Email",
+      "password": "Mot de passe"
+    },
+    "profile": {
+      "title": "Profil"
     }
   },
   "validation": {

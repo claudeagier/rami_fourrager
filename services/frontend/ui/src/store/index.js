@@ -4,6 +4,7 @@ import VuexPersist from 'vuex-persist'
 import localForage from 'localforage'
 import simulator from './modules/simulator'
 import auth from './modules/auth'
+import user from './modules/user'
 import settings from './modules/settings'
 import drawer from './modules/drawer'
 import referential from './modules/referential'
@@ -49,6 +50,7 @@ const vuexStore = new Vuex.Store({
   state: {},
   modules: {
     auth,
+    user,
     settings,
     simulator,
     drawer,

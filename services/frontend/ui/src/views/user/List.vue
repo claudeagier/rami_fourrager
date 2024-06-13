@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-container fluid>
     <v-data-table
       :headers="headers"
       :items="users"
@@ -11,7 +11,7 @@
           color="white"
           flat
         >
-          <v-toolbar-title>My CRUD</v-toolbar-title>
+          <v-toolbar-title>{{ $t('user.list.title') }}</v-toolbar-title>
           <v-divider
             class="mx-4"
             inset
@@ -27,9 +27,10 @@
                 class="mb-2"
                 color="primary"
                 dark
+                outlined
                 v-on="on"
               >
-                New User
+                {{ $t('user.list.btn_add') }}
               </v-btn>
             </template>
             <v-card>
@@ -46,7 +47,7 @@
                       sm="12"
                     >
                       <v-text-field
-                        label="Username"
+                        :label="$t('user.modal.username')"
                         v-model="editedItem.username"
                       ></v-text-field>
                     </v-col>
@@ -56,7 +57,7 @@
                       sm="12"
                     >
                       <v-text-field
-                        label="Email"
+                        :label="$t('user.modal.email')"
                         v-model="editedItem.email"
                       ></v-text-field>
                     </v-col>
@@ -66,9 +67,25 @@
                       sm="12"
                     >
                       <v-text-field
-                        label="Password"
+                        :label="$t('user.modal.password')"
                         v-model="editedItem.password"
                       ></v-text-field>
+                    </v-col>
+                    <v-col
+                      cols="12"
+                      md="12"
+                      sm="12"
+                    >
+                      <v-select
+                        v-model="editedItem.authorization"
+                        :items="authorizationList"
+                        item-text="name"
+                        item-value="id"
+                        :label="$t('user.modal.authorization')"
+                        :value-comparator="compareAuthorization"
+                        required
+                        clearable
+                      ></v-select>
                     </v-col>
                   </v-row>
                 </v-container>
@@ -78,17 +95,17 @@
                 <v-spacer></v-spacer>
                 <v-btn
                   @click="close"
-                  color="blue darken-1"
+                  color="grey"
                   text
                 >
-                  Cancel
+                  {{ $t('btn.cancel') }}
                 </v-btn>
                 <v-btn
                   @click="save"
-                  color="blue darken-1"
-                  text
+                  color="primary"
+                  outlined
                 >
-                  Save
+                  {{ $t('btn.save') }}
                 </v-btn>
               </v-card-actions>
             </v-card>
@@ -115,15 +132,18 @@
           @click="initialize"
           color="primary"
         >
-          Reset
+          {{ $t('btn.reset') }}
         </v-btn>
       </template>
     </v-data-table>
-  </div>
+  </v-container>
 </template>
 
 <script>
   import axios from '@plugins/axios'
+  import { mapState } from 'vuex'
+
+  // TODO-FRONT add role
   export default {
     name: 'UserList',
     data: () => ({
@@ -144,17 +164,25 @@
         username: '',
         email: '',
         password: '',
+        authorization: null,
       },
       defaultItem: {
         username: '',
         email: '',
         password: '',
+        authorization: null,
       },
     }),
 
     computed: {
+      ...mapState('user', {
+        authorizationList: (state) => state.authorizations,
+      }),
+
       formTitle() {
-        return this.editedIndex === -1 ? 'New User' : 'Edit User'
+        return this.editedIndex === -1
+          ? this.$t('user.modal.new')
+          : this.$t('user.modal.edit', { name: this.editedItem.username })
       },
     },
 
@@ -170,17 +198,19 @@
 
     methods: {
       initialize() {
-        axios({
-          url: '/users',
-          method: 'GET',
-        }).then((resp) => {
+        this.$store.dispatch('user/fetchAuthorizationList')
+        axios.get('/users').then((resp) => {
           this.users = resp.data
         })
+      },
+      compareAuthorization(a, b) {
+        console.log('compare', a, b)
       },
 
       editItem(item) {
         this.editedIndex = this.users.indexOf(item)
         this.editedItem = Object.assign({}, item)
+        console.log('edited item', this.editedItem)
         this.dialog = true
       },
 
@@ -210,6 +240,7 @@
 
       save() {
         if (this.editedIndex > -1) {
+          console.log('save', this.editedItem)
           axios({
             url: '/users/' + this.editedItem.id,
             data: this.editedItem,
@@ -226,6 +257,7 @@
           const userData = {
             email: this.editedItem.email,
             username: this.editedItem.username,
+            authorization: this.editedItem.authorization,
             password: this.editedItem.password,
           }
           axios({

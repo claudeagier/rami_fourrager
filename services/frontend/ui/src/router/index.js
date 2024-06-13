@@ -140,6 +140,7 @@ const routes = [
               },
             ]
           },
+          isAdmin: true,
         },
       },
 
@@ -209,7 +210,16 @@ router.beforeEach(async (to, from, next) => {
         params: { redirect: to.fullPath },
       })
     } else {
-      next()
+      if (to.matched.some((record) => record.meta.isAdmin)) {
+        // Check if the user is an admin
+        if (store.getters['auth/isAdmin']) {
+          next()
+        } else {
+          next({ name: 'workspace' }) // Redirect to a non-admin page or show an error
+        }
+      } else {
+        next()
+      }
     }
   } else {
     next()

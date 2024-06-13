@@ -1,5 +1,6 @@
 import axios from 'axios'
-import localForage from 'localforage'
+import api from '@/plugins/axios'
+import Vue from 'vue'
 
 function getCurrentDateTime() {
   var now = new Date()
@@ -25,13 +26,20 @@ export default {
     auth_request(state) {
       state.status = 'loading'
     },
-    auth_success(state, token, user) {
+    auth_success(state, token) {
       state.status = 'success'
       state.token = token
+    },
+    auth_user(state, user) {
       state.user = user
     },
-    auth_error(state) {
+    auth_error(state, message) {
       state.status = 'error'
+      Vue.prototype.$toast({
+        message: message,
+        type: 'error',
+        timeout: 5000,
+      })
     },
     logout(state) {
       state.status = ''
@@ -52,15 +60,17 @@ export default {
           .then((resp) => {
             const token = resp.data.access_token
             const refreshToken = resp.data.refresh_token
-            const user = resp.data.user
+
             localStorage.setItem('token', token)
             localStorage.setItem('refresh_token', refreshToken)
             axios.defaults.headers.common['Authorization'] = token
-            commit('auth_success', token, user)
+            // // getStatus
+
+            commit('auth_success', token)
             resolve(resp)
           })
           .catch((err) => {
-            commit('auth_error')
+            commit('auth_error', err.response.data.message)
             localStorage.removeItem('token')
             reject(err)
           })
@@ -76,9 +86,24 @@ export default {
         resolve()
       })
     },
+    fetchStatus({ commit }) {
+      api
+        .get('/auth/status')
+        .then((resp2) => {
+          const user = resp2.data
+          commit('auth_user', user)
+        })
+        .catch((err) => {
+          console.error(err)
+          commit('auth_error', err.response.data.message)
+        })
+    },
   },
   getters: {
     isLoggedIn: (state) => !!state.token,
     authStatus: (state) => state.status,
+    isAdmin: (state) => {
+      return state.user.authorization === 'admin'
+    },
   },
 }

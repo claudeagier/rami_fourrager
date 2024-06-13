@@ -63,7 +63,7 @@
 </template>
 
 <script>
-  import { mapState, mapMutations } from 'vuex'
+  import { mapState, mapMutations, mapGetters } from 'vuex'
 
   export default {
     name: 'AppCoreDrawer',
@@ -75,8 +75,8 @@
       },
     },
 
-    data: () => ({
-      items: [
+    data: () => {
+      const items = [
         { title: 'Workspace', icon: 'mdi-folder-cog-outline', to: '/workspace' },
         {
           title: 'Simulation',
@@ -92,39 +92,28 @@
         },
         {
           icon: 'mdi-account-outline',
-          title: 'user',
+          title: 'user.profile.title',
           to: '/user/profile',
         },
         {
-          title: 'users',
+          title: 'user.list.title',
           icon: 'mdi-account-multiple-plus-outline',
           to: '/user/list',
         },
-        // {
-        //   title: 'typography',
-        //   icon: 'mdi-format-font',
-        //   to: '/components/typography',
-        // },
-        // {
-        //   title: 'icons',
-        //   icon: 'mdi-chart-bubble',
-        //   to: '/components/icons',
-        // },
-        // {
-        //   title: 'google',
-        //   icon: 'mdi-map-marker',
-        //   to: '/maps/google-maps',
-        // },
-        // {
-        //   title: 'notifications',
-        //   icon: 'mdi-bell',
-        //   to: '/components/notifications',
-        // },
-      ],
-    }),
+      ]
+      return {
+        items: [],
+      }
+    },
+    created() {
+      this.items = this.makeItems()
+    },
 
     computed: {
       ...mapState('drawer', { show: (state) => state.show }),
+      ...mapGetters('auth', {
+        isAuthAdmin: 'isAdmin',
+      }),
       drawer: {
         get() {
           return this.show
@@ -154,6 +143,39 @@
           children: item.children ? item.children.map(this.mapItem) : undefined,
           title: this.$t(item.title),
         }
+      },
+
+      makeItems() {
+        console.log('isAdmin', this.isAuthAdmin)
+        const items = [
+          { title: 'Workspace', icon: 'mdi-folder-cog-outline', to: '/workspace' },
+          {
+            title: 'Simulation',
+            icon: 'mdi-head-cog-outline',
+            // to: '/',
+            group: '/simulation',
+            children: [
+              { title: 'dashboard.title', to: 'dashboard', icon: 'mdi-view-dashboard' },
+              { title: 'barn.title', to: 'barn', icon: 'mdi-silo-outline' },
+              { title: 'farm.title', to: 'farm', icon: 'mdi-land-plots' },
+              { title: 'herd.title', to: 'herd', icon: 'mdi-cow' },
+            ],
+          },
+          {
+            icon: 'mdi-account-outline',
+            title: 'user.profile.title',
+            to: '/user/profile',
+          },
+        ]
+
+        if (this.isAuthAdmin) {
+          items.push({
+            title: 'user.list.title',
+            icon: 'mdi-account-multiple-plus-outline',
+            to: '/user/list',
+          })
+        }
+        return items
       },
     },
   }
