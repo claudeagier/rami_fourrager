@@ -1,5 +1,4 @@
 import { deepEqual } from '../../plugins/utils'
-import axios from '@/plugins/axios'
 
 export default {
   namespaced: true,

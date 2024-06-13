@@ -106,7 +106,7 @@
       class="ml-2"
       min-width="0"
       text
-      to="user/profile"
+      to="/user/profile"
     >
       <v-icon>mdi-account</v-icon>
     </v-btn>

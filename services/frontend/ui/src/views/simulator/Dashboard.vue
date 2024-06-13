@@ -70,9 +70,17 @@
             :dropdownOptions="climaticYears"
             @change="handleCYchange"
           />
+          <v-skeleton-loader
+            v-if="selectedSite === null"
+            max-height="130"
+            type="card"
+          ></v-skeleton-loader>
         </v-col>
         <v-col>
-          <base-material-card color="#F39C12">
+          <base-material-card
+            color="#F39C12"
+            min-height="130"
+          >
             <template v-slot:heading>
               <v-row>
                 <v-col cols="10">
@@ -122,6 +130,10 @@
             color="green"
           >
             <h3 class="card-title font-weight-light mt-2 ml-2">{{ $t('farm.title') }}</h3>
+            <v-card>
+              <v-card-title>Dimensionnement</v-card-title>
+            </v-card>
+
             <v-btn
               class="ml-2"
               min-width="0"
@@ -147,6 +159,26 @@
               class="ml-2"
               min-width="0"
               to="/simulation/herd"
+            >
+              {{ $t('btn.complete') }}
+            </v-btn>
+          </base-material-chart-card>
+        </v-col>
+        <v-col
+          cols="12"
+          md="6"
+        >
+          <base-material-chart-card
+            :data="dataCompletedTasksChart.data"
+            :options="dataCompletedTasksChart.options"
+            type="Line"
+            color="orange"
+          >
+            <h3 class="card-title font-weight-light mt-2 ml-2">{{ $t('report.title') }}</h3>
+            <v-btn
+              class="ml-2"
+              min-width="0"
+              to="/simulation/report"
             >
               {{ $t('btn.complete') }}
             </v-btn>

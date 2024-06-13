@@ -22,7 +22,7 @@ localForage.config({
 
 // Définir une fonction de filtrage pour VuexPersist
 const saveSubsetOfState = (state) => ({
-  auth: { lastConnectionDate: state.auth.lastConnectionDate },
+  auth: { lastConnectionDate: state.auth.lastConnectionDate, isAdmin: state.auth.isAdmin },
   referential: {
     animal_profiles: state.referential.animal_profiles,
     batch_types: state.referential.batch_types,
