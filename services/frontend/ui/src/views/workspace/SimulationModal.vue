@@ -105,7 +105,9 @@
               },
             },
             barn: {
-              initialStock: [],
+              initialStrawStock: 0,
+              initialConcentratedStock: { energeticQuantity: 0, proteicQuantity: 0 },
+              initialFeedStock: [],
             },
             herd: {
               batchs: [],

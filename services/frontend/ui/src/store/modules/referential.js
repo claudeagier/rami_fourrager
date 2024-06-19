@@ -49,7 +49,7 @@ export default {
       { code: 'AS', name: 'autre stock', unity: 'tMS', color: '' },
       { code: 'EL', name: 'Ensilage de légumineuses (riche PDI)', unity: 'tMS', color: '' },
       { code: 'FL', name: 'Foin de légumineuses (riche PDI)', unity: 'tMS', color: '' },
-      { code: 'STRAW', name: 'Paille', unity: '', color: 'yellow' }
+      // { code: 'STRAW', name: 'Paille', unity: '', color: 'yellow' }
     ],
     batch_types: [],
     climatic_years: [],

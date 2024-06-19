@@ -403,7 +403,7 @@
       }
     },
     "barn": {
-      "initialStock": [
+      "initialFeedStock": [
         { "code": "FH", "name": "foin", "quantity": 58 },
         { "code": "FH", "name": "foin", "quantity": 58 },
         { "code": "EH", "name": "Ensilage et enrubannage d'herbe", "quantity": 79 },

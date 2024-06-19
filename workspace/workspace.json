@@ -836,7 +836,9 @@
         }
       },
       "barn": {
-        "initialStock": [
+        "initialStrawStock": 53,
+        "initialConcentratedStock": { "energeticQuantity": 216, "proteicQuantity": -96 },
+        "initialFeedStock": [
           { "code": "FH", "name": "foin", "quantity": 58 },
           { "code": "FH", "name": "foin", "quantity": 58 },
           {
@@ -3708,7 +3710,11 @@
           }
         }
       },
-      "barn": { "initialStock": [] },
+      "barn": {
+        "initialStrawStock": 0,
+        "initialConcentratedStock": { "energeticQuantity": 0, "proteicQuantity": 0 },
+        "initialFeedStock": []
+      },
       "herd": { "batchs": [] },
       "description": "fvregergez"
     }

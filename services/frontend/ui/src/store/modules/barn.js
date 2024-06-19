@@ -1,49 +1,72 @@
 export default {
   namespaced: true,
   state: {
-    initialStock: [],
     totalStock: [],
     stockByPeriod: [],
+    initialStrawStock: 0,
+    initialConcentratedStock: { energeticQuantity: 0, proteicQuantity: 0 },
+    initialFeedStock: [],
   },
   mutations: {
-    setBarn(state, { totalStock, initialStock, stockByPeriod }) {
+    setBarn(state, { totalStock, initialFeedStock, stockByPeriod, initialStrawStock, initialConcentratedStock }) {
       state.totalStock = totalStock
-      state.initialStock = initialStock
+      state.initialFeedStock = initialFeedStock
+      state.initialConcentratedStock = initialConcentratedStock
+      state.initialStrawStock = initialStrawStock
       state.stockByPeriod = stockByPeriod
     },
     // barn
     setInitialBarnStock(state, initialData) {
-      state.initialStock = initialData
+      state.initialFeedStock = initialData
     },
-    saveInitialStock(state, initialStock) {
-      const foundStock = state.initialStock.find(
-        (item) => item.code === initialStock.code && item.name === initialStock.name
+    saveInitialFeedStock(state, initialFeedStock) {
+      const foundStock = state.initialFeedStock.find(
+        (item) => item.code === initialFeedStock.code && item.name === initialFeedStock.name
       )
       if (!foundStock) {
-        state.initialStock.push(initialStock)
+        state.initialFeedStock.push(initialFeedStock)
       } else {
-        foundStock.quantity += initialStock.quantity
+        foundStock.quantity += initialFeedStock.quantity
       }
     },
     deleteBarnStockItem(state, stock) {
-      state.initialStock = state.initialStock.filter((item) => !(item.code === stock.code && item.name === stock.name))
+      state.initialFeedStock = state.initialFeedStock.filter(
+        (item) => !(item.code === stock.code && item.name === stock.name)
+      )
     },
     setTotalStock(state, totalStock) {
       state.totalStock = totalStock
+    },
+    setInitialStrawStock(state, initialStrawStock) {
+      state.initialStrawStock = initialStrawStock
+    },
+    setTotalStrawStockProducted(state, stock) {
+      state.totalStrawStockProducted = stock
+    },
+    setEnergeticQuantity(state, q) {
+      state.initialConcentratedStock.energeticQuantity = q
+    },
+    setProteicQuantity(state, q) {
+      state.initialConcentratedStock.proteicQuantity = q
     },
     setStockByPeriod(state, stockByPeriod) {
       state.stockByPeriod = stockByPeriod
     },
   },
   getters: {
-    initialStock: (state) => state.initialStock,
+    initialFeedStock: (state) => state.initialFeedStock,
+    initialConcentratedStock: (state) => state.initialConcentratedStock,
+    totalConcentratedStock: (state) => {
+      return state.initialConcentratedStock.energeticQuantity + state.initialConcentratedStock.proteicQuantity
+    },
+    initialStrawStock: (state) => state.initialStrawStock,
     // barnStockTypes: (state) => {
-    //   return state.initialStock.map((item) => item.type)
+    //   return state.initialFeedStock.map((item) => item.type)
     // },
   },
   actions: {
     setStock({ state, commit }) {
-      // commit('setStock', state.initialStock)
+      // commit('setStock', state.initialFeedStock)
     },
   },
 }

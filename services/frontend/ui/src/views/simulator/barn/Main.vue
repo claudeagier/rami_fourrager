@@ -34,9 +34,38 @@
             <v-row>
               <v-col cols="5">
                 <v-card>
+                  <v-card-title>
+                    <div class="text-h3 font-weight-light">{{ $t('barn.straw.title') }}</div>
+                  </v-card-title>
                   <v-card-text>
-                    <div>Stock de concentré</div>
-                    <div>Stock de paille</div>
+                    <v-text-field
+                      v-model.number="strawQuantity"
+                      :label="$t('barn.straw.quantity')"
+                      type="number"
+                      hide-spin-buttons
+                      min="0"
+                    ></v-text-field>
+                  </v-card-text>
+                </v-card>
+                <v-card>
+                  <v-card-title>
+                    <div class="text-h3 font-weight-light">{{ $t('barn.concentrated.title') }}</div>
+                  </v-card-title>
+                  <v-card-text>
+                    <v-text-field
+                      v-model.number="energeticQuantity"
+                      :label="$t('barn.concentrated.energeticQuantity')"
+                      type="number"
+                      hide-spin-buttons
+                      min="0"
+                    ></v-text-field>
+                    <v-text-field
+                      v-model.number="proteicQuantity"
+                      :label="$t('barn.concentrated.proteicQuantity')"
+                      type="number"
+                      hide-spin-buttons
+                      min="0"
+                    ></v-text-field>
                   </v-card-text>
                 </v-card>
               </v-col>
@@ -45,7 +74,7 @@
                   <v-card-text>
                     <v-data-table
                       :headers="headers"
-                      :items="initialStock"
+                      :items="initialFeedStock"
                       class="elevation-1"
                       sort-by="type"
                     >
@@ -54,7 +83,9 @@
                           color="white"
                           flat
                         >
-                          <v-toolbar-title>{{ $t('barn.table.title') }}</v-toolbar-title>
+                          <v-toolbar-title class="text-h3 font-weight-light">{{
+                            $t('barn.table.title')
+                          }}</v-toolbar-title>
                           <v-divider
                             class="mx-4"
                             inset
@@ -268,8 +299,35 @@
         barnStockItems: 'barnStockItemList',
       }),
       ...mapGetters('simulator/barn', {
-        initialStock: 'initialStock',
+        initialFeedStock: 'initialFeedStock',
+        initialConcentratedStock: 'initialConcentratedStock',
+        totalConcentratedStock: 'totalConcentratedStock',
+        initialStrawStock: 'initialStrawStock',
       }),
+      strawQuantity: {
+        get() {
+          return this.initialStrawStock
+        },
+        set(val) {
+          this.$store.commit('simulator/barn/setInitialStrawStock', val)
+        },
+      },
+      energeticQuantity: {
+        get() {
+          return this.initialConcentratedStock.energeticQuantity
+        },
+        set(val) {
+          this.$store.commit('simulator/barn/setEnergeticQuantity', val)
+        },
+      },
+      proteicQuantity: {
+        get() {
+          return this.initialConcentratedStock.proteicQuantity
+        },
+        set(val) {
+          this.$store.commit('simulator/barn/setProteicQuantity', val)
+        },
+      },
       headers() {
         return [
           // {
@@ -323,7 +381,7 @@
 
         // if (selectedFeed) {
         if (this.selectedItem) {
-          this.$store.commit('simulator/barn/saveInitialStock', {
+          this.$store.commit('simulator/barn/saveInitialFeedStock', {
             // type: this.selectedItemType,
             ...this.selectedItem,
             quantity: this.quantityInTons,

@@ -134,6 +134,7 @@ export default {
     dispatchProduction({ state, rootState, commit, dispatch }) {
       const production = dispatchProduction(state, rootState)
       commit('simulator/barn/setTotalStock', production.totalBarnStock, { root: true })
+      commit('simulator/barn/setTotalStrawStockProducted', production.totalStrawStock, { root: true })
       commit('simulator/barn/setStockByPeriod', production.barnStockByPeriod, { root: true })
     },
   },

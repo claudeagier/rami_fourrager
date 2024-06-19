@@ -376,11 +376,21 @@
         }
       },
       "barn": {
-        "initialStock": [
+        "initialStrawStock": 53,
+        "initialConcentratedStock": [],
+        "initialFeedStock": [
           { "code": "FH", "name": "foin", "quantity": 58 },
           { "code": "FH", "name": "foin", "quantity": 58 },
-          { "code": "EH", "name": "Ensilage et enrubannage d'herbe", "quantity": 79 },
-          { "code": "EM", "name": "Ensilage de maïs et sorgho (riche UF)", "quantity": 66 }
+          {
+            "code": "EH",
+            "name": "Ensilage et enrubannage d'herbe",
+            "quantity": 79
+          },
+          {
+            "code": "EM",
+            "name": "Ensilage de maïs et sorgho (riche UF)",
+            "quantity": 66
+          }
         ]
       },
       "herd": {
@@ -1876,24 +1886,6 @@
         ]
       },
       "description": ""
-    },
-    {
-      "name": "simulation 2 test",
-      "site": null,
-      "climaticYear": null,
-      "lastModifiedDate": "28/05/2024",
-      "loaded": false,
-      "farm": {
-        "rotations": [],
-        "totalAvailablePastureByPeriod": null,
-        "dimensioning": {
-          "SAU": null,
-          "constrainedSurfaces": { "irrigable": null, "ploughable": null, "superficial": null, "reachable": null }
-        }
-      },
-      "barn": { "initialStock": [] },
-      "herd": { "batchs": [] },
-      "description": "fvregergez"
     }
   ],
   "stics": [

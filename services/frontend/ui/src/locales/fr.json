@@ -141,6 +141,15 @@
       "subtitle": "Gérer votre grange",
       "btn_apply": "Appliquer à la simulation"
     },
+    "straw": {
+      "title": "Stock de paille disponible au 1er janvier",
+      "quantity": "quantité (en kg)"
+    },
+    "concentrated": {
+      "title": "Stock de concentrés disponibles au 1er janvier",
+      "energeticQuantity": "Quantité de concentrés energétiques (en qtx)",
+      "proteicQuantity": "Quantité de concentrés protéiques (en qtx)"
+    },
     "modal": {
       "title": "Ajouter à la grange",
       "add_btn": "Ajouter un stock",
@@ -151,7 +160,7 @@
       "title": "Stocks de fourrages disponibles au 1er janvier",
       "concentrated": "Concentré",
       "name": "Nom",
-      "quantity": "Quantité",
+      "quantity": "Quantité (en tMS)",
       "unity": "Unité",
       "actions": "Actions"
     }
@@ -247,7 +256,7 @@
         "proportion": "Proportion (en %)"
       },
       "graph": {
-        "title": "Couverture des Besoins",
+        "title": "Couverture des Besoins par les fourrages",
         "energetic": "Energétique",
         "proteic": "Protéique"
       }

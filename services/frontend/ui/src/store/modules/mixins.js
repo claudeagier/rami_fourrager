@@ -658,6 +658,7 @@ export function getProteicCoverage(state, rootState, batchId) {
 export function dispatchProduction(state, rootState) {
   var totalBarnStock = []
   var barnStockByPeriod = Array.from({ length: 13 }, () => null)
+  let totalStrawStock = 0
   const precision = 15
   const barnStockItems = rootState.referential.barnStockItems
   for (let index = 0; index < rootState.referential.periods.length; index++) {
@@ -705,10 +706,16 @@ export function dispatchProduction(state, rootState) {
             })
           }
         }
+
+        // le stock de paille produit en kg car rendement en kg/ha et surface en ha
+
+        if (rotation.stic.rendement) {
+          totalStrawStock += rotation.stic.rendement * rotation.surface
+        }
       }
     }
   }
-  return { totalBarnStock: totalBarnStock, barnStockByPeriod: barnStockByPeriod }
+  return { totalBarnStock: totalBarnStock, barnStockByPeriod: barnStockByPeriod, totalStrawStock: totalStrawStock }
 }
 export function getDryMatterProvided(state, rootState, batchId) {
   const precision = 3
