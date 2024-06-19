@@ -3,11 +3,11 @@
     <template v-slot:heading>
       <v-row>
         <v-col cols="10">
-          <div class="text-h3 font-weight-light">{{ $t('workspace.actions.title') }}</div>
+          <div class="text-h4 font-weight-light">{{ $t('workspace.actions.title') }}</div>
         </v-col>
       </v-row>
     </template>
-    <v-card-text>
+    <v-card-text class="text-body-2">
       <!-- création de l'espace de travail dans le state -->
       <div v-if="workspace.tag === undefined">
         {{ $t('workspace.actions.create.content') }}
@@ -40,6 +40,8 @@
         outlined
         color="#065c4a"
         @click="createWorkspace"
+        class="text-h6"
+        small
       >
         {{ $t('workspace.actions.create.btn') }}
       </v-btn>
@@ -47,6 +49,8 @@
         outlined
         color="#065c4a"
         @click="importWorkspace"
+        class="text-h6"
+        small
       >
         {{ $t('workspace.actions.import.btn') }}
       </v-btn>
@@ -55,6 +59,8 @@
         outlined
         color="#065c4a"
         @click="exportWorkspace"
+        class="text-h6"
+        small
       >
         {{ $t('workspace.actions.export.btn') }}
       </v-btn>

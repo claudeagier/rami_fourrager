@@ -140,7 +140,7 @@
       "row3": "Créer une nouvelle simulation",
       "btn_workspace": "Espace de travail"
     },
-    "simulation": { "name": "Nom de la simulation : {name}" }
+    "simulation": { "name": "Nom de la simulation : {name}", "description": "Description : {desc}" }
   },
   "barn": {
     "title": "La grange",
@@ -329,7 +329,7 @@
       "uptodate": "Le référentiel a été mis à jour le {date}",
       "toUpdate": "Le référentiel est à mettre à jour",
       "description": "Rafraichir le référentiel en cliquant ci-dessous",
-      "btn_refresh": "Rafraichir le référentiel"
+      "btn_refresh": "Mettre à jour"
     },
     "actions": {
       "title": "L' espace de travail",
@@ -351,12 +351,12 @@
       }
     },
     "content": {
-      "title": "Votre espace de travail",
+      "title": "Mon espace de travail",
       "tabs": {
-        "simulation": "Simulations",
-        "animalProfile": "Profils Animaux",
-        "stic": "Baguettes fourrages",
-        "feed": "Cartes rations"
+        "simulation": "Mes Simulations",
+        "animalProfile": "Mes Profils Animaux",
+        "stic": "Mes Baguettes fourrages",
+        "feed": " Mes Cartes rations"
       },
       "datatables": {
         "simulation": {
@@ -388,7 +388,7 @@
             "btn": "Ajouter un profil animal",
             "dialog": {
               "create_title": "Créer un profil animal",
-              "update_title": "Modifer la baguette fourrage",
+              "update_title": "Modifer le profil animal",
               "subheader": { "copy": "Copier un profil existant" },
               "animalProfile_to_copy": "Code et Nom du profil à copier",
               "batchType_select": "Type d'animal à copier",
