@@ -12,6 +12,7 @@ import '@/plugins/toaster'
 import '@/plugins/vee-validate'
 import '@/plugins/vueFinalModal'
 import '@/plugins/confirmationDialog'
+import '@/plugins/axios'
 
 Vue.config.productionTip = false
 

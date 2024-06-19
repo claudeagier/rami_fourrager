@@ -21,12 +21,13 @@ from project.repository.users.services import (
 users_namespace = Namespace("users")
 
 
-class AuthorizationName(fields.Raw):
-    def format(self, value):
-        return value.name
+# class AuthorizationName(fields.Raw):
+#     def format(self, value):
+#         return value.name
 
 
 authorization = users_namespace.model("Authorization", {
+    "id": fields.Integer(readOnly=True),
     "name": fields.String(required=True)
 })
 user = users_namespace.model(
@@ -35,7 +36,8 @@ user = users_namespace.model(
         "id": fields.Integer(readOnly=True),
         "username": fields.String(required=True),
         "email": fields.String(required=True),
-        "authorization": AuthorizationName(attribute='authorization')
+        "authorization": fields.Nested(authorization)
+        # "authorization": AuthorizationName(attribute='authorization')
 
         # "created_date": fields.DateTime,
     },
@@ -68,10 +70,10 @@ class UsersList(Resource):
         username = post_data.get("username")
         email = post_data.get("email")
         password = post_data.get("password")
-        authorization_id = post_data.get("authorization")
+        authorizationPost = post_data.get("authorization")
         # authorization_name = post_data.get("authorization")
 
-        authorization = get_authorization_by_id(authorization_id)
+        authorization = get_authorization_by_id(authorizationPost['id'])
         # authorization = get_authorization_by_name(authorization_name)
         if not authorization:
             response_object["message"] = "Sorry, that authorization doesn't exist"
@@ -109,8 +111,8 @@ class Users(Resource):
         post_data = request.get_json()
         username = post_data.get("username")
         email = post_data.get("email")
-        authorization_id = post_data.get("authorization")
-        authorization = get_authorization_by_id(authorization_id)
+        authorizationPost = post_data.get("authorization")
+        authorization = get_authorization_by_id(authorizationPost['id'])
 
         response_object = {}
 

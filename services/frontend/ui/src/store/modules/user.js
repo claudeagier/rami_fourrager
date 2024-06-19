@@ -1,4 +1,5 @@
-import axios from '@plugins/axios'
+// import axios from '@plugins/axios'
+import Vue from 'vue'
 
 export default {
   namespaced: true,
@@ -12,9 +13,24 @@ export default {
   },
   actions: {
     fetchAuthorizationList({ commit }) {
-      axios.get('/authorizations').then((resp) => {
+      Vue.prototype.$axios.get('/authorizations').then((resp) => {
         commit('setAuthorizationList', resp.data)
       })
+    },
+    async updateUser({ commit }, user) {
+      Vue.prototype
+        .$axios({
+          url: '/users/' + user.id,
+          data: user,
+          method: 'PUT',
+        })
+        .then((resp) => {
+          //
+        })
+        .catch((err) => {
+          console.error(err)
+          throw err
+        })
     },
   },
 }

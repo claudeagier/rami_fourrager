@@ -11,64 +11,88 @@
       >
         <base-material-card>
           <template v-slot:heading>
-            <div class="text-h3 font-weight-light">Edit Profile</div>
+            <div class="text-h3 font-weight-light">{{ $t('user.profile.title') }}</div>
 
-            <div class="text-subtitle-1 font-weight-light">Complete your profile</div>
+            <div class="text-subtitle-1 font-weight-light">{{ $t('user.profile.subtitle') }}</div>
           </template>
 
-          <v-form>
+          <v-form
+            ref="userForm"
+            v-model="valid"
+            @submit.prevent="save"
+            lazy-validation
+          >
             <v-container class="py-0">
               <v-row>
                 <v-col
                   cols="12"
+                  md="6"
+                >
+                  <v-text-field
+                    v-model="editedUser.firstname"
+                    :label="$t('user.profile.firstname')"
+                    class="purple-input"
+                  />
+                </v-col>
+
+                <v-col
+                  cols="12"
+                  md="6"
+                >
+                  <v-text-field
+                    v-model="editedUser.lastname"
+                    :label="$t('user.profile.lastname')"
+                    class="purple-input"
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
                   md="4"
                 >
                   <v-text-field
-                    label="Company (disabled)"
+                    v-model="editedUser.username"
+                    class="purple-input"
+                    :label="$t('user.profile.username')"
+                    required
+                    :rules="[rules.required]"
+                  />
+                </v-col>
+
+                <v-col
+                  cols="12"
+                  md="4"
+                >
+                  <v-text-field
+                    v-model="editedUser.email"
+                    :label="$t('user.profile.email')"
+                    class="purple-input"
+                    required
+                    :rules="[rules.required]"
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
+                  md="4"
+                >
+                  <v-text-field
+                    v-model="editedUser.authorization.name"
+                    :label="$t('user.profile.authorization')"
+                    class="purple-input"
                     disabled
+                    :rules="[rules.required]"
                   />
                 </v-col>
-
                 <v-col
                   cols="12"
                   md="4"
                 >
                   <v-text-field
-                    class="purple-input"
-                    label="User Name"
-                  />
-                </v-col>
-
-                <v-col
-                  cols="12"
-                  md="4"
-                >
-                  <v-text-field
-                    label="Email Address"
+                    v-model="editedUser.password"
+                    :label="$t('user.profile.password')"
                     class="purple-input"
                   />
                 </v-col>
-
-                <v-col
-                  cols="12"
-                  md="6"
-                >
-                  <v-text-field
-                    label="First Name"
-                    class="purple-input"
-                  />
-                </v-col>
-
-                <v-col
-                  cols="12"
-                  md="6"
-                >
-                  <v-text-field
-                    label="Last Name"
-                    class="purple-input"
-                  />
-                </v-col>
-
+                <!--
                 <v-col cols="12">
                   <v-text-field
                     label="Adress"
@@ -114,7 +138,7 @@
                     label="About Me"
                     value="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
                   />
-                </v-col>
+                </v-col> -->
 
                 <v-col
                   cols="12"
@@ -123,8 +147,10 @@
                   <v-btn
                     color="success"
                     class="mr-0"
+                    type="submit"
+                    :disabled="!valid"
                   >
-                    Update Profile
+                    {{ $t('btn.save') }}
                   </v-btn>
                 </v-col>
               </v-row>
@@ -133,7 +159,7 @@
         </base-material-card>
       </v-col>
 
-      <v-col
+      <!-- <v-col
         cols="12"
         md="4"
       >
@@ -160,13 +186,54 @@
             </v-btn>
           </v-card-text>
         </base-material-card>
-      </v-col>
+      </v-col> -->
     </v-row>
   </v-container>
 </template>
 
 <script>
+  import { mapGetters } from 'vuex'
+  import { deepCopy } from '@/plugins/utils'
   export default {
     //
+    data() {
+      return {
+        valid: true,
+        editedUser: {},
+        rules: {
+          required: (value) => !!value || this.$t('validation.required'),
+          number: (value) => (!isNaN(value) && isFinite(value)) || this.$t('validation.number'),
+        },
+      }
+    },
+    created() {
+      this.editedUser = deepCopy(this.user)
+    },
+    computed: {
+      ...mapGetters('auth', { user: 'getUser' }),
+    },
+    methods: {
+      save() {
+        if (this.$refs.userForm.validate()) {
+          this.$store
+            .dispatch('user/updateUser', this.editedUser)
+            .then(() => {
+              this.$toast({
+                message: this.$t('notifications.users.profile.update.success'),
+                type: 'success',
+                timeout: 3000,
+              })
+            })
+            .catch((err) => {
+              this.$toast({
+                message: this.$st('notifications.users.profile.update.error', { msg: err }),
+                type: 'error',
+                timeout: 5000,
+              })
+            })
+        } else {
+        }
+      },
+    },
   }
 </script>

@@ -82,7 +82,7 @@
                         item-text="name"
                         item-value="id"
                         :label="$t('user.modal.authorization')"
-                        :value-comparator="compareAuthorization"
+                        return-object
                         required
                         clearable
                       ></v-select>
@@ -132,7 +132,7 @@
           @click="initialize"
           color="primary"
         >
-          {{ $t('btn.reset') }}
+          {{ $t('btn.refresh') }}
         </v-btn>
       </template>
     </v-data-table>
@@ -140,10 +140,8 @@
 </template>
 
 <script>
-  import axios from '@plugins/axios'
   import { mapState } from 'vuex'
 
-  // TODO-FRONT add role
   export default {
     name: 'UserList',
     data: () => ({
@@ -199,18 +197,14 @@
     methods: {
       initialize() {
         this.$store.dispatch('user/fetchAuthorizationList')
-        axios.get('/users').then((resp) => {
+        this.$axios.get('/users').then((resp) => {
           this.users = resp.data
         })
-      },
-      compareAuthorization(a, b) {
-        console.log('compare', a, b)
       },
 
       editItem(item) {
         this.editedIndex = this.users.indexOf(item)
         this.editedItem = Object.assign({}, item)
-        console.log('edited item', this.editedItem)
         this.dialog = true
       },
 
@@ -218,7 +212,7 @@
         var deletedIndex = this.users.indexOf(item)
         deletedIndex = Object.assign({}, item)
         confirm('Are you sure you want to delete this item?') &&
-          axios({
+          this.$axios({
             url: '/users/' + deletedIndex.id,
             method: 'Delete',
           })
@@ -240,8 +234,7 @@
 
       save() {
         if (this.editedIndex > -1) {
-          console.log('save', this.editedItem)
-          axios({
+          this.$axios({
             url: '/users/' + this.editedItem.id,
             data: this.editedItem,
             method: 'PUT',
@@ -252,7 +245,6 @@
             .catch((err) => {
               console.error(err)
             })
-          // Object.assign(this.users[this.editedIndex], this.editedItem)
         } else {
           const userData = {
             email: this.editedItem.email,
@@ -260,7 +252,7 @@
             authorization: this.editedItem.authorization,
             password: this.editedItem.password,
           }
-          axios({
+          this.$axios({
             url: '/users',
             data: userData,
             method: 'POST',

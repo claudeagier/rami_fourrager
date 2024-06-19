@@ -16,17 +16,18 @@ from project.repository.users.services import (get_user_by_email, get_user_by_id
 auth_namespace = Namespace("auth")
 
 
-class AuthorizationName(fields.Raw):
-    def format(self, value):
-        return value.name
-
+authorization = auth_namespace.model("Authorization", {
+    "id": fields.Integer(readOnly=True),
+    "name": fields.String(required=True)
+})
 
 user = auth_namespace.model(
     "User",
     {
+        "id": fields.Integer(readOnly=True),
         "username": fields.String(required=True),
         "email": fields.String(required=True),
-        "authorization": AuthorizationName(attribute='authorization')
+        "authorization": fields.Nested(authorization)
     },
 )
 
@@ -139,7 +140,7 @@ class Status(Resource):
         auth_header = request.headers.get("Authorization")
         if auth_header:
             try:
-                access_token = auth_header.split(" ")[1]
+                access_token = auth_header
                 resp = User.decode_token(access_token)
                 user = get_user_by_id(resp['user_id'])
                 if not user:

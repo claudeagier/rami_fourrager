@@ -12,7 +12,7 @@ def authorization_required(authorization):
             auth_header = request.headers.get("Authorization")
             if auth_header:
                 try:
-                    access_token = auth_header.split(" ")[1]
+                    access_token = auth_header
                     resp = User.decode_token(access_token)
                     user = get_user_by_id(resp['user_id'])
                     if not user or user.authorization.name != resp['authorization'] or user.authorization.name != authorization:

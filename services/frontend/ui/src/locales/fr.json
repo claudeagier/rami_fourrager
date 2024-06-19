@@ -119,6 +119,14 @@
         "successfully": "Le fichier a été importé",
         "error": "Le fichier n'a pas été importé correctement. Erreur : {msg}"
       }
+    },
+    "users": {
+      "profile": {
+        "update": {
+          "success": "Votre profil a été mis à jour",
+          "error": "Votre profil n'a pas été mis à jour Erreur : {msg}"
+        }
+      }
     }
   },
   "dashboard": {
@@ -302,6 +310,9 @@
       "selectall": "Tout sélectionner"
     }
   },
+  "report": {
+    "title": "Le bilan"
+  },
   "workspace": {
     "referential": {
       "title": "Le référentiel",
@@ -454,12 +465,20 @@
     "modal": {
       "new": "Nouvel utilisateur",
       "edit": "Moditifer l'utilisateur : {name}",
-      "username": "nom d'utilisateur",
+      "username": "Nom d'utilisateur",
       "email": "Email",
+      "authorization": "Role",
       "password": "Mot de passe"
     },
     "profile": {
-      "title": "Profil"
+      "title": "Mon profil",
+      "subtitle": "Gérer vos informations personnelles",
+      "firstname": "Prénom",
+      "lastname": "Nom",
+      "username": "Nom d'utilisateur",
+      "email": "Email",
+      "authorization": "Role",
+      "password": "Mot de passe"
     }
   },
   "validation": {

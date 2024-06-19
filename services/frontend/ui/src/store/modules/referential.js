@@ -1,4 +1,5 @@
-import axios from '@plugins/axios'
+// import axios from '@plugins/axios'
+import Vue from 'vue'
 import localForage from 'localforage'
 import { getCurrentDateTime, deepCopy } from '@/plugins/utils'
 
@@ -6,7 +7,7 @@ import { getCurrentDateTime, deepCopy } from '@/plugins/utils'
 async function fetch(what, since, commit, dispatch) {
   if (since === null || since < getCurrentDateTime()) {
     try {
-      const response = await axios.get(`/lists/${what}?lastConnectionDate=${since}`) // ajuster l'URL de l'API
+      const response = await Vue.prototype.$axios.get(`/lists/${what}?lastConnectionDate=${since}`) // ajuster l'URL de l'API
       if (response.data.length > 0) {
         commit('addToList', { whats: response.data, to: what + 's' })
       } else {

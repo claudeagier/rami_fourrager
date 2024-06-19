@@ -111,9 +111,7 @@
 
     computed: {
       ...mapState('drawer', { show: (state) => state.show }),
-      ...mapGetters('auth', {
-        isAuthAdmin: 'isAdmin',
-      }),
+      ...mapState('auth', { isAuthAdmin: (state) => state.isAdmin }),
       drawer: {
         get() {
           return this.show
@@ -146,7 +144,6 @@
       },
 
       makeItems() {
-        console.log('isAdmin', this.isAuthAdmin)
         const items = [
           { title: 'Workspace', icon: 'mdi-folder-cog-outline', to: '/workspace' },
           {
