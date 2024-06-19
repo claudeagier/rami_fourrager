@@ -1,19 +1,48 @@
 import _ from 'lodash'
+import { deepCopy, fixFloatingPoint } from '@/plugins/utils'
 
-export const fixFloatingPoint = (val, precision = 3) => Number.parseFloat(val.toPrecision(precision))
+const getTotalProportion = (feeds) => {
+  return Object.values(feeds).reduce((acc, curr) => {
+    return acc + curr.proportion
+  }, 0.0)
+}
+const proportionsCompleted = (feeds) => {
+  const totalProportion = getTotalProportion(feeds)
+  if (totalProportion < 100) {
+    return false
+    // add complement
+  }
+  return true
+}
 
 // OK
 const calculateTotalUE = (UEcolumn, feeds) => {
   const precision = 4
-
-  const totalProportion = Object.values(feeds).reduce((acc, curr) => {
-    return fixFloatingPoint(acc + curr.proportion / 100, 15)
-  }, 0.0)
-  if (totalProportion < 1) {
+  const newFeeds = deepCopy(feeds)
+  if (!proportionsCompleted(feeds)) {
+    // // add complement
+    newFeeds.push({
+      type: {
+        name: 'Ecart ingestion potentiel',
+        correspondingStock: 'EIP',
+        nutritional_values: {
+          UEL: 1,
+          UEB: 1,
+          UEM: 1,
+          UFL: 1,
+          PDI_inf: 1,
+          UFV: 1,
+          PDIN: 0,
+          PDIE: 0,
+          rejection: 0,
+        },
+      },
+      proportion: 100 - getTotalProportion(feeds),
+    })
     return 1
   }
 
-  const val = Object.values(feeds).reduce((acc, curr) => {
+  const val = Object.values(newFeeds).reduce((acc, curr) => {
     var DEF = 0
     if (curr.proportion > 0 && curr.type.nutritional_values[UEcolumn]) {
       DEF = fixFloatingPoint((curr.proportion / 100) * curr.type.nutritional_values[UEcolumn], precision)
@@ -33,6 +62,7 @@ const calculateBesoinMS = (ci = 1, toModerate = false, potential = 1, ueColumn, 
     moderator = 0.1582 * potential + 0.8392
   }
   const moderatedCI = ci * moderator
+
   return fixFloatingPoint(moderatedCI / calculateTotalUE(ueColumn, feeds), 4)
 }
 // H234 OK
@@ -323,6 +353,7 @@ const getUFFeedsByPeriod = (batch, after = false) => {
     console.error('batch_not_found')
     return
   }
+
   const UFcolumn = batch.profile.batch_type.UF_value_considered
   const UEcolumn = batch.profile.batch_type.UE_value_considered
 

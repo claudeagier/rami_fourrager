@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-container fluid>
     <div
       v-if="!standAlone"
       class="text-6 font-weight-medium"
@@ -13,7 +13,7 @@
       autoresize
       theme="infographic"
     />
-  </div>
+  </v-container>
 </template>
 
 <script>
@@ -130,6 +130,7 @@
             splitArea: {
               show: true,
             },
+            position: 'left',
           },
 
           visualMap: {
@@ -155,7 +156,6 @@
               data: dataProteicCoverage,
               label: {
                 show: true,
-                position: 'right',
               },
               emphasis: {
                 itemStyle: {
@@ -187,9 +187,10 @@
           options.grid = {
             left: '3%',
             right: '30%',
-            bottom: '3%',
+            bottom: '20%',
             // containLabel: true,
           }
+          options.yAxis.position = 'right'
         }
 
         return options

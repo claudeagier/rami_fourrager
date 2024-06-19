@@ -16,6 +16,7 @@
           theme="infographic"
           @mouseover="handleMouseOver"
           :init-options="initOptions"
+          @click="handleClick"
         />
       </div>
     </template>
@@ -163,6 +164,9 @@
     },
     methods: {
       handleMouseOver(params) {},
+      handleClick(params) {
+        this.$emit('click', params)
+      },
     },
   }
 </script>

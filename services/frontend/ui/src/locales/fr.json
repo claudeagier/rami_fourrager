@@ -286,7 +286,7 @@
         "quantity": "Quantité ( en kg brut/animal/j)"
       },
       "graph": {
-        "title": "Couverture des Besoins par les fourrages",
+        "title": "Couverture des Besoins",
         "energetic": "Energétique",
         "proteic": "Protéique"
       }

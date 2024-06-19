@@ -1,12 +1,16 @@
 <template>
   <div>
     <v-card>
-      <graph-feeds-requirements :selected-lot="selectedLot" />
+      <graph-feeds-requirements
+        :selected-lot="selectedLot"
+        @click="handleRequirementsClick"
+      />
     </v-card>
     <v-card>
       <graph-coverage
         :selected-lot="selectedLot"
         :stand-alone="true"
+        :selection="selectedPeriodIndex"
       />
     </v-card>
   </div>
@@ -30,6 +34,16 @@
       pageColor: {
         type: String,
         required: true,
+      },
+    },
+    data() {
+      return {
+        selectedPeriodIndex: null,
+      }
+    },
+    methods: {
+      handleRequirementsClick(params) {
+        this.selectedPeriodIndex = params.dataIndex
       },
     },
   }
