@@ -1,22 +1,35 @@
 <template>
-  <v-chart
-    ref="feedChart"
-    class="feed-chart"
-    :option="options"
-    autoresize
-    theme="infographic"
-    :init-options="initOptions"
-  />
+  <div>
+    <div
+      v-if="!standAlone"
+      class="text-6 font-weight-medium"
+    >
+      {{ $t('herd.classicfeed.graph.title') }}
+    </div>
+    <v-chart
+      ref="coverageChart"
+      class="coverage-chart"
+      :option="options"
+      autoresize
+      theme="infographic"
+    />
+  </div>
 </template>
 
 <script>
   import { mapGetters } from 'vuex'
   export default {
-    name: 'ClassicFeedGraph',
+    name: 'coverageGraph',
     props: {
       selectedLot: {
         type: null,
         required: true,
+      },
+      selection: {
+        type: null,
+      },
+      standAlone: {
+        type: Boolean,
       },
     },
     watch: {
@@ -30,27 +43,27 @@
         handler(newValue, oldValue) {
           if (oldValue != null) {
             const ov = oldValue + 1
-            this.$refs.feedChart.dispatchAction({
+            this.$refs.coverageChart.dispatchAction({
               type: 'downplay',
-              seriesName: 'days',
+              seriesName: 'proteicCoverage',
               name: 'P' + ov,
             })
-            this.$refs.feedChart.dispatchAction({
+            this.$refs.coverageChart.dispatchAction({
               type: 'downplay',
-              seriesName: 'animals',
+              seriesName: 'energeticCoverage',
               name: 'P' + ov,
             })
           }
           if (newValue != null) {
             const nv = newValue + 1
-            this.$refs.feedChart.dispatchAction({
+            this.$refs.coverageChart.dispatchAction({
               type: 'highlight',
-              seriesName: 'days',
+              seriesName: 'proteicCoverage',
               name: 'P' + nv,
             })
-            this.$refs.feedChart.dispatchAction({
+            this.$refs.coverageChart.dispatchAction({
               type: 'highlight',
-              seriesName: 'animals',
+              seriesName: 'energeticCoverage',
               name: 'P' + nv,
             })
           }
@@ -79,7 +92,7 @@
         // const periods = this.periods
         const periods = ['P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8', 'P9', 'P10', 'P11', 'P12', 'P13']
 
-        const rows = [this.$t('herd.classicfeed.graph.proteic'), this.$t('herd.classicfeed.graph.energetic')]
+        const rows = [this.$t('herd.concentratedfeed.graph.proteic'), this.$t('herd.concentratedfeed.graph.energetic')]
         const energeticCoverage = this.getFinalEnergeticCoverageByBatch(this.selectedLot)
         const proteicCoverage = this.getFinalProteicCoverageByBatch(this.selectedLot)
 
@@ -89,16 +102,10 @@
           dataEnergeticCoverage.push([i, 1, energeticCoverage[i] || '-'])
           dataProteicCoverage.push([i, 0, proteicCoverage[i] || '-'])
         }
-
-        return {
-          title: {
-            text: this.$t('herd.classicfeed.graph.title'),
-          },
+        const options = {
           grid: {
-            left: '3%',
-            right: '30%',
-            bottom: '3%',
-            containLabel: true,
+            height: '50%',
+            top: '10%',
           },
           tooltip: {
             show: false,
@@ -148,6 +155,7 @@
               data: dataProteicCoverage,
               label: {
                 show: true,
+                position: 'right',
               },
               emphasis: {
                 itemStyle: {
@@ -172,6 +180,19 @@
             },
           ],
         }
+        if (this.standAlone) {
+          options.title = {
+            text: this.$t('herd.concentratedfeed.graph.title'),
+          }
+          options.grid = {
+            left: '3%',
+            right: '30%',
+            bottom: '3%',
+            // containLabel: true,
+          }
+        }
+
+        return options
       },
     },
     methods: {},
@@ -179,7 +200,7 @@
 </script>
 
 <style scoped>
-  .feed-chart {
+  .coverage-chart {
     height: 20vh;
   }
 </style>

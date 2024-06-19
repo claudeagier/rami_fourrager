@@ -1,5 +1,10 @@
 <template>
   <v-container>
+    <graph-coverage
+      :selected-lot="selectedLot"
+      :selection="selectedPeriodIndex"
+      :stand-alone="false"
+    />
     <v-tabs
       centered
       :color="pageColor"
@@ -76,6 +81,7 @@
   import { mapGetters } from 'vuex'
   import ConcentratedFeedModal from './ConcentratedFeedModal.vue'
   import DuplicateModal from './DuplicateModal.vue'
+  import GraphCoverage from './GraphCoverage.vue'
 
   export default {
     name: 'ConcentratedFeed',
@@ -93,6 +99,7 @@
     components: {
       ConcentratedFeedModal,
       DuplicateModal,
+      GraphCoverage,
     },
     data() {
       return {

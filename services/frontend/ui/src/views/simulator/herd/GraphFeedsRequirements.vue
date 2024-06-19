@@ -1,12 +1,26 @@
 <template>
-  <v-chart
-    class="feeds-requirements-chart"
-    :option="options"
-    autoresize
-    theme="infographic"
-    @mouseover="handleMouseOver"
-    :init-options="initOptions"
-  />
+  <v-tooltip
+    right
+    open-delay="500"
+    dark
+  >
+    <template v-slot:activator="{ on, attrs }">
+      <div
+        v-bind="attrs"
+        v-on="on"
+      >
+        <v-chart
+          class="feeds-requirements-chart"
+          :option="options"
+          autoresize
+          theme="infographic"
+          @mouseover="handleMouseOver"
+          :init-options="initOptions"
+        />
+      </div>
+    </template>
+    <span class="text-block">{{ $t('herd.details.graph.comment') }}</span>
+  </v-tooltip>
 </template>
 
 <script>
@@ -152,3 +166,8 @@
     },
   }
 </script>
+<style>
+  .text-block {
+    white-space: pre;
+  }
+</style>

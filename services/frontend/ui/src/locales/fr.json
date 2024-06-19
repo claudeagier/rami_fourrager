@@ -284,6 +284,11 @@
         "title": "Ajouter un aliment concentré",
         "type": "Type de concentré",
         "quantity": "Quantité ( en kg brut/animal/j)"
+      },
+      "graph": {
+        "title": "Couverture des Besoins par les fourrages",
+        "energetic": "Energétique",
+        "proteic": "Protéique"
       }
     },
     "pasture": {
@@ -297,7 +302,12 @@
     },
     "details": {
       "modal": { "title": "Graphiques du Lot {batch}" },
-      "graph": { "title": "Besoins en matière sèche", "ms": "Besoin MS", "btn": "Afficher les graphiques" },
+      "graph": {
+        "title": "Besoins en matière sèche",
+        "ms": "Besoin MS",
+        "btn": "Afficher les graphiques",
+        "comment": "Comparer la quantité que le lot d'animaux choisi a besoin d'ingérer \n pour satisfaire ses besoins quantitatifs \n à ce qui est apporté par la ration de base (hors concentrés) "
+      },
       "profile": "Profil",
       "type": "Type de bétail",
       "count": "Nombre d'animaux",

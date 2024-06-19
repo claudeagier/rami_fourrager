@@ -35,7 +35,7 @@
               <v-col cols="5">
                 <v-card>
                   <v-card-title>
-                    <div class="text-h3 font-weight-light">{{ $t('barn.straw.title') }}</div>
+                    <div class="text-h4 font-weight-light">{{ $t('barn.straw.title') }}</div>
                   </v-card-title>
                   <v-card-text>
                     <v-text-field
@@ -49,7 +49,7 @@
                 </v-card>
                 <v-card>
                   <v-card-title>
-                    <div class="text-h3 font-weight-light">{{ $t('barn.concentrated.title') }}</div>
+                    <div class="text-h4 font-weight-light">{{ $t('barn.concentrated.title') }}</div>
                   </v-card-title>
                   <v-card-text>
                     <v-text-field
@@ -83,7 +83,7 @@
                           color="white"
                           flat
                         >
-                          <v-toolbar-title class="text-h3 font-weight-light">{{
+                          <v-toolbar-title class="text-h4 font-weight-light">{{
                             $t('barn.table.title')
                           }}</v-toolbar-title>
                           <v-divider
@@ -108,7 +108,7 @@
                             </template>
                             <v-card>
                               <v-card-title>
-                                <span class="text-h5">{{ $t('barn.modal.add_btn') }}</span>
+                                <span class="text-h4">{{ $t('barn.modal.add_btn') }}</span>
                               </v-card-title>
 
                               <v-card-text>

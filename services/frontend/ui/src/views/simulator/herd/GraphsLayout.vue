@@ -4,7 +4,10 @@
       <graph-feeds-requirements :selected-lot="selectedLot" />
     </v-card>
     <v-card>
-      <graph-coverage :selected-lot="selectedLot" />
+      <graph-coverage
+        :selected-lot="selectedLot"
+        :stand-alone="true"
+      />
     </v-card>
   </div>
 </template>

@@ -36,7 +36,7 @@
               <!-- Card pour le dimensionnement de la ferme -->
               <v-col cols="5">
                 <v-card>
-                  <v-card-title>{{ $t('farm.dimensioning.title') }}</v-card-title>
+                  <v-card-title class="text-h4 font-weight-light">{{ $t('farm.dimensioning.title') }}</v-card-title>
                   <v-card-text>
                     <v-form @submit.prevent="saveFarmDimensioning">
                       <v-row>
@@ -106,7 +106,7 @@
               <!-- Card pour la saisie des rotations des cultures -->
               <v-col cols="7">
                 <v-card>
-                  <v-card-title>{{ $t('farm.rotations.title') }}</v-card-title>
+                  <!-- <v-card-title class="text-h4 font-weight-light">{{ $t('farm.rotations.title') }}</v-card-title> -->
                   <v-card-text>
                     <v-data-table
                       :headers="headers"
@@ -119,7 +119,9 @@
                           color="white"
                           flat
                         >
-                          <v-toolbar-title> {{ $t('farm.rotations.table.title') }} </v-toolbar-title>
+                          <v-toolbar-title class="text-h4 font-weight-light">
+                            {{ $t('farm.rotations.table.title') }}
+                          </v-toolbar-title>
                           <v-divider
                             class="mx-4"
                             inset

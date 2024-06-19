@@ -39,12 +39,12 @@
             const ov = oldValue + 1
             this.$refs.feedChart.dispatchAction({
               type: 'downplay',
-              seriesName: 'days',
+              seriesName: 'proteicCoverage',
               name: 'P' + ov,
             })
             this.$refs.feedChart.dispatchAction({
               type: 'downplay',
-              seriesName: 'animals',
+              seriesName: 'energeticCoverage',
               name: 'P' + ov,
             })
           }
@@ -52,12 +52,12 @@
             const nv = newValue + 1
             this.$refs.feedChart.dispatchAction({
               type: 'highlight',
-              seriesName: 'days',
+              seriesName: 'proteicCoverage',
               name: 'P' + nv,
             })
             this.$refs.feedChart.dispatchAction({
               type: 'highlight',
-              seriesName: 'animals',
+              seriesName: 'energeticCoverage',
               name: 'P' + nv,
             })
           }
@@ -129,14 +129,16 @@
             min: 0,
             max: 100,
             calculable: true,
-            type: 'continuous',
+            type: 'piecewise',
+            pieces: [
+              { min: 0, max: 99.999, color: 'red' },
+              { min: 100, max: 119.999, color: 'green' },
+              { min: 120, max: 139.999, color: 'orange' },
+              { min: 140, color: 'red' },
+            ],
             orient: 'horizontal',
             left: 'center',
             bottom: '15%',
-            inRange: {
-              color: ['#DD2000', '#009000'], // From smaller to bigger value ->
-            },
-            // color: ['#d0648a', 'rgb(255,152,0)', 'rgba(255,152,0,0.2)'],
           },
           series: [
             {
