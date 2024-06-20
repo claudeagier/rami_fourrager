@@ -1,0 +1,160 @@
+{
+  "fichier_profil_animaux.csv": {
+    "model": "AnimalProfile",
+    "column_mapping": {
+      "Description": "name",
+      "Periode_MB": "period_MB",
+      "Age_mois": "age_mois",
+      "Sem_MB": "sem_MB",
+      "Poids_MB_kg": "weight_MB_kg",
+      "NEC_MB": "NEC_MB",
+      "Duree_lact_j": "lactation_duration",
+      "Poids_anx_naiss_kg": "weight_birth_kg",
+      "Product_lait_kg": "milk_product_kg",
+      "TR": "TR"
+    },
+    "relations": {
+      "batch_type": {
+        "model": "BatchType",
+        "to_fill": "False",
+        "column_mapping": {
+          "Type": "code"
+        },
+        "uniqueness_constraints": {
+          "onParent": ["code"]
+        },
+        "required": "True"
+      }
+    },
+    "uniqueness_constraints": {
+      "onParent": ["name"]
+    },
+    "has_pivot": {
+      "model": "AnimalProfilePeriod",
+      "on": "animal_profile_id",
+      "is_pivot": {
+        "with": "Period",
+        "on": "period_id",
+        "with_mapping": [
+          {
+            "on_name": "1",
+            "column_mapping": {
+              "CI1": "CI",
+              "UFL1": "UFL",
+              "PDI1": "PDI",
+              "PL1": "PL"
+            }
+          },
+          {
+            "on_name": "2",
+            "column_mapping": {
+              "CI2": "CI",
+              "UFL2": "UFL",
+              "PDI2": "PDI",
+              "PL2": "PL"
+            }
+          },
+          {
+            "on_name": "3",
+            "column_mapping": {
+              "CI3": "CI",
+              "UFL3": "UFL",
+              "PDI3": "PDI",
+              "PL3": "PL"
+            }
+          },
+          {
+            "on_name": "4",
+            "column_mapping": {
+              "CI4": "CI",
+              "UFL4": "UFL",
+              "PDI4": "PDI",
+              "PL4": "PL"
+            }
+          },
+          {
+            "on_name": "5",
+            "column_mapping": {
+              "CI5": "CI",
+              "UFL5": "UFL",
+              "PDI5": "PDI",
+              "PL5": "PL"
+            }
+          },
+          {
+            "on_name": "6",
+            "column_mapping": {
+              "CI6": "CI",
+              "UFL6": "UFL",
+              "PDI6": "PDI",
+              "PL6": "PL"
+            }
+          },
+          {
+            "on_name": "7",
+            "column_mapping": {
+              "CI7": "CI",
+              "UFL7": "UFL",
+              "PDI7": "PDI",
+              "PL7": "PL"
+            }
+          },
+          {
+            "on_name": "8",
+            "column_mapping": {
+              "CI8": "CI",
+              "UFL8": "UFL",
+              "PDI8": "PDI",
+              "PL8": "PL"
+            }
+          },
+          {
+            "on_name": "9",
+            "column_mapping": {
+              "CI9": "CI",
+              "UFL9": "UFL",
+              "PDI9": "PDI",
+              "PL9": "PL"
+            }
+          },
+          {
+            "on_name": "10",
+            "column_mapping": {
+              "CI10": "CI",
+              "UFL10": "UFL",
+              "PDI10": "PDI",
+              "PL10": "PL"
+            }
+          },
+          {
+            "on_name": "11",
+            "column_mapping": {
+              "CI11": "CI",
+              "UFL11": "UFL",
+              "PDI11": "PDI",
+              "PL11": "PL"
+            }
+          },
+          {
+            "on_name": "12",
+            "column_mapping": {
+              "CI12": "CI",
+              "UFL12": "UFL",
+              "PDI12": "PDI",
+              "PL12": "PL"
+            }
+          },
+          {
+            "on_name": "13",
+            "column_mapping": {
+              "CI13": "CI",
+              "UFL13": "UFL",
+              "PDI13": "PDI",
+              "PL13": "PL"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

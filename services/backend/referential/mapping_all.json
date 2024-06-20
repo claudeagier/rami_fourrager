@@ -1,0 +1,160 @@
+{
+  "fichier_sites.csv": {
+    "model": "Site",
+    "column_mapping": {
+      "site": "name"
+    },
+    "uniqueness_constraints": {
+      "onParent": ["name"]
+    }
+  },
+  "fichier_annees_climatique.csv": {
+    "model": "ClimaticYear",
+    "column_mapping": {
+      "annee": "name"
+    },
+    "relations": {
+      "site": {
+        "model": "Site",
+        "to_fill": "False",
+        "column_mapping": {
+          "site": "name"
+        },
+        "uniqueness_constraints": {
+          "onParent": ["name"]
+        },
+        "required": "True"
+      }
+    },
+    "uniqueness_constraints": {
+      "onParent": ["name"],
+      "onRelation": [
+        {
+          "relation_name": "site",
+          "contraint_mapping": {
+            "site": "name"
+          }
+        }
+      ]
+    }
+  },
+  "fichier_periods.csv": {
+    "model": "Period",
+    "column_mapping": {
+      "nom": "name",
+      "date_debut": "start_at",
+      "date_fin": "end_at"
+    },
+    "uniqueness_constraints": {
+      "onParent": ["name"]
+    }
+  },
+  "fichier_type_logement.csv": {
+    "model": "HousingType",
+    "column_mapping": {
+      "nom": "name",
+      "straw_requirement": "besoin_paille"
+    },
+    "uniqueness_constraints": {
+      "onParent": ["name"]
+    }
+  },
+  "fichier_aliments_concentres.csv": {
+    "model": "ConcentratedFeed",
+    "column_mapping": {
+      "nom": "name",
+      "stock_correspondant": "correspondingStock"
+    },
+    "uniqueness_constraints": {
+      "onParent": ["name"]
+    },
+    "relations": {
+      "nutritional_values": {
+        "model": "NutritionalValues",
+        "to_fill": "True",
+        "column_mapping": {
+          "UFL": "UFL",
+          "UFV": "UFV",
+          "PDIN": "PDIN",
+          "PDIE": "PDIE",
+          "PDIinf": "PDI_inf",
+          "source": "source"
+        },
+        "uniqueness_constraints": {
+          "onParent": ["UFL", "UFV", "PDIN", "PDIE", "PDI_inf"]
+        },
+        "required": "True"
+      }
+    }
+  },
+  "fichier_type_ration.csv": {
+    "model": "FeedType",
+    "column_mapping": {
+      "ration": "name",
+      "stock_correspondant": "correspondingStock"
+    },
+    "uniqueness_constraints": {
+      "onParent": ["name"]
+    },
+    "relations": {
+      "nutritional_values": {
+        "model": "NutritionalValues",
+        "to_fill": "True",
+        "column_mapping": {
+          "UEL": "UEL",
+          "UEB": "UEB",
+          "UEM": "UEM",
+          "UFL": "UFL",
+          "UFV": "UFV",
+          "PDI_inf": "PDI_inf",
+          "refus": "rejection",
+          "source": "source"
+        },
+        "uniqueness_constraints": {
+          "onParent": ["UEL", "UEB", "UEM", "UFL", "UFV", "PDI_inf"]
+        },
+        "required": "True"
+      }
+    }
+  },
+  "fichier_type_pature.csv": {
+    "model": "PastureType",
+    "column_mapping": {
+      "nom": "name"
+    },
+    "uniqueness_constraints": {
+      "onParent": ["name"]
+    },
+    "relations": {
+      "nutritional_values": {
+        "model": "NutritionalValues",
+        "to_fill": "True",
+        "column_mapping": {
+          "UFL": "UFL",
+          "UFV": "UFV",
+          "PDIN": "PDIN",
+          "PDIE": "PDIE",
+          "PDIinf": "PDI_inf",
+          "source": "source"
+        },
+        "uniqueness_constraints": {
+          "onParent": ["UFL", "UFV", "PDIN", "PDIE", "PDI_inf"]
+        },
+        "required": "True"
+      }
+    }
+  },
+  "fichier_type_animaux.csv": {
+    "model": "BatchType",
+    "column_mapping": {
+      "type": "code",
+      "description": "name",
+      "correspondance UE": "UE_value_considered",
+      "correspondance UF": "UF_value_considered",
+      "Colonne UF_concentrés": "UF_concentrated_value_considered"
+    },
+    "uniqueness_constraints": {
+      "onParent": ["name", "code"]
+    }
+  }
+}
