@@ -7,9 +7,10 @@
     <v-row>
       <v-col
         cols="12"
-        lg="6"
+        lg="3"
         class="pt-0 pb-0"
       >
+        <!-- referential -->
         <base-material-card color="#F39C12">
           <template v-slot:heading>
             <v-row>
@@ -45,27 +46,23 @@
               outlined
               color="#F39C12"
               @click="refresh"
+              class="text-h6"
             >
               {{ $t('workspace.referential.btn_refresh') }}
             </v-btn>
           </v-card-actions>
         </base-material-card>
-      </v-col>
-      <v-col
-        cols="12"
-        lg="6"
-        class="pt-0 pb-0"
-      >
         <actions />
       </v-col>
-    </v-row>
-    <v-row>
       <v-col
         cols="12"
-        lg="12"
+        lg="9"
         class="pt-0 pb-0"
       >
-        <base-material-card color="primary">
+        <base-material-card
+          color="primary"
+          min-height="38em"
+        >
           <template v-slot:heading>
             <v-row>
               <v-col cols="10">
@@ -77,6 +74,14 @@
             <workspace-content />
           </v-card-text>
         </base-material-card>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col
+        cols="12"
+        lg="12"
+        class="pt-0 pb-0"
+      >
       </v-col>
     </v-row>
   </v-container>

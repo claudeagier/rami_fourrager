@@ -9,6 +9,7 @@
         <v-tab
           v-for="(tab, tabIndex) in ['simulation', 'animalProfile', 'stic', 'feed']"
           :key="tabIndex"
+          class="text-h6"
         >
           {{ $t('workspace.content.tabs.' + tab) }}
         </v-tab>
@@ -37,6 +38,7 @@
                   outlined
                   color="primary"
                   @click="dialogs.simulation = true"
+                  class="text-h6"
                 >
                   {{ $t('workspace.content.datatables.simulation.create.btn') }}
                 </v-btn>
@@ -120,6 +122,7 @@
                   outlined
                   color="primary"
                   @click="dialogs.animalProfile = true"
+                  class="text-h6"
                 >
                   {{ $t('workspace.content.datatables.animalProfile.create.btn') }}
                 </v-btn>
@@ -173,6 +176,7 @@
                   outlined
                   color="primary"
                   @click="dialogs.stic = true"
+                  class="text-h6"
                 >
                   {{ $t('workspace.content.datatables.stic.create.btn') }}
                 </v-btn>

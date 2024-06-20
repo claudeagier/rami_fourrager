@@ -2,12 +2,12 @@
   <v-card
     v-bind="$attrs"
     :class="classes"
-    class="v-card--material pa-3"
+    class="v-card--material pa-3 mb-1"
   >
     <div class="d-flex grow flex-wrap">
       <v-sheet
         :class="{
-          'pa-7': !$slots.image,
+          'pa-4': !$slots.image,
         }"
         :color="color"
         :max-height="icon ? 90 : undefined"
@@ -34,27 +34,20 @@
         class="ml-auto text-right"
       >
         <div
-          class="body-6 font-weight-light"
+          class="text-lg-h4 text-sm-h6 text-md-h5 font-weight-light"
           v-text="title"
         />
       </div>
     </div>
-
-    <div class="ml-6">
-      <div
-        class="ml-auto text-right"
-        style="width: 100%"
-      >
-        <v-select
-          v-if="dropdownOptions"
-          v-model="selectedItem"
-          :items="dropdownOptions"
-          item-text="name"
-          item-value="id"
-        ></v-select>
-      </div>
+    <div class="ml-auto text-right">
+      <v-select
+        v-if="dropdownOptions"
+        v-model="selectedItem"
+        :items="dropdownOptions"
+        item-text="name"
+        item-value="id"
+      ></v-select>
     </div>
-
     <template v-if="$slots.actions">
       <v-divider class="mt-2" />
 
@@ -133,16 +126,11 @@
   }
 </script>
 
-<style lang="sass">
-  .v-card--material
-    &__avatar
-      position: relative
-      top: -64px
-      margin-bottom: -32px
-
-    &__heading
-      position: relative
-      top: -40px
-      transition: .3s ease
-      z-index: 1
+<style>
+  .select-card-icon {
+    width: 65px;
+    position: relative;
+    top: -1px;
+    left: -20px;
+  }
 </style>

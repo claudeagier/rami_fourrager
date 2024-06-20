@@ -241,7 +241,7 @@ export const getAvailableCarryOverPastureByAnimal = (batch, period, totalAvailab
   const priority = batch.priorityOrder
   const nbAnimals = batch.housing.presence[period].animalCount === 0 ? 1 : batch.housing.presence[period].animalCount
   if (priority === 0) {
-    // youpi c'est le premier lot à nourrire
+    // youpi c'est le premier lot à nourrir
     var excess = 0
     if (period > 0) {
       const h650 = getExcessPastureAfterBatchesPassed(batchs, totalAvailablePastureByPeriod, period - 1)
