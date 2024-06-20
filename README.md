@@ -1,52 +1,53 @@
-## Flask REST Plus, VueJS, and automated unit testing via Flask CLI 
-Test driven docker solution using VueJS, Flask, PostgresSQL, with swagger, & prebuilt authentication+JWT's running on NGINX/https
+## Flask REST Plus, VueJS, et tests unitaires automatisés via Flask CLI
 
-### 1. Getting Started
+Solution Docker basée sur le développement piloté par les tests (Test Driven Development) utilisant VueJS, Flask, PostgreSQL, avec Swagger, et authentification préconstruite + JWT, le tout fonctionnant sur NGINX/https.
+Il existe un fichier Make pour effectuer toutes les opérations nécessaires.
 
-``` docker-compose up -d --build ```
+### 1. Le fichier d'environnement
 
-
-### 2. Seed Postgres DB with Flask CLI
-
-```docker-compose exec backend python manage.py create```
-
-```docker-compose exec backend python manage.py seed```
-
-### The default login creds that seed the db are:
-
-<p><strong>User: </strong>  <em>avengers@gmail.com </em></p>
-<p><strong>Pass: </strong>  <em>supersecret </em></p>
+A la racine du projet,
+Renommer le fichier env.sample en .env
+Compléter le fichier .env avec les iformations nécessaires
 
 
-### 3. The VueJS UI will be on:
+### 2. Les fichiers à injecter en bdd
 
-``` https://localhost:4433/ ```
+Déposer les fichiers csv correctement formaté dans le répertoire services/backend/referential  
+Déposer les fichiers .json pour le mapping des données.
 
-### 4. The backend API routes will be on:
 
-``` https://localhost:4433/<api route> ```
 
-### 5. Then see the json returned from the users API route here:
+### 3. Get started
 
-``` http://localhost:5001/users ```
+```$ make init```
 
-### 6. Run automated unit tests
+### 4. Ajouter l'administrateur
+
+```$ make add-admin-user```
+
+### 5. Connection
+
+``` http://localhost:8080/ ```
+
+### 6. Les tests unitaires
 
 #### 1.Backend
 
-```docker-compose exec backend pytest "project/tests" -p no:warnings --cov="project"```
+```$ make backend-test```
 
 #### 2.Frontend
 
-expect/assert documentation: `https://jestjs.io/docs/expect`
-
 ```$ make frontend-test```
+
+expect/assert documentation: `https://jestjs.io/docs/expect`
 
 ### 7. Swagger URL
 
 ``` http://localhost:5001/swagger ```
 
 -----------------------------------------------------------
+
+### 8. Mise à jour des référentiels
 
 ### In case you need to regenerate SSL keys
 
@@ -58,7 +59,3 @@ Open the command line and run these commands inside the ```services/nginx/ssl```
 
 -----------------------------------------------------------
 
-``` $ python manage.py seed_data mapping_concentrate.json ```
-
-test un fichier
-```python -m pytest -k test_referential.py -W ignore```
