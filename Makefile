@@ -1,6 +1,21 @@
 
 .PHONY: install start stop
 
+# Charger les variables d'environnement du fichier .env
+ifneq (,$(wildcard ./.env))
+    include .env
+    export
+endif
+
+DB_CONTAINER = $(shell docker-compose ps -q db)
+DB_USER = $(DATABASE_USER)
+DB_NAME = $(DATABASE_NAME)
+
+export_data:
+	@echo "Exporting data from user and authorizations tables..."
+	@docker-compose exec db bash -c "psql -U $(DB_USER) -d $(DB_NAME) -c \"COPY (SELECT * FROM users) TO STDOUT WITH CSV HEADER DELIMITER ';' \" > /home/data/user_data.csv"
+	@docker cp $(DB_CONTAINER):/home/data/user_data.csv ./user_data.csv
+	@echo "Data export complete."
 
 refresh-service:
 	docker-compose up -d --build $(service)
@@ -30,7 +45,7 @@ update-stics:
 	docker-compose exec backend python manage.py seed mapping_baguettes_fourrage.json
 
 add-admin-dev:
-	docker-compose exec backend python manage.py add_admin_user totoescargot toto.escargot@jardin.com mangesalade
+	docker-compose exec backend python manage.py add_admin_user $(ADMIN_USER_NAME) $(ADMIN_USER_EMAIL) $(ADMIN_USER_PWD)
 
 backend-test:
 	docker-compose exec backend pytest "project/tests" -p no:warnings --cov="project"
