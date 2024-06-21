@@ -1,11 +1,11 @@
 
 .PHONY: install start stop
 
-# # Charger les variables d'environnement du fichier .env
-# ifneq (,$(wildcard ./.env))
-#     include .env
-#     export
-# endif
+# Charger les variables d'environnement du fichier .env
+ifneq (,$(wildcard ./.env))
+    include .env
+    export
+endif
 
 # DB_CONTAINER = $(shell docker-compose ps -q db)
 # DB_USER = $(DATABASE_USER)
