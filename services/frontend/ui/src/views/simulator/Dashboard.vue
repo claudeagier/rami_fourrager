@@ -79,7 +79,7 @@
             type="card"
           ></v-skeleton-loader>
         </v-col>
-        <v-col
+        <!-- <v-col
           cols="12"
           sm="7"
           lg="3"
@@ -91,10 +91,10 @@
             class="mt-8"
             type="card"
           ></v-skeleton-loader>
-        </v-col>
+        </v-col> -->
         <v-col
           class="pt-0 pb-0"
-          lg="3"
+          lg="6"
         >
           <base-material-card
             color="#F39C12"
@@ -252,38 +252,6 @@
             },
           },
         },
-        emailsSubscriptionChart: {
-          data: {
-            labels: ['Ja', 'Fe', 'Ma', 'Ap', 'Mai', 'Ju', 'Jul', 'Au', 'Se', 'Oc', 'No', 'De'],
-            series: [[542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895]],
-          },
-          options: {
-            axisX: {
-              showGrid: false,
-            },
-            low: 0,
-            high: 1000,
-            chartPadding: {
-              top: 0,
-              right: 5,
-              bottom: 0,
-              left: 0,
-            },
-          },
-          responsiveOptions: [
-            [
-              'screen and (max-width: 640px)',
-              {
-                seriesBarDistance: 2,
-                axisX: {
-                  labelInterpolationFnc: function (value) {
-                    return value[0]
-                  },
-                },
-              },
-            ],
-          ],
-        },
       }
     },
     created() {
@@ -321,11 +289,13 @@
             series: [this.availablePastures],
           },
           options: {
+            // width: '300px',
+            height: '100px',
             lineSmooth: this.$chartist.Interpolation.cardinal({
               tension: 0,
             }),
             low: 0,
-            high: 1000,
+            high: 2000,
             chartPadding: {
               top: 0,
               right: 0,
@@ -337,7 +307,7 @@
             [
               'screen and (max-width: 640px)',
               {
-                seriesBarDistance: 2,
+                seriesBarDistance: 1,
                 axisX: {
                   labelInterpolationFnc: function (value) {
                     return value[0]

@@ -35,7 +35,7 @@
               </v-form>
             </v-container>
           </v-card-text>
-          <v-card-actions>
+          <template v-slot:actions>
             <v-spacer />
             <v-btn
               color="primary"
@@ -43,7 +43,7 @@
             >
               {{ $t('btn.login') }}
             </v-btn>
-          </v-card-actions>
+          </template>
         </base-material-card>
       </v-col>
     </v-row>

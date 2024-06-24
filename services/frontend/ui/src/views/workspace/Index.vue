@@ -39,7 +39,7 @@
               {{ $t('workspace.referential.description') }}
             </div>
           </v-card-text>
-          <v-card-actions>
+          <template v-slot:actions>
             <v-spacer></v-spacer>
             <v-btn
               outlined
@@ -48,7 +48,7 @@
             >
               {{ $t('workspace.referential.btn_refresh') }}
             </v-btn>
-          </v-card-actions>
+          </template>
         </base-material-card>
       </v-col>
       <v-col
@@ -108,18 +108,25 @@
         },
       },
     },
+    data() {
+      return {
+        isRefresh: false,
+      }
+    },
     methods: {
       fetch(what, refresh) {
         const url = 'referential/fetch' + what
         this.$store
           .dispatch(url, refresh)
-          .then(
-            this.$toast({
-              message: this.$t('notifications.fetch.success', { itemName: this.$t(what) }),
-              type: 'info', // 'info', 'warning', 'error'
-              timeout: 300, // optional, defaults to 5000
-            })
-          )
+          .then((res) => {
+            if (this.isRefresh) {
+              this.$toast({
+                message: this.$t('notifications.fetch.success', { itemName: this.$t(what) }),
+                type: 'info', // 'info', 'warning', 'error'
+                timeout: 300, // optional, defaults to 5000
+              })
+            }
+          })
           .catch((err) => {
             console.error(err)
             this.$toast({
@@ -148,6 +155,7 @@
         })
       },
       refresh() {
+        this.isRefresh = true
         this.loadReferential(true)
       },
     },

@@ -12,7 +12,7 @@
         :ratio="ratio"
         :responsive-options="responsiveOptions"
         :type="type"
-        style="max-height: 150px;"
+        style="max-height: 100px"
       />
     </template>
 
@@ -43,7 +43,7 @@
       },
       eventHandlers: {
         type: Array,
-        default: () => ([]),
+        default: () => [],
       },
       options: {
         type: Object,
@@ -55,12 +55,12 @@
       },
       responsiveOptions: {
         type: Array,
-        default: () => ([]),
+        default: () => [],
       },
       type: {
         type: String,
         required: true,
-        validator: v => ['Bar', 'Line', 'Pie'].includes(v),
+        validator: (v) => ['Bar', 'Line', 'Pie'].includes(v),
       },
     },
   }
@@ -72,7 +72,7 @@
       color: #999
 
     .v-card--material__heading
-      max-height: 185px
+      max-height: 120px
 
       .ct-label
         color: inherit

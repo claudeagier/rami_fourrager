@@ -24,6 +24,7 @@ localForage.config({
 const saveSubsetOfState = (state) => ({
   auth: { lastConnectionDate: state.auth.lastConnectionDate, isAdmin: state.auth.isAdmin },
   referential: {
+    isUpToDate: state.referential.isUpToDate,
     animal_profiles: state.referential.animal_profiles,
     batch_types: state.referential.batch_types,
     climatic_years: state.referential.climatic_years,

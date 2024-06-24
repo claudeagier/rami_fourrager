@@ -4,8 +4,8 @@ import localForage from 'localforage'
 import { getCurrentDateTime, deepCopy } from '@/plugins/utils'
 
 // TODO-FRONT test all and continu
-async function fetch(what, since, commit, dispatch) {
-  if (since === null || since < getCurrentDateTime()) {
+async function fetch(what, since, commit, getters) {
+  if (!getters.isUpToDate(what) && (since === null || since < getCurrentDateTime())) {
     try {
       const response = await Vue.prototype.$axios.get(`/lists/${what}?lastConnectionDate=${since}`) // ajuster l'URL de l'API
       if (response.data.length > 0) {
@@ -13,6 +13,7 @@ async function fetch(what, since, commit, dispatch) {
       } else {
         // TODO-FRONT faire quelquechose pour dire que c'est à jour return true
       }
+      commit('listUpTodate', { what: what })
     } catch (error) {
       console.error(`Error fetching ${what} :`, error)
       throw error
@@ -85,6 +86,18 @@ export default {
     ],
     sites: [],
     stics: [],
+    isUpToDate: {
+      period: false,
+      site: false,
+      climatic_year: false,
+      stic: false,
+      batch_type: false,
+      animal_profile: false,
+      feed_type: false,
+      concentrated_feed: false,
+      housing_type: false,
+      pasture_type: false,
+    },
   },
   mutations: {
     addToList(state, { whats, to }) {
@@ -99,58 +112,73 @@ export default {
       })
       state[to].push(...customList)
     },
+    listUpTodate(state, { what }) {
+      state.isUpToDate[what] = !state.isUpToDate[what]
+    },
   },
   actions: {
-    async fetchPeriods({ commit, dispatch }, refresh) {
+    async fetchPeriods({ state, commit, getters }, refresh) {
       const since = !refresh ? await getLastConnectionDate() : null
-      fetch('period', since, commit, dispatch)
+      fetch('period', since, commit, getters)
     },
 
-    async fetchSites({ commit, dispatch }, refresh) {
+    async fetchSites({ state, commit, getters }, refresh) {
       const since = !refresh ? await getLastConnectionDate() : null
-      fetch('site', since, commit, dispatch)
+
+      fetch('site', since, commit, getters)
     },
 
-    async fetchClimaticYears({ commit, dispatch }, refresh) {
+    async fetchClimaticYears({ state, commit, getters }, refresh) {
       const since = !refresh ? await getLastConnectionDate() : null
-      fetch('climatic_year', since, commit, dispatch)
+
+      fetch('climatic_year', since, commit, getters)
     },
 
-    async fetchStics({ commit, dispatch }, refresh) {
+    async fetchStics({ state, commit, getters }, refresh) {
       const since = !refresh ? await getLastConnectionDate() : null
-      fetch('stic', since, commit, dispatch)
+
+      fetch('stic', since, commit, getters)
     },
 
-    async fetchBatchTypes({ commit, dispatch }, refresh) {
+    async fetchBatchTypes({ state, commit, getters }, refresh) {
       const since = !refresh ? await getLastConnectionDate() : null
-      fetch('batch_type', since, commit, dispatch)
+
+      fetch('batch_type', since, commit, getters)
     },
 
-    async fetchAnimalProfiles({ commit, dispatch }, refresh) {
+    async fetchAnimalProfiles({ state, commit, getters }, refresh) {
       const since = !refresh ? await getLastConnectionDate() : null
-      fetch('animal_profile', since, commit, dispatch)
+
+      fetch('animal_profile', since, commit, getters)
     },
 
-    async fetchFeedTypes({ commit, dispatch }, refresh) {
+    async fetchFeedTypes({ state, commit, getters }, refresh) {
       const since = !refresh ? await getLastConnectionDate() : null
-      fetch('feed_type', since, commit, dispatch)
+
+      fetch('feed_type', since, commit, getters)
     },
 
-    async fetchConcentratedFeeds({ commit, dispatch }, refresh) {
+    async fetchConcentratedFeeds({ state, commit, getters }, refresh) {
       const since = !refresh ? await getLastConnectionDate() : null
-      fetch('concentrated_feed', since, commit, dispatch)
+
+      fetch('concentrated_feed', since, commit, getters)
     },
 
-    async fetchHousingTypes({ commit, dispatch }, refresh) {
+    async fetchHousingTypes({ state, commit, getters }, refresh) {
       const since = !refresh ? await getLastConnectionDate() : null
-      fetch('housing_type', since, commit, dispatch)
+
+      fetch('housing_type', since, commit, getters)
     },
-    async fetchPastureTypes({ commit, dispatch }, refresh) {
+    async fetchPastureTypes({ state, commit, getters }, refresh) {
       const since = !refresh ? await getLastConnectionDate() : null
-      fetch('pasture_type', since, commit, dispatch)
+
+      fetch('pasture_type', since, commit, getters)
     },
   },
   getters: {
+    isUpToDate: (state) => (what) => {
+      return state.isUpToDate[what]
+    },
     // select lists
     animalProfileList: (state, getters, rootState) => (batchTypeId) => {
       var list = state.animal_profiles

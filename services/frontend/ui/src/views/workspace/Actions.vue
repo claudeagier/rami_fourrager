@@ -33,7 +33,7 @@
         {{ $t('workspace.actions.export.description') }}
       </div>
     </v-card-text>
-    <v-card-actions>
+    <template v-slot:actions>
       <v-spacer></v-spacer>
       <v-btn
         v-if="workspace.tag === undefined"
@@ -41,7 +41,6 @@
         color="#065c4a"
         @click="createWorkspace"
         class="text-h6"
-        small
       >
         {{ $t('workspace.actions.create.btn') }}
       </v-btn>
@@ -50,7 +49,6 @@
         color="#065c4a"
         @click="importWorkspace"
         class="text-h6"
-        small
       >
         {{ $t('workspace.actions.import.btn') }}
       </v-btn>
@@ -60,11 +58,10 @@
         color="#065c4a"
         @click="exportWorkspace"
         class="text-h6"
-        small
       >
         {{ $t('workspace.actions.export.btn') }}
       </v-btn>
-    </v-card-actions>
+    </template>
   </base-material-card>
 </template>
 
