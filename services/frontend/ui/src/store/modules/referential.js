@@ -22,7 +22,8 @@ async function fetch(what, since, commit, getters) {
 }
 async function getLastConnectionDate() {
   const workspace = await localForage.getItem('workspace')
-  const lcd = workspace.auth.lastConnectionDate
+
+  const lcd = workspace ? workspace.auth.lastConnectionDate : null
   return lcd
 }
 

@@ -51,80 +51,88 @@ const routes = [
       // Dashboard
       {
         name: 'simulation',
-        path: 'simulation/dashboard',
-        component: () => import('@/views/simulator/Dashboard'),
-        meta: {
-          breadCrumb(route) {
-            // const paramToPageB = route.params.paramToPageB;
-            return [
-              {
-                text: 'breadcrumb.simulation',
-                to: { name: 'simulation' },
+        path: 'simulation',
+        component: () => import('@/views/simulator/Index'),
+        children: [
+          {
+            name: 'dashboard',
+            path: 'dashboard',
+            component: () => import('@/views/simulator/Dashboard'),
+            meta: {
+              breadCrumb(route) {
+                // const paramToPageB = route.params.paramToPageB;
+                return [
+                  {
+                    text: 'breadcrumb.simulation',
+                    to: { name: 'simulation' },
+                  },
+                ]
               },
-            ]
+            },
           },
-        },
-      },
-      {
-        name: 'barn',
-        path: 'simulation/barn',
-        component: () => import('@/views/simulator/barn/Main'),
-        meta: {
-          breadCrumb(route) {
-            // const paramToPageB = route.params.paramToPageB;
-            return [
-              {
-                text: 'breadcrumb.simulation',
-                to: { name: 'simulation' },
+          {
+            name: 'barn',
+            path: 'barn',
+            component: () => import('@/views/simulator/barn/Main'),
+            meta: {
+              breadCrumb(route) {
+                // const paramToPageB = route.params.paramToPageB;
+                return [
+                  {
+                    text: 'breadcrumb.simulation',
+                    to: { name: 'simulation' },
+                  },
+                  {
+                    text: 'breadcrumb.farm',
+                    to: { name: 'barn' },
+                  },
+                ]
               },
-              {
-                text: 'breadcrumb.farm',
-                to: { name: 'barn' },
-              },
-            ]
+            },
           },
-        },
-      },
-      {
-        name: 'farm',
-        path: 'simulation/farm',
-        component: () => import('@/views/simulator/farm/Main'),
-        meta: {
-          breadCrumb(route) {
-            // const paramToPageB = route.params.paramToPageB;
-            return [
-              {
-                text: 'breadcrumb.simulation',
-                to: { name: 'simulation' },
+          {
+            name: 'farm',
+            path: 'farm',
+            component: () => import('@/views/simulator/farm/Main'),
+            meta: {
+              breadCrumb(route) {
+                // const paramToPageB = route.params.paramToPageB;
+                return [
+                  {
+                    text: 'breadcrumb.simulation',
+                    to: { name: 'simulation' },
+                  },
+                  {
+                    text: 'breadcrumb.farm',
+                    to: { name: 'farm' },
+                  },
+                ]
               },
-              {
-                text: 'breadcrumb.farm',
-                to: { name: 'farm' },
-              },
-            ]
+            },
           },
-        },
-      },
-      {
-        name: 'herd',
-        path: 'simulation/herd',
-        component: () => import('@/views/simulator/herd/Main'),
-        meta: {
-          breadCrumb(route) {
-            // const paramToPageB = route.params.paramToPageB;
-            return [
-              {
-                text: 'breadcrumb.simulation',
-                to: { name: 'simulation' },
+          {
+            name: 'herd',
+            path: 'herd',
+            component: () => import('@/views/simulator/herd/Main'),
+            meta: {
+              breadCrumb(route) {
+                // const paramToPageB = route.params.paramToPageB;
+                return [
+                  {
+                    text: 'breadcrumb.simulation',
+                    to: { name: 'simulation' },
+                  },
+                  {
+                    text: 'breadcrumb.herd',
+                    to: { name: 'herd' },
+                  },
+                ]
               },
-              {
-                text: 'breadcrumb.herd',
-                to: { name: 'herd' },
-              },
-            ]
+            },
           },
-        },
+        ],
       },
+
       // Tables
       {
         name: 'users',

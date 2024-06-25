@@ -4,36 +4,6 @@
     fluid
     tag="section"
   >
-    <v-dialog
-      :value="!simulation.loaded"
-      max-width="500"
-      persistent
-      no-click-animation
-      outlined
-    >
-      <v-card class="text-center">
-        <v-card-title class="text-h5"> {{ $t('dashboard.no_simulation_dialog.title') }} </v-card-title>
-        <v-card-text class="text-body-1 text-center">
-          {{ $t('dashboard.no_simulation_dialog.row1') }} <br />
-          {{ $t('dashboard.no_simulation_dialog.for') }} <br />
-          {{ $t('dashboard.no_simulation_dialog.row2') }} <br />
-          {{ $t('dashboard.no_simulation_dialog.or') }} <br />
-          {{ $t('dashboard.no_simulation_dialog.row3') }}
-        </v-card-text>
-
-        <v-card-actions>
-          <v-spacer />
-
-          <v-btn
-            color="primary"
-            outlined
-            @click="goToWorkspace"
-          >
-            {{ $t('dashboard.no_simulation_dialog.btn_workspace') }}
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
     <div v-if="simulation.loaded">
       <!-- <div>{{ simulator.simulationName }}</div> -->
       <v-row>
@@ -224,7 +194,6 @@
 
   export default {
     name: 'Dashboard',
-    components: {},
     mixins: [navigationGuard],
     confirmNavigation(callback) {
       this.$confirmNavigation(callback)
@@ -329,9 +298,6 @@
       ...mapActions('workspace', { activateSimulation: 'activateSimulation' }),
       addSimulationToWorkspace() {
         this.$store.commit('workspace/addSimulation', this.simulation)
-      },
-      goToWorkspace() {
-        this.$router.push('/workspace')
       },
       loadSimulation(simulation) {
         this.setSimulation({

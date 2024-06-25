@@ -31,17 +31,25 @@
               {{ $t('workspace.referential.description') }}
             </div>
             <div v-else>
-              {{
-                $t('workspace.referential.toUpdate', { date: new Date(lastConnectionDate).toLocaleDateString('fr-FR') })
-              }}
-              <br />
-              <br />
-              {{ $t('workspace.referential.description') }}
+              <v-alert
+                text
+                prominent
+                type="warning"
+              >
+                {{
+                  $t('workspace.referential.toUpdate', {
+                    date: new Date(lastConnectionDate).toLocaleDateString('fr-FR'),
+                  })
+                }}
+                <br />
+                {{ $t('workspace.referential.description') }}
+              </v-alert>
             </div>
           </v-card-text>
           <template v-slot:actions>
             <v-spacer></v-spacer>
             <v-btn
+              :class="{ 'animate-button': animateReferentialButton }"
               outlined
               color="#F39C12"
               @click="refresh"
@@ -74,7 +82,24 @@
             </v-row>
           </template>
           <v-card-text>
-            <workspace-content />
+            <div v-if="workspace.tag">
+              <workspace-content />
+            </div>
+            <div v-else>
+              <v-alert
+                text
+                prominent
+                type="warning"
+              >
+                <div>pas de workspace</div>
+              </v-alert>
+              <v-skeleton-loader
+                loading-text="PAS DE WORKSPACE"
+                max-height="300px"
+                class="mt-8"
+                type="table"
+              ></v-skeleton-loader>
+            </div>
           </v-card-text>
         </base-material-card>
       </v-col>
@@ -93,7 +118,12 @@
       WorkspaceContent,
     },
     created() {
-      this.loadReferential(false)
+      if (this.lastConnectionDate !== undefined) {
+        this.animateReferentialButton = false
+      }
+      if (this.lastConnectionDate === null) {
+        this.loadReferential(false)
+      }
     },
     computed: {
       ...mapState('auth', {
@@ -111,6 +141,8 @@
     data() {
       return {
         isRefresh: false,
+        animateReferentialButton: true,
+        animateWorkspaceCreation: true,
       }
     },
     methods: {
@@ -153,6 +185,7 @@
         referential.forEach((what) => {
           this.fetch(what, refresh)
         })
+        this.$store.commit('auth/setLastConnectionDate')
       },
       refresh() {
         this.isRefresh = true
@@ -161,3 +194,22 @@
     },
   }
 </script>
+<style scoped>
+  /* Définissez les animations CSS */
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  /* Appliquez l'animation au bouton lorsque la classe animate-button est activée */
+  .animate-button {
+    animation: pulse 0.5s ease 3;
+  }
+</style>

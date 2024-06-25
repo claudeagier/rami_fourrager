@@ -47,6 +47,9 @@ export default {
       state.refreshToken = ''
       state.lastConnectionDate = getCurrentDateTime()
     },
+    setLastConnectionDate(state) {
+      state.lastConnectionDate = getCurrentDateTime()
+    },
   },
   actions: {
     login({ commit }, user) {

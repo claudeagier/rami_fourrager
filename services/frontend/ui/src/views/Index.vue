@@ -6,7 +6,7 @@
 
     <app-core-view />
 
-    <app-core-settings />
+    <!-- <app-core-settings /> -->
   </v-app>
 </template>
 
@@ -17,7 +17,7 @@
     components: {
       AppCoreAppBar: () => import('@/components/core/AppBar'),
       AppCoreDrawer: () => import('@/components/core/Drawer'),
-      AppCoreSettings: () => import('@/components/core/Settings'),
+      // AppCoreSettings: () => import('@/components/core/Settings'),
       AppCoreView: () => import('@/components/core/View'),
     },
 

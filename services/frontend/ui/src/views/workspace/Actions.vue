@@ -10,10 +10,16 @@
     <v-card-text class="text-body-2">
       <!-- création de l'espace de travail dans le state -->
       <div v-if="workspace.tag === undefined">
-        {{ $t('workspace.actions.create.content') }}
-        <br />
-        <br />
-        {{ $t('workspace.actions.create.description') }}
+        <v-alert
+          dense
+          text
+          prominent
+          type="warning"
+        >
+          {{ $t('workspace.actions.create.content') }}
+          <br />
+          {{ $t('workspace.actions.create.description') }}
+        </v-alert>
       </div>
 
       <!-- si j'ai un workspace de paramétré dans le state avec un tag exporté -->
@@ -41,6 +47,7 @@
         color="#065c4a"
         @click="createWorkspace"
         class="text-h6"
+        :class="{ 'animate-button': animateWorkspaceCreation }"
       >
         {{ $t('workspace.actions.create.btn') }}
       </v-btn>
@@ -75,6 +82,7 @@
     data() {
       return {
         showImportModal: false, // Ajout d'une propriété pour contrôler l'affichage de la modal d'importation
+        animateWorkspaceCreation: true,
       }
     },
     computed: {
@@ -87,6 +95,11 @@
           return this.getWorkspace
         },
       },
+    },
+    created() {
+      if (this.workspace.tag) {
+        this.animateWorkspaceCreation = false
+      }
     },
     methods: {
       ...mapMutations('workspace', {
@@ -224,3 +237,22 @@
     },
   }
 </script>
+<style scoped>
+  /* Définissez les animations CSS */
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  /* Appliquez l'animation au bouton lorsque la classe animate-button est activée */
+  .animate-button {
+    animation: pulse 0.5s ease 3;
+  }
+</style>
