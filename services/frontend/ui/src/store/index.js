@@ -40,8 +40,10 @@ const saveSubsetOfState = (state) => ({
 })
 
 const localStorage = new VuexPersist({
+  strictMode: debug,
   key: 'workspace',
   storage: localForage,
+  supportCircular: true,
   asyncStorage: true,
   reducer: saveSubsetOfState,
   // modules: ['auth'],

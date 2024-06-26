@@ -219,6 +219,7 @@ export default {
     getClimaticYearById: (state) => (id) => {
       return state.climatic_years.find((el) => el.id === id)
     },
+
     sticList: (state, getters, rootState) => (climaticYearId) => {
       var list = state.stics
       if (rootState.workspace.workspace.stics.length > 0) {
@@ -228,6 +229,10 @@ export default {
         return stic.climatic_year_id === climaticYearId
       })
       return filtered
+    },
+
+    getSticByName: (state, getters) => (climaticYear, name) => {
+      return getters.sticList(climaticYear).find((el) => el.name === name)
     },
   },
 }

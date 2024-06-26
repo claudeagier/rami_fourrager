@@ -1,4 +1,4 @@
-import { deepEqual } from '../../plugins/utils'
+import { deepEqual, deepCopy } from '../../plugins/utils'
 
 export default {
   namespaced: true,
@@ -21,6 +21,18 @@ export default {
     addSimulation(state, simulation) {
       simulation.lastModifiedDate = new Date().toLocaleDateString('fr-FR')
       state.workspace.simulations.push(simulation)
+    },
+    updateSimulation(state, { key, value }) {
+      if (state.workspace.simulations !== undefined) {
+        // je prends la simulation activé
+        let finded = state.workspace.simulations.find((sim) => sim.loaded === true)
+        // je modifie la valeur donnée pour la clé donnée
+        if (key === 'all') {
+          finded = value
+        } else {
+          finded[key] = value
+        }
+      }
     },
     deleteSimulation(state, simulation) {
       const finded = state.workspace.simulations.indexOf(simulation)
@@ -85,8 +97,7 @@ export default {
   actions: {
     loadSimulator({ state, commit, dispatch, getters }, simulation) {
       commit('activateSimulation', simulation)
-
-      const sim = getters.getActivatedSimulation
+      const sim = deepCopy(getters.getActivatedSimulation)
       commit('simulator/setSimulation', sim, { root: true })
       commit('simulator/farm/setFarm', sim.farm, { root: true })
       commit('simulator/barn/setBarn', sim.barn, { root: true })

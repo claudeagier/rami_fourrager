@@ -64,7 +64,7 @@ const routes = [
                 return [
                   {
                     text: 'breadcrumb.simulation',
-                    to: { name: 'simulation' },
+                    to: { name: 'dashboard' },
                   },
                 ]
               },
@@ -80,7 +80,7 @@ const routes = [
                 return [
                   {
                     text: 'breadcrumb.simulation',
-                    to: { name: 'simulation' },
+                    to: { name: 'dashboard' },
                   },
                   {
                     text: 'breadcrumb.farm',
@@ -100,7 +100,7 @@ const routes = [
                 return [
                   {
                     text: 'breadcrumb.simulation',
-                    to: { name: 'simulation' },
+                    to: { name: 'dashboard' },
                   },
                   {
                     text: 'breadcrumb.farm',
@@ -120,7 +120,7 @@ const routes = [
                 return [
                   {
                     text: 'breadcrumb.simulation',
-                    to: { name: 'simulation' },
+                    to: { name: 'dashboard' },
                   },
                   {
                     text: 'breadcrumb.herd',

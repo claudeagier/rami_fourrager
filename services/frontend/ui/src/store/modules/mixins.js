@@ -87,7 +87,7 @@ const calculateProteicBesoin = (pdi, toModerate = false, potential = 1) => {
 // *******************************************************//
 
 // H28 production pature totale, w29 energetic total et w30 proteic total
-export const setTotalAvailablePasture = (state, rootState) => {
+export const setTotalAvailablePasture = (state, rootState, rootGetters) => {
   const precision = 15
   const totalAvailablePastureByPeriod = {}
   rootState.referential.periods.forEach((period) => {
@@ -95,7 +95,8 @@ export const setTotalAvailablePasture = (state, rootState) => {
       const key = 'period_id_' + period.id
       const total = Object.values(state.rotations).reduce((total, rotation) => {
         // find stic in sticList
-        const sp = rotation.stic.stic_periods.find((el) => el.period_id === period.id)
+        const stic = rootGetters['referential/getSticByName'](rootState.simulator.climaticYear, rotation.name)
+        const sp = stic.stic_periods.find((el) => el.period_id === period.id)
         var calcul = 0
         if (sp.farming_method === 'P' && sp.production > 0) {
           calcul = fixFloatingPoint(sp.production * rotation.surface, precision)
@@ -104,11 +105,13 @@ export const setTotalAvailablePasture = (state, rootState) => {
       }, 0) // ok
       const UF = Object.values(state.rotations).reduce((uf, rotation) => {
         // find stic in sticList
-        const sp = rotation.stic.stic_periods.find((el) => el.period_id === period.id)
+        const stic = rootGetters['referential/getSticByName'](rootState.simulator.climaticYear, rotation.name)
+
+        const sp = stic.stic_periods.find((el) => el.period_id === period.id)
         var num = 0
         if (sp.farming_method === 'P' && sp.production > 0) {
           num = fixFloatingPoint(
-            ((sp.production * rotation.surface) / total) * rotation.stic.pasture_type.nutritional_values.UFL,
+            ((sp.production * rotation.surface) / total) * stic.pasture_type.nutritional_values.UFL,
             precision
           )
         }
@@ -117,13 +120,12 @@ export const setTotalAvailablePasture = (state, rootState) => {
 
       const PDI = Object.values(state.rotations).reduce((pdi, rotation) => {
         // find stic in sticList
-        const sp = rotation.stic.stic_periods.find((el) => el.period_id === period.id)
+        const stic = rootGetters['referential/getSticByName'](rootState.simulator.climaticYear, rotation.name)
+
+        const sp = stic.stic_periods.find((el) => el.period_id === period.id)
         if (sp.farming_method === 'P' && sp.production > 0) {
           const calcul = sp.production * rotation.surface
-          const num = fixFloatingPoint(
-            (calcul / total) * rotation.stic.pasture_type.nutritional_values.PDI_inf,
-            precision
-          )
+          const num = fixFloatingPoint((calcul / total) * stic.pasture_type.nutritional_values.PDI_inf, precision)
           return pdi + num
         }
         return pdi
@@ -686,7 +688,9 @@ export function getProteicCoverage(state, rootState, batchId) {
 
   return proteicCoverage
 }
-export function dispatchProduction(state, rootState) {
+
+// TODO-FRONT je crois que j'ai un gros problème
+export function dispatchProduction(state, rootState, rootGetters) {
   var totalBarnStock = []
   var barnStockByPeriod = Array.from({ length: 13 }, () => null)
   let totalStrawStock = 0
@@ -695,7 +699,8 @@ export function dispatchProduction(state, rootState) {
   for (let index = 0; index < rootState.referential.periods.length; index++) {
     for (const rotation of state.rotations) {
       // find stic in sticList
-      const sp = rotation.stic.stic_periods[index]
+      const stic = rootGetters['referential/getSticByName'](rootState.simulator.climaticYear, rotation.name)
+      const sp = stic.stic_periods[index]
       if (sp.farming_method !== '' && sp.production > 0) {
         // répartition du stock au global
         const foundTotalStock = totalBarnStock.find((item) => item.code === sp.farming_method)
@@ -740,8 +745,8 @@ export function dispatchProduction(state, rootState) {
 
         // le stock de paille produit en kg car rendement en kg/ha et surface en ha
 
-        if (rotation.stic.rendement) {
-          totalStrawStock += rotation.stic.rendement * rotation.surface
+        if (stic.rendement) {
+          totalStrawStock += stic.rendement * rotation.surface
         }
       }
     }

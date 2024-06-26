@@ -128,7 +128,7 @@
         getAnimalProfiles: 'animalProfileList',
         periods: 'periodList',
       }),
-      ...mapGetters('herd', {
+      ...mapGetters('simulator/herd', {
         getNewBatchId: 'getNewBatchId',
       }),
     },
@@ -144,7 +144,7 @@
             days: 0,
           }))
           // TODO-FRONT pour l'instant le premier créé est le premier servi
-          this.lotItem.id = this.getNewBatchId()
+          this.lotItem.id = this.getNewBatchId
           this.lotItem.priorityOrder = this.lotItem.id
           this.lotItem.classicFeeds = Array.from(this.periods, (period) => ({
             period: period,

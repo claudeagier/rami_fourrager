@@ -46,7 +46,11 @@ export default {
       state.climaticYear = cy
     },
   },
-  actions: {},
+  actions: {
+    applyTo({ state, commit }, key) {
+      commit('workspace/updateSimulation', { key: key, value: state[key] }, { root: true })
+    },
+  },
   getters: {
     simulationName: (state) => state.name,
     balanceSheet: (state) => state.bilan,

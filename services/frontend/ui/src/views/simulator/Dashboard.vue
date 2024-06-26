@@ -9,12 +9,12 @@
       <v-row>
         <v-col
           cols="12"
-          sm="7"
+          sm="3"
           lg="3"
           class="pt-0 pb-0"
         >
           <base-select-card
-            :model="selectedSite"
+            :model="simulation.site"
             color="red"
             icon="mdi-earth"
             title="Site"
@@ -26,13 +26,13 @@
         </v-col>
         <v-col
           cols="12"
-          sm="7"
+          sm="3"
           lg="3"
           class="pt-0 pb-0"
         >
           <base-select-card
-            v-if="selectedSite != null"
-            :model="selectedCY"
+            v-if="simulation.site != null"
+            :model="simulation.climaticYear"
             color="orange"
             icon="mdi-thermometer-lines"
             title="Année climatique"
@@ -43,25 +43,12 @@
             @change="handleCYchange"
           />
           <v-skeleton-loader
-            v-if="selectedSite === null"
+            v-if="simulation.site === null"
             max-height="130"
             class="mt-8"
             type="card"
           ></v-skeleton-loader>
         </v-col>
-        <!-- <v-col
-          cols="12"
-          sm="7"
-          lg="3"
-          class="pt-0 pb-0"
-        >
-          <v-skeleton-loader
-            v-if="selectedSite === null"
-            max-height="130"
-            class="mt-8"
-            type="card"
-          ></v-skeleton-loader>
-        </v-col> -->
         <v-col
           class="pt-0 pb-0"
           lg="6"
@@ -224,15 +211,13 @@
       }
     },
     created() {
-      if (this.selectedSite) {
-        this.climaticYears = this.getClimaticYearList(this.selectedSite)
+      if (this.simulation.site) {
+        this.climaticYears = this.getClimaticYearList(this.simulation.site)
       }
     },
     computed: {
       ...mapState('simulator', {
         simulation: (state) => state,
-        selectedSite: (state) => state.site,
-        selectedCY: (state) => state.climaticYear,
       }),
       ...mapGetters('referential', {
         siteList: 'siteList',
@@ -241,12 +226,6 @@
       }),
       ...mapGetters('simulator/farm', {
         availablePastures: 'getAvailablePasture',
-      }),
-      ...mapGetters('simulator/farm', {
-        availablePastures: 'getAvailablePasture',
-      }),
-      ...mapGetters('workspace', {
-        getActivatedSimulation: 'getActivatedSimulation',
       }),
 
       farmGraph() {
@@ -290,36 +269,22 @@
       },
     },
     methods: {
-      ...mapMutations('simulator', { setSimulation: 'setSimulation' }),
       ...mapMutations('simulator', {
-        setSite: 'setSite',
         setClimaticYear: 'setClimaticYear',
       }),
-      ...mapActions('workspace', { activateSimulation: 'activateSimulation' }),
-      addSimulationToWorkspace() {
-        this.$store.commit('workspace/addSimulation', this.simulation)
-      },
-      loadSimulation(simulation) {
-        this.setSimulation({
-          name: simulation.name,
-          site: simulation.site,
-          climaticYear: simulation.climaticYear,
-          loaded: true,
-        })
-        this.activateSimulation(simulation)
-        this.$toast({
-          message: this.$t('notifications.simulation_loaded_success'),
-          type: 'success',
-          timeout: 3000,
-        })
-        // this.$router.push('/simulation')
-      },
+
       handleSiteChange(id) {
-        this.setSite(id)
+        this.$store.commit('simulator/setSite', id)
+        this.$store.dispatch('simulator/applyTo', 'site')
         this.climaticYears = this.getClimaticYearList(id)
       },
       handleCYchange(id) {
         this.setClimaticYear(id)
+        // set localForage
+        this.$store.dispatch('simulator/applyTo', 'climaticYear')
+        // recharger la ferme avec les nouvelles baguettes
+        this.$store.dispatch('simulator/farm/setTotalAvailablePastureByPeriod')
+        this.$store.dispatch('simulator/farm/dispatchProduction')
       },
     },
   }

@@ -147,7 +147,10 @@
     "main": {
       "title": "La grange",
       "subtitle": "Gérer votre grange",
-      "btn_apply": "Appliquer à la simulation"
+      "btn_apply": "Appliquer à la simulation",
+      "messages": {
+        "apply_success": "les modifications sont appliquées à la simulation"
+      }
     },
     "straw": {
       "title": "Stock de paille disponible au 1er janvier",
@@ -170,7 +173,11 @@
       "name": "Nom",
       "quantity": "Quantité (en tMS)",
       "unity": "Unité",
-      "actions": "Actions"
+      "actions": "Actions",
+      "dialog": {
+        "add_success": "Le stock est ajouté",
+        "delete_success": "Le stock est supprimé"
+      }
     }
   },
   "farm": {
@@ -178,7 +185,10 @@
     "main": {
       "title": "La ferme",
       "subtitle": "Gérer votre ferme",
-      "btn_apply": "Appliquer à la simulation"
+      "btn_apply": "Appliquer à la simulation",
+      "messages": {
+        "apply_success": "les modifications sont appliquées à la simulation"
+      }
     },
     "dimensioning": {
       "title": "Dimensionnement de la Ferme",
@@ -199,6 +209,11 @@
           "constraint": "Contrainte",
           "surface": "Surface",
           "actions": "Actions"
+        },
+        "dialog": {
+          "add_success": "La surface est allouée",
+          "add_error": "La surface n'est pas allouée",
+          "delete_success": "La surface est desallouée"
         }
       },
       "modal": {

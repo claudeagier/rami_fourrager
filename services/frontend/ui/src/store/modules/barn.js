@@ -59,14 +59,11 @@ export default {
     totalConcentratedStock: (state) => {
       return state.initialConcentratedStock.energeticQuantity + state.initialConcentratedStock.proteicQuantity
     },
-    initialStrawStock: (state) => state.initialStrawStock,
-    // barnStockTypes: (state) => {
-    //   return state.initialFeedStock.map((item) => item.type)
-    // },
+    getInitialStrawStock: (state) => state.initialStrawStock,
   },
   actions: {
     setStock({ state, commit }) {
-      // commit('setStock', state.initialFeedStock)
+      commit('workspace/updateSimulation', { key: 'barn', value: state }, { root: true })
     },
   },
 }

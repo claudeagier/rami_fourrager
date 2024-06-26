@@ -127,12 +127,15 @@ export default {
     },
   },
   actions: {
-    setTotalAvailablePastureByPeriod({ state, rootState, commit }) {
-      const totalAvailablePastureByPeriod = setTotalAvailablePasture(state, rootState)
+    applyToWorkspace({ state, commit }) {
+      commit('workspace/updateSimulation', { key: 'farm', value: state }, { root: true })
+    },
+    setTotalAvailablePastureByPeriod({ state, rootState, commit, rootGetters }) {
+      const totalAvailablePastureByPeriod = setTotalAvailablePasture(state, rootState, rootGetters)
       commit('setTotalAvailablePastureByPeriod', totalAvailablePastureByPeriod)
     },
-    dispatchProduction({ state, rootState, commit, dispatch }) {
-      const production = dispatchProduction(state, rootState)
+    dispatchProduction({ state, rootState, commit, rootGetters }) {
+      const production = dispatchProduction(state, rootState, rootGetters)
       commit('simulator/barn/setTotalStock', production.totalBarnStock, { root: true })
       commit('simulator/barn/setTotalStrawStockProducted', production.totalStrawStock, { root: true })
       commit('simulator/barn/setStockByPeriod', production.barnStockByPeriod, { root: true })

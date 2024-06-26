@@ -89,16 +89,6 @@
                           ></v-text-field>
                         </v-col>
                       </v-row>
-                      <!-- <v-row>
-                        <v-col cols="12">
-                          <v-btn
-                            type="submit"
-                            color="primary"
-                          >
-                            Enregistrer
-                          </v-btn>
-                        </v-col>
-                      </v-row> -->
                     </v-form>
                   </v-card-text>
                 </v-card>
@@ -106,7 +96,6 @@
               <!-- Card pour la saisie des rotations des cultures -->
               <v-col cols="7">
                 <v-card>
-                  <!-- <v-card-title class="text-h4 font-weight-light">{{ $t('farm.rotations.title') }}</v-card-title> -->
                   <v-card-text>
                     <v-data-table
                       :headers="headers"
@@ -152,16 +141,14 @@
                                   <v-container>
                                     <v-row>
                                       <v-col cols="12">
-                                        <!-- find stic in sticList -->
                                         <v-autocomplete
-                                          v-model="rotationItem.stic"
+                                          v-model="rotationItem.name"
                                           :items="sticList"
                                           :label="$t('farm.rotations.modal.name')"
                                           item-text="name"
-                                          item-value="id"
+                                          item-value="name"
                                           dense
                                           filled
-                                          return-object
                                           class="autocomplet-transparent-background"
                                           :rules="required"
                                         >
@@ -272,7 +259,6 @@
           name: '',
           constraint: '',
           surface: null,
-          stic: null,
           // Ajoutez les champs pour les périodes de production
         },
         showRotationItemDialog: false,
@@ -377,9 +363,7 @@
       },
       saveRotationItem() {
         if (this.$refs.rotationForm.validate()) {
-          if (this.rotationItem && this.rotationItem.stic) {
-            // this.rotationItem.soil = this.rotationItem.stic.code
-            this.rotationItem.name = this.rotationItem.stic.name
+          if (this.rotationItem) {
             if (this.oldRotationitem) {
               this.$store.commit('simulator/farm/updateRotation', {
                 newRotation: this.rotationItem,
@@ -388,15 +372,31 @@
             } else {
               this.$store.commit('simulator/farm/createRotation', this.rotationItem)
             }
+            this.$toast({
+              message: this.$t('farm.rotations.table.dialog.add_success'),
+              type: 'success',
+              timeout: 3000,
+            })
+
             this.showRotationItemDialog = false
             this.clearRotationItem()
           } else {
+            this.$toast({
+              message: this.$t('farm.rotations.table.dialog.add_error'),
+              type: 'error',
+              timeout: 5000,
+            })
             return false
           }
         }
       },
       deleteRotationItem(item) {
         this.$store.commit('simulator/farm/deleteRotation', item)
+        this.$toast({
+          message: this.$t('farm.rotations.table.dialog.delete_success'),
+          type: 'success',
+          timeout: 3000,
+        })
       },
       clearRotationItem() {
         this.rotationItem = {
@@ -404,7 +404,6 @@
           name: '',
           constraint: '',
           surface: null,
-          stic: null,
         }
         this.oldRotationitem = null
         this.$refs.rotationForm.reset()
@@ -413,6 +412,12 @@
         // this.$store.commit('setRotations', this.rotations)
         this.$store.dispatch('simulator/farm/setTotalAvailablePastureByPeriod')
         this.$store.dispatch('simulator/farm/dispatchProduction')
+        this.$store.dispatch('simulator/farm/applyToWorkspace')
+        this.$toast({
+          message: this.$t('farm.main.messages.apply_success'),
+          type: 'success',
+          timeout: 3000,
+        })
       },
     },
   }

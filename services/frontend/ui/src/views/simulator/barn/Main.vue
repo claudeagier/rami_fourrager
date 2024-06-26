@@ -83,9 +83,9 @@
                           color="white"
                           flat
                         >
-                          <v-toolbar-title class="text-h4 font-weight-light">{{
-                            $t('barn.table.title')
-                          }}</v-toolbar-title>
+                          <v-toolbar-title class="text-h4 font-weight-light">
+                            {{ $t('barn.table.title') }}
+                          </v-toolbar-title>
                           <v-divider
                             class="mx-4"
                             inset
@@ -302,11 +302,11 @@
         initialFeedStock: 'initialFeedStock',
         initialConcentratedStock: 'initialConcentratedStock',
         totalConcentratedStock: 'totalConcentratedStock',
-        initialStrawStock: 'initialStrawStock',
+        strawStock: 'getInitialStrawStock',
       }),
       strawQuantity: {
         get() {
-          return this.initialStrawStock
+          return this.strawStock
         },
         set(val) {
           this.$store.commit('simulator/barn/setInitialStrawStock', val)
@@ -386,16 +386,22 @@
             ...this.selectedItem,
             quantity: this.quantityInTons,
           })
-
+          this.$toast({
+            message: this.$t('farm.table.dialog.add_success'),
+            type: 'success',
+            timeout: 3000,
+          })
           this.close()
         }
-        // } else {
-        //   // Handle error or display message to the user
-        // }
       },
 
       deleteItem(item) {
         this.$store.commit('simulator/barn/deleteBarnStockItem', item)
+        this.$toast({
+          message: this.$t('barn.table.dialog.delete_success'),
+          type: 'success',
+          timeout: 3000,
+        })
       },
 
       initialize() {
@@ -403,6 +409,11 @@
       },
       applyToSimulation() {
         this.$store.dispatch('simulator/barn/setStock')
+        this.$toast({
+          message: this.$t('barn.main.messages.apply_success'),
+          type: 'success',
+          timeout: 3000,
+        })
       },
     },
   }
