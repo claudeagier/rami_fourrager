@@ -130,6 +130,26 @@ const routes = [
               },
             },
           },
+          {
+            name: 'report',
+            path: 'report',
+            component: () => import('@/views/simulator/report/Main'),
+            meta: {
+              breadCrumb(route) {
+                // const paramToPageB = route.params.paramToPageB;
+                return [
+                  {
+                    text: 'breadcrumb.simulation',
+                    to: { name: 'dashboard' },
+                  },
+                  {
+                    text: 'breadcrumb.report',
+                    to: { name: 'report' },
+                  },
+                ]
+              },
+            },
+          },
         ],
       },
 

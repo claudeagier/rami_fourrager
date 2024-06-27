@@ -172,12 +172,13 @@ export default {
     getProteicCoverageByBatch: (state, getters, rootState) => (batchId) => {
       return getProteicCoverage(state, rootState, batchId)
     },
-    getFinalEnergeticCoverageByBatch: (state, getters, rootState) => (batchId) => {
-      return getFinalEnergeticCoverage(state, rootState, batchId)
+    getFinalEnergeticCoverageByBatch: (state, getters, rootState, rootGetters) => (batchId) => {
+      return getFinalEnergeticCoverage(state, rootState, rootGetters, batchId)
     },
 
-    getFinalProteicCoverageByBatch: (state, getters, rootState) => (batchId) => {
-      return getFinalProteicCoverage(state, rootState, batchId)
+    getFinalProteicCoverageByBatch: (state, getters, rootState, rootGetters) => (batchId) => {
+      // rootGetters
+      return getFinalProteicCoverage(state, rootState, rootGetters, batchId)
     },
     getDryMatterProvided: (state, getters, rootState) => (batchId) => {
       return getDryMatterProvided(state, rootState, batchId)

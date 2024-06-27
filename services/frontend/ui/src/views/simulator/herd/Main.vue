@@ -12,7 +12,11 @@
         <base-material-card :color="pageColor">
           <template v-slot:heading>
             <v-row>
-              <v-col cols="10">
+              <v-col
+                cols="12"
+                lg="9"
+                sm="9"
+              >
                 <div class="text-h3 font-weight-light">{{ $t('herd.main.title') }}</div>
                 <div class="text-subtitle-1 font-weight-light">{{ $t('herd.main.subtitle') }}</div>
               </v-col>
@@ -30,10 +34,18 @@
           </template>
           <v-card-text>
             <v-row>
-              <v-col cols="3">
+              <v-col
+                cols="12"
+                lg="3"
+                class="pt-0 pb-0"
+              >
                 <v-card id="batch-list">
                   <v-card-title>
-                    <v-col cols="6">
+                    <v-col
+                      cols="12"
+                      lg="5"
+                      class="pt-0 pb-0"
+                    >
                       <span class="text-md-h3">{{ $t('herd.main.list.title') }}</span>
                     </v-col>
                     <v-col>
@@ -93,7 +105,17 @@
                   </v-card-text>
                 </v-card>
               </v-col>
-              <v-col cols="9">
+              <v-col
+                cols="12"
+                lg="9"
+              >
+                <v-skeleton-loader
+                  v-if="selectedLot === null"
+                  type="heading, table"
+                  elevation="5"
+                  width="100%"
+                  class="pa-5"
+                ></v-skeleton-loader>
                 <v-card
                   id="batch-details"
                   v-if="selectedLot !== null"
@@ -261,7 +283,7 @@
       applyToSimulation() {
         // this.$store.commit('setBatchs', this.lots)
         this.$toast({
-          message: this.$t('notifications.herd.aplly_success'),
+          message: this.$t('notifications.herd.apply_success'),
           type: 'success',
           timeout: 3000,
         })

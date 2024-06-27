@@ -12,7 +12,11 @@
         <base-material-card :color="pageColor">
           <template v-slot:heading>
             <v-row>
-              <v-col cols="10">
+              <v-col
+                cols="12"
+                lg="9"
+                sm="9"
+              >
                 <div class="text-h3 font-weight-light">{{ $t('farm.main.title') }}</div>
 
                 <div class="text-subtitle-1 font-weight-light">{{ $t('farm.main.subtitle') }}</div>

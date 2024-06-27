@@ -436,7 +436,7 @@ const getUFConcentratedByPeriod = (batch) => {
 const getUFPasturesByPeriod = (batch, period, totalAvailablePastureByPeriod, batchs) => {
   return getPasturesByPeriod('energeticTotal', batch, period, totalAvailablePastureByPeriod, batchs)
 }
-export const getFinalEnergeticCoverage = function (state, rootState, batchId) {
+export const getFinalEnergeticCoverage = function (state, rootState, rootGetters, batchId) {
   // c'est juste pour faire le test des différentes fonction
   const finalEnergeticCoverage = []
   const batch = state.batchs[batchId]
@@ -446,7 +446,7 @@ export const getFinalEnergeticCoverage = function (state, rootState, batchId) {
   }
   const h272 = getUFConcentratedByPeriod(batch) // ok
   const h267 = getUFFeedsByPeriod(batch, true) // OK
-  const totalAvailablePastureByPeriod = setTotalAvailablePasture(rootState.simulator.farm, rootState)
+  const totalAvailablePastureByPeriod = setTotalAvailablePasture(rootState.simulator.farm, rootState, rootGetters)
 
   // for test
   const pasture_uf = []
@@ -511,7 +511,7 @@ const getPDIByFeedTypeByPeriod = (batch, feedType) => {
     return fixFloatingPoint(sumPDI, precision)
   })
 }
-export const getFinalProteicCoverage = function (state, rootState, batchId) {
+export const getFinalProteicCoverage = function (state, rootState, rootGetters, batchId) {
   // c'est juste pour faire le test des différentes fonction
   const finalProteicCoverage = []
   const batch = state.batchs[batchId]
@@ -522,7 +522,7 @@ export const getFinalProteicCoverage = function (state, rootState, batchId) {
   }
   const h272 = getPDIByFeedTypeByPeriod(batch, 'concentratedFeeds')
   const h267 = getPDIByFeedTypeByPeriod(batch, 'classicFeeds')
-  const totalAvailablePastureByPeriod = setTotalAvailablePasture(rootState.simulator.farm, rootState)
+  const totalAvailablePastureByPeriod = setTotalAvailablePasture(rootState.simulator.farm, rootState, rootGetters)
 
   // par periode
   rootState.referential.periods.forEach((period, index) => {

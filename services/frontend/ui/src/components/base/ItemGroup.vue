@@ -37,6 +37,7 @@
         :item="child"
       />
     </template>
+    <v-divider class="mb-2" />
   </v-list-group>
 </template>
 

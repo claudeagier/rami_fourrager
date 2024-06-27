@@ -88,6 +88,7 @@
             { title: 'barn.title', to: 'barn', icon: 'mdi-silo-outline' },
             { title: 'farm.title', to: 'farm', icon: 'mdi-land-plots' },
             { title: 'herd.title', to: 'herd', icon: 'mdi-cow' },
+            { title: 'report.title', to: 'report', icon: 'mdi-cow' },
           ],
         },
         {
@@ -156,6 +157,7 @@
               { title: 'barn.title', to: 'barn', icon: 'mdi-silo-outline' },
               { title: 'farm.title', to: 'farm', icon: 'mdi-land-plots' },
               { title: 'herd.title', to: 'herd', icon: 'mdi-cow' },
+              { title: 'report.title', to: 'report', icon: 'mdi-chart-box-outline' },
             ],
           },
           {
