@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app id="login">
     <v-row
       align="center"
       justify="center"
@@ -71,3 +71,10 @@
     },
   }
 </script>
+<style scoped>
+  #login {
+    width: 100%;
+    background-image: url('../../assets/images/bocage.jpeg');
+    background-size: cover;
+  }
+</style>

@@ -43,7 +43,7 @@
                   <v-card-title>
                     <v-col
                       cols="12"
-                      lg="5"
+                      lg="6"
                       class="pt-0 pb-0"
                     >
                       <span class="text-md-h3">{{ $t('herd.main.list.title') }}</span>

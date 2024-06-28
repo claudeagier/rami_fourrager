@@ -10,14 +10,16 @@
     width="260"
     v-bind="$attrs"
   >
-    <!-- <template v-slot:img="props">
-      <v-img
-        :gradient="`to bottom, ${barColor}`"
-        v-bind="props"
-      />
-    </template> -->
+    <template v-slot:prepend>
+      <div class="pa-2">
+        <v-img
+          class="rounded-sm"
+          src="@/assets/images/logoRami.jpg"
+        />
+      </div>
+    </template>
 
-    <v-divider class="mb-1" />
+    <!-- <v-divider class="mb-1" />
 
     <v-list
       dense
@@ -35,7 +37,7 @@
           <v-list-item-title class="text-h4" />
         </v-list-item-content>
       </v-list-item>
-    </v-list>
+    </v-list> -->
     <v-divider class="mb-2" />
     <v-list
       expand
@@ -59,6 +61,16 @@
       </template>
       <div />
     </v-list>
+    <template v-slot:append>
+      <v-row>
+        <v-col cols="4">
+          <img src="@/assets/images/logoIdele.svg" />
+        </v-col>
+        <v-col cols="2">
+          <img src="@/assets/images/BlocMarque-INRAE.jpg" />
+        </v-col>
+      </v-row>
+    </template>
   </v-navigation-drawer>
 </template>
 

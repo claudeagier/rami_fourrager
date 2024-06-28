@@ -115,7 +115,9 @@
               // dataView: { readOnly: false },
               // magicType: { type: ['line', 'bar'] },
               // restore: {},
-              saveAsImage: {},
+              saveAsImage: {
+                backgroundColor: 'white',
+              },
             },
           },
           legend: {
