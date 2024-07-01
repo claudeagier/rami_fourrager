@@ -17,12 +17,10 @@ export default {
               name: { type: 'string' },
               constraint: { type: ['string', 'null'] },
               surface: { type: ['number', 'null'] },
-              stic: { $ref: '/stic' },
             },
-            required: ['name', 'stic', 'surface'],
+            required: ['name', 'surface'],
           },
         },
-        totalAvailablePastureByPeriod: { type: ['number', 'null'] },
         dimensioning: {
           type: 'object',
           properties: {
@@ -68,7 +66,7 @@ export default {
           required: ['energeticQuantity', 'proteicQuantity'],
         },
       },
-      required: ['initialFeedStock', 'initialConcentratedStock', 'initialStrawStock'],
+      required: [],
     },
     herd: {
       type: 'object',
@@ -91,14 +89,14 @@ export default {
               housing: {
                 type: 'object',
                 properties: {
-                  type: {
-                    type: 'object',
-                    properties: {
-                      id: { type: 'integer' },
-                      name: { type: 'string' },
-                    },
-                    required: ['id', 'name'],
-                  },
+                  // type: {
+                  //   type: 'object',
+                  //   properties: {
+                  //     id: { type: 'integer' },
+                  //     name: { type: 'string' },
+                  //   },
+                  //   required: ['id', 'name'],
+                  // },
                   presence: {
                     type: 'array',
                     items: {
@@ -119,7 +117,7 @@ export default {
                     },
                   },
                 },
-                required: ['type', 'presence'],
+                required: ['presence'],
               },
               classicFeeds: {
                 type: 'array',

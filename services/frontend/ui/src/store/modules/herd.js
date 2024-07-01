@@ -184,4 +184,9 @@ export default {
       return getDryMatterProvided(state, rootState, batchId)
     },
   },
+  actions: {
+    setHerd({ state, commit, rootActions }) {
+      commit('workspace/updateSimulation', { key: 'herd', value: state }, { root: true })
+    },
+  },
 }

@@ -309,7 +309,7 @@
     },
     "pasture": {
       "table": {
-        "period": "Période {id}",
+        "period": "P {id}",
         "available": "Pâture disponible",
         "carryOver": "Pature reportée disponible",
         "report": "Reporter ?"

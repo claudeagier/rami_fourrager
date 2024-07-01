@@ -793,6 +793,7 @@ export function getDryMatterProvided(state, rootState, batchId) {
     const besoinMS = calculateBesoinMS(batchValuesForPeriod.CI, toModerate, potential, UEcolumn, feeds) // ok
     dryMatterNeeded.data[index] = _.floor(besoinMS, 1)
 
+    // les valeurs des baguettes ne sont plus styocké dans la baguette mais dans la liste
     feeds.forEach((feed) => {
       if (feed.type.correspondingStock !== 'RC' && feed.type.correspondingStock !== 'RP') {
         const q = fixFloatingPoint((feed.proportion / 100) * besoinMS, precision)

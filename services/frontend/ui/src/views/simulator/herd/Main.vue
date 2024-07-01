@@ -109,13 +109,6 @@
                 cols="12"
                 lg="9"
               >
-                <v-skeleton-loader
-                  v-if="selectedLot === null"
-                  type="heading, table"
-                  elevation="5"
-                  width="100%"
-                  class="pa-5"
-                ></v-skeleton-loader>
                 <v-card
                   id="batch-details"
                   v-if="selectedLot !== null"
@@ -281,7 +274,7 @@
     methods: {
       // pour le parent
       applyToSimulation() {
-        // this.$store.commit('setBatchs', this.lots)
+        this.$store.dispatch('simulator/herd/setHerd')
         this.$toast({
           message: this.$t('notifications.herd.apply_success'),
           type: 'success',
