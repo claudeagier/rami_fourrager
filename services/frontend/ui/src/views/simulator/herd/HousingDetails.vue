@@ -37,26 +37,24 @@
             @duplicate="duplicate"
           />
         </v-toolbar>
-        <v-card>
-          <v-text-field
-            v-model.number="animalCount"
-            :rules="[rules.required, rules.integer, presenceRule]"
-            type="number"
-            :label="$t('herd.housing.count')"
-            hide-spin-buttons
-            min="0"
-            :color="pageColor"
-          ></v-text-field>
-          <v-text-field
-            v-model.number="days"
-            :rules="[rules.required, daysRule]"
-            type="number"
-            :label="$t('herd.housing.presence')"
-            hide-spin-buttons
-            min="0"
-            :color="pageColor"
-          ></v-text-field>
-        </v-card>
+        <v-text-field
+          v-model.number="animalCount"
+          :rules="[rules.required, rules.integer, presenceRule]"
+          type="number"
+          :label="$t('herd.housing.count')"
+          hide-spin-buttons
+          min="0"
+          :color="pageColor"
+        ></v-text-field>
+        <v-text-field
+          v-model.number="days"
+          :rules="[rules.required, daysRule]"
+          type="number"
+          :label="$t('herd.housing.presence')"
+          hide-spin-buttons
+          min="0"
+          :color="pageColor"
+        ></v-text-field>
       </v-tab-item>
     </v-tabs>
   </v-container>

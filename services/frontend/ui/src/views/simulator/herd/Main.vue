@@ -44,26 +44,22 @@
               >
                 <v-card id="batch-list">
                   <v-card-title>
-                    <v-col
-                      cols="12"
-                      class="pt-0 pb-0"
+                    <span class="font-weight-bold text-lg-h3 text-md-h4">{{ $t('herd.main.list.title') }}</span>
+                    <v-divider
+                      class="mx-4"
+                      inset
+                      vertical
+                    />
+                    <v-spacer></v-spacer>
+                    <v-btn
+                      @click="showHerdModal"
+                      :color="pageColor"
+                      outlined
+                      small
+                      :class="{ 'animate-button': animate }"
                     >
-                      <span class="text-lg-h3 text-md-h3">{{ $t('herd.main.list.title') }}</span>
-                      <v-divider
-                        class="mx-4"
-                        inset
-                        vertical
-                      />
-                      <v-btn
-                        @click="showHerdModal"
-                        :color="pageColor"
-                        outlined
-                        :class="{ 'animate-button': animate }"
-                      >
-                        {{ $t('herd.main.list.btn_add') }}
-                      </v-btn>
-                    </v-col>
-                    <v-col> </v-col>
+                      {{ $t('herd.main.list.btn_add') }}
+                    </v-btn>
                   </v-card-title>
                   <v-card-text>
                     <herd-modal
@@ -71,7 +67,7 @@
                       @add-lot="addLot"
                       @cancel-add-lot="cancelAddLot"
                     />
-                    <v-divider></v-divider>
+
                     <div class="scrollable-list">
                       <v-card
                         v-for="(lot, index) in lots"
@@ -82,34 +78,32 @@
                         :outlined="index === selectedLot"
                         @click="showDetails(index)"
                       >
-                        <v-card-title>{{ $t('herd.main.card.title', { id: index + 1 }) }}</v-card-title>
+                        <v-card-title class="font-weight-bold text-lg-h4 text-md-h4">
+                          <span>{{ $t('herd.main.card.title', { id: index + 1 }) }}</span>
+                          <v-divider
+                            class="mx-4"
+                            inset
+                            vertical
+                          />
+                          <v-spacer></v-spacer>
+                          <v-icon
+                            @click="deleteLot(lot)"
+                            medium
+                          >
+                            mdi-delete
+                          </v-icon>
+                          <v-icon
+                            @click="showDetails(index)"
+                            large
+                            :color="pageColor"
+                          >
+                            mdi-square-edit-outline
+                          </v-icon>
+                        </v-card-title>
                         <v-card-text>
-                          <v-row>
-                            <v-col cols="9">
-                              {{ $t('herd.main.card.description', { count: lot.count, name: lot.profile.name }) }}
-                            </v-col>
-                            <v-col>
-                              <v-icon
-                                @click="deleteLot(lot)"
-                                medium
-                              >
-                                mdi-delete
-                              </v-icon>
-                              <v-icon
-                                @click="showDetails(index)"
-                                large
-                                :color="pageColor"
-                              >
-                                mdi-square-edit-outline
-                              </v-icon>
-                              <!-- <v-btn
-                              @click="showDetails(index)"
-                              :color="pageColor"
-                            >
-                              Voir plus
-                            </v-btn> -->
-                            </v-col>
-                          </v-row>
+                          <v-col cols="12">
+                            {{ $t('herd.main.card.description', { count: lot.count, name: lot.profile.name }) }}
+                          </v-col>
                         </v-card-text>
                       </v-card>
                     </div>
@@ -131,7 +125,7 @@
                         cols="7"
                         class="pt-0 pb-0"
                       >
-                        <h1 class="font-weight-bold text-h2">
+                        <h1 class="font-weight-bold text-lg-h3">
                           {{ $t('herd.main.details.title', { id: selectedLot + 1 }) }}
                         </h1>
                       </v-col>

@@ -2,6 +2,7 @@
   <v-btn
     :color="pageColor"
     outlined
+    small
     @click="dynamic"
   >
     {{ $t('herd.details.graph.btn') }}
