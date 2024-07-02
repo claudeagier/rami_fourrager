@@ -8,7 +8,10 @@
       align="center"
       justify="center"
     >
-      <v-col cols="12">
+      <v-col
+        cols="12"
+        class="pt-0 pb-0"
+      >
         <base-material-card :color="pageColor">
           <template v-slot:heading>
             <v-row>

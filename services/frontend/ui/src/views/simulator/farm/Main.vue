@@ -8,7 +8,10 @@
       align="center"
       justify="center"
     >
-      <v-col cols="12">
+      <v-col
+        cols="12"
+        class="pt-0 pb-0"
+      >
         <base-material-card :color="pageColor">
           <template v-slot:heading>
             <v-row>
@@ -38,7 +41,10 @@
           <v-card-text>
             <v-row>
               <!-- Card pour le dimensionnement de la ferme -->
-              <v-col cols="5">
+              <v-col
+                cols="5"
+                class="pt-0 pb-0"
+              >
                 <v-card>
                   <v-card-title class="text-h4 font-weight-light">{{ $t('farm.dimensioning.title') }}</v-card-title>
                   <v-card-text>
@@ -98,7 +104,10 @@
                 </v-card>
               </v-col>
               <!-- Card pour la saisie des rotations des cultures -->
-              <v-col cols="7">
+              <v-col
+                cols="7"
+                class="pt-0 pb-0"
+              >
                 <v-card>
                   <v-card-text>
                     <v-data-table

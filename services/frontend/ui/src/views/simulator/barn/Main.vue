@@ -8,7 +8,10 @@
       align="center"
       justify="center"
     >
-      <v-col cols="12">
+      <v-col
+        cols="12"
+        class="pt-0 pb-0"
+      >
         <base-material-card :color="pageColor">
           <template v-slot:heading>
             <v-row>
@@ -36,7 +39,10 @@
           </template>
           <v-card-text>
             <v-row>
-              <v-col cols="5">
+              <v-col
+                cols="5"
+                class="pt-0 pb-0"
+              >
                 <v-card>
                   <v-card-title>
                     <div class="text-h4 font-weight-light">{{ $t('barn.straw.title') }}</div>
@@ -73,7 +79,10 @@
                   </v-card-text>
                 </v-card>
               </v-col>
-              <v-col cols="7">
+              <v-col
+                cols="7"
+                class="pt-0 pb-0"
+              >
                 <v-card>
                   <v-card-text>
                     <v-data-table
