@@ -55,7 +55,7 @@
   "FeedTypes": "Types d'aliment",
   "ConcentratedFeeds": "Aliments concentrés",
   "HousingTypes": "Types de logement sont à jour",
-  "period": "Période {id}",
+  "period": "P {id}",
   "confirmation_dialog": {
     "title": "Confirmer",
     "description": "Vous n'avez pas enregistré les modifications apportées à la simulation",
@@ -93,6 +93,7 @@
     "profile": "Profil"
   },
   "notifications": {
+    "confirm_delete_item": "Êtes vous sur de vouloir supprimer cet élément ?",
     "simulation_loaded_success": "La simulation a été chargé",
     "farm": {
       "apply_success": "les modifications sont appliquées à la simulation",
@@ -195,10 +196,10 @@
       "title": "Dimensionnement de la Ferme",
       "sau": "Surface Agricole Utile (SAU)",
       "constrainedSurfaces": "Surfaces à Contraintes",
-      "irrigable": "irrigable",
-      "ploughable": "ploughable",
-      "superficial": "superficial",
-      "reachable": "reachable"
+      "irrigable": "Surfaces irrigables",
+      "ploughable": "Surfaces labourables",
+      "superficial": "Sols superficiels",
+      "reachable": "Surfaces accessibles au pâturage"
     },
     "rotations": {
       "title": "Saisie de l'assolement",
@@ -266,7 +267,7 @@
     },
     "classicfeed": {
       "tabs": {
-        "title": "Période {period}",
+        "title": "P {period}",
         "table": {
           "title": "Les rations pour la période {period}",
           "type": "Nom de la ration",
@@ -287,7 +288,7 @@
     },
     "concentratedfeed": {
       "tabs": {
-        "title": "Période {period}",
+        "title": "P {period}",
         "table": {
           "title": "Les concentrés pour la période {period}",
           "name": "Nom de l'aliment",
@@ -376,6 +377,10 @@
       },
       "datatables": {
         "simulation": {
+          "actions": {
+            "load_description": "Charger la simulation pour l'appliquer au simulateur",
+            "load_btn": "Charger"
+          },
           "header": {
             "name": "Nom",
             "description": "Description",

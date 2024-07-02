@@ -27,9 +27,8 @@ export default {
     },
   },
   mutations: {
-    setFarm(state, { rotations, totalAvailablePastureByPeriod, dimensioning }) {
+    setFarm(state, { rotations, dimensioning }) {
       state.rotations = rotations
-      state.totalAvailablePastureByPeriod = totalAvailablePastureByPeriod
       state.dimensioning = dimensioning
     },
     setSAU(state, SAU) {
@@ -128,7 +127,11 @@ export default {
   },
   actions: {
     applyToWorkspace({ state, commit }) {
-      commit('workspace/updateSimulation', { key: 'farm', value: state }, { root: true })
+      commit(
+        'workspace/updateSimulation',
+        { key: 'farm', value: { rotations: state.rotations, dimensioning: state.dimensionning } },
+        { root: true }
+      )
     },
     setTotalAvailablePastureByPeriod({ state, rootState, commit, rootGetters }) {
       const totalAvailablePastureByPeriod = setTotalAvailablePasture(state, rootState, rootGetters)

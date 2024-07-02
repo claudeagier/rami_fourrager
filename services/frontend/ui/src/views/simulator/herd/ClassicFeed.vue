@@ -6,12 +6,14 @@
     />
     <v-tabs
       centered
+      grow
       :color="pageColor"
     >
       <v-tab
         v-for="(period, index) in periods"
         :key="index"
         @click="periodSelected(index)"
+        class="period-tab"
       >
         {{ $t('herd.classicfeed.tabs.title', { period: period.id }) }}
       </v-tab>
@@ -116,10 +118,9 @@
     },
     created() {
       this.getEnergeticCoverageByBatch(this.selectedLot)
-    },
-    beforeMount() {
       this.batch = this.getBatch(this.selectedLot)
     },
+    beforeMount() {},
     computed: {
       ...mapGetters('simulator/herd', {
         getBatch: 'getBatch',
@@ -130,7 +131,7 @@
       }),
       feeds: {
         get() {
-          return this.batch.classicFeeds[this.selectedPeriodIndex].feeds
+          return this.getBatch(this.selectedLot).classicFeeds[this.selectedPeriodIndex].feeds
         },
       },
       headers() {
@@ -185,11 +186,13 @@
         })
       },
       deleteItem(item) {
-        this.$store.commit('simulator/herd/deleteClassicFeed', {
-          batchId: this.selectedLot,
-          periodId: this.selectedPeriodIndex,
-          feed: item,
-        })
+        if (confirm(this.$t('notifications.confirm_delete_item'))) {
+          this.$store.commit('simulator/herd/deleteClassicFeed', {
+            batchId: this.selectedLot,
+            periodId: this.selectedPeriodIndex,
+            feed: item,
+          })
+        }
       },
       periodSelected(period) {
         this.selectedPeriodIndex = period
@@ -197,3 +200,8 @@
     },
   }
 </script>
+<style scoped>
+  /* .period-tab {
+    min-width: 60px;
+  } */
+</style>

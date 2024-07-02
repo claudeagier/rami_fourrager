@@ -395,12 +395,14 @@
         }
       },
       deleteRotationItem(item) {
-        this.$store.commit('simulator/farm/deleteRotation', item)
-        this.$toast({
-          message: this.$t('farm.rotations.table.dialog.delete_success'),
-          type: 'success',
-          timeout: 3000,
-        })
+        if (confirm(this.$t('notifications.confirm_delete_item'))) {
+          this.$store.commit('simulator/farm/deleteRotation', item)
+          this.$toast({
+            message: this.$t('farm.rotations.table.dialog.delete_success'),
+            type: 'success',
+            timeout: 3000,
+          })
+        }
       },
       clearRotationItem() {
         this.rotationItem = {

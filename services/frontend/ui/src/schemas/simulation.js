@@ -39,7 +39,7 @@ export default {
           required: ['SAU', 'constrainedSurfaces'],
         },
       },
-      required: ['rotations', 'totalAvailablePastureByPeriod', 'dimensioning'],
+      required: ['rotations', 'dimensioning'],
     },
     barn: {
       type: 'object',

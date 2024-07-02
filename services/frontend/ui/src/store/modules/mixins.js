@@ -331,7 +331,6 @@ export const getPasturesByPeriod = (coverage, batch, period, totalAvailablePastu
   }
   const i246 = getGreenPastureConsumption(batch, period, totalAvailablePastureByPeriod, batchs)
   const i247 = getCarryOverPastureConsumption(batch, period, totalAvailablePastureByPeriod, batchs)
-
   // =I$246*X29+I$247*W29*0,92
   // (consommation pature verte * x 29 correspondant à la période) + (consommation pature reporté si report * w29 correspondant à la période précédente* 0.92)
   // x29 = totalAvailablePasture[period].energeticTotal
@@ -434,7 +433,8 @@ const getUFConcentratedByPeriod = (batch) => {
 }
 // H249 UF apporté par les patures pour le final
 const getUFPasturesByPeriod = (batch, period, totalAvailablePastureByPeriod, batchs) => {
-  return getPasturesByPeriod('energeticTotal', batch, period, totalAvailablePastureByPeriod, batchs)
+  const p = getPasturesByPeriod('energeticTotal', batch, period, totalAvailablePastureByPeriod, batchs)
+  return p
 }
 export const getFinalEnergeticCoverage = function (state, rootState, rootGetters, batchId) {
   // c'est juste pour faire le test des différentes fonction
@@ -461,9 +461,9 @@ export const getFinalEnergeticCoverage = function (state, rootState, rootGetters
     const aprpr = batch.profile.animal_profile_periods.find((element) => element.period_id === periodId)
     const ufl = aprpr.UFL
     // H274 = H272+H267+h249 UF total
+
     const h274 = h272[index] + h267[index] + h249
     const h234 = calculateEnergeticBesoin(ufl, toModerate, potential)
-
     // H276 = H274 / H234 couverture UF
     const h276 = h274 / h234
 

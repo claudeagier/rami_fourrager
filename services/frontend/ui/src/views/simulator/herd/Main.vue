@@ -70,6 +70,10 @@
                       <v-card
                         v-for="(lot, index) in lots"
                         :key="index"
+                        :elevation="index === selectedLot ? 4 : 2"
+                        hover
+                        :shaped="index === selectedLot"
+                        :outlined="index === selectedLot"
                       >
                         <v-card-title>{{ $t('herd.main.card.title', { id: index + 1 }) }}</v-card-title>
                         <v-card-text>
@@ -89,7 +93,7 @@
                                 large
                                 :color="pageColor"
                               >
-                                mdi-play-box-outline
+                                mdi-square-edit-outline
                               </v-icon>
                               <!-- <v-btn
                               @click="showDetails(index)"
@@ -306,12 +310,14 @@
       },
       deleteLot(lot) {
         this.selectedLot = null
-        this.$store.commit('simulator/herd/deleteBatch', lot)
-        this.$toast({
-          message: this.$t('notifications.herd.delete_batch_success'),
-          type: 'success',
-          timeout: 3000,
-        })
+        if (confirm(this.$t('notifications.confirm_delete_item'))) {
+          this.$store.commit('simulator/herd/deleteBatch', lot)
+          this.$toast({
+            message: this.$t('notifications.herd.delete_batch_success'),
+            type: 'success',
+            timeout: 3000,
+          })
+        }
       },
     },
   }

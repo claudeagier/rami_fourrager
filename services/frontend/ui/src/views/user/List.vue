@@ -211,7 +211,7 @@
       deleteItem(item) {
         var deletedIndex = this.users.indexOf(item)
         deletedIndex = Object.assign({}, item)
-        confirm('Are you sure you want to delete this item?') &&
+        confirm(this.$t('notifications.confirm_delete_item')) &&
           this.$axios({
             url: '/users/' + deletedIndex.id,
             method: 'Delete',

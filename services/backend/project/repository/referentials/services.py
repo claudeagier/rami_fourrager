@@ -1,7 +1,7 @@
 # services/users/project/api/services.py
 from datetime import datetime
 from sqlalchemy.orm import joinedload
-from sqlalchemy import desc
+from sqlalchemy import asc
 
 from project import db
 from project.repository.referentials.models import Stic, ClimaticYear, Site, PastureType, NutritionalValues, AnimalProfile, BatchType, AnimalProfilePeriod, Period
@@ -13,7 +13,7 @@ def get_all(modelName, lastConnectionDate=None):
     model = getModel('referential', model_name=modelName)
 
     if lastConnectionDate in ('null', None):
-        return model.query.all()
+        return model.query.order_by(model.name).all()
     else:
         # Assurez-vous que lastConnectionDate est un objet datetime
         last_connection_date = datetime.strptime(

@@ -147,9 +147,8 @@
     },
     methods: {
       fetch(what, refresh) {
-        const url = 'referential/fetch' + what
         this.$store
-          .dispatch(url, refresh)
+          .dispatch('referential/fetch', { what: what, refresh: refresh })
           .then((res) => {
             if (this.isRefresh) {
               this.$toast({
@@ -171,15 +170,15 @@
       },
       loadReferential(refresh) {
         const referential = [
-          'Sites',
-          'ClimaticYears',
-          'Stics',
-          'BatchTypes',
-          'AnimalProfiles',
-          'FeedTypes',
-          'ConcentratedFeeds',
-          'HousingTypes',
-          'PastureTypes',
+          'site',
+          'climatic_year',
+          'stic',
+          'batch_type',
+          'animal_profile',
+          'feed_type',
+          'concentrated_feed',
+          'housing_type',
+          'pasture_type',
         ]
 
         referential.forEach((what) => {

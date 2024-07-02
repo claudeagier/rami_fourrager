@@ -116,7 +116,7 @@
           sim.name = this.simulation.name
           sim.description = this.simulation.description
 
-          this.$store.commit('workspace/addSimulation', deepCopy(sim))
+          this.$emit('add-item', { dialogName: 'simulation', item: deepCopy(sim) })
           this.$toast({
             message: this.$t('workspace.content.datatables.simulation.create.dialog.add_success'),
             type: 'success',

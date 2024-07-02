@@ -3,7 +3,6 @@ import Vue from 'vue'
 import localForage from 'localforage'
 import { getCurrentDateTime, deepCopy } from '@/plugins/utils'
 
-// TODO-FRONT test all and continu
 async function fetch(what, since, commit, getters) {
   if (!getters.isUpToDate(what) && (since === null || since < getCurrentDateTime())) {
     try {
@@ -44,7 +43,7 @@ export default {
     animal_profiles: [],
     barnStockItems: [
       // { code: 'P', name: 'Pature', unity: 'kgMS/ha/j' },
-      { code: 'FH', name: 'foin', unity: 'tMS', color: '' },
+      { code: 'FH', name: 'Foin', unity: 'tMS', color: '' },
       { code: 'EH', name: "Ensilage et enrubannage d'herbe", unity: 'tMS', color: '' },
       { code: 'EM', name: 'Ensilage de maïs et sorgho (riche UF)', unity: 'tMS', color: '' },
       { code: 'RC', name: 'Céréales en grain', unity: 'qtx', concentrated: true, color: '' },
@@ -52,7 +51,7 @@ export default {
       { code: 'AS', name: 'autre stock', unity: 'tMS', color: '' },
       { code: 'EL', name: 'Ensilage de légumineuses (riche PDI)', unity: 'tMS', color: '' },
       { code: 'FL', name: 'Foin de légumineuses (riche PDI)', unity: 'tMS', color: '' },
-      // { code: 'STRAW', name: 'Paille', unity: '', color: 'yellow' }
+      { code: 'STRAW', name: 'Paille', unity: 'kg', color: 'yellow' },
     ],
     batch_types: [],
     climatic_years: [],
@@ -118,62 +117,13 @@ export default {
     },
   },
   actions: {
-    async fetchPeriods({ state, commit, getters }, refresh) {
-      const since = !refresh ? await getLastConnectionDate() : null
-      fetch('period', since, commit, getters)
-    },
-
-    async fetchSites({ state, commit, getters }, refresh) {
+    async fetch({ state, commit, getters }, { what, refresh }) {
+      if (refresh) {
+        commit('listUpTodate', { what: what })
+      }
       const since = !refresh ? await getLastConnectionDate() : null
 
-      fetch('site', since, commit, getters)
-    },
-
-    async fetchClimaticYears({ state, commit, getters }, refresh) {
-      const since = !refresh ? await getLastConnectionDate() : null
-
-      fetch('climatic_year', since, commit, getters)
-    },
-
-    async fetchStics({ state, commit, getters }, refresh) {
-      const since = !refresh ? await getLastConnectionDate() : null
-
-      fetch('stic', since, commit, getters)
-    },
-
-    async fetchBatchTypes({ state, commit, getters }, refresh) {
-      const since = !refresh ? await getLastConnectionDate() : null
-
-      fetch('batch_type', since, commit, getters)
-    },
-
-    async fetchAnimalProfiles({ state, commit, getters }, refresh) {
-      const since = !refresh ? await getLastConnectionDate() : null
-
-      fetch('animal_profile', since, commit, getters)
-    },
-
-    async fetchFeedTypes({ state, commit, getters }, refresh) {
-      const since = !refresh ? await getLastConnectionDate() : null
-
-      fetch('feed_type', since, commit, getters)
-    },
-
-    async fetchConcentratedFeeds({ state, commit, getters }, refresh) {
-      const since = !refresh ? await getLastConnectionDate() : null
-
-      fetch('concentrated_feed', since, commit, getters)
-    },
-
-    async fetchHousingTypes({ state, commit, getters }, refresh) {
-      const since = !refresh ? await getLastConnectionDate() : null
-
-      fetch('housing_type', since, commit, getters)
-    },
-    async fetchPastureTypes({ state, commit, getters }, refresh) {
-      const since = !refresh ? await getLastConnectionDate() : null
-
-      fetch('pasture_type', since, commit, getters)
+      fetch(what, since, commit, getters)
     },
   },
   getters: {

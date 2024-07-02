@@ -391,7 +391,7 @@
             quantity: this.quantityInTons,
           })
           this.$toast({
-            message: this.$t('farm.table.dialog.add_success'),
+            message: this.$t('barn.table.dialog.add_success'),
             type: 'success',
             timeout: 3000,
           })
@@ -400,12 +400,14 @@
       },
 
       deleteItem(item) {
-        this.$store.commit('simulator/barn/deleteBarnStockItem', item)
-        this.$toast({
-          message: this.$t('barn.table.dialog.delete_success'),
-          type: 'success',
-          timeout: 3000,
-        })
+        if (confirm(this.$t('notifications.confirm_delete_item'))) {
+          this.$store.commit('simulator/barn/deleteBarnStockItem', item)
+          this.$toast({
+            message: this.$t('barn.table.dialog.delete_success'),
+            type: 'success',
+            timeout: 3000,
+          })
+        }
       },
 
       initialize() {

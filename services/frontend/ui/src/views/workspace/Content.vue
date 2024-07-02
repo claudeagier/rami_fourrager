@@ -73,19 +73,28 @@
                     v-if="!item.loaded"
                   >
                     <template v-slot:activator="{ on, attrs }">
-                      <v-icon
+                      <v-btn
                         @click="loadSimulation(item)"
-                        medium
+                        small
+                        outlined
                         color="primary"
                         v-bind="attrs"
                         v-on="on"
                       >
-                        mdi-head-sync-outline
-                      </v-icon>
+                        {{ $t('workspace.content.datatables.simulation.actions.load_btn') }}
+                      </v-btn>
                     </template>
-                    <span>Charger la simulation</span>
+                    <span>{{ $t('workspace.content.datatables.simulation.actions.load_description') }}</span>
                   </v-tooltip>
 
+                  <v-icon
+                    @click="editItem('simulation', item)"
+                    medium
+                    color="green"
+                    background-color="green"
+                  >
+                    mdi-square-edit-outline
+                  </v-icon>
                   <v-icon
                     v-if="!item.loaded"
                     @click="deleteSimulation(item)"
@@ -410,12 +419,14 @@
         // this.$router.push('/simulation')
       },
       deleteSimulation(simulation) {
-        this.$store.commit('workspace/deleteSimulation', simulation)
-        this.$toast({
-          message: this.$t('workspace.content.datatables.simulation.delete_success'),
-          type: 'success',
-          timeout: 3000,
-        })
+        if (confirm(this.$t('notifications.confirm_delete_item'))) {
+          this.$store.commit('workspace/deleteSimulation', simulation)
+          this.$toast({
+            message: this.$t('workspace.content.datatables.simulation.delete_success'),
+            type: 'success',
+            timeout: 3000,
+          })
+        }
       },
       exportSimulation(simulation) {
         const data = {
@@ -471,7 +482,9 @@
       },
 
       deleteItem(dialogName, item) {
-        this.$store.commit('workspace/deleteItem', { dialog: dialogName, item: item })
+        if (confirm(this.$t('notifications.confirm_delete_item'))) {
+          this.$store.commit('workspace/deleteItem', { dialog: dialogName, item: item })
+        }
       },
     },
   }

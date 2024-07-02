@@ -129,7 +129,7 @@
       ...mapGetters('referential', { periods: 'periodList' }),
       feeds: {
         get() {
-          return this.batch.concentratedFeeds[this.selectedPeriodIndex].feeds
+          return this.getBatch(this.selectedLot).concentratedFeeds[this.selectedPeriodIndex].feeds
         },
       },
     },
@@ -177,11 +177,13 @@
         })
       },
       deleteItem(item) {
-        this.$store.commit('simulator/herd/deleteConcentratedFeed', {
-          batchId: this.selectedLot,
-          periodId: this.selectedPeriodIndex,
-          feed: item,
-        })
+        if (confirm(this.$t('notifications.confirm_delete_item'))) {
+          this.$store.commit('simulator/herd/deleteConcentratedFeed', {
+            batchId: this.selectedLot,
+            periodId: this.selectedPeriodIndex,
+            feed: item,
+          })
+        }
       },
       periodSelected(period) {
         this.selectedPeriodIndex = period
