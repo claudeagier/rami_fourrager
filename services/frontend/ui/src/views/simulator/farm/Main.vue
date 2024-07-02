@@ -301,6 +301,9 @@
         })
       }
     },
+    beforeDestroy() {
+      this.applyToSimulation()
+    },
     computed: {
       ...mapGetters('referential', {
         getSticList: 'sticList',

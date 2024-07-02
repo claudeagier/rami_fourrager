@@ -350,7 +350,9 @@
       },
     },
     created() {},
-
+    beforeDestroy() {
+      this.applyToSimulation()
+    },
     methods: {
       getColor(concentrated) {
         if (concentrated) {

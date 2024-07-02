@@ -129,7 +129,7 @@ export default {
     applyToWorkspace({ state, commit }) {
       commit(
         'workspace/updateSimulation',
-        { key: 'farm', value: { rotations: state.rotations, dimensioning: state.dimensionning } },
+        { key: 'farm', value: { rotations: state.rotations, dimensioning: state.dimensioning } },
         { root: true }
       )
     },

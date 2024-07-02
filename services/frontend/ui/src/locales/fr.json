@@ -106,7 +106,7 @@
       "delete_item": "Elément supprimé"
     },
     "herd": {
-      "apply_success": "les modifications sont appliquées à la simulation",
+      "apply_success": "les modifications du troupeau sont appliquées à la simulation",
       "delete_batch_success": "Le lot a été supprimé"
     },
     "fetch": {
@@ -151,7 +151,7 @@
       "subtitle": "Gérer votre grange",
       "btn_apply": "Appliquer à la simulation",
       "messages": {
-        "apply_success": "les modifications sont appliquées à la simulation"
+        "apply_success": "les modifications apportées à la grange sont appliquées à la simulation"
       }
     },
     "straw": {
@@ -189,7 +189,7 @@
       "subtitle": "Gérer votre ferme",
       "btn_apply": "Appliquer à la simulation",
       "messages": {
-        "apply_success": "les modifications sont appliquées à la simulation"
+        "apply_success": "les modifications de la ferme sont appliquées à la simulation"
       }
     },
     "dimensioning": {
@@ -232,7 +232,7 @@
       "title": "Le troupeau",
       "subtitle": "Gérer votre troupeau",
       "list": {
-        "title": "Liste des lots",
+        "title": "Les lots",
         "btn_add": "Ajouter"
       },
       "card": {

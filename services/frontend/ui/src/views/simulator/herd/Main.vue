@@ -43,12 +43,14 @@
                   <v-card-title>
                     <v-col
                       cols="12"
-                      lg="6"
                       class="pt-0 pb-0"
                     >
-                      <span class="text-md-h3">{{ $t('herd.main.list.title') }}</span>
-                    </v-col>
-                    <v-col>
+                      <span class="text-lg-h3 text-md-h3">{{ $t('herd.main.list.title') }}</span>
+                      <v-divider
+                        class="mx-4"
+                        inset
+                        vertical
+                      />
                       <v-btn
                         @click="showHerdModal"
                         :color="pageColor"
@@ -58,6 +60,7 @@
                         {{ $t('herd.main.list.btn_add') }}
                       </v-btn>
                     </v-col>
+                    <v-col> </v-col>
                   </v-card-title>
                   <v-card-text>
                     <herd-modal
@@ -74,6 +77,7 @@
                         hover
                         :shaped="index === selectedLot"
                         :outlined="index === selectedLot"
+                        @click="showDetails(index)"
                       >
                         <v-card-title>{{ $t('herd.main.card.title', { id: index + 1 }) }}</v-card-title>
                         <v-card-text>
@@ -112,6 +116,7 @@
               <v-col
                 cols="12"
                 lg="9"
+                class="pt-0 pb-0"
               >
                 <v-card
                   id="batch-details"
@@ -119,12 +124,15 @@
                 >
                   <v-card-title class="text-center justify-center py-6">
                     <v-row>
-                      <v-col cols="7">
+                      <v-col
+                        cols="7"
+                        class="pt-0 pb-0"
+                      >
                         <h1 class="font-weight-bold text-h2">
                           {{ $t('herd.main.details.title', { id: selectedLot + 1 }) }}
                         </h1>
                       </v-col>
-                      <v-col>
+                      <v-col class="pt-0 pb-0">
                         <graphs-modal
                           :selectedLot="selectedLot"
                           :pageColor="pageColor"
@@ -153,6 +161,7 @@
                               $t('herd.main.details.tabs.pasture'),
                             ]"
                             :key="tabIndex"
+                            @click="$store.dispatch('simulator/herd/setHerd')"
                           >
                             {{ tab }}
                           </v-tab>
@@ -258,6 +267,9 @@
         this.animate = true
       }
     },
+    beforeDestroy() {
+      this.applyToSimulation()
+    },
     computed: {
       ...mapState('simulator/herd', {
         batchs: (state) => state.batchs,
@@ -294,6 +306,7 @@
       // pour le détail
       showDetails(index) {
         this.selectedLot = index
+        this.$store.dispatch('simulator/herd/setHerd')
       },
 
       // pour le retour de modal
@@ -347,9 +360,9 @@
     max-height: calc(70vh - 100px); /* Adjust height according to your needs */
   }
 
-  .scrollable-list::-webkit-scrollbar {
-    width: 0; /* remove scrollbar width */
-  }
+  /* .scrollable-list::-webkit-scrollbar {
+    width: 0;
+  } */
   .vertical-text {
     background-color: #f0f0f0; /* Fond gris */
     color: white;
