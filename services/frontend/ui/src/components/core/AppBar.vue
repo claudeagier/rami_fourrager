@@ -5,7 +5,6 @@
     app
     color="transparent"
     flat
-    height="75"
   >
     <v-btn
       class="mr-3"
@@ -14,8 +13,8 @@
       small
       @click="setDrawer(!show)"
     >
-      <v-icon v-if="value"> mdi-view-quilt </v-icon>
-      <v-icon v-else> mdi-dots-vertical </v-icon>
+      <v-icon v-if="show"> mdi-menu-open </v-icon>
+      <v-icon v-else> mdi-menu-close </v-icon>
     </v-btn>
 
     <v-toolbar-title
