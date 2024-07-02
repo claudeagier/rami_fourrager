@@ -6,7 +6,6 @@
     />
     <v-tabs
       centered
-      grow
       :color="pageColor"
     >
       <v-tab
@@ -201,7 +200,7 @@
   }
 </script>
 <style scoped>
-  /* .period-tab {
-    min-width: 60px;
-  } */
+  .period-tab {
+    min-width: 0.1vh;
+  }
 </style>

@@ -81,6 +81,8 @@
           grid: {
             height: '50%',
             top: '10%',
+            left: '20%',
+            right: '10%',
           },
           xAxis: {
             type: 'category',
@@ -152,6 +154,6 @@
 
 <style scoped>
   .housing-chart {
-    height: 20vh;
+    height: 8vh;
   }
 </style>

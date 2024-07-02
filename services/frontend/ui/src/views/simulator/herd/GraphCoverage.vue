@@ -8,7 +8,7 @@
     </div>
     <v-chart
       ref="coverageChart"
-      class="coverage-chart"
+      :class="small ? 'coverage-chart-small' : 'coverage-chart'"
       :option="options"
       autoresize
       theme="infographic"
@@ -29,6 +29,9 @@
         type: null,
       },
       standAlone: {
+        type: Boolean,
+      },
+      small: {
         type: Boolean,
       },
     },
@@ -106,6 +109,8 @@
           grid: {
             height: '50%',
             top: '10%',
+            left: '20%',
+            right: '10%',
           },
           tooltip: {
             show: false,
@@ -203,5 +208,8 @@
 <style scoped>
   .coverage-chart {
     height: 20vh;
+  }
+  .coverage-chart-small {
+    height: 8vh;
   }
 </style>

@@ -1,5 +1,8 @@
 <template>
-  <v-container fluid>
+  <v-container
+    fluid
+    class="pb-0"
+  >
     <div class="text-6 font-weight-medium">
       {{ $t('herd.classicfeed.graph.title') }}
     </div>
@@ -79,6 +82,7 @@
         getEnergeticCoverageValues: 'getEnergeticCoverageByBatch',
         getProteicCoverageValues: 'getProteicCoverageByBatch',
       }),
+
       options() {
         // const periods = this.periods
         const periods = ['P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8', 'P9', 'P10', 'P11', 'P12', 'P13']
@@ -102,6 +106,8 @@
           grid: {
             height: '50%',
             top: '10%',
+            left: '20%',
+            right: '10%',
           },
           xAxis: {
             type: 'category',
@@ -179,6 +185,6 @@
 
 <style scoped>
   .feed-chart {
-    height: 20vh;
+    height: 8vh;
   }
 </style>

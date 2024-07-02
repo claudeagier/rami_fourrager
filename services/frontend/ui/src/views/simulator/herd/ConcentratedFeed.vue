@@ -4,6 +4,7 @@
       :selected-lot="selectedLot"
       :selection="selectedPeriodIndex"
       :stand-alone="false"
+      :small="true"
     />
     <v-tabs
       centered
