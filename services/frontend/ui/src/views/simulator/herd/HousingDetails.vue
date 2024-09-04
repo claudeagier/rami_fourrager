@@ -62,7 +62,7 @@
 <script>
   import { mapGetters, mapMutations } from 'vuex'
   import HousingGraph from './HousingGraph.vue'
-  import DuplicateModal from './DuplicateModal.vue'
+  import DuplicateModal from '@/components/base/DuplicateModal.vue'
 
   export default {
     name: 'housingDetails',

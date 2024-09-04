@@ -1,0 +1,76 @@
+<template>
+  <v-container>
+    <slot name="graph" />
+    <v-tabs
+      centered
+      :color="pageColor"
+    >
+      <v-tab
+        v-for="(period, index) in periods"
+        :key="index"
+        @click="$emit('selected', index)"
+        class="period-tab"
+      >
+        {{ $t('period', { id: period.id }) }}
+      </v-tab>
+      <v-tab-item
+        v-for="(period, index) in periods"
+        :key="index"
+      >
+        <v-toolbar
+          color="white"
+          flat
+        >
+          <v-toolbar-title> {{ $t(toolBarTitleKey, { period: period.id }) }} </v-toolbar-title>
+          <v-divider
+            class="mx-4"
+            inset
+            vertical
+          ></v-divider>
+          <v-spacer></v-spacer>
+          <duplicate-modal
+            :ids="periods"
+            :sourceItem="period"
+            @duplicate="duplicate"
+          />
+          <slot name="create-modal" />
+        </v-toolbar>
+        <slot name="tab-item" />
+      </v-tab-item>
+    </v-tabs>
+  </v-container>
+</template>
+<script>
+  import { mapGetters } from 'vuex'
+  import DuplicateModal from '@/components/base/DuplicateModal'
+  export default {
+    name: 'Periodlayout',
+    props: {
+      pageColor: { type: String },
+      toolBarTitleKey: {
+        type: String,
+      },
+    },
+    components: {
+      DuplicateModal,
+    },
+    computed: {
+      ...mapGetters('referential', {
+        periods: 'periodList',
+      }),
+    },
+    methods: {
+      periodSelected(period) {
+        this.$emit('selected', period)
+      },
+      duplicate({ source, targets }) {
+        this.$emit('duplicate', { source: source, targets: targets })
+      },
+    },
+  }
+</script>
+<style>
+  .period-tab {
+    min-width: 0.1vh;
+  }
+</style>

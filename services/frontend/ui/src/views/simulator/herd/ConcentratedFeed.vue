@@ -1,88 +1,62 @@
 <template>
-  <v-container>
-    <graph-coverage
-      :selected-lot="selectedLot"
-      :selection="selectedPeriodIndex"
-      :stand-alone="false"
-      :small="true"
-    />
-    <v-tabs
-      centered
-      :color="pageColor"
-    >
-      <v-tab
-        v-for="(period, index) in periods"
-        :key="index"
-        @click="periodSelected(index)"
+  <period-layout
+    :pageColor="pageColor"
+    toolBarTitleKey="herd.concentratedfeed.tabs.table.title"
+    @selected="periodSelected"
+    @duplicate="duplicate"
+  >
+    <template v-slot:graph>
+      <graph-coverage
+        :selected-lot="selectedLot"
+        :selection="selectedPeriodIndex"
+        :stand-alone="false"
+        :small="true"
+      />
+    </template>
+    <template v-slot:create-modal>
+      <concentrated-feed-modal
+        :pageColor="pageColor"
+        :item="feedItem"
+        :forceOpen="dialogs[selectedPeriodIndex]"
+        :selectedPeriodIndex="selectedPeriodIndex"
+        @add-item="saveItem"
+        @cancel-modal="closeModal"
+      />
+    </template>
+
+    <template v-slot:tab-item>
+      <v-data-table
+        :headers="headers"
+        :items="feeds"
+        class="elevation-1"
+        sort-by="type"
+        hide-default-footer
       >
-        {{ $t('herd.concentratedfeed.tabs.title', { period: period.id }) }}
-      </v-tab>
-      <v-tab-item
-        v-for="(period, index) in periods"
-        :key="index"
-      >
-        <v-data-table
-          :headers="headers"
-          :items="feeds"
-          class="elevation-1"
-          sort-by="type"
-          hide-default-footer
-        >
-          <template v-slot:top>
-            <v-toolbar
-              color="white"
-              flat
-            >
-              <v-toolbar-title>
-                {{ $t('herd.concentratedfeed.tabs.table.title', { period: period.id }) }}
-              </v-toolbar-title>
-              <v-divider
-                class="mx-4"
-                inset
-                vertical
-              ></v-divider>
-              <v-spacer></v-spacer>
-              <duplicate-modal
-                :ids="periods"
-                :sourceItem="period"
-                @duplicate="duplicate"
-              />
-              <concentrated-feed-modal
-                :pageColor="pageColor"
-                :item="feedItem"
-                :forceOpen="dialogs[index]"
-                :selectedPeriodIndex="selectedPeriodIndex"
-                @add-item="saveItem"
-                @cancel-modal="closeModal"
-              />
-            </v-toolbar>
-          </template>
-          <template v-slot:[`item.actions`]="{ item }">
-            <v-icon
-              @click="deleteItem(item)"
-              small
-            >
-              mdi-delete
-            </v-icon>
-            <v-icon
-              @click="editItem(item)"
-              medium
-              color="green"
-              background-color="green"
-            >
-              mdi-square-edit-outline
-            </v-icon>
-          </template>
-        </v-data-table>
-      </v-tab-item>
-    </v-tabs>
-  </v-container>
+        <template v-slot:[`item.actions`]="{ item }">
+          <v-icon
+            @click="deleteItem(item)"
+            small
+          >
+            mdi-delete
+          </v-icon>
+          <v-icon
+            @click="editItem(item)"
+            medium
+            color="green"
+            background-color="green"
+          >
+            mdi-square-edit-outline
+          </v-icon>
+        </template>
+      </v-data-table>
+    </template>
+  </period-layout>
 </template>
 <script>
   import { mapGetters } from 'vuex'
   import ConcentratedFeedModal from './ConcentratedFeedModal.vue'
-  import DuplicateModal from './DuplicateModal.vue'
   import GraphCoverage from './GraphCoverage.vue'
+  import PeriodLayout from '@/components/base/PeriodLayout.vue'
 
   export default {
     name: 'ConcentratedFeed',
@@ -98,8 +72,8 @@
       },
     },
     components: {
+      PeriodLayout,
       ConcentratedFeedModal,
-      DuplicateModal,
       GraphCoverage,
     },
     data() {

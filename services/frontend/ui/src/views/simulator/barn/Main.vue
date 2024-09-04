@@ -1,133 +1,102 @@
 <template>
-  <v-container
-    id="barn-vue"
-    fluid
-    tag="section"
+  <page-container
+    container-name="barn-vue"
+    :page-color="pageColor"
+    :title="$t('barn.main.title')"
+    :subtitle="$t('barn.main.subtitle')"
+    @apply="applyToSimulation"
   >
-    <v-row
-      align="center"
-      justify="center"
-    >
-      <v-col
-        cols="12"
-        class="pt-0 pb-0"
-      >
-        <base-material-card :color="pageColor">
-          <template v-slot:heading>
-            <v-row>
-              <v-col
-                cols="12"
-                lg="9"
-                sm="9"
+    <template v-slot:content>
+      <v-row>
+        <v-col
+          cols="5"
+          class="pt-0 pb-0"
+        >
+          <v-card>
+            <v-card-title>
+              <div class="text-h4 font-weight-light">{{ $t('barn.straw.title') }}</div>
+            </v-card-title>
+            <v-card-text>
+              <v-text-field
+                v-model.number="strawQuantity"
+                :label="$t('barn.straw.quantity')"
+                type="number"
+                hide-spin-buttons
+                min="0"
+              ></v-text-field>
+            </v-card-text>
+          </v-card>
+          <v-card>
+            <v-card-title>
+              <div class="text-h4 font-weight-light">{{ $t('barn.concentrated.title') }}</div>
+            </v-card-title>
+            <v-card-text>
+              <v-text-field
+                v-model.number="energeticQuantity"
+                :label="$t('barn.concentrated.energeticQuantity')"
+                type="number"
+                hide-spin-buttons
+                min="0"
+              ></v-text-field>
+              <v-text-field
+                v-model.number="proteicQuantity"
+                :label="$t('barn.concentrated.proteicQuantity')"
+                type="number"
+                hide-spin-buttons
+                min="0"
+              ></v-text-field>
+            </v-card-text>
+          </v-card>
+        </v-col>
+        <v-col
+          cols="7"
+          class="pt-0 pb-0"
+        >
+          <v-card>
+            <v-card-text>
+              <v-data-table
+                :headers="headers"
+                :items="initialFeedStock"
+                class="elevation-1"
+                sort-by="type"
               >
-                <div class="text-h3 font-weight-light">{{ $t('barn.main.title') }}</div>
-                <div class="text-subtitle-1 font-weight-light">{{ $t('barn.main.subtitle') }}</div>
-              </v-col>
-              <v-col>
-                <div>
-                  <v-btn
-                    :color="pageColor"
-                    style="background-color: white"
-                    outlined
-                    @click="applyToSimulation"
+                <template v-slot:top>
+                  <v-toolbar
+                    color="white"
+                    flat
                   >
-                    {{ $t('btn.apply') }}
-                  </v-btn>
-                </div>
-              </v-col>
-            </v-row>
-          </template>
-          <v-card-text>
-            <v-row>
-              <v-col
-                cols="5"
-                class="pt-0 pb-0"
-              >
-                <v-card>
-                  <v-card-title>
-                    <div class="text-h4 font-weight-light">{{ $t('barn.straw.title') }}</div>
-                  </v-card-title>
-                  <v-card-text>
-                    <v-text-field
-                      v-model.number="strawQuantity"
-                      :label="$t('barn.straw.quantity')"
-                      type="number"
-                      hide-spin-buttons
-                      min="0"
-                    ></v-text-field>
-                  </v-card-text>
-                </v-card>
-                <v-card>
-                  <v-card-title>
-                    <div class="text-h4 font-weight-light">{{ $t('barn.concentrated.title') }}</div>
-                  </v-card-title>
-                  <v-card-text>
-                    <v-text-field
-                      v-model.number="energeticQuantity"
-                      :label="$t('barn.concentrated.energeticQuantity')"
-                      type="number"
-                      hide-spin-buttons
-                      min="0"
-                    ></v-text-field>
-                    <v-text-field
-                      v-model.number="proteicQuantity"
-                      :label="$t('barn.concentrated.proteicQuantity')"
-                      type="number"
-                      hide-spin-buttons
-                      min="0"
-                    ></v-text-field>
-                  </v-card-text>
-                </v-card>
-              </v-col>
-              <v-col
-                cols="7"
-                class="pt-0 pb-0"
-              >
-                <v-card>
-                  <v-card-text>
-                    <v-data-table
-                      :headers="headers"
-                      :items="initialFeedStock"
-                      class="elevation-1"
-                      sort-by="type"
+                    <v-toolbar-title class="text-h4 font-weight-light">
+                      {{ $t('barn.table.title') }}
+                    </v-toolbar-title>
+                    <v-divider
+                      class="mx-4"
+                      inset
+                      vertical
+                    ></v-divider>
+                    <v-spacer></v-spacer>
+                    <v-dialog
+                      max-width="500px"
+                      v-model="dialog"
                     >
-                      <template v-slot:top>
-                        <v-toolbar
-                          color="white"
-                          flat
+                      <template v-slot:activator="{ on }">
+                        <v-btn
+                          class="mb-2"
+                          :color="pageColor"
+                          outlined
+                          v-on="on"
                         >
-                          <v-toolbar-title class="text-h4 font-weight-light">
-                            {{ $t('barn.table.title') }}
-                          </v-toolbar-title>
-                          <v-divider
-                            class="mx-4"
-                            inset
-                            vertical
-                          ></v-divider>
-                          <v-spacer></v-spacer>
-                          <v-dialog
-                            max-width="500px"
-                            v-model="dialog"
-                          >
-                            <template v-slot:activator="{ on }">
-                              <v-btn
-                                class="mb-2"
-                                :color="pageColor"
-                                outlined
-                                v-on="on"
-                              >
-                                {{ $t('barn.modal.title') }}
-                              </v-btn>
-                            </template>
-                            <v-card>
-                              <v-card-title>
-                                <span class="text-h4">{{ $t('barn.modal.add_btn') }}</span>
-                              </v-card-title>
+                          {{ $t('barn.modal.title') }}
+                        </v-btn>
+                      </template>
+                      <v-card>
+                        <v-card-title>
+                          <span class="text-h4">{{ $t('barn.modal.add_btn') }}</span>
+                        </v-card-title>
 
-                              <v-card-text>
-                                <v-container>
-                                  <v-row>
-                                    <!-- <v-col
+                        <v-card-text>
+                          <v-container>
+                            <v-row>
+                              <!-- <v-col
                             cols="12"
                             md="12"
                             sm="12"
@@ -167,7 +136,7 @@
                             ></v-select>
                           </v-col> -->
 
-                                    <!-- <v-col
+                              <!-- <v-col
                             cols="12"
                             md="12"
                             sm="12"
@@ -177,78 +146,78 @@
                               label="Quantity (in days)"
                             ></v-text-field>
                           </v-col> -->
-                                    <v-col
-                                      cols="12"
-                                      md="12"
-                                      sm="12"
-                                    >
-                                      <v-select
-                                        v-model="selectedItem"
-                                        :items="barnStockItems"
-                                        item-text="name"
-                                        item-value="code"
-                                        :label="$t('barn.modal.select_label')"
-                                        return-object
-                                      ></v-select>
-                                    </v-col>
-                                    <v-col
-                                      cols="12"
-                                      md="12"
-                                      sm="12"
-                                    >
-                                      <v-text-field
-                                        v-model.number="quantityInTons"
-                                        :label="$t('barn.modal.quantity', { unity: selectedItem?.unity })"
-                                        type="number"
-                                        hide-spin-buttons
-                                        min="0"
-                                      ></v-text-field>
-                                    </v-col>
-                                  </v-row>
-                                </v-container>
-                              </v-card-text>
+                              <v-col
+                                cols="12"
+                                md="12"
+                                sm="12"
+                              >
+                                <v-select
+                                  v-model="selectedItem"
+                                  :items="barnStockItems"
+                                  item-text="name"
+                                  item-value="code"
+                                  :label="$t('barn.modal.select_label')"
+                                  return-object
+                                ></v-select>
+                              </v-col>
+                              <v-col
+                                cols="12"
+                                md="12"
+                                sm="12"
+                              >
+                                <v-text-field
+                                  v-model.number="quantityInTons"
+                                  :label="$t('barn.modal.quantity', { unity: selectedItem?.unity })"
+                                  type="number"
+                                  hide-spin-buttons
+                                  min="0"
+                                ></v-text-field>
+                              </v-col>
+                            </v-row>
+                          </v-container>
+                        </v-card-text>
 
-                              <v-card-actions>
-                                <v-spacer></v-spacer>
-                                <v-btn
-                                  @click="close"
-                                  color="grey"
-                                  text
-                                >
-                                  {{ $t('btn.cancel') }}
-                                </v-btn>
-                                <v-btn
-                                  @click="save"
-                                  color="primary"
-                                  text
-                                  outlined
-                                >
-                                  {{ $t('btn.save') }}
-                                </v-btn>
-                              </v-card-actions>
-                            </v-card>
-                          </v-dialog>
-                        </v-toolbar>
-                      </template>
-                      <template v-slot:[`item.concentrated`]="{ value }">
-                        <v-chip :color="getColor(value)"> {{ !value ? '' : $t('barn.table.concentrated') }}</v-chip>
-                      </template>
-                      <template v-slot:[`item.actions`]="{ item }">
-                        <v-icon
-                          @click="deleteItem(item)"
-                          small
-                        >
-                          mdi-delete
-                        </v-icon>
-                        <v-icon
-                          medium
-                          color="green"
-                          background-color="green"
-                        >
-                          mdi-square-edit-outline
-                        </v-icon>
-                      </template>
-                      <!-- <template v-slot:no-data>
+                        <v-card-actions>
+                          <v-spacer></v-spacer>
+                          <v-btn
+                            @click="close"
+                            color="grey"
+                            text
+                          >
+                            {{ $t('btn.cancel') }}
+                          </v-btn>
+                          <v-btn
+                            @click="save"
+                            color="primary"
+                            text
+                            outlined
+                          >
+                            {{ $t('btn.save') }}
+                          </v-btn>
+                        </v-card-actions>
+                      </v-card>
+                    </v-dialog>
+                  </v-toolbar>
+                </template>
+                <template v-slot:[`item.concentrated`]="{ value }">
+                  <v-chip :color="getColor(value)"> {{ !value ? '' : $t('barn.table.concentrated') }}</v-chip>
+                </template>
+                <template v-slot:[`item.actions`]="{ item }">
+                  <v-icon
+                    @click="deleteItem(item)"
+                    small
+                  >
+                    mdi-delete
+                  </v-icon>
+                  <v-icon
+                    medium
+                    color="green"
+                    background-color="green"
+                  >
+                    mdi-square-edit-outline
+                  </v-icon>
+                </template>
+                <!-- <template v-slot:no-data>
                     <v-btn
                       @click="initialize"
                       color="primary"
@@ -256,21 +225,19 @@
                       Reset
                     </v-btn>
                   </template> -->
-                    </v-data-table>
-                  </v-card-text>
-                </v-card>
-              </v-col>
-            </v-row>
-          </v-card-text>
-        </base-material-card>
-      </v-col>
-    </v-row>
-  </v-container>
+              </v-data-table>
+            </v-card-text>
+          </v-card>
+        </v-col>
+      </v-row>
+    </template>
+  </page-container>
 </template>
 
 <script>
   import { mapState, mapGetters } from 'vuex'
   import navigationGuard from '@/mixins/navigationGuard'
+  import PageContainer from '@/components/base/PageContainer.vue'
 
   // TODO-FRONT ajouter les stock de concentré et les stocks de paille
   export default {
@@ -278,6 +245,9 @@
     mixins: [navigationGuard],
     confirmNavigation(callback) {
       this.$confirmNavigation(callback)
+    },
+    components: {
+      PageContainer,
     },
     data: () => ({
       pageColor: 'brown',

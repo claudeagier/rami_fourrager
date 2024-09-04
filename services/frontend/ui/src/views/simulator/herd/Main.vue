@@ -1,223 +1,191 @@
 <template>
-  <v-container
-    id="typography"
-    fluid
-    tag="section"
+  <page-container
+    container-name="herd-vue"
+    :page-color="pageColor"
+    :title="$t('herd.main.title')"
+    :subtitle="$t('herd.main.subtitle')"
+    @apply="applyToSimulation"
   >
-    <v-row
-      align="center"
-      justify="center"
-    >
-      <v-col
-        cols="12"
-        class="pt-0 pb-0"
-      >
-        <base-material-card :color="pageColor">
-          <template v-slot:heading>
-            <v-row>
-              <v-col
-                cols="12"
-                lg="9"
-                sm="9"
+    <template v-slot:content>
+      <v-row>
+        <v-col
+          cols="12"
+          lg="3"
+          class="pt-0 pb-0"
+        >
+          <v-card id="batch-list">
+            <v-card-title>
+              <span class="font-weight-bold text-lg-h3 text-md-h4">{{ $t('herd.main.list.title') }}</span>
+              <v-divider
+                class="mx-4"
+                inset
+                vertical
+              />
+              <v-spacer></v-spacer>
+              <v-btn
+                @click="showHerdModal"
+                :color="pageColor"
+                outlined
+                small
+                :class="{ 'animate-button': animate }"
               >
-                <div class="text-h3 font-weight-light">{{ $t('herd.main.title') }}</div>
-                <div class="text-subtitle-1 font-weight-light">{{ $t('herd.main.subtitle') }}</div>
-              </v-col>
-              <v-col>
-                <v-btn
-                  :color="pageColor"
-                  style="background-color: white"
-                  outlined
-                  @click="applyToSimulation"
+                {{ $t('herd.main.list.btn_add') }}
+              </v-btn>
+            </v-card-title>
+            <v-card-text>
+              <herd-modal
+                :showModal="showModal"
+                @add-lot="addLot"
+                @cancel-add-lot="cancelAddLot"
+              />
+
+              <div class="scrollable-list">
+                <v-card
+                  v-for="(lot, index) in lots"
+                  :key="index"
+                  :elevation="index === selectedLot ? 4 : 2"
+                  hover
+                  :shaped="index === selectedLot"
+                  :outlined="index === selectedLot"
+                  @click="showDetails(index)"
                 >
-                  {{ $t('btn.apply') }}
-                </v-btn>
-              </v-col>
-            </v-row>
-          </template>
-          <v-card-text>
-            <v-row>
-              <v-col
-                cols="12"
-                lg="3"
-                class="pt-0 pb-0"
-              >
-                <v-card id="batch-list">
-                  <v-card-title>
-                    <span class="font-weight-bold text-lg-h3 text-md-h4">{{ $t('herd.main.list.title') }}</span>
+                  <v-card-title class="font-weight-bold text-lg-h4 text-md-h4">
+                    <span>{{ $t('herd.main.card.title', { id: index + 1 }) }}</span>
                     <v-divider
                       class="mx-4"
                       inset
                       vertical
                     />
                     <v-spacer></v-spacer>
-                    <v-btn
-                      @click="showHerdModal"
+                    <v-icon
+                      @click="deleteLot(lot)"
+                      medium
+                    >
+                      mdi-delete
+                    </v-icon>
+                    <v-icon
+                      @click="showDetails(index)"
+                      large
                       :color="pageColor"
-                      outlined
-                      small
-                      :class="{ 'animate-button': animate }"
                     >
-                      {{ $t('herd.main.list.btn_add') }}
-                    </v-btn>
+                      mdi-square-edit-outline
+                    </v-icon>
                   </v-card-title>
                   <v-card-text>
-                    <herd-modal
-                      :showModal="showModal"
-                      @add-lot="addLot"
-                      @cancel-add-lot="cancelAddLot"
-                    />
-
-                    <div class="scrollable-list">
-                      <v-card
-                        v-for="(lot, index) in lots"
-                        :key="index"
-                        :elevation="index === selectedLot ? 4 : 2"
-                        hover
-                        :shaped="index === selectedLot"
-                        :outlined="index === selectedLot"
-                        @click="showDetails(index)"
-                      >
-                        <v-card-title class="font-weight-bold text-lg-h4 text-md-h4">
-                          <span>{{ $t('herd.main.card.title', { id: index + 1 }) }}</span>
-                          <v-divider
-                            class="mx-4"
-                            inset
-                            vertical
-                          />
-                          <v-spacer></v-spacer>
-                          <v-icon
-                            @click="deleteLot(lot)"
-                            medium
-                          >
-                            mdi-delete
-                          </v-icon>
-                          <v-icon
-                            @click="showDetails(index)"
-                            large
-                            :color="pageColor"
-                          >
-                            mdi-square-edit-outline
-                          </v-icon>
-                        </v-card-title>
-                        <v-card-text>
-                          <v-col cols="12">
-                            {{ $t('herd.main.card.description', { count: lot.count, name: lot.profile.name }) }}
-                          </v-col>
-                        </v-card-text>
-                      </v-card>
-                    </div>
+                    <v-col cols="12">
+                      {{ $t('herd.main.card.description', { count: lot.count, name: lot.profile.name }) }}
+                    </v-col>
                   </v-card-text>
                 </v-card>
-              </v-col>
-              <v-col
-                cols="12"
-                lg="9"
-                class="pt-0 pb-0"
-              >
-                <v-card
-                  id="batch-details"
-                  v-if="selectedLot !== null"
+              </div>
+            </v-card-text>
+          </v-card>
+        </v-col>
+        <v-col
+          cols="12"
+          lg="9"
+          class="pt-0 pb-0"
+        >
+          <v-card
+            id="batch-details"
+            v-if="selectedLot !== null"
+          >
+            <v-card-title class="text-center justify-center py-6">
+              <v-row>
+                <v-col
+                  cols="7"
+                  class="pt-0 pb-0"
                 >
-                  <v-card-title class="text-center justify-center py-6">
-                    <v-row>
-                      <v-col
-                        cols="7"
-                        class="pt-0 pb-0"
-                      >
-                        <h1 class="font-weight-bold text-lg-h3">
-                          {{ $t('herd.main.details.title', { id: selectedLot + 1 }) }}
-                        </h1>
-                      </v-col>
-                      <v-col class="pt-0 pb-0">
-                        <graphs-modal
-                          :selectedLot="selectedLot"
-                          :pageColor="pageColor"
-                        />
-                      </v-col>
-                    </v-row>
-                  </v-card-title>
-                  <v-card-text>
-                    <!-- <div class="vertical-text">Lot {{ selectedLot + 1 }}</div> -->
-                    <v-row
-                      align="center"
-                      justify="start"
+                  <h1 class="font-weight-bold text-lg-h3">
+                    {{ $t('herd.main.details.title', { id: selectedLot + 1 }) }}
+                  </h1>
+                </v-col>
+                <v-col class="pt-0 pb-0">
+                  <graphs-modal
+                    :selectedLot="selectedLot"
+                    :pageColor="pageColor"
+                  />
+                </v-col>
+              </v-row>
+            </v-card-title>
+            <v-card-text>
+              <!-- <div class="vertical-text">Lot {{ selectedLot + 1 }}</div> -->
+              <v-row
+                align="center"
+                justify="start"
+              >
+                <v-col cols="12">
+                  <v-tabs
+                    centered
+                    :color="pageColor"
+                    fixed-tabs
+                  >
+                    <v-tab
+                      v-for="(tab, tabIndex) in [
+                        $t('herd.main.details.tabs.overview'),
+                        $t('herd.main.details.tabs.housing'),
+                        $t('herd.main.details.tabs.classicfeed'),
+                        $t('herd.main.details.tabs.concentratedfeed'),
+                        $t('herd.main.details.tabs.pasture'),
+                      ]"
+                      :key="tabIndex"
+                      @click="$store.dispatch('simulator/herd/setHerd')"
                     >
-                      <v-col cols="12">
-                        <v-tabs
-                          centered
-                          :color="pageColor"
-                          fixed-tabs
-                        >
-                          <v-tab
-                            v-for="(tab, tabIndex) in [
-                              $t('herd.main.details.tabs.overview'),
-                              $t('herd.main.details.tabs.housing'),
-                              $t('herd.main.details.tabs.classicfeed'),
-                              $t('herd.main.details.tabs.concentratedfeed'),
-                              $t('herd.main.details.tabs.pasture'),
-                            ]"
-                            :key="tabIndex"
-                            @click="$store.dispatch('simulator/herd/setHerd')"
-                          >
-                            {{ tab }}
-                          </v-tab>
-                          <!-- batch Details -->
-                          <v-tab-item>
-                            <v-divider></v-divider>
-                            <batch-details
-                              :pageColor="pageColor"
-                              :selectedLot="selectedLot"
-                            />
-                          </v-tab-item>
-                          <!-- Housing Details -->
-                          <v-tab-item>
-                            <v-divider></v-divider>
-                            <housing-details
-                              :pageColor="pageColor"
-                              :selectedLot="selectedLot"
-                            />
-                          </v-tab-item>
-                          <!-- Classic Feeds Details -->
-                          <v-tab-item>
-                            <v-divider></v-divider>
-                            <classic-feed
-                              :pageColor="pageColor"
-                              :selectedLot="selectedLot"
-                            />
-                          </v-tab-item>
-                          <!-- Concentrated Feeds Details -->
-                          <v-tab-item>
-                            <v-divider></v-divider>
-                            <concentrated-feed
-                              :pageColor="pageColor"
-                              :selectedLot="selectedLot"
-                            />
-                          </v-tab-item>
-                          <!-- Pasture Details -->
-                          <v-tab-item>
-                            <v-divider></v-divider>
-                            <pasture-details
-                              :pageColor="pageColor"
-                              :selectedLot="selectedLot"
-                            />
-                          </v-tab-item>
-                        </v-tabs>
-                      </v-col>
-                      <v-col>
-                        <!-- <feeds-requirements-graph :selectedLot="selectedLot" />
+                      {{ tab }}
+                    </v-tab>
+                    <!-- batch Details -->
+                    <v-tab-item>
+                      <v-divider></v-divider>
+                      <batch-details
+                        :pageColor="pageColor"
+                        :selectedLot="selectedLot"
+                      />
+                    </v-tab-item>
+                    <!-- Housing Details -->
+                    <v-tab-item>
+                      <v-divider></v-divider>
+                      <housing-details
+                        :pageColor="pageColor"
+                        :selectedLot="selectedLot"
+                      />
+                    </v-tab-item>
+                    <!-- Classic Feeds Details -->
+                    <v-tab-item>
+                      <v-divider></v-divider>
+                      <classic-feed
+                        :pageColor="pageColor"
+                        :selectedLot="selectedLot"
+                      />
+                    </v-tab-item>
+                    <!-- Concentrated Feeds Details -->
+                    <v-tab-item>
+                      <v-divider></v-divider>
+                      <concentrated-feed
+                        :pageColor="pageColor"
+                        :selectedLot="selectedLot"
+                      />
+                    </v-tab-item>
+                    <!-- Pasture Details -->
+                    <v-tab-item>
+                      <v-divider></v-divider>
+                      <pasture-details
+                        :pageColor="pageColor"
+                        :selectedLot="selectedLot"
+                      />
+                    </v-tab-item>
+                  </v-tabs>
+                </v-col>
+                <v-col>
+                  <!-- <feeds-requirements-graph :selectedLot="selectedLot" />
                         <feeds-requirements-graph :selectedLot="selectedLot" /> -->
-                      </v-col>
-                    </v-row>
-                  </v-card-text>
-                </v-card>
-              </v-col>
-            </v-row>
-          </v-card-text>
-        </base-material-card>
-      </v-col>
-    </v-row>
-  </v-container>
+                </v-col>
+              </v-row>
+            </v-card-text>
+          </v-card>
+        </v-col>
+      </v-row>
+    </template>
+  </page-container>
 </template>
 <script>
   import { mapState } from 'vuex'
@@ -229,6 +197,7 @@
   import PastureDetails from './PastureDetails'
   import navigationGuard from '@/mixins/navigationGuard'
   import GraphsModal from './GraphsModal.vue'
+  import PageContainer from '@/components/base/PageContainer.vue'
 
   export default {
     name: 'Herd',
@@ -237,6 +206,7 @@
       this.$confirmNavigation(callback)
     },
     components: {
+      PageContainer,
       HerdModal,
       HousingDetails,
       ConcentratedFeed,
