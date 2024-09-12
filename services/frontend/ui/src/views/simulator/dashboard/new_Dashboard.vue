@@ -38,6 +38,85 @@
       <v-row>
         <v-col
           cols="12"
+          lg="7"
+          md="6"
+          class="pt-0 pb-0"
+        >
+          <base-material-card
+            color="grey"
+            min-height="130"
+          >
+            <template v-slot:heading>
+              <v-row>
+                <v-col cols="10">
+                  <div class="text-h3 font-weight-light">{{ 'La simulation' }}</div>
+                </v-col>
+              </v-row>
+            </template>
+            <v-card-text>
+              <!-- probleme de date -->
+              <div v-if="simulation.name">{{ $t('dashboard.simulation.name', { name: simulation.name }) }}</div>
+              <div v-if="simulation.description">
+                {{ $t('dashboard.simulation.description', { desc: simulation.description }) }}
+              </div>
+            </v-card-text>
+          </base-material-card>
+        </v-col>
+        <v-col
+          cols="12"
+          lg="5"
+          md="6"
+          class="pt-0 pb-0"
+        >
+          <base-material-card
+            color="#F39C12"
+            min-height="130"
+          >
+            <v-card-text>
+              <v-spacer></v-spacer>
+              <div class="text-h3 font-weight-light">{{ 'Autonomie et Potentiel' }}</div>
+              <v-divider></v-divider>
+              <v-row justify="center">
+                <v-col cols="6">
+                  <v-row>
+                    <v-col
+                      cols="6"
+                      class="pt-0 pb-0"
+                      align-self="end"
+                    >
+                      <gauge
+                        :gaugeValue="-0.02"
+                        :min="-0.5"
+                        :max="0.5"
+                        :floor="0"
+                        gaugeName="Autonomie"
+                        :gaugeOptions="gaugeOptions"
+                      />
+                    </v-col>
+                    <v-col
+                      cols="6"
+                      class="pt-0 pb-0"
+                      align-self="end"
+                    >
+                      <gauge
+                        :min="0"
+                        :max="140"
+                        :floor="90"
+                        :gaugeValue="93"
+                        gaugeName="Potentiel"
+                        :gaugeOptions="gaugeOptions"
+                      />
+                    </v-col>
+                  </v-row>
+                </v-col>
+              </v-row>
+            </v-card-text>
+          </base-material-card>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col
+          cols="12"
           lg="2"
           md="6"
           class="pt-0 pb-0"
@@ -70,25 +149,6 @@
             class="mt-8"
             type="card"
           ></v-skeleton-loader>
-          <base-material-card
-            color="#F39C12"
-            min-height="130"
-          >
-            <template v-slot:heading>
-              <v-row>
-                <v-col cols="10">
-                  <div class="text-h3 font-weight-light">{{ 'La simulation' }}</div>
-                </v-col>
-              </v-row>
-            </template>
-            <v-card-text>
-              <!-- probleme de date -->
-              <div v-if="simulation.name">{{ $t('dashboard.simulation.name', { name: simulation.name }) }}</div>
-              <div v-if="simulation.description">
-                {{ $t('dashboard.simulation.description', { desc: simulation.description }) }}
-              </div>
-            </v-card-text>
-          </base-material-card>
         </v-col>
         <v-col
           cols="12"
@@ -102,26 +162,7 @@
               md="6"
               class="pt-0 pb-0"
             >
-              <base-material-chart-card
-                :data="farmGraph.data"
-                :options="farmGraph.options"
-                :responsive-options="farmGraph.responsiveOptions"
-                :type="farmGraph.type"
-                color="green"
-              >
-                <h3 class="card-title font-weight-light mt-2 ml-2">{{ $t('farm.title') }}</h3>
-                <v-card>
-                  <v-card-title>Dimensionnement</v-card-title>
-                </v-card>
-
-                <v-btn
-                  class="ml-2"
-                  min-width="0"
-                  to="/simulation/farm"
-                >
-                  {{ $t('btn.complete') }}
-                </v-btn>
-              </base-material-chart-card>
+              <farm />
             </v-col>
             <!-- herd -->
             <v-col
@@ -129,21 +170,7 @@
               md="6"
               class="pt-0 pb-0"
             >
-              <base-material-chart-card
-                :data="dataCompletedTasksChart.data"
-                :options="dataCompletedTasksChart.options"
-                type="Line"
-                color="orange"
-              >
-                <h3 class="card-title font-weight-light mt-2 ml-2">{{ $t('herd.title') }}</h3>
-                <v-btn
-                  class="ml-2"
-                  min-width="0"
-                  to="/simulation/herd"
-                >
-                  {{ $t('btn.complete') }}
-                </v-btn>
-              </base-material-chart-card>
+              <herd />
             </v-col>
           </v-row>
           <v-row>
@@ -153,21 +180,7 @@
               md="6"
               class="pt-0 pb-0"
             >
-              <base-material-chart-card
-                :data="dataCompletedTasksChart.data"
-                :options="dataCompletedTasksChart.options"
-                color="brown"
-                type="Line"
-              >
-                <h3 class="card-title font-weight-light mt-2 ml-2">{{ $t('barn.title') }}</h3>
-                <v-btn
-                  class="ml-2"
-                  min-width="0"
-                  to="/simulation/barn"
-                >
-                  {{ $t('btn.complete') }}
-                </v-btn>
-              </base-material-chart-card>
+              <barn />
             </v-col>
             <!-- report -->
             <v-col
@@ -175,21 +188,7 @@
               md="6"
               class="pt-0 pb-0"
             >
-              <base-material-chart-card
-                :data="dataCompletedTasksChart.data"
-                :options="dataCompletedTasksChart.options"
-                type="Line"
-                color="orange"
-              >
-                <h3 class="card-title font-weight-light mt-2 ml-2">{{ $t('report.title') }}</h3>
-                <v-btn
-                  class="ml-2"
-                  min-width="0"
-                  to="/simulation/report"
-                >
-                  {{ $t('btn.complete') }}
-                </v-btn>
-              </base-material-chart-card>
+              <report />
             </v-col>
           </v-row>
         </v-col>
@@ -201,69 +200,37 @@
 <script>
   import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
   import navigationGuard from '@/mixins/navigationGuard'
+  import Farm from './Farm'
+  import Report from './Report'
+  import Barn from './Barn'
+  import Herd from './Herd'
+  import Gauge from '@/components/base/Gauge'
 
   export default {
     name: 'Dashboard',
-    components: {},
+    components: {
+      Farm,
+      Report,
+      Barn,
+      Herd,
+      Gauge,
+    },
     mixins: [navigationGuard],
     confirmNavigation(callback) {
       this.$confirmNavigation(callback)
     },
     data() {
       return {
+        gaugeOptions: {
+          size: {
+            width: 'auto',
+            height: '100 px',
+          },
+          lineStyle: {
+            width: 10,
+          },
+        },
         climaticYears: [],
-
-        dataCompletedTasksChart: {
-          data: {
-            labels: ['12am', '3pm', '6pm', '9pm', '12pm', '3am', '6am', '9am'],
-            series: [[230, 750, 450, 300, 280, 240, 200, 190]],
-          },
-          options: {
-            lineSmooth: this.$chartist.Interpolation.cardinal({
-              tension: 0,
-            }),
-            low: 0,
-            high: 1000,
-            chartPadding: {
-              top: 0,
-              right: 0,
-              bottom: 0,
-              left: 0,
-            },
-          },
-        },
-        emailsSubscriptionChart: {
-          data: {
-            labels: ['Ja', 'Fe', 'Ma', 'Ap', 'Mai', 'Ju', 'Jul', 'Au', 'Se', 'Oc', 'No', 'De'],
-            series: [[542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895]],
-          },
-          options: {
-            axisX: {
-              showGrid: false,
-            },
-            low: 0,
-            high: 1000,
-            chartPadding: {
-              top: 0,
-              right: 5,
-              bottom: 0,
-              left: 0,
-            },
-          },
-          responsiveOptions: [
-            [
-              'screen and (max-width: 640px)',
-              {
-                seriesBarDistance: 2,
-                axisX: {
-                  labelInterpolationFnc: function (value) {
-                    return value[0]
-                  },
-                },
-              },
-            ],
-          ],
-        },
       }
     },
     created() {

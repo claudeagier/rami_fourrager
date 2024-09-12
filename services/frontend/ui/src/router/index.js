@@ -57,7 +57,25 @@ const routes = [
           {
             name: 'dashboard',
             path: 'dashboard',
-            component: () => import('@/views/simulator/Dashboard'),
+            component: () => import('@/views/simulator/dashboard/Main'),
+            // component: () => import('@/views/simulator/dashboard/new_Dashboard'),
+            meta: {
+              breadCrumb(route) {
+                // const paramToPageB = route.params.paramToPageB;
+                return [
+                  {
+                    text: 'breadcrumb.simulation',
+                    to: { name: 'dashboard' },
+                  },
+                ]
+              },
+            },
+          },
+          {
+            name: 'dashboard2',
+            path: 'dashboard-2',
+            // component: () => import('@/views/simulator/dashboard/Main'),
+            component: () => import('@/views/simulator/dashboard/new_Dashboard'),
             meta: {
               breadCrumb(route) {
                 // const paramToPageB = route.params.paramToPageB;

@@ -338,7 +338,15 @@
     }
   },
   "report": {
-    "title": "Le bilan"
+    "title": "Le bilan",
+    "main": {
+      "title": "Le bilan",
+      "subtitle": "Bilan du système paramétré",
+      "modules": {
+        "title": "Modules",
+        "dimensioning": { "title": "Bilan global", "label": "Bilan global", "description": "Description du module" }
+      }
+    }
   },
   "workspace": {
     "referential": {

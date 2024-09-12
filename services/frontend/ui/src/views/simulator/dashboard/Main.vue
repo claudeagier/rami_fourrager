@@ -81,26 +81,7 @@
           md="6"
           class="pt-0 pb-0"
         >
-          <base-material-chart-card
-            :data="farmGraph.data"
-            :options="farmGraph.options"
-            :responsive-options="farmGraph.responsiveOptions"
-            :type="farmGraph.type"
-            color="green"
-          >
-            <h3 class="card-title font-weight-light mt-2 ml-2">{{ $t('farm.title') }}</h3>
-            <v-card>
-              <v-card-title>Dimensionnement</v-card-title>
-            </v-card>
-
-            <v-btn
-              class="ml-2"
-              min-width="0"
-              to="/simulation/farm"
-            >
-              {{ $t('btn.complete') }}
-            </v-btn>
-          </base-material-chart-card>
+          <farm />
         </v-col>
         <!-- herd -->
         <v-col
@@ -108,21 +89,7 @@
           md="6"
           class="pt-0 pb-0"
         >
-          <base-material-chart-card
-            :data="dataCompletedTasksChart.data"
-            :options="dataCompletedTasksChart.options"
-            type="Line"
-            color="orange"
-          >
-            <h3 class="card-title font-weight-light mt-2 ml-2">{{ $t('herd.title') }}</h3>
-            <v-btn
-              class="ml-2"
-              min-width="0"
-              to="/simulation/herd"
-            >
-              {{ $t('btn.complete') }}
-            </v-btn>
-          </base-material-chart-card>
+          <herd />
         </v-col>
       </v-row>
       <v-row>
@@ -132,21 +99,7 @@
           md="6"
           class="pt-0 pb-0"
         >
-          <base-material-chart-card
-            :data="dataCompletedTasksChart.data"
-            :options="dataCompletedTasksChart.options"
-            color="brown"
-            type="Line"
-          >
-            <h3 class="card-title font-weight-light mt-2 ml-2">{{ $t('barn.title') }}</h3>
-            <v-btn
-              class="ml-2"
-              min-width="0"
-              to="/simulation/barn"
-            >
-              {{ $t('btn.complete') }}
-            </v-btn>
-          </base-material-chart-card>
+          <barn />
         </v-col>
         <!-- report -->
         <v-col
@@ -154,21 +107,7 @@
           md="6"
           class="pt-0 pb-0"
         >
-          <base-material-chart-card
-            :data="dataCompletedTasksChart.data"
-            :options="dataCompletedTasksChart.options"
-            type="Line"
-            color="orange"
-          >
-            <h3 class="card-title font-weight-light mt-2 ml-2">{{ $t('report.title') }}</h3>
-            <v-btn
-              class="ml-2"
-              min-width="0"
-              to="/simulation/report"
-            >
-              {{ $t('btn.complete') }}
-            </v-btn>
-          </base-material-chart-card>
+          <report />
         </v-col>
       </v-row>
     </div>
@@ -178,10 +117,20 @@
 <script>
   import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
   import navigationGuard from '@/mixins/navigationGuard'
+  import Farm from './Farm'
+  import Report from './Report'
+  import Barn from './Barn'
+  import Herd from './Herd'
 
   export default {
     name: 'Dashboard',
     mixins: [navigationGuard],
+    components: {
+      Farm,
+      Report,
+      Barn,
+      Herd,
+    },
     confirmNavigation(callback) {
       this.$confirmNavigation(callback)
     },

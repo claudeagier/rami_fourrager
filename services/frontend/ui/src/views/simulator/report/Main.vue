@@ -11,28 +11,34 @@
         <v-col
           cols="12"
           lg="12"
+          class="pt-0 pb-0"
         >
-          <!-- <v-tabs
-                  centered
-                  :color="pageColor"
-                  fixed-tabs
-                >
-                  <v-tab
-                    v-for="(tab, tabIndex) in [
-                      $t('herd.main.details.tabs.overview'),
-                      $t('herd.main.details.tabs.housing'),
-                      $t('herd.main.details.tabs.classicfeed'),
-                      $t('herd.main.details.tabs.concentratedfeed'),
-                      $t('herd.main.details.tabs.pasture'),
-                    ]"
-                    :key="tabIndex"
-                  >
-                    {{ tab }}
-                  </v-tab>
-                  <v-tab-item>
-                    <v-divider></v-divider>
-                  </v-tab-item>
-                </v-tabs> -->
+          <v-tabs
+            centered
+            :color="pageColor"
+            fixed-tabs
+          >
+            <v-tab
+              v-for="(mod, tabIndex) in modules"
+              :key="tabIndex"
+            >
+              {{ $t('report.main.modules.' + mod.labelKey) }}
+            </v-tab>
+            <v-tab-item
+              v-for="(mod, tabIndex) in modules"
+              :key="tabIndex"
+            >
+              <v-divider></v-divider>
+              <div>{{ $t('report.main.modules.' + mod.descriptionKey) }}</div>
+              <!-- Afficher dynamiquement le composant du module correspondant -->
+              <component
+                :is="mod.component"
+                :data="mod.data"
+                :pageColor="pageColor"
+                v-if="mod.component"
+              />
+            </v-tab-item>
+          </v-tabs>
         </v-col>
       </v-row>
     </template>
@@ -43,32 +49,77 @@
   import { mapState, mapGetters } from 'vuex'
   import navigationGuard from '@/mixins/navigationGuard'
   import PageContainer from '@/components/base/PageContainer.vue'
+  import { moduleConfigurations } from '@/components/modules/Config' // Importez la configuration des modules
 
+  // layout et data de toute la simulation qui est dans l'état ou chaque module prend dans le state qui est le model
   export default {
-    name: 'Barn',
+    name: 'Report',
     mixins: [navigationGuard],
     confirmNavigation(callback) {
       this.$confirmNavigation(callback)
     },
     components: { PageContainer },
     data: () => ({
-      pageColor: 'brown',
+      pageColor: 'blue',
+      modules: [],
     }),
-
+    created() {
+      this.loadModules()
+    },
     computed: {
       ...mapGetters('referential', {
         barnStockItems: 'barnStockItemList',
       }),
-      ...mapGetters('simulator/barn', {
-        initialFeedStock: 'initialFeedStock',
-        initialConcentratedStock: 'initialConcentratedStock',
-        totalConcentratedStock: 'totalConcentratedStock',
-        strawStock: 'getInitialStrawStock',
+      ...mapState('simulator', {
+        simulation: (state) => state,
       }),
-    },
-    created() {},
 
+      moduleList() {
+        const modules = [
+          {
+            name: 'Dimensioning',
+            labelKey: 'dimensioning.label',
+            descriptionKey: 'dimensioning.description',
+            moduleName: 'Dimensioning',
+            component: null,
+            data: {}, // Les données mappées seront ajoutées ici
+          },
+        ]
+        return modules
+      },
+    },
     methods: {
+      mapDataForModule(moduleName) {
+        // Récupérer la configuration de données requises pour le module
+        const config = moduleConfigurations[moduleName]
+        const mappedData = {}
+
+        if (config && config.requiredState) {
+          // Mapper uniquement les données du state nécessaires pour ce module
+          config.requiredState.forEach((key) => {
+            if (this[key] !== undefined) {
+              mappedData[key] = this[key]
+            }
+          })
+        }
+
+        return mappedData
+      },
+
+      async loadModules() {
+        const modules = [...this.moduleList]
+        for (const mod of modules) {
+          try {
+            // Chargement dynamique du composant en fonction du nom du module
+            mod.component = (await import(`@/components/modules/${mod.moduleName}.vue`)).default
+            // Mapper uniquement les données nécessaires pour ce module
+            mod.data = this.mapDataForModule(mod.moduleName)
+          } catch (error) {
+            console.error(`Erreur lors du chargement du module ${mod.moduleName}:`, error)
+          }
+        }
+        this.modules = modules
+      },
       applyToSimulation() {},
     },
   }

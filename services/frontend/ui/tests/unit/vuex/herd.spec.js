@@ -8,11 +8,13 @@ import {
   getFinalProteicCoverage,
   getDryMatterProvided,
 } from '@/store/modules/mixins'
+import referential from '../../../src/store/modules/referential'
 // Importer la fonction pour lire un fichier JSON
 import fs from 'fs'
 import _ from 'lodash'
 
 // Chemin vers votre fichier JSON
+
 const path = require('path')
 const stateFilePath = path.join(__dirname, 'fixtures/simulationState.json')
 const outputsFilePath = path.join(__dirname, 'fixtures/outputs.json')
@@ -24,6 +26,7 @@ describe('herds mutations', () => {
   const outputs = JSON.parse(fs.readFileSync(outputsFilePath, 'utf8'))
   const output = outputs.herd
 
+  rootGetters['referential/getSticByName'] = function (climaticYear, name) {}
   const batchId = 0
   var tap = {}
   var resultTest = {}
@@ -60,10 +63,10 @@ describe('herds mutations', () => {
   //   expect(result.feedsUF).toEqual(outputs.herd.energetic.UF_feeds)
   // })
   it('final energetic coverage', () => {
-    const result = getFinalEnergeticCoverage(state, rootState, batchId)
+    const result = getFinalEnergeticCoverage(state, rootState, rootGetters, batchId)
     expect(result).toEqual(outputs.herd.energetic.final_coverage)
   })
-  const result = getFinalProteicCoverage(state, rootState, batchId)
+  const result = getFinalProteicCoverage(state, rootState, rootGetters, batchId)
   it('final feeds PDI', () => {
     expect(result.feedsPDI).toEqual(outputs.herd.proteic.$268)
   })
