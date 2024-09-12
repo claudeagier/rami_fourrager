@@ -142,7 +142,7 @@
       "row3": "Créer une nouvelle simulation",
       "btn_workspace": "Espace de travail"
     },
-    "simulation": { "name": "Nom de la simulation : {name}", "description": "Description : {desc}" }
+    "simulation": { "name": "{name}", "description": "{desc}" }
   },
   "barn": {
     "title": "La grange",

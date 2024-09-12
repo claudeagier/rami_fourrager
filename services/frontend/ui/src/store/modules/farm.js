@@ -126,6 +126,9 @@ export default {
     },
   },
   actions: {
+    initializeRotations({ commit }) {
+      commit('setRotations', [])
+    },
     applyToWorkspace({ state, commit }) {
       commit(
         'workspace/updateSimulation',

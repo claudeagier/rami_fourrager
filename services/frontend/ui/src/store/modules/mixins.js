@@ -95,6 +95,7 @@ export const setTotalAvailablePasture = (state, rootState, rootGetters) => {
       const key = 'period_id_' + period.id
       const total = Object.values(state.rotations).reduce((total, rotation) => {
         // find stic in sticList
+        // TODO-FRONT si on ne trouve pas le stic il faut faire quelquechose car ça plante tout
         const stic = rootGetters['referential/getSticByName'](rootState.simulator.climaticYear, rotation.name)
         const sp = stic.stic_periods.find((el) => el.period_id === period.id)
         var calcul = 0
