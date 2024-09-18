@@ -1,66 +1,68 @@
 <template>
-  <v-card
-    color="#ff980080"
-    dark
-    class="pa-3 mb-1 mt-0"
-    max-height="250px"
-    min-height="250px"
+  <base-dashboard-card
+    title="dashboard.climat.title"
+    cardColor="#ff980080"
+    icon="mdi-earth"
+    :dark="true"
   >
-    <v-card-title class="text-h3 font-weight-light">
-      <v-icon large>mdi-earth</v-icon>
-      {{ 'Le climat' }}
-    </v-card-title>
-    <v-card-text class="mt-1">
-      <!-- Interception de l'événement change sur le select -->
-      <v-select
-        ref="siteSelect"
-        outlined
-        label="Site"
-        :value="selectedSite"
-        :items="siteDropdownOptions"
-        item-text="name"
-        item-value="id"
-        @change="onSiteChange"
-      ></v-select>
-      <v-select
-        outlined
-        label="Année Climatique"
-        v-model="selectedClimaticYear"
-        :items="climaticYearDropdownOptions"
-        item-text="name"
-        item-value="id"
-      ></v-select>
-    </v-card-text>
+    <template v-slot:content>
+      <v-row>
+        <v-col cols="6">
+          <v-select
+            ref="siteSelect"
+            hide-details
+            outlined
+            label="Site"
+            :value="selectedSite"
+            :items="siteDropdownOptions"
+            item-text="name"
+            item-value="id"
+            @change="onSiteChange"
+          ></v-select>
+        </v-col>
 
-    <!-- Boîte de dialogue de confirmation -->
-    <v-dialog
-      v-model="confirmDialog"
-      max-width="290"
-    >
-      <v-card>
-        <v-card-title class="text-h5 pb-1">Confirmation</v-card-title>
-        <v-card-subtitle class="mt-0">Si vous changez de site, l'assolement actuel sera effacé </v-card-subtitle>
-        <v-card-text>Voulez-vous vraiment changer de site ?</v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            color="green darken-1"
-            text
-            @click="confirmSiteChange"
-          >
-            Oui
-          </v-btn>
-          <v-btn
-            color="red darken-1"
-            text
-            @click="cancelSiteChange"
-          >
-            Non
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-  </v-card>
+        <v-col cols="6">
+          <v-select
+            hide-details
+            outlined
+            label="Année Climatique"
+            v-model="selectedClimaticYear"
+            :items="climaticYearDropdownOptions"
+            item-text="name"
+            item-value="id"
+          ></v-select>
+        </v-col>
+        <v-dialog
+          v-model="confirmDialog"
+          max-width="290"
+        >
+          <v-card>
+            <v-card-title class="text-h5 pb-1">Confirmation</v-card-title>
+            <v-card-subtitle class="mt-0">Si vous changez de site, l'assolement actuel sera effacé </v-card-subtitle>
+            <v-card-text>Voulez-vous vraiment changer de site ?</v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+                color="green darken-1"
+                text
+                @click="confirmSiteChange"
+              >
+                Oui
+              </v-btn>
+              <v-btn
+                color="red darken-1"
+                text
+                @click="cancelSiteChange"
+              >
+                Non
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </v-row>
+      <!-- Boîte de dialogue de confirmation -->
+    </template>
+  </base-dashboard-card>
 </template>
 
 <script>

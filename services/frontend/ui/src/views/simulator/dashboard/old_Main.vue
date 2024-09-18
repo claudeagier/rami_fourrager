@@ -13,14 +13,15 @@
           lg="3"
           class="pt-0 pb-0"
         >
-          <climat
-            :siteModel="simulation.site"
-            :siteDropdownOptions="siteList"
-            @changeSite="handleSiteChange"
-            :climaticYearModel="simulation.climaticYear"
-            :climaticYearDropdownOptions="climaticYears"
-            @changeClimaticYear="handleCYchange"
-            @confirmSiteChange="deleteStics"
+          <base-select-card
+            :model="simulation.site"
+            color="red"
+            icon="mdi-earth"
+            title="Site"
+            sub-icon="mdi-clock"
+            sub-text="Just Updated"
+            :dropdownOptions="siteList"
+            @change="handleSiteChange"
           />
         </v-col>
         <v-col
@@ -29,40 +30,48 @@
           lg="3"
           class="pt-0 pb-0"
         >
-          <v-card
-            max-height="250px"
-            min-height="250px"
-            class="pa-3 mb-1 mt-0"
-          ></v-card>
+          <base-select-card
+            v-if="simulation.site != null"
+            :model="simulation.climaticYear"
+            color="orange"
+            icon="mdi-thermometer-lines"
+            title="Année climatique"
+            value="+245"
+            sub-icon="mdi-clock"
+            sub-text="Just Updated"
+            :dropdownOptions="climaticYears"
+            @change="handleCYchange"
+          />
+          <v-skeleton-loader
+            v-if="simulation.site === null"
+            max-height="130"
+            class="mt-8"
+            type="card"
+          ></v-skeleton-loader>
         </v-col>
         <v-col
-          cols="12"
-          sm="6"
-          lg="6"
           class="pt-0 pb-0"
+          lg="6"
         >
-          <v-card
-            max-height="150px"
-            class="pa-3 mb-1 mt-0"
-            color="#4caf5073"
-            dark
+          <base-material-card
+            color="#F39C12"
+            min-height="130"
           >
-            <v-card-title class="text-h3 font-weight-light">
-              {{ 'La simulation' }}
-            </v-card-title>
-            <v-card-subtitle
-              v-if="simulation.name"
-              class="mt-0 text-subtitle-1 font-weight-light"
-            >
-              {{ $t('dashboard.simulation.name', { name: simulation.name }) }}
-            </v-card-subtitle>
-            <v-card-text
-              v-if="simulation.description"
-              class="text-body-1"
-            >
-              {{ $t('dashboard.simulation.description', { desc: simulation.description }) }}
+            <template v-slot:heading>
+              <v-row>
+                <v-col cols="10">
+                  <div class="text-h3 font-weight-light">{{ 'La simulation' }}</div>
+                </v-col>
+              </v-row>
+            </template>
+            <v-card-text>
+              <!-- probleme de date -->
+              <div v-if="simulation.name">{{ $t('dashboard.simulation.name', { name: simulation.name }) }}</div>
+              <div v-if="simulation.description">
+                {{ $t('dashboard.simulation.description', { desc: simulation.description }) }}
+              </div>
             </v-card-text>
-          </v-card>
+          </base-material-card>
         </v-col>
       </v-row>
       <v-row>
@@ -112,7 +121,6 @@
   import Report from './Report'
   import Barn from './Barn'
   import Herd from './Herd'
-  import Climat from './Climat.vue'
 
   export default {
     name: 'Dashboard',
@@ -122,7 +130,6 @@
       Report,
       Barn,
       Herd,
-      Climat,
     },
     confirmNavigation(callback) {
       this.$confirmNavigation(callback)
@@ -130,7 +137,6 @@
     data() {
       return {
         climaticYears: [],
-        sticsIsDeleted: false,
 
         dataCompletedTasksChart: {
           data: {
@@ -218,19 +224,9 @@
 
       handleSiteChange(id) {
         this.$store.commit('simulator/setSite', id)
-        if (!this.sticsIsDeleted) {
-          console.log('site is deleted')
-          this.$store.dispatch('simulator/applyTo', 'site')
-          this.climaticYears = this.getClimaticYearList(id)
-        }
+        this.$store.dispatch('simulator/applyTo', 'site')
+        this.climaticYears = this.getClimaticYearList(id)
       },
-
-      deleteStics() {
-        console.log('delete stic')
-        this.sticsIsDeleted = true
-        this.$store.dispatch('simulator/farm/initializeRotations')
-      },
-
       handleCYchange(id) {
         this.setClimaticYear(id)
         // set localForage

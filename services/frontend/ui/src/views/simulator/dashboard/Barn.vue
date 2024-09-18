@@ -26,11 +26,11 @@
         </v-col>
       </v-row>
     </template>
-    <v-card-text>
+    <template v-slot:content>
       <v-row>
         <div
           class=".barn-chart-container"
-          style="width: 100%; height: 250px"
+          style="width: 100%; height: 200px"
         >
           <v-chart
             class="barn-chart"
@@ -41,7 +41,7 @@
           />
         </div>
       </v-row>
-    </v-card-text>
+    </template>
   </base-material-card>
 </template>
 <script>

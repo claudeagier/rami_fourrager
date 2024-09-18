@@ -1,8 +1,5 @@
 <template>
-  <base-material-card
-    color="orange"
-    min-height="130"
-  >
+  <base-material-card color="orange">
     <template v-slot:heading>
       <v-row>
         <v-col>
@@ -26,11 +23,23 @@
         </v-col>
       </v-row>
     </template>
-    <v-card-text>
+    <template v-slot:content>
       <v-row>
         <div
           class=".herd-chart-container"
-          style="width: 100%; height: 200px"
+          style="width: 100%; height: 120px"
+        >
+          <v-chart
+            class="herd-chart"
+            :option="options"
+            autoresize
+            theme="infographic"
+            :init-options="initOptions"
+          />
+        </div>
+        <div
+          class=".herd-chart-container"
+          style="width: 100%; height: 120px"
         >
           <v-chart
             class="herd-chart"
@@ -41,7 +50,7 @@
           />
         </div>
       </v-row>
-    </v-card-text>
+    </template>
   </base-material-card>
 </template>
 <script>

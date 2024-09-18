@@ -6,108 +6,66 @@
   >
     <div v-if="simulation.loaded">
       <!-- <div>{{ simulator.simulationName }}</div> -->
-      <v-row>
+      <v-row class="pt-3">
         <v-col
-          cols="12"
-          sm="3"
-          lg="3"
+          cols="6"
           class="pt-0 pb-0"
         >
-          <base-select-card
-            :model="simulation.site"
-            color="red"
-            icon="mdi-earth"
-            title="Site"
-            sub-icon="mdi-clock"
-            sub-text="Just Updated"
-            :dropdownOptions="siteList"
-            @change="handleSiteChange"
-          />
+          <v-row>
+            <v-col
+              cols="6"
+              class="mb-0 pt-0 pb-0"
+            >
+              <simulation />
+              <climat
+                :siteModel="simulation.site"
+                :siteDropdownOptions="siteList"
+                @changeSite="handleSiteChange"
+                :climaticYearModel="simulation.climaticYear"
+                :climaticYearDropdownOptions="climaticYears"
+                @changeClimaticYear="handleCYchange"
+                @confirmSiteChange="deleteStics"
+              />
+              <autonomy />
+            </v-col>
+            <v-col
+              cols="6"
+              class="d-flex align-start pt-0 pb-0"
+            >
+              <report />
+            </v-col>
+          </v-row>
+          <v-row no-gutters>
+            <v-col
+              cols="12"
+              class="pt-0 pb-0"
+            >
+              <barn />
+            </v-col>
+          </v-row>
         </v-col>
         <v-col
-          cols="12"
-          sm="3"
-          lg="3"
+          cols="6"
           class="pt-0 pb-0"
+          align-self="start"
         >
-          <base-select-card
-            v-if="simulation.site != null"
-            :model="simulation.climaticYear"
-            color="orange"
-            icon="mdi-thermometer-lines"
-            title="Année climatique"
-            value="+245"
-            sub-icon="mdi-clock"
-            sub-text="Just Updated"
-            :dropdownOptions="climaticYears"
-            @change="handleCYchange"
-          />
-          <v-skeleton-loader
-            v-if="simulation.site === null"
-            max-height="130"
-            class="mt-8"
-            type="card"
-          ></v-skeleton-loader>
-        </v-col>
-        <v-col
-          class="pt-0 pb-0"
-          lg="6"
-        >
-          <base-material-card
-            color="#F39C12"
-            min-height="130"
-          >
-            <template v-slot:heading>
-              <v-row>
-                <v-col cols="10">
-                  <div class="text-h3 font-weight-light">{{ 'La simulation' }}</div>
-                </v-col>
-              </v-row>
-            </template>
-            <v-card-text>
-              <!-- probleme de date -->
-              <div v-if="simulation.name">{{ $t('dashboard.simulation.name', { name: simulation.name }) }}</div>
-              <div v-if="simulation.description">
-                {{ $t('dashboard.simulation.description', { desc: simulation.description }) }}
-              </div>
-            </v-card-text>
-          </base-material-card>
-        </v-col>
-      </v-row>
-      <v-row>
-        <!-- farm -->
-        <v-col
-          cols="12"
-          md="6"
-          class="pt-0 pb-0"
-        >
-          <farm />
-        </v-col>
-        <!-- herd -->
-        <v-col
-          cols="12"
-          md="6"
-          class="pt-0 pb-0"
-        >
-          <herd />
-        </v-col>
-      </v-row>
-      <v-row>
-        <!-- barn -->
-        <v-col
-          cols="12"
-          md="6"
-          class="pt-0 pb-0"
-        >
-          <barn />
-        </v-col>
-        <!-- report -->
-        <v-col
-          cols="12"
-          md="6"
-          class="pt-0 pb-0"
-        >
-          <report />
+          <v-row style="height: 50%">
+            <v-col
+              class="pt-0 pb-0"
+              align-self="start"
+              style="height: 100%"
+            >
+              <herd />
+            </v-col>
+          </v-row>
+          <v-row style="height: 50%">
+            <v-col
+              class="pt-0 pb-0"
+              align-self="end"
+            >
+              <farm />
+            </v-col>
+          </v-row>
         </v-col>
       </v-row>
     </div>
@@ -121,6 +79,9 @@
   import Report from './Report'
   import Barn from './Barn'
   import Herd from './Herd'
+  import Climat from './Climat.vue'
+  import Simulation from './Simulation.vue'
+  import Autonomy from './Autonomy'
 
   export default {
     name: 'Dashboard',
@@ -130,6 +91,9 @@
       Report,
       Barn,
       Herd,
+      Climat,
+      Simulation,
+      Autonomy,
     },
     confirmNavigation(callback) {
       this.$confirmNavigation(callback)
@@ -137,6 +101,7 @@
     data() {
       return {
         climaticYears: [],
+        sticsIsDeleted: false,
 
         dataCompletedTasksChart: {
           data: {
@@ -224,9 +189,19 @@
 
       handleSiteChange(id) {
         this.$store.commit('simulator/setSite', id)
-        this.$store.dispatch('simulator/applyTo', 'site')
-        this.climaticYears = this.getClimaticYearList(id)
+        if (!this.sticsIsDeleted) {
+          console.log('site is deleted')
+          this.$store.dispatch('simulator/applyTo', 'site')
+          this.climaticYears = this.getClimaticYearList(id)
+        }
       },
+
+      deleteStics() {
+        console.log('delete stic')
+        this.sticsIsDeleted = true
+        this.$store.dispatch('simulator/farm/initializeRotations')
+      },
+
       handleCYchange(id) {
         this.setClimaticYear(id)
         // set localForage
