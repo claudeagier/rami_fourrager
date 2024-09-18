@@ -1,5 +1,5 @@
 <template>
-  <period-layout
+  <base-period-layout
     :pageColor="pageColor"
     toolBarTitleKey="herd.concentratedfeed.tabs.table.title"
     @selected="periodSelected"
@@ -50,13 +50,12 @@
         </template>
       </v-data-table>
     </template>
-  </period-layout>
+  </base-period-layout>
 </template>
 <script>
   import { mapGetters } from 'vuex'
   import ConcentratedFeedModal from './ConcentratedFeedModal.vue'
   import GraphCoverage from './GraphCoverage.vue'
-  import PeriodLayout from '@/components/base/PeriodLayout.vue'
 
   export default {
     name: 'ConcentratedFeed',
@@ -72,7 +71,6 @@
       },
     },
     components: {
-      PeriodLayout,
       ConcentratedFeedModal,
       GraphCoverage,
     },

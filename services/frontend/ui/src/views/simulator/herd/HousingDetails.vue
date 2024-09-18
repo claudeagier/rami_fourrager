@@ -31,7 +31,7 @@
             vertical
           ></v-divider>
           <v-spacer></v-spacer>
-          <duplicate-modal
+          <base-duplicate-modal
             :ids="periods"
             :sourceItem="period"
             @duplicate="duplicate"
@@ -62,7 +62,6 @@
 <script>
   import { mapGetters, mapMutations } from 'vuex'
   import HousingGraph from './HousingGraph.vue'
-  import DuplicateModal from '@/components/base/DuplicateModal.vue'
 
   export default {
     name: 'housingDetails',
@@ -78,7 +77,6 @@
     },
     components: {
       HousingGraph,
-      DuplicateModal,
     },
     watch: {
       selectedLot: {

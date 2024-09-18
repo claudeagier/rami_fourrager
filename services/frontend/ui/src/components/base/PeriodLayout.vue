@@ -28,7 +28,7 @@
             vertical
           ></v-divider>
           <v-spacer></v-spacer>
-          <duplicate-modal
+          <base-duplicate-modal
             :ids="periods"
             :sourceItem="period"
             @duplicate="duplicate"
@@ -42,7 +42,7 @@
 </template>
 <script>
   import { mapGetters } from 'vuex'
-  import DuplicateModal from '@/components/base/DuplicateModal'
+
   export default {
     name: 'Periodlayout',
     props: {
@@ -50,9 +50,6 @@
       toolBarTitleKey: {
         type: String,
       },
-    },
-    components: {
-      DuplicateModal,
     },
     computed: {
       ...mapGetters('referential', {

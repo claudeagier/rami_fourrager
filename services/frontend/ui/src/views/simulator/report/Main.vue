@@ -1,5 +1,5 @@
 <template>
-  <page-container
+  <base-page-container
     container-name="report-vue"
     :page-color="pageColor"
     :title="$t('report.main.title')"
@@ -42,13 +42,12 @@
         </v-col>
       </v-row>
     </template>
-  </page-container>
+  </base-page-container>
 </template>
 
 <script>
   import { mapState, mapGetters } from 'vuex'
   import navigationGuard from '@/mixins/navigationGuard'
-  import PageContainer from '@/components/base/PageContainer.vue'
   import { moduleConfigurations } from '@/components/modules/Config' // Importez la configuration des modules
 
   // layout et data de toute la simulation qui est dans l'état ou chaque module prend dans le state qui est le model
@@ -58,7 +57,6 @@
     confirmNavigation(callback) {
       this.$confirmNavigation(callback)
     },
-    components: { PageContainer },
     data: () => ({
       pageColor: 'blue',
       modules: [],

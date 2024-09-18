@@ -1,5 +1,5 @@
 <template>
-  <page-container
+  <base-page-container
     container-name="farm-vue"
     :page-color="pageColor"
     :title="$t('farm.main.title')"
@@ -204,22 +204,18 @@
         </v-col>
       </v-row>
     </template>
-  </page-container>
+  </base-page-container>
 </template>
 
 <script>
   import { mapGetters } from 'vuex'
   import navigationGuard from '@/mixins/navigationGuard'
-  import PageContainer from '@/components/base/PageContainer.vue'
 
   export default {
     name: 'Farm',
     mixins: [navigationGuard],
     confirmNavigation(callback) {
       this.$confirmNavigation(callback)
-    },
-    components: {
-      PageContainer,
     },
     data() {
       return {

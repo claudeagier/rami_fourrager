@@ -1,7 +1,7 @@
 <template>
   <v-main>
     <router-view />
-    <app-core-footer />
+    <!-- <app-core-footer /> -->
   </v-main>
 </template>
 
@@ -9,7 +9,7 @@
   export default {
     name: 'AppCoreView',
     components: {
-      AppCoreFooter: () => import('./Footer'),
+      // AppCoreFooter: () => import('./Footer'),
     },
   }
 </script>

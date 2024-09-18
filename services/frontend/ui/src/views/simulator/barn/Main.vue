@@ -1,5 +1,5 @@
 <template>
-  <page-container
+  <base-page-container
     container-name="barn-vue"
     :page-color="pageColor"
     :title="$t('barn.main.title')"
@@ -231,13 +231,12 @@
         </v-col>
       </v-row>
     </template>
-  </page-container>
+  </base-page-container>
 </template>
 
 <script>
   import { mapState, mapGetters } from 'vuex'
   import navigationGuard from '@/mixins/navigationGuard'
-  import PageContainer from '@/components/base/PageContainer.vue'
 
   // TODO-FRONT ajouter les stock de concentré et les stocks de paille
   export default {
@@ -245,9 +244,6 @@
     mixins: [navigationGuard],
     confirmNavigation(callback) {
       this.$confirmNavigation(callback)
-    },
-    components: {
-      PageContainer,
     },
     data: () => ({
       pageColor: 'brown',

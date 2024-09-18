@@ -1,5 +1,5 @@
 <template>
-  <page-container
+  <base-page-container
     container-name="herd-vue"
     :page-color="pageColor"
     :title="$t('herd.main.title')"
@@ -185,7 +185,7 @@
         </v-col>
       </v-row>
     </template>
-  </page-container>
+  </base-page-container>
 </template>
 <script>
   import { mapState } from 'vuex'
@@ -197,7 +197,6 @@
   import PastureDetails from './PastureDetails'
   import navigationGuard from '@/mixins/navigationGuard'
   import GraphsModal from './GraphsModal.vue'
-  import PageContainer from '@/components/base/PageContainer.vue'
 
   export default {
     name: 'Herd',
@@ -206,7 +205,6 @@
       this.$confirmNavigation(callback)
     },
     components: {
-      PageContainer,
       HerdModal,
       HousingDetails,
       ConcentratedFeed,

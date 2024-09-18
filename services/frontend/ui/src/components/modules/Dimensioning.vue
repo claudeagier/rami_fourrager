@@ -23,7 +23,7 @@
                     class="pt-0 pb-0"
                     align-self="end"
                   >
-                    <gauge
+                    <base-gauge
                       :gaugeValue="-0.02"
                       :min="-0.5"
                       :max="0.5"
@@ -37,7 +37,7 @@
                     class="pt-0 pb-0"
                     align-self="end"
                   >
-                    <gauge
+                    <base-gauge
                       :min="0"
                       :max="140"
                       :floor="90"
@@ -171,9 +171,7 @@
 </template>
 
 <script>
-  import Gauge from '@/components/base/Gauge'
   export default {
-    components: { Gauge },
     data() {
       return {
         gaugeOptions: {

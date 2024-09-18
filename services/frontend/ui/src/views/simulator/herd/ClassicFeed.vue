@@ -1,5 +1,5 @@
 <template>
-  <period-layout
+  <base-period-layout
     :pageColor="pageColor"
     toolBarTitleKey="herd.classicfeed.tabs.table.title"
     @selected="periodSelected"
@@ -53,14 +53,13 @@
         </template>
       </v-data-table>
     </template>
-  </period-layout>
+  </base-period-layout>
 </template>
 <script>
   import { mapGetters } from 'vuex'
   import RationGauge from './RationGauge.vue'
   import ClassicFeedModal from './ClassicFeedModal.vue'
   import ClassicFeedGraph from './ClassicFeedGraph.vue'
-  import PeriodLayout from '@/components/base/PeriodLayout.vue'
 
   export default {
     name: 'ClassicFeed',
@@ -76,7 +75,6 @@
       },
     },
     components: {
-      PeriodLayout,
       RationGauge,
       ClassicFeedModal,
       ClassicFeedGraph,
