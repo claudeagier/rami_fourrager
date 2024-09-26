@@ -356,7 +356,18 @@
       "subtitle": "Bilan du système paramétré",
       "modules": {
         "title": "Modules",
-        "dimensioning": { "title": "Bilan global", "label": "Bilan global", "description": "Description du module" }
+        "global": { "title": "Bilan global", "label": "Bilan global", "description": "Description du module" },
+        "pasture": { "title": "Les pâtures", "label": "Pâtures", "description": "Description du module" },
+        "stockNcost": {
+          "title": "Stocks et coûts d'alimentations",
+          "label": "Stocks et coûts",
+          "description": "Description du module"
+        },
+        "export": {
+          "title": "Exporter",
+          "label": "Exporter",
+          "description": "Exporter les données au format csv pour le module GES"
+        }
       }
     }
   },

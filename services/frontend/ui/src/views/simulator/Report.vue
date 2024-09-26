@@ -48,7 +48,7 @@
 <script>
   import { mapState, mapGetters } from 'vuex'
   import navigationGuard from '@/mixins/navigationGuard'
-  import { moduleConfigurations } from '@/components/modules/Config' // Importez la configuration des modules
+  import { moduleList } from '@/components/parts/report/modules/Config' // Importez la configuration des modules
 
   // layout et data de toute la simulation qui est dans l'état ou chaque module prend dans le state qui est le model
   export default {
@@ -71,30 +71,13 @@
       ...mapState('simulator', {
         simulation: (state) => state,
       }),
-
-      moduleList() {
-        const modules = [
-          {
-            name: 'Dimensioning',
-            labelKey: 'dimensioning.label',
-            descriptionKey: 'dimensioning.description',
-            moduleName: 'Dimensioning',
-            component: null,
-            data: {}, // Les données mappées seront ajoutées ici
-          },
-        ]
-        return modules
-      },
     },
     methods: {
-      mapDataForModule(moduleName) {
-        // Récupérer la configuration de données requises pour le module
-        const config = moduleConfigurations[moduleName]
+      mapDataForModule(requiredState) {
         const mappedData = {}
-
-        if (config && config.requiredState) {
+        if (requiredState) {
           // Mapper uniquement les données du state nécessaires pour ce module
-          config.requiredState.forEach((key) => {
+          requiredState.forEach((key) => {
             if (this[key] !== undefined) {
               mappedData[key] = this[key]
             }
@@ -105,13 +88,13 @@
       },
 
       async loadModules() {
-        const modules = [...this.moduleList]
-        for (const mod of modules) {
+        const modules = [...moduleList]
+        for (const mod of moduleList) {
           try {
             // Chargement dynamique du composant en fonction du nom du module
-            mod.component = (await import(`@/components/modules/${mod.moduleName}.vue`)).default
+            mod.component = (await import(`@/components/parts/report/modules/${mod.moduleName}.vue`)).default
             // Mapper uniquement les données nécessaires pour ce module
-            mod.data = this.mapDataForModule(mod.moduleName)
+            mod.data = this.mapDataForModule(mod.requiredState)
           } catch (error) {
             console.error(`Erreur lors du chargement du module ${mod.moduleName}:`, error)
           }

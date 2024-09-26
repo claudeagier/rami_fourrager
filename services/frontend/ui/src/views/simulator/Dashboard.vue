@@ -75,13 +75,13 @@
 <script>
   import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
   import navigationGuard from '@/mixins/navigationGuard'
-  import Farm from './Farm'
-  import Report from './Report'
-  import Barn from './Barn'
-  import Herd from './Herd'
-  import Climat from './Climat.vue'
-  import Simulation from './Simulation.vue'
-  import Autonomy from './Autonomy'
+  import Farm from '@/components/parts/dashboard/Farm'
+  import Report from '@/components/parts/dashboard/Report'
+  import Barn from '@/components/parts/dashboard/Barn'
+  import Herd from '@/components/parts/dashboard/Herd'
+  import Climat from '@/components/parts/dashboard/Climat.vue'
+  import Autonomy from '@/components/parts/dashboard/Autonomy'
+  import Simulation from '@/components/parts/dashboard/Simulation.vue'
 
   export default {
     name: 'Dashboard',

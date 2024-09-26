@@ -1,0 +1,37 @@
+export const moduleList = [
+  {
+    name: 'Global',
+    labelKey: 'global.label',
+    descriptionKey: 'global.description',
+    moduleName: 'Global',
+    component: null,
+    data: {},
+    requiredState: ['simulation', 'barnStockItems'],
+  },
+  {
+    name: 'Pasture',
+    labelKey: 'pasture.label',
+    descriptionKey: 'pasture.description',
+    moduleName: 'Pasture',
+    component: null,
+    data: {},
+  },
+  {
+    name: 'StockNcost',
+    labelKey: 'stockNcost.label',
+    descriptionKey: 'stockNcost.description',
+    moduleName: 'StockNcost',
+    requiredState: ['simulation'],
+    component: null,
+    data: {},
+  },
+  {
+    name: 'Export',
+    labelKey: 'export.label',
+    descriptionKey: 'export.description',
+    moduleName: 'Export',
+    requiredState: ['simulation'],
+    component: null,
+    data: {},
+  },
+]

@@ -57,7 +57,7 @@ const routes = [
           {
             name: 'dashboard',
             path: 'dashboard',
-            component: () => import('@/views/simulator/dashboard/Main'),
+            component: () => import('@/views/simulator/Dashboard'),
             meta: {
               breadCrumb(route) {
                 // const paramToPageB = route.params.paramToPageB;
@@ -73,7 +73,7 @@ const routes = [
           {
             name: 'barn',
             path: 'barn',
-            component: () => import('@/views/simulator/barn/Main'),
+            component: () => import('@/views/simulator/Barn'),
             meta: {
               breadCrumb(route) {
                 // const paramToPageB = route.params.paramToPageB;
@@ -93,7 +93,7 @@ const routes = [
           {
             name: 'farm',
             path: 'farm',
-            component: () => import('@/views/simulator/farm/Main'),
+            component: () => import('@/views/simulator/Farm'),
             meta: {
               breadCrumb(route) {
                 // const paramToPageB = route.params.paramToPageB;
@@ -113,7 +113,7 @@ const routes = [
           {
             name: 'herd',
             path: 'herd',
-            component: () => import('@/views/simulator/herd/Main'),
+            component: () => import('@/views/simulator/Herd'),
             meta: {
               breadCrumb(route) {
                 // const paramToPageB = route.params.paramToPageB;
@@ -133,7 +133,7 @@ const routes = [
           {
             name: 'report',
             path: 'report',
-            component: () => import('@/views/simulator/report/Main'),
+            component: () => import('@/views/simulator/Report'),
             meta: {
               breadCrumb(route) {
                 // const paramToPageB = route.params.paramToPageB;

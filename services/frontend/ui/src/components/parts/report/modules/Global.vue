@@ -6,51 +6,7 @@
         class="pt-0 pb-0"
       >
         <!-- Deuxième colonne -->
-        <v-card
-          outlined
-          elevation="2"
-        >
-          <v-card-title class="text-h4 grey--text">
-            <v-icon color="primary">mdi-autorenew</v-icon>Autonomie et Potentiel
-          </v-card-title>
-          <v-divider></v-divider>
-          <v-card-text>
-            <v-row justify="center">
-              <v-col cols="6">
-                <v-row>
-                  <v-col
-                    cols="6"
-                    class="pt-0 pb-0"
-                    align-self="end"
-                  >
-                    <base-gauge
-                      :gaugeValue="-0.02"
-                      :min="-0.5"
-                      :max="0.5"
-                      :floor="0"
-                      gaugeName="Autonomie"
-                      :gaugeOptions="gaugeOptions"
-                    />
-                  </v-col>
-                  <v-col
-                    cols="6"
-                    class="pt-0 pb-0"
-                    align-self="end"
-                  >
-                    <base-gauge
-                      :min="0"
-                      :max="140"
-                      :floor="90"
-                      :gaugeValue="93"
-                      gaugeName="Potentiel"
-                      :gaugeOptions="gaugeOptions"
-                    />
-                  </v-col>
-                </v-row>
-              </v-col>
-            </v-row>
-          </v-card-text>
-        </v-card>
+        <autonomy />
       </v-col>
       <v-col
         cols="6"
@@ -113,65 +69,14 @@
         </v-card>
       </v-col>
     </v-row>
-    <v-row>
-      <!-- Première colonne avec les données de la carte -->
-      <v-col
-        cols="12"
-        class="pt-0 pb-0"
-      >
-        <v-card
-          outlined
-          elevation="2"
-        >
-          <v-card-title class="text-h4 font-weight-light">La ferme</v-card-title>
-          <v-divider></v-divider>
-          <v-card-text>
-            <v-list dense> </v-list>
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
-    <v-row>
-      <!-- Première colonne avec les données de la carte -->
-      <v-col
-        cols="12"
-        class="pt-0 pb-0"
-      >
-        <v-card
-          outlined
-          elevation="2"
-        >
-          <v-card-title class="text-h4 font-weight-light">Le troupeau</v-card-title>
-          <v-divider></v-divider>
-          <v-card-text>
-            <v-list dense> </v-list>
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
-    <v-row>
-      <!-- Première colonne avec les données de la carte -->
-      <v-col
-        cols="12"
-        class="pt-0 pb-0"
-      >
-        <v-card
-          outlined
-          elevation="2"
-        >
-          <v-card-title class="text-h4 font-weight-light">La grange</v-card-title>
-          <v-divider></v-divider>
-          <v-card-text>
-            <v-list dense> </v-list>
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
   </v-container>
 </template>
 
 <script>
+  import Autonomy from '@/components/parts/dashboard/Autonomy.vue'
   export default {
+    name: 'global-module',
+    components: { Autonomy },
     data() {
       return {
         gaugeOptions: {

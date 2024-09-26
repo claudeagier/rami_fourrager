@@ -74,7 +74,7 @@
 </template>
 <script>
   export default {
-    name: 'farm-dashboard',
+    name: 'report-dashboard',
     data() {
       return {
         kpis: [

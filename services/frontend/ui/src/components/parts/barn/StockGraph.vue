@@ -1,52 +1,19 @@
 <template>
-  <base-material-card
-    color="brown"
-    min-height="130"
+  <div
+    class=".barn-chart-container"
+    style="width: 100%; height: 200px"
   >
-    <template v-slot:heading>
-      <v-row>
-        <v-col>
-          <div class="text-h3 font-weight-light">{{ $t('barn.title') }}</div>
-          <div class="text-subtitle-1 font-weight-light">{{ $t('barn.subtitle') }}</div>
-        </v-col>
-        <v-spacer></v-spacer>
-        <v-col>
-          <div>
-            <v-btn
-              class="ml-2"
-              color="brown"
-              style="background-color: white"
-              outlined
-              min-width="0"
-              to="/simulation/barn"
-            >
-              {{ $t('btn.complete') }}
-            </v-btn>
-          </div>
-        </v-col>
-      </v-row>
-    </template>
-    <template v-slot:content>
-      <v-row>
-        <div
-          class=".barn-chart-container"
-          style="width: 100%; height: 200px"
-        >
-          <v-chart
-            class="barn-chart"
-            :option="options"
-            autoresize
-            theme="infographic"
-            :init-options="initOptions"
-          />
-        </div>
-      </v-row>
-    </template>
-  </base-material-card>
+    <v-chart
+      class="barn-chart"
+      :option="options"
+      autoresize
+      theme="infographic"
+      :init-options="initOptions"
+    />
+  </div>
 </template>
 <script>
   export default {
-    name: 'barn-dashboard',
     data() {
       return {}
     },

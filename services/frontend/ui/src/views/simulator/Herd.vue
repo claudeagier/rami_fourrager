@@ -189,14 +189,14 @@
 </template>
 <script>
   import { mapState } from 'vuex'
-  import ClassicFeed from './ClassicFeed.vue'
-  import ConcentratedFeed from './ConcentratedFeed.vue'
-  import HerdModal from './HerdModal'
-  import HousingDetails from './HousingDetails.vue'
-  import BatchDetails from './BatchDetails.vue'
-  import PastureDetails from './PastureDetails'
+  import ClassicFeed from '@/components/parts/herd/ClassicFeed.vue'
+  import ConcentratedFeed from '@/components/parts/herd/ConcentratedFeed.vue'
+  import HerdModal from '@/components/parts/herd/HerdModal'
+  import HousingDetails from '@/components/parts/herd/HousingDetails.vue'
+  import BatchDetails from '@/components/parts/herd/BatchDetails.vue'
+  import PastureDetails from '@/components/parts/herd/PastureDetails'
   import navigationGuard from '@/mixins/navigationGuard'
-  import GraphsModal from './GraphsModal.vue'
+  import GraphsModal from '@/components/parts/herd/GraphsModal.vue'
 
   export default {
     name: 'Herd',
