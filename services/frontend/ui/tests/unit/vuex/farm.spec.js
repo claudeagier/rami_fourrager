@@ -13,12 +13,13 @@ const outputsFilePath = path.join(__dirname, 'fixtures/outputs.json')
 describe('farm mutations', () => {
   // Charger le fichier JSON
   const rootState = JSON.parse(fs.readFileSync(stateFilePath, 'utf8'))
+  const simulation = rootState.simulator
   const state = rootState.simulator.farm
   const outputs = JSON.parse(fs.readFileSync(outputsFilePath, 'utf8'))
 
   it('farms', () => {
     // apply mutation
-    var t = setTotalAvailablePasture(state, rootState)
+    var t = setTotalAvailablePasture(simulation)
     state.totalAvailablePastureByPeriod = t
     var result = farmStore.getters.getAvailablePasture(state)
     // assert result

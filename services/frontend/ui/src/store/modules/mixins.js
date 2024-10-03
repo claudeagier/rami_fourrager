@@ -85,18 +85,19 @@ const calculateProteicBesoin = (pdi, toModerate = false, potential = 1) => {
 // *******************************************************//
 // ****************** LES PATURES ************************//
 // *******************************************************//
-
 // H28 production pature totale, w29 energetic total et w30 proteic total
-export const setTotalAvailablePasture = (state, rootState, rootGetters) => {
+export const setTotalAvailablePasture = (simulation, periods, getStic) => {
+  // periods = rootState.referential.periods
+
   const precision = 15
   const totalAvailablePastureByPeriod = {}
-  rootState.referential.periods.forEach((period) => {
-    if (state.rotations !== undefined && state.rotations.length > 0) {
+  periods.forEach((period) => {
+    if (simulation.farm.rotations !== undefined && simulation.farm.rotations.length > 0) {
       const key = 'period_id_' + period.id
-      const total = Object.values(state.rotations).reduce((total, rotation) => {
+      const total = Object.values(simulation.farm.rotations).reduce((total, rotation) => {
         // find stic in sticList
         // TODO-FRONT si on ne trouve pas le stic il faut faire quelquechose car ça plante tout
-        const stic = rootGetters['referential/getSticByName'](rootState.simulator.climaticYear, rotation.name)
+        const stic = getStic(simulation.climaticYear, rotation.name)
         const sp = stic.stic_periods.find((el) => el.period_id === period.id)
         var calcul = 0
         if (sp.farming_method === 'P' && sp.production > 0) {
@@ -104,9 +105,9 @@ export const setTotalAvailablePasture = (state, rootState, rootGetters) => {
         }
         return total + calcul
       }, 0) // ok
-      const UF = Object.values(state.rotations).reduce((uf, rotation) => {
+      const UF = Object.values(simulation.farm.rotations).reduce((uf, rotation) => {
         // find stic in sticList
-        const stic = rootGetters['referential/getSticByName'](rootState.simulator.climaticYear, rotation.name)
+        const stic = getStic(simulation.climaticYear, rotation.name)
 
         const sp = stic.stic_periods.find((el) => el.period_id === period.id)
         var num = 0
@@ -119,9 +120,9 @@ export const setTotalAvailablePasture = (state, rootState, rootGetters) => {
         return uf + num
       }, 0.0)
 
-      const PDI = Object.values(state.rotations).reduce((pdi, rotation) => {
+      const PDI = Object.values(simulation.farm.rotations).reduce((pdi, rotation) => {
         // find stic in sticList
-        const stic = rootGetters['referential/getSticByName'](rootState.simulator.climaticYear, rotation.name)
+        const stic = getStic(simulation.climaticYear, rotation.name)
 
         const sp = stic.stic_periods.find((el) => el.period_id === period.id)
         if (sp.farming_method === 'P' && sp.production > 0) {
@@ -324,6 +325,14 @@ export const getCarryOverPastureConsumption = (batch, period, totalAvailablePast
     return _.min(val)
   }
 }
+// TEST 248 Consommation pâture totale 246+247
+const getTotalPastureConsumption = (batch, period, totalAvailablePastureByPeriod, batchs) => {
+  return (
+    getGreenPastureConsumption(batch, period, totalAvailablePastureByPeriod, batchs) +
+    getCarryOverPastureConsumption(batch, period, totalAvailablePastureByPeriod, batchs)
+  )
+}
+
 export const getPasturesByPeriod = (coverage, batch, period, totalAvailablePastureByPeriod, batchs) => {
   const precision = 3
   if (batch === undefined) {
@@ -347,7 +356,6 @@ export const getPasturesByPeriod = (coverage, batch, period, totalAvailablePastu
 // *******************************************************//
 // ********************** LES UF *************************//
 // *******************************************************//
-
 // H267 ~ OK à préciser si nécessaire
 const getUFFeedsByPeriod = (batch, after = false) => {
   const precision = 3
@@ -437,6 +445,7 @@ const getUFPasturesByPeriod = (batch, period, totalAvailablePastureByPeriod, bat
   const p = getPasturesByPeriod('energeticTotal', batch, period, totalAvailablePastureByPeriod, batchs)
   return p
 }
+
 export const getFinalEnergeticCoverage = function (state, rootState, rootGetters, batchId) {
   // c'est juste pour faire le test des différentes fonction
   const finalEnergeticCoverage = []
@@ -447,7 +456,11 @@ export const getFinalEnergeticCoverage = function (state, rootState, rootGetters
   }
   const h272 = getUFConcentratedByPeriod(batch) // ok
   const h267 = getUFFeedsByPeriod(batch, true) // OK
-  const totalAvailablePastureByPeriod = setTotalAvailablePasture(rootState.simulator.farm, rootState, rootGetters)
+  const totalAvailablePastureByPeriod = setTotalAvailablePasture(
+    rootState.simulator,
+    rootState.referential.periods,
+    rootGetters['referential/getSticByName']
+  )
 
   // for test
   const pasture_uf = []
@@ -477,7 +490,6 @@ export const getFinalEnergeticCoverage = function (state, rootState, rootGetters
 // *******************************************************//
 // ******************** LES PDI **************************//
 // *******************************************************//
-
 const getPDIPasturesByPeriod = (batch, period, totalAvailablePastureByPeriod, batchs) => {
   return getPasturesByPeriod('proteicTotal', batch, period, totalAvailablePastureByPeriod, batchs)
 }
@@ -523,7 +535,11 @@ export const getFinalProteicCoverage = function (state, rootState, rootGetters, 
   }
   const h272 = getPDIByFeedTypeByPeriod(batch, 'concentratedFeeds')
   const h267 = getPDIByFeedTypeByPeriod(batch, 'classicFeeds')
-  const totalAvailablePastureByPeriod = setTotalAvailablePasture(rootState.simulator.farm, rootState, rootGetters)
+  const totalAvailablePastureByPeriod = setTotalAvailablePasture(
+    rootState.simulator,
+    rootState.referential.periods,
+    rootGetters['referential/getSticByName']
+  )
 
   // par periode
   rootState.referential.periods.forEach((period, index) => {
@@ -547,6 +563,212 @@ export const getFinalProteicCoverage = function (state, rootState, rootGetters, 
   return finalProteicCoverage
   // return { concentratedPDI: h272, pasturePDI: pasturePdi, feedsPDI: h267, final_coverage: finalProteicCoverage }
 }
+
+// *******************************************************//
+// *************** stocks et couts ***********************//
+// *******************************************************//
+
+// *******************************************************//
+// *************** Dimensionnement ***********************//
+// *******************************************************//
+const UGB = 4.75 // une constante 4.75 tMs ingérée pour 1 UGB
+const DAYS_BY_PERIOD = 28
+
+// TEST h647 Consommation totale hors concentrés par période et par lot
+export const getTotalConsumptionExcludingConcentrates = function (period, batchs, totalAvailablePastureByPeriod) {
+  // somme de chaque lot H248*$LOT1.H7*28/1000+H269
+  const consumption = Object.values(batchs).reduce((acc, curr) => {
+    const h248 = getTotalPastureConsumption(curr, period, totalAvailablePastureByPeriod, batchs)
+    const h269 = getStockConsumptionPerPeriod(curr, period)
+    const c1 = (h248 * curr.housing.presence[period].animalCount * DAYS_BY_PERIOD) / 1000
+    const calcul = c1 + h269
+    return acc + calcul
+  }, 0.0)
+
+  return consumption
+}
+
+// TEST V647
+export const getV647 = (batchs, periods, totalAvailablePastureByPeriod) => {
+  var v647 = 0
+  periods.forEach((period, index) => {
+    v647 += getTotalConsumptionExcludingConcentrates(index, batchs, totalAvailablePastureByPeriod)
+  })
+  return v647
+}
+
+// TEST h266 Consommation stock (kg MS/animal/jour)
+const getStockConsumption = (batch, period) => {
+  // SUM(H254:H256,H258:H260,H262:H265)
+  // somme des consommation de chaque aliment hors concentrés
+  const batchValuesForPeriod = batch.profile.animal_profile_periods[period]
+  const toModerate = batch.profile.batch_type.code === 'VL'
+  const potential = 1
+  const UEcolumn = batch.profile.batch_type.UE_value_considered
+  const feedsForPeriod = batch.classicFeeds[period].feeds
+  const besoinMS = calculateBesoinMS(batchValuesForPeriod.CI, toModerate, potential, UEcolumn, feedsForPeriod) // ok
+  return Object.values(feedsForPeriod).reduce((acc, curr) => {
+    const calcul = (curr.proportion / 100) * besoinMS
+    if (period === 1) {
+      console.log(curr.proportion)
+      console.log(calcul)
+    }
+
+    return acc + calcul
+  }, 0.0)
+}
+
+// TEST h269 Consommation stock (tMS) par période
+export const getStockConsumptionPerPeriod = (batch, period) => {
+  // H266 * $LOT1.H$7(nb aniamux présent) *28 / 1000
+  const h266 = getStockConsumption(batch, period)
+  console.log('-- batch ', batch.id, ' -- period ', period, ' --> ', h266)
+  const consumption = (h266 * batch.housing.presence[period].animalCount * DAYS_BY_PERIOD) / 1000
+
+  return fixFloatingPoint(consumption)
+}
+
+// TEST surface de pature en fonction du code baguette
+const getRotationSurface = function (type, simulation, getStic) {
+  const rotations = simulation.farm.rotations
+  const climatic_year = simulation.climaticYear
+  return Object.values(rotations).reduce((acc, curr) => {
+    const stic = getStic(climatic_year, curr.name)
+    var calcul = 0
+    // TEST le search peut foirer
+    if (stic.code.search(type) > -1) {
+      calcul = curr.surface
+    }
+    return acc + calcul
+  }, 0.0)
+}
+
+// TEST x55 SFP total surface pature ajouter toutes les surfaces qui contiennent un P dans leur code type baguette
+const getSFP = function (simulation, getStic) {
+  return getRotationSurface('P%', simulation, getStic)
+}
+
+// OK Total troupeau : nb animaux
+export const getTotalHerd = function (batchs) {
+  // la somme des lot de sum($LOT.C7(nb animaux) * (profil_ainmaux.age_mois si type=GEN sinon 12) / 12)
+  const total = Object.values(batchs).reduce((acc, curr) => {
+    const parsed = parseInt(curr.profile.age_mois)
+    const profilAgeMois = !isNaN(parsed) ? parsed : 12
+    const age_mois = curr.profile.batch_type.code === 'GEN' ? profilAgeMois : 12
+
+    const calcul = curr.count * (age_mois / 12)
+
+    return acc + calcul
+  }, 0.0)
+  return _.round(total, 0)
+}
+
+// TEST UGB
+export const getUGBSystem = function (simulation, periods, getStic) {
+  // getStic=rootGetters['referential/getSticByName']
+  // ROUND($calcul_interface.V647/4.75,0)
+  // // V647 la somme des périodes  sum(h647)
+  const batchs = simulation.herd.batchs
+  const totalAvailablePastureByPeriod = setTotalAvailablePasture(simulation, periods, getStic)
+  const v647 = getV647(batchs, periods, totalAvailablePastureByPeriod)
+  return fixFloatingPoint(v647 / UGB)
+}
+
+// TEST E6 Estimation chargement SAU
+export const estimatedLivestockDensities = function (simulation, periods, getStic) {
+  // periods = rootState.referential.periods
+  // getStic = rootGetters['referential/getSticByName']
+  // // $calcul_interface.$V$647/4.75/$Dim_Systeme.$E$6(SAU)
+  const batchs = simulation.herd.batchs
+  const totalAvailablePastureByPeriod = setTotalAvailablePasture(simulation, periods, getStic)
+
+  const v647 = getV647(batchs, periods, totalAvailablePastureByPeriod)
+
+  return v647 / simulation.farm.dimensioning.SAU
+}
+
+// TEST E7 Chargement apparent
+export const apparentLivestockDensities = function (simulation, periods, getStic) {
+  // $calcul_interface.$V$647/4.75/$calcul_interface.$X$55
+  const batchs = simulation.herd.batchs
+  const totalAvailablePastureByPeriod = setTotalAvailablePasture(simulation, periods, getStic)
+  const v647 = getV647(batchs, periods, totalAvailablePastureByPeriod)
+  const x55 = getSFP(simulation, getStic)
+
+  return v647 / x55
+}
+
+// TODO E8 Chargement corrigé
+export const correctedLivestockDensities = function (simulation, periods, getStic) {
+  // // ($calcul_interface.X647+(toto))/$calcul_interface.X55
+  // X647= V647/4.75
+  const batchs = simulation.herd.batchs
+  const totalAvailablePastureByPeriod = setTotalAvailablePasture(simulation, periods, getStic)
+
+  const x647 = getV647(batchs, periods, totalAvailablePastureByPeriod) / UGB
+  const x55 = getSFP(simulation, getStic)
+  // // toto (SUM(H33:H38)-SUM(J33:J38)+SUM(L33:L38)/4.75) ce sont les calcules de couts du tableau stocks et couts du bilan
+}
+
+// TODO  E9 Chargement potentiel Y648
+export const potentialLivestockDensities = function (simulation, periods, getStic) {
+  // // Y648 ($Bilan.E39/4.75)/$X$55
+  // // // $Bilan.E39 tMs des fourrages produits ce sont les calcules de couts du tableau stocks et couts du bilan
+}
+
+// TEST autonomie et potentiel ...
+// =IF((E8-E7)>0,"Autonome","Pas autonome")&" et "&IF(E8/E9>=0.9,"au potentiel","pas au potentiel")&" ("&ROUND(100*$calcul_interface.Y651,0)&"%)"
+export const getAutonomy = function (simulation, periods, getStic) {
+  // IF((E8-E7)>0,"Autonome","Pas autonome")
+  const e8 = correctedLivestockDensities(simulation, periods, getStic)
+  const e7 = apparentLivestockDensities(simulation, periods, getStic)
+  return e8 - e7 > 0
+}
+
+// TEST
+export const getPotential = function (simulation, periods, getStic) {
+  // IF(E8/E9>=0.9,"au potentiel","pas au potentiel")
+  // ROUND(100*$calcul_interface.Y651,0)
+  // Y651 réalisaion du potenteil $Bilan.$E$8/$Y$648
+  const e8 = correctedLivestockDensities(simulation, periods, getStic)
+  const e9 = potentialLivestockDensities(simulation, periods, getStic)
+  return fixFloatingPoint(e8 / e9)
+}
+
+// TODO Fourrages récoltés
+export const getHarvestedFodder = (simulation, periods, getStic) => {
+  // // =SUM($calcul_interface.H52:T52,$calcul_interface.H76:T76,$calcul_interface.H100:T100,$calcul_interface.H124:T124,$calcul_interface.H148:T148,$calcul_interface.H220:T220)/($calcul_interface.$V$647/4.75)
+}
+
+// TEST SFP/SAU
+export const getSFP_SAU = (simulation, periods, getStic) => {
+  // $calcul_interface.X55*100 / $Dim_Systeme.E6(SAU)
+  const x55 = getSFP(simulation, getStic)
+  const e6 = estimatedLivestockDensities(simulation, periods, getStic)
+
+  return (x55 * 100) / e6
+}
+
+// TEST %PP/SAU
+export const getPP_SAU = (simulation, periods, getStic) => {
+  // ROUND($calcul.D129*100,0)
+  // D129 SUMIF(type baguette = "PP", surface)/$Dim_Systeme.E6(SAU)
+  const surfacesPP = getRotationSurface('PP', simulation, getStic)
+  const e6 = estimatedLivestockDensities(simulation, periods, getStic)
+  const d129 = surfacesPP / e6
+  return fixFloatingPoint(d129 * 100)
+}
+
+// TEST %PT/SAU
+export const getPT_SAU = (simulation, periods, getStic) => {
+  // ROUND($calcul.D130*100,0)
+  // D130 SUMIF(type baguette = "PT", surface)/$Dim_Systeme.E6(SAU)
+  const surfacesPT = getRotationSurface('PT', simulation, getStic)
+  const e6 = estimatedLivestockDensities(simulation, periods, getStic)
+  const d130 = surfacesPT / e6
+  return fixFloatingPoint(d130 * 100)
+}
+
 export function getEnergeticCoverage(state, rootState, batchId) {
   const precision = 3
   const batch = state.batchs[batchId]
@@ -689,8 +911,6 @@ export function getProteicCoverage(state, rootState, batchId) {
 
   return proteicCoverage
 }
-
-// TODO-FRONT je crois que j'ai un gros problème
 export function dispatchProduction(state, rootState, rootGetters) {
   var totalBarnStock = []
   var barnStockByPeriod = Array.from({ length: 13 }, () => null)

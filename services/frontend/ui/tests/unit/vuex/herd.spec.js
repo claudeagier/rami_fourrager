@@ -34,7 +34,7 @@ describe('herds mutations', () => {
   const farmState = rootState.simulator.farm
 
   // apply mutation
-  tap = setTotalAvailablePasture(farmState, rootState)
+  tap = setTotalAvailablePasture(rootState.simulator, rootGetters['referential/getSticByName'])
 
   rootState.simulator.farm.totalAvailablePastureByPeriod = tap
 

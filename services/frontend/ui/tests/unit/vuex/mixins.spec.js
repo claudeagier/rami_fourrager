@@ -32,7 +32,7 @@ describe('Pasture Consumption Functions', () => {
   const batchId = 0
 
   // apply mutation
-  const totalAvailablePastureByPeriod = setTotalAvailablePasture(farmState, rootState)
+  const totalAvailablePastureByPeriod = setTotalAvailablePasture(rootState.simulation)
 
   // set rootState with data
   // rootState.simulator.farm.totalAvailablePastureByPeriod = totalAvailablePastureByPeriod
