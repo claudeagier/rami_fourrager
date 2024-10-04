@@ -4,16 +4,21 @@ export default {
     totalStock: [],
     stockByPeriod: [],
     initialStrawStock: 0,
+    refusalRate: 0,
     initialConcentratedStock: { energeticQuantity: 0, proteicQuantity: 0 },
     initialFeedStock: [],
   },
   mutations: {
-    setBarn(state, { totalStock, initialFeedStock, stockByPeriod, initialStrawStock, initialConcentratedStock }) {
+    setBarn(
+      state,
+      { totalStock, initialFeedStock, stockByPeriod, initialStrawStock, initialConcentratedStock, refusalRate }
+    ) {
       state.totalStock = totalStock
       state.initialFeedStock = initialFeedStock
       state.initialConcentratedStock = initialConcentratedStock
       state.initialStrawStock = initialStrawStock
       state.stockByPeriod = stockByPeriod
+      state.refusalRate = refusalRate
     },
     // barn
     setInitialBarnStock(state, initialData) {
@@ -40,6 +45,9 @@ export default {
     setInitialStrawStock(state, initialStrawStock) {
       state.initialStrawStock = initialStrawStock
     },
+    setRefusalRate(state, refusalRate) {
+      state.refusalRate = refusalRate
+    },
     setTotalStrawStockProducted(state, stock) {
       state.totalStrawStockProducted = stock
     },
@@ -60,6 +68,7 @@ export default {
       return state.initialConcentratedStock.energeticQuantity + state.initialConcentratedStock.proteicQuantity
     },
     getInitialStrawStock: (state) => state.initialStrawStock,
+    getRefusalRate: (state) => state.refusalRate,
   },
   actions: {
     setStock({ state, commit }) {

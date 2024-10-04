@@ -47,6 +47,20 @@
               ></v-text-field>
             </v-card-text>
           </v-card>
+          <v-card>
+            <v-card-title>
+              <div class="text-h4 font-weight-light">{{ $t('barn.refusal.title') }}</div>
+            </v-card-title>
+            <v-card-text>
+              <v-text-field
+                v-model.number="refusalRate"
+                :label="$t('barn.refusal.rate')"
+                type="number"
+                hide-spin-buttons
+                min="0"
+              ></v-text-field>
+            </v-card-text>
+          </v-card>
         </v-col>
         <v-col
           cols="7"
@@ -238,7 +252,7 @@
   import { mapState, mapGetters } from 'vuex'
   import navigationGuard from '@/mixins/navigationGuard'
 
-  // TODO-FRONT ajouter les stock de concentré et les stocks de paille
+  // TODO-FRONT ajouter le refus et mise en page des card
   export default {
     name: 'Barn',
     mixins: [navigationGuard],
@@ -282,6 +296,7 @@
         initialConcentratedStock: 'initialConcentratedStock',
         totalConcentratedStock: 'totalConcentratedStock',
         strawStock: 'getInitialStrawStock',
+        refusal: 'getRefusalRate',
       }),
       strawQuantity: {
         get() {
@@ -289,6 +304,14 @@
         },
         set(val) {
           this.$store.commit('simulator/barn/setInitialStrawStock', val)
+        },
+      },
+      refusalRate: {
+        get() {
+          return this.refusal
+        },
+        set(val) {
+          this.$store.commit('simulator/barn/setRefusalRate', val)
         },
       },
       energeticQuantity: {

@@ -45,6 +45,7 @@ export default {
       type: 'object',
       properties: {
         initialStrawStock: { type: ['number', 'null'] },
+        refusalRate: { type: ['number', 'null'] },
         initialFeedStock: {
           type: 'array',
           items: {
