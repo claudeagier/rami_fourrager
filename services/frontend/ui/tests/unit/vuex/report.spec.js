@@ -5,13 +5,20 @@ import fs from 'fs'
 import _ from 'lodash'
 import { getStic } from './mock/getters'
 import {
-  setTotalAvailablePasture,
   getV647,
   getTotalHerd,
   getUGBSystem,
-  estimatedLivestockDensities,
+  getEstimatedLivestockDensities,
   getTotalConsumptionExcludingConcentrates,
-  getStockConsumptionPerPeriod,
+  getSFP,
+  getRotationSurface,
+  getApparentLivestockDensities,
+  getSAU,
+  getSFP_SAU,
+  getPT_SAU,
+  getPP_SAU,
+  getCorrectedLivestockDensities,
+  getPotentialLivestockDensities,
 } from '@/store/modules/mixins'
 
 // Chemin vers votre fichier JSON
@@ -33,48 +40,85 @@ describe('report dimensioning', () => {
   const periods = rootState.referential.periods
   const simulation = rootState.simulator
   const totalAvailablePastureByPeriod = rootState.simulator.farm.totalAvailablePastureByPeriod
+
   it('total herd', () => {
     const result = getTotalHerd(batchs)
-    // for (let i in result) {
-    //   expect(result[i]).toEqual(output[i])
-    // }
     expect(result).toEqual(output.totalHerd)
-  })
-
-  it('Stock Consumption Per Period $269', () => {
-    var $269 = {}
-    batchs.forEach((el, index) => {
-      $269['batch' + index] = []
-    })
-    periods.forEach((period, periodIndex) => {
-      var h269 = 0
-      batchs.forEach((curr, index) => {
-        $269['batch' + index].push(getStockConsumptionPerPeriod(curr, periodIndex))
-      })
-    })
-    expect($269.batch0).toEqual(output.$269.batch0)
   })
 
   it(' Total Consumption Excluding Concentrates $647', () => {
     var v647 = []
+    const codes = ['FH', 'EH', 'EM', 'EL', 'FL']
     periods.forEach((period, index) => {
-      v647.push(getTotalConsumptionExcludingConcentrates(index, batchs, totalAvailablePastureByPeriod))
+      v647.push(
+        _.round(getTotalConsumptionExcludingConcentrates(index, batchs, totalAvailablePastureByPeriod, codes), 0)
+      )
     })
     expect(v647).toEqual(output.$647)
   })
 
   it(' V647 ', () => {
-    const v647 = getV647(batchs, periods, totalAvailablePastureByPeriod)
-    expect(v647).toEqual(output.getV647)
+    const codes = ['FH', 'EH', 'EM', 'EL', 'FL']
+    const v647 = getV647(batchs, periods, totalAvailablePastureByPeriod, codes)
+    expect(_.round(v647, 0)).toEqual(output.getV647)
   })
 
   it(' UGB system', () => {
-    const ugb = getUGBSystem(simulation, periods, getStic)
+    const codes = ['FH', 'EH', 'EM', 'EL', 'FL']
+    const ugb = getUGBSystem(simulation, periods, codes, totalAvailablePastureByPeriod)
     expect(ugb).toEqual(output.ugbSystem)
   })
 
   it(' estimated Livestock Densities E6', () => {
-    const eld = estimatedLivestockDensities(simulation, periods, getStic)
-    expect(eld).toEqual(output.estimatedLivestockDensities)
+    const codes = ['FH', 'EH', 'EM', 'EL', 'FL']
+    const eld = getEstimatedLivestockDensities(simulation, periods, totalAvailablePastureByPeriod, codes)
+    expect(_.round(eld, 2)).toEqual(output.estimatedLivestockDensities)
+  })
+
+  it(' surface according to stic type', () => {
+    const type = 'P'
+    const sfp = getRotationSurface(type, simulation, getStic)
+    expect(_.round(sfp, 0)).toEqual(output.sfp)
+  })
+
+  it(' surface fourragère principale SFP X55', () => {
+    const sfp = getSFP(simulation, getStic)
+    expect(_.round(sfp, 0)).toEqual(output.sfp)
+  })
+
+  it('Chargement apparent E7', () => {
+    const codes = ['FH', 'EH', 'EM', 'EL', 'FL']
+    const ald = getApparentLivestockDensities(simulation, periods, getStic, codes, totalAvailablePastureByPeriod)
+    expect(_.round(ald, 2)).toEqual(output.apparentLivestockDensities)
+  })
+  it('Chargement corrigé E8', () => {
+    const codes = ['FH', 'EH', 'EM', 'EL', 'FL']
+    const cld = getCorrectedLivestockDensities(simulation, periods, getStic, codes, totalAvailablePastureByPeriod)
+    expect(_.round(cld, 2)).toEqual(output.correctedLivestockDensities)
+  })
+
+  it('Chargement potentiel E9', () => {
+    const codes = ['FH', 'EH', 'EM', 'EL', 'FL']
+    const pld = getPotentialLivestockDensities(simulation, periods, getStic, codes)
+    expect(_.round(pld, 2)).toEqual(output.potentialLivestockDensities)
+  })
+
+  it('SAU', () => {
+    const SAU = getSAU(simulation, getStic)
+    expect(_.round(SAU, 1)).toEqual(output.SAU)
+  })
+  it('SFP/SAU', () => {
+    const sfp_sau = getSFP_SAU(simulation, periods, getStic)
+    expect(_.round(sfp_sau, 0)).toEqual(output.sfp_sau)
+  })
+
+  it('PP/SAU', () => {
+    const pp_sau = getPP_SAU(simulation, periods, getStic)
+    expect(_.round(pp_sau, 0)).toEqual(output.pp_sau)
+  })
+
+  it('PT/SAU', () => {
+    const pt_sau = getPT_SAU(simulation, periods, getStic)
+    expect(_.round(pt_sau, 0)).toEqual(output.pt_sau)
   })
 })

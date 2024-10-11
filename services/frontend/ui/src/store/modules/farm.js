@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { setTotalAvailablePasture, dispatchProduction } from './mixins'
+import { setTotalAvailablePasture, dispatchProductionByPeriod, setTotalStrawStock } from './mixins'
 export default {
   namespaced: true,
   state: {
@@ -137,14 +137,23 @@ export default {
       )
     },
     setTotalAvailablePastureByPeriod({ state, rootState, commit, rootGetters }) {
-      const totalAvailablePastureByPeriod = setTotalAvailablePasture(state, rootState, rootGetters)
+      const totalAvailablePastureByPeriod = setTotalAvailablePasture(
+        rootState.simulator,
+        rootState.referential.periods,
+        rootGetters['referential/getSticByName']
+      )
       commit('setTotalAvailablePastureByPeriod', totalAvailablePastureByPeriod)
     },
     dispatchProduction({ state, rootState, commit, rootGetters }) {
-      const production = dispatchProduction(state, rootState, rootGetters)
-      commit('simulator/barn/setTotalStock', production.totalBarnStock, { root: true })
-      commit('simulator/barn/setTotalStrawStockProducted', production.totalStrawStock, { root: true })
-      commit('simulator/barn/setStockByPeriod', production.barnStockByPeriod, { root: true })
+      const production = dispatchProductionByPeriod(
+        rootState.simulator.farm.rotations,
+        rootState.referential,
+        rootState.simulator,
+        rootGetters['referential/getSticByName']
+      )
+      const totalStrawStock = setTotalStrawStock(rootState.simulator, rootGetters['referential/getSticByName'])
+      commit('simulator/barn/setTotalStrawStockProducted', totalStrawStock, { root: true })
+      commit('simulator/barn/setStockByPeriod', production, { root: true })
     },
   },
 }

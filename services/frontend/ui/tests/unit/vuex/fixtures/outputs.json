@@ -113,16 +113,217 @@
       "$250": [0, 264, 732, 998, 1329, 1016, 503, 310, 310, 730, 799, 391, 131],
       "final_coverage": [88, 91, 100, 97, 95, 91, 86, 87, 87, 91, 96, 94, 89]
     },
+    "farm": {
+      "stockByPeriod": [
+        {
+          "period_id": 1,
+          "stock": []
+        },
+        {
+          "period_id": 2,
+          "stock": []
+        },
+        {
+          "period_id": 3,
+          "stock": []
+        },
+        {
+          "period_id": 4,
+          "stock": [
+            {
+              "code": "EH",
+              "name": "Ensilage et enrubannage d'herbe",
+              "unity": "tMS",
+              "color": "",
+              "quantity": 89
+            }
+          ]
+        },
+        {
+          "period_id": 5,
+          "stock": [
+            {
+              "code": "EH",
+              "name": "Ensilage et enrubannage d'herbe",
+              "unity": "tMS",
+              "color": "",
+              "quantity": 69
+            }
+          ]
+        },
+        {
+          "period_id": 6,
+          "stock": [
+            {
+              "code": "FH",
+              "name": "Foin",
+              "unity": "tMS",
+              "color": "",
+              "quantity": 40
+            }
+          ]
+        },
+        {
+          "period_id": 7,
+          "stock": [
+            {
+              "code": "FH",
+              "name": "Foin",
+              "unity": "tMS",
+              "color": "",
+              "quantity": 71
+            }
+          ]
+        },
+        {
+          "period_id": 8,
+          "stock": [
+            {
+              "code": "RC",
+              "name": "Céréales en grain",
+              "unity": "qtx",
+              "concentrated": true,
+              "color": "",
+              "quantity": 450
+            }
+          ]
+        },
+        {
+          "period_id": 9,
+          "stock": []
+        },
+        {
+          "period_id": 10,
+          "stock": [
+            {
+              "code": "EM",
+              "name": "Ensilage de maïs et sorgho (riche UF)",
+              "unity": "tMS",
+              "color": "",
+              "quantity": 120
+            }
+          ]
+        },
+        {
+          "period_id": 11,
+          "stock": []
+        },
+        {
+          "period_id": 12,
+          "stock": []
+        },
+        {
+          "period_id": 13,
+          "stock": []
+        }
+      ],
+      "stockTotal": []
+    },
     "report": {
       "$266": [16.8, 13.6, 7.7, 4.3, 0.0, 3.7, 9.9, 12.2, 12.2, 7.8, 6.9, 11.8, 15.2],
       "$269": {
-        "batch0": [36.7, 29.8, 16.9, 9.4, 0.0, 8.1, 21.5, 26.6, 26.6, 17.0, 15.1, 25.8, 33.3]
+        "batch0": [36.7, 29.8, 16.9, 9.4, 0.0, 8.1, 21.5, 26.6, 26.6, 17.0, 15.1, 25.7, 33.3]
       },
       "$647": [44, 45, 45, 45, 45, 44, 43, 43, 43, 45, 45, 44, 45],
+      "sfp": 105,
+      "SAU": 120.0,
       "getV647": 579,
       "totalHerd": 126,
       "ugbSystem": 122,
-      "estimatedLivestockDensities": 1.01
+      "estimatedLivestockDensities": 1.01,
+      "apparentLivestockDensities": 1.16,
+      "correctedLivestockDensities": 1.16,
+      "potentialLivestockDensities": 1.25,
+      "autonomy": true,
+      "sfp_sau": 88,
+      "pp_sau": 8,
+      "pt_sau": 69,
+      "stock": {
+        "name": "Foin",
+        "initialStock": 58,
+        "production": 111,
+        "consommation": 110,
+        "finalStock": 59,
+        "final_initialStock": 1,
+        "purchase": 0,
+        "sold": 0
+      }
+    },
+    "stock": {
+      "consumption": [
+        [
+          { "EH": 7.6, "FH": 0.8, "EM": 8.4, "EL": 0.0, "RC": 0.0, "RP": 0.0, "AS": 0.0, "FL": 0.0, "STRAW": 0.0 },
+          { "EH": 4.3, "FH": 0.9, "EM": 8.5, "EL": 0.0, "RC": 0.0, "RP": 0.0, "AS": 0.0, "FL": 0.0, "STRAW": 0.0 },
+          { "EH": 1.7, "FH": 0.9, "EM": 5.1, "EL": 0.0, "RC": 0.0, "RP": 0.0, "AS": 0.0, "FL": 0.0, "STRAW": 0.0 },
+          { "EH": 0.0, "FH": 0.9, "EM": 3.4, "EL": 0.0, "RC": 0.0, "RP": 0.0, "AS": 0.0, "FL": 0.0, "STRAW": 0.0 },
+          { "EH": 0.0, "FH": 0.0, "EM": 0.0, "EL": 0.0, "RC": 0.0, "RP": 0.0, "AS": 0.0, "FL": 0.0, "STRAW": 0.0 },
+          { "EH": 2.5, "FH": 1.2, "EM": 0.0, "EL": 0.0, "RC": 0.0, "RP": 0.0, "AS": 0.0, "FL": 0.0, "STRAW": 0.0 },
+          { "EH": 6.2, "FH": 3.6, "EM": 0.0, "EL": 0.0, "RC": 0.0, "RP": 0.0, "AS": 0.0, "FL": 0.0, "STRAW": 0.0 },
+          { "EH": 8.1, "FH": 4.1, "EM": 0.0, "EL": 0.0, "RC": 0.0, "RP": 0.0, "AS": 0.0, "FL": 0.0, "STRAW": 0.0 },
+          { "EH": 8.1, "FH": 4.1, "EM": 0.0, "EL": 0.0, "RC": 0.0, "RP": 0.0, "AS": 0.0, "FL": 0.0, "STRAW": 0.0 },
+          { "EH": 0.9, "FH": 0.9, "EM": 6.0, "EL": 0.0, "RC": 0.0, "RP": 0.0, "AS": 0.0, "FL": 0.0, "STRAW": 0.0 },
+          { "EH": 0.9, "FH": 0.9, "EM": 5.2, "EL": 0.0, "RC": 0.0, "RP": 0.0, "AS": 0.0, "FL": 0.0, "STRAW": 0.0 },
+          { "EH": 3.4, "FH": 3.4, "EM": 5.1, "EL": 0.0, "RC": 0.0, "RP": 0.0, "AS": 0.0, "FL": 0.0, "STRAW": 0.0 },
+          { "EH": 5.1, "FH": 1.7, "EM": 8.5, "EL": 0.0, "RC": 0.0, "RP": 0.0, "AS": 0.0, "FL": 0.0, "STRAW": 0.0 }
+        ],
+        [
+          { "EH": 2.7, "FH": 7.5, "EM": 0.0, "EL": 0.0, "RC": 0.0, "RP": 0.0, "AS": 0.0, "FL": 0.0, "STRAW": 0.0 },
+          { "EH": 2.7, "FH": 7.5, "EM": 0.0, "EL": 0.0, "RC": 0.0, "RP": 0.0, "AS": 0.0, "FL": 0.0, "STRAW": 0.0 },
+          { "EH": 4.0, "FH": 8.1, "EM": 0.0, "EL": 0.0, "RC": 0.0, "RP": 0.0, "AS": 0.0, "FL": 0.0, "STRAW": 0.0 },
+          { "EH": 4.0, "FH": 8.1, "EM": 0.0, "EL": 0.0, "RC": 0.0, "RP": 0.0, "AS": 0.0, "FL": 0.0, "STRAW": 0.0 },
+          { "EH": 4.2, "FH": 4.2, "EM": 0.0, "EL": 0.0, "RC": 0.0, "RP": 0.0, "AS": 0.0, "FL": 0.0, "STRAW": 0.0 },
+          { "EH": 4.7, "FH": 8.0, "EM": 0.0, "EL": 0.0, "RC": 0.0, "RP": 0.0, "AS": 0.0, "FL": 0.0, "STRAW": 0.0 },
+          { "EH": 4.0, "FH": 8.1, "EM": 0.0, "EL": 0.0, "RC": 0.0, "RP": 0.0, "AS": 0.0, "FL": 0.0, "STRAW": 0.0 },
+          { "EH": 8.1, "FH": 5.4, "EM": 0.0, "EL": 0.0, "RC": 0.0, "RP": 0.0, "AS": 0.0, "FL": 0.0, "STRAW": 0.0 },
+          { "EH": 4.0, "FH": 8.1, "EM": 0.0, "EL": 0.0, "RC": 0.0, "RP": 0.0, "AS": 0.0, "FL": 0.0, "STRAW": 0.0 },
+          { "EH": 8.1, "FH": 5.4, "EM": 0.0, "EL": 0.0, "RC": 0.0, "RP": 0.0, "AS": 0.0, "FL": 0.0, "STRAW": 0.0 },
+          { "EH": 8.1, "FH": 5.4, "EM": 0.0, "EL": 0.0, "RC": 0.0, "RP": 0.0, "AS": 0.0, "FL": 0.0, "STRAW": 0.0 },
+          { "EH": 6.2, "FH": 5.5, "EM": 0.0, "EL": 0.0, "RC": 0.0, "RP": 0.0, "AS": 0.0, "FL": 0.0, "STRAW": 0.0 },
+          { "EH": 2.7, "FH": 7.5, "EM": 0.0, "EL": 0.0, "RC": 0.0, "RP": 0.0, "AS": 0.0, "FL": 0.0, "STRAW": 0.0 }
+        ]
+      ],
+      "totalStock": [
+        {
+          "name": "Foin",
+          "initialStock": 58,
+          "production": 111,
+          "consommation": 110,
+          "finalStock": 59,
+          "final_initialStock": 1,
+          "purchase": 0,
+          "sold": 0
+        },
+        {
+          "name": "Ensilage et enrubannage d'herbe",
+          "initialStock": 79,
+          "production": 158,
+          "consommation": 156,
+          "finalStock": 81,
+          "final_initialStock": 2,
+          "purchase": 0,
+          "sold": 0
+        },
+        {
+          "name": "Ensilage de maïs et sorgho (riche UF)",
+          "initialStock": 66,
+          "production": 120,
+          "consommation": 121,
+          "finalStock": 65,
+          "final_initialStock": -1,
+          "purchase": 1,
+          "sold": 0
+        },
+        {
+          "name": "Pâtures",
+          "initialStock": 0,
+          "production": 234,
+          "consommation": 226,
+          "finalStock": 8,
+          "final_initialStock": 8,
+          "purchase": 0,
+          "sold": 0
+        }
+      ]
     }
   }
 }

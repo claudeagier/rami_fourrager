@@ -1,6 +1,7 @@
 import barn from './barn'
 import farm from './farm'
 import herd from './herd'
+import report from './report'
 
 export default {
   namespaced: true,
@@ -51,5 +52,6 @@ export default {
     barn,
     farm,
     herd,
+    report,
   },
 }

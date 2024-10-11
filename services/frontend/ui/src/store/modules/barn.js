@@ -1,7 +1,6 @@
 export default {
   namespaced: true,
   state: {
-    totalStock: [],
     stockByPeriod: [],
     initialStrawStock: 0,
     refusalRate: 0,
@@ -38,9 +37,6 @@ export default {
       state.initialFeedStock = state.initialFeedStock.filter(
         (item) => !(item.code === stock.code && item.name === stock.name)
       )
-    },
-    setTotalStock(state, totalStock) {
-      state.totalStock = totalStock
     },
     setInitialStrawStock(state, initialStrawStock) {
       state.initialStrawStock = initialStrawStock
