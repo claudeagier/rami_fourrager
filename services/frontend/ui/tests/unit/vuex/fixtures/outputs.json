@@ -235,6 +235,8 @@
       "correctedLivestockDensities": 1.16,
       "potentialLivestockDensities": 1.25,
       "autonomy": true,
+      "potential": 93,
+      "harvestFodder": 3.2,
       "sfp_sau": 88,
       "pp_sau": 8,
       "pt_sau": 69,

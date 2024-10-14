@@ -170,6 +170,10 @@
       "title": "Stock de paille disponible au 1er janvier",
       "quantity": "quantité (en kg)"
     },
+    "refusal": {
+      "title": "Pourcentage de refus des stocks",
+      "rate": "taux en %"
+    },
     "concentrated": {
       "title": "Stock de concentrés disponibles au 1er janvier",
       "energeticQuantity": "Quantité de concentrés energétiques (en qtx)",
@@ -370,6 +374,9 @@
         }
       }
     }
+  },
+  "autonomy": {
+    "title": "Autonomie"
   },
   "workspace": {
     "referential": {

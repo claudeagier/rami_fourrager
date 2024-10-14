@@ -19,6 +19,9 @@ import {
   getPP_SAU,
   getCorrectedLivestockDensities,
   getPotentialLivestockDensities,
+  getAutonomy,
+  getPotential,
+  getHarvestedFodder,
 } from '@/store/modules/mixins'
 
 // Chemin vers votre fichier JSON
@@ -101,6 +104,22 @@ describe('report dimensioning', () => {
     const codes = ['FH', 'EH', 'EM', 'EL', 'FL']
     const pld = getPotentialLivestockDensities(simulation, periods, getStic, codes)
     expect(_.round(pld, 2)).toEqual(output.potentialLivestockDensities)
+  })
+
+  it('autonomy', () => {
+    const codes = ['FH', 'EH', 'EM', 'EL', 'FL']
+    const autonomy = getAutonomy(simulation, periods, getStic, codes, totalAvailablePastureByPeriod)
+    expect(autonomy).toEqual(output.autonomy)
+  })
+  it('potential', () => {
+    const codes = ['FH', 'EH', 'EM', 'EL', 'FL']
+    const potential = getPotential(simulation, periods, getStic, codes, totalAvailablePastureByPeriod)
+    expect(_.round(potential, 0)).toEqual(output.potential)
+  })
+  it('harvestFodder', () => {
+    const codes = ['FH', 'EH', 'EM', 'EL', 'FL']
+    const harvestFodder = getHarvestedFodder(simulation, periods, getStic, codes, totalAvailablePastureByPeriod)
+    expect(_.round(harvestFodder, 1)).toEqual(output.harvestFodder)
   })
 
   it('SAU', () => {

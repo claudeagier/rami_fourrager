@@ -560,9 +560,10 @@ export function getInitialStockByBarnStockItem(simulation, stockCode) {
   return stock === undefined ? 0 : stock.quantity
 }
 // E production
-export function getSticProductionByBarnStockItem(simulation, stockCode, periods) {
+export function getSticProductionByBarnStockItem(simulation, stockCode, periods, getStic) {
   // // SUM($calcul_interface.H52:T52) la somme de toutes les production des baguettes de même type par periode
-  return Object.values(periods).reduce((acc, curr, index) => {
+
+  let prodTotal = Object.values(periods).reduce((acc, curr, index) => {
     var quantity = 0
     if (simulation.barn.stockByPeriod[index].stock !== null) {
       const stock = simulation.barn.stockByPeriod[index].stock.find((item) => item.code === stockCode)
@@ -570,6 +571,12 @@ export function getSticProductionByBarnStockItem(simulation, stockCode, periods)
     }
     return acc + quantity
   }, 0.0)
+  // if (stockCode === 'P') {
+  //   // ajouter la prod des patures
+  //   const p = getPastureProductionTotal(simulation, periods, getStic)
+  //   prodTotal += p
+  // }
+  return prodTotal
 }
 export function getPastureProductionTotal(simulation) {
   const prodTotal = Object.values(simulation.farm.totalAvailablePastureByPeriod).reduce((acc, curr) => {
@@ -603,10 +610,10 @@ export function getPastureConsumptionTotal(simulation, periods) {
   return (cons * 28) / 1000
 }
 // G stock fin
-export function getFinalStockByBarnStockItem(simulation, stockCode, periods) {
+export function getFinalStockByBarnStockItem(simulation, stockCode, periods, getStic) {
   return (
     _.round(getInitialStockByBarnStockItem(simulation, stockCode), 0) +
-    _.round(getSticProductionByBarnStockItem(simulation, stockCode, periods), 0) -
+    _.round(getSticProductionByBarnStockItem(simulation, stockCode, periods, getStic), 0) -
     _.round(getConsumptionByBarnStockItem(simulation, periods, stockCode), 0)
   )
 }
@@ -614,17 +621,18 @@ export function getPastureFinalStock(simulation, periods) {
   return getPastureProductionTotal(simulation) - getPastureConsumptionTotal(simulation, periods)
 }
 // H stock fin-debut
-export function getFinalMinInitialStockByBarnStockItem(simulation, stockCode, periods) {
+export function getFinalMinInitialStockByBarnStockItem(simulation, stockCode, periods, getStic) {
   return (
-    getFinalStockByBarnStockItem(simulation, stockCode, periods) - getInitialStockByBarnStockItem(simulation, stockCode)
+    getFinalStockByBarnStockItem(simulation, stockCode, periods, getStic) -
+    getInitialStockByBarnStockItem(simulation, stockCode)
   )
 }
 export function getPastureFinalMinInitialStock(simulation, periods) {
   return getPastureFinalStock(simulation, periods)
 }
 // J achat
-export function getPurchaseValueByBarnStockItem(simulation, stockCode, periods) {
-  const h32 = getFinalMinInitialStockByBarnStockItem(simulation, stockCode, periods)
+export function getPurchaseValueByBarnStockItem(simulation, stockCode, periods, getStic) {
+  const h32 = getFinalMinInitialStockByBarnStockItem(simulation, stockCode, periods, getStic)
   return h32 < 0 ? -h32 : 0
 }
 export function getPasturePurchaseValue(simulation, periods) {
@@ -761,8 +769,8 @@ export const getCorrectedLivestockDensities = function (
   var sumL = 0
   stockCodeList.forEach((stock) => {
     const barnStockItemCode = stock
-    sumH += getFinalMinInitialStockByBarnStockItem(simulation, barnStockItemCode, periods) // surplus
-    sumJ += getPurchaseValueByBarnStockItem(simulation, barnStockItemCode, periods) // achat
+    sumH += getFinalMinInitialStockByBarnStockItem(simulation, barnStockItemCode, periods, getStic) // surplus
+    sumJ += getPurchaseValueByBarnStockItem(simulation, barnStockItemCode, periods, getStic) // achat
     sumL += simulation.report.soldedStock[barnStockItemCode].sale // n'éxiste pas encore
   })
 
@@ -773,7 +781,7 @@ export const getPotentialLivestockDensities = function (simulation, periods, get
   const sfp = getSFP(simulation, getStic)
   let prodTotalWithPasture = 0
   stockCodeList.forEach((stockCode) => {
-    const prod = getSticProductionByBarnStockItem(simulation, stockCode, periods)
+    const prod = getSticProductionByBarnStockItem(simulation, stockCode, periods, getStic)
     prodTotalWithPasture += prod
   })
   // ajouter la prod des patures
@@ -782,26 +790,40 @@ export const getPotentialLivestockDensities = function (simulation, periods, get
 
   return prodTotalWithPasture / UGB / sfp
 }
-// TEST autonomie et potentiel ...
-// =IF((E8-E7)>0,"Autonome","Pas autonome")&" et "&IF(E8/E9>=0.9,"au potentiel","pas au potentiel")&" ("&ROUND(100*$calcul_interface.Y651,0)&"%)"
-export const getAutonomy = function (simulation, periods, getStic, stockCodeList) {
+// autonomie et potentiel ...
+export const getAutonomy = function (simulation, periods, getStic, stockCodeList, totalAvailablePastureByPeriod) {
   // IF((E8-E7)>0,"Autonome","Pas autonome")
-  const e8 = getCorrectedLivestockDensities(simulation, periods, getStic, stockCodeList)
-  const e7 = getApparentLivestockDensities(simulation, periods, getStic, stockCodeList)
+  const e8 = getCorrectedLivestockDensities(simulation, periods, getStic, stockCodeList, totalAvailablePastureByPeriod)
+  const e7 = getApparentLivestockDensities(simulation, periods, getStic, stockCodeList, totalAvailablePastureByPeriod)
   return e8 - e7 > 0
 }
-// TEST
-export const getPotential = function (simulation, periods, getStic, stockCodeList) {
+// renvoie le pourcentage
+export const getPotential = function (simulation, periods, getStic, stockCodeList, totalAvailablePastureByPeriod) {
   // IF(E8/E9>=0.9,"au potentiel","pas au potentiel")
   // ROUND(100*$calcul_interface.Y651,0)
   // Y651 réalisaion du potenteil $Bilan.$E$8/$Y$648
-  const e8 = getCorrectedLivestockDensities(simulation, periods, getStic, stockCodeList)
-  const e9 = getPotentialLivestockDensities(simulation, periods, getStic)
-  return e8 / e9
+  const e8 = getCorrectedLivestockDensities(simulation, periods, getStic, stockCodeList, totalAvailablePastureByPeriod)
+  const e9 = getPotentialLivestockDensities(simulation, periods, getStic, stockCodeList)
+  return (e8 / e9) * 100
 }
-// TODO Fourrages récoltés
-export const getHarvestedFodder = (simulation, periods, getStic) => {
-  // // =SUM($calcul_interface.H52:T52,$calcul_interface.H76:T76,$calcul_interface.H100:T100,$calcul_interface.H124:T124,$calcul_interface.H148:T148,$calcul_interface.H220:T220)/($calcul_interface.$V$647/4.75)
+// Fourrages récoltés
+export const getHarvestedFodder = (simulation, periods, getStic, stockCodeList, totalAvailablePastureByPeriod) => {
+  // SUM(
+  //   $calcul_interface.H52:T52, la somme des productions patures
+  //   $calcul_interface.H76:T76,
+  //   $calcul_interface.H100:T100,
+  //   $calcul_interface.H124:T124,
+  //   $calcul_interface.H148:T148,
+  //   $calcul_interface.H220:T220)
+  //   /
+  //   ($calcul_interface.$V$647/4.75)
+  const v647 = getV647(simulation.herd.batchs, periods, totalAvailablePastureByPeriod, stockCodeList) / UGB
+  let prodTotal = 0
+  stockCodeList.forEach((stockCode) => {
+    prodTotal += getSticProductionByBarnStockItem(simulation, stockCode, periods, getStic)
+  })
+
+  return prodTotal / v647
 }
 // SFP/SAU
 export const getSFP_SAU = (simulation, periods, getStic) => {
@@ -969,7 +991,7 @@ export function getProteicCoverage(state, rootState, batchId) {
 
   return proteicCoverage
 }
-// à refaire, j'ai des fonctions plus haut pour faire cela plus efficacement
+// TODO à refaire, j'ai des fonctions plus haut pour faire cela plus efficacement
 export function getDryMatterProvided(state, rootState, batchId) {
   const precision = 3
   const batch = state.batchs[batchId]
