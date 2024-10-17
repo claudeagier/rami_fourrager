@@ -431,7 +431,7 @@ const getUFPasturesByPeriod = (batch, period, totalAvailablePastureByPeriod, bat
   const p = getPasturesByPeriod('energeticTotal', batch, period, totalAvailablePastureByPeriod, batchs)
   return p
 }
-export const getFinalEnergeticCoverage = function (state, rootState, rootGetters, batchId) {
+export const getFinalEnergeticCoverage = function (state, rootState, getStic, batchId) {
   // c'est juste pour faire le test des différentes fonction
   const finalEnergeticCoverage = []
   const batch = state.batchs[batchId]
@@ -444,7 +444,7 @@ export const getFinalEnergeticCoverage = function (state, rootState, rootGetters
   const totalAvailablePastureByPeriod = setTotalAvailablePasture(
     rootState.simulator,
     rootState.referential.periods,
-    rootGetters['referential/getSticByName']
+    getStic
   )
 
   // for test
@@ -509,27 +509,18 @@ const getPDIByFeedTypeByPeriod = (batch, feedType) => {
     return fixFloatingPoint(sumPDI, precision)
   })
 }
-export const getFinalProteicCoverage = function (state, rootState, rootGetters, batchId) {
+export const getFinalProteicCoverage = function (batch, simulation, periods, totalAvailablePastureByPeriod, getStic) {
   // c'est juste pour faire le test des différentes fonction
   const finalProteicCoverage = []
-  const batch = state.batchs[batchId]
   const pasturePdi = []
-  if (batch === undefined) {
-    console.error('batch_not_found', batchId)
-    return
-  }
+
   const h272 = getPDIByFeedTypeByPeriod(batch, 'concentratedFeeds')
   const h267 = getPDIByFeedTypeByPeriod(batch, 'classicFeeds')
-  const totalAvailablePastureByPeriod = setTotalAvailablePasture(
-    rootState.simulator,
-    rootState.referential.periods,
-    rootGetters['referential/getSticByName']
-  )
 
   // par periode
-  rootState.referential.periods.forEach((period, index) => {
+  periods.forEach((period, index) => {
     const periodId = period.id
-    const h249 = getPDIPasturesByPeriod(batch, index, totalAvailablePastureByPeriod, rootState.simulator.herd.batchs)
+    const h249 = getPDIPasturesByPeriod(batch, index, totalAvailablePastureByPeriod, simulation.herd.batchs)
     pasturePdi[index] = h249
     const toModerate = batch.profile.batch_type.code === 'VL'
     const potential = 1
@@ -556,20 +547,14 @@ export const getFinalProteicCoverage = function (state, rootState, rootGetters, 
 // D stock debut à déplacer directement dans le store c'est plus simple
 export function getInitialStockByBarnStockItem(simulation, stockCode) {
   // $Dim_Systeme.E15
-  const stock = simulation.barn.initialFeedStock.find((item) => item.code === stockCode)
+  const stock = simulation.barn.initialStocks.find((item) => item.code === stockCode)
   return stock === undefined ? 0 : stock.quantity
 }
 // E production
 export function getSticProductionByBarnStockItem(simulation, stockCode, periods, getStic) {
   // // SUM($calcul_interface.H52:T52) la somme de toutes les production des baguettes de même type par periode
-
-  let prodTotal = Object.values(periods).reduce((acc, curr, index) => {
-    var quantity = 0
-    if (simulation.barn.stockByPeriod[index].stock !== null) {
-      const stock = simulation.barn.stockByPeriod[index].stock.find((item) => item.code === stockCode)
-      quantity = stock === undefined ? 0 : stock.quantity
-    }
-    return acc + quantity
+  const prodTotal = Object.values(periods).reduce((acc, curr, index) => {
+    return acc + getSticProductionByBarnStockItemByPeriod(simulation, stockCode, index)
   }, 0.0)
   // if (stockCode === 'P') {
   //   // ajouter la prod des patures
@@ -609,6 +594,7 @@ export function getPastureConsumptionTotal(simulation, periods) {
   })
   return (cons * 28) / 1000
 }
+
 // G stock fin
 export function getFinalStockByBarnStockItem(simulation, stockCode, periods, getStic) {
   return (
@@ -640,13 +626,13 @@ export function getPasturePurchaseValue(simulation, periods) {
   return h32 < 0 ? -h32 : 0
 }
 // consommation des stock par lot, par period et par type de stock
-export const getBatchConsumption = (batch, period, stockCode) => {
+export const getBatchConsumption = (batch, periodId, stockCode) => {
   // somme des consommation de chaque aliment
-  const batchValuesForPeriod = batch.profile.animal_profile_periods.find((item) => item.period_id === period)
+  const batchValuesForPeriod = batch.profile.animal_profile_periods.find((item) => item.period_id === periodId)
   const toModerate = batch.profile.batch_type.code === 'VL'
   const potential = 1
   const UEcolumn = batch.profile.batch_type.UE_value_considered
-  const feedsForPeriod = batch.classicFeeds.find((item) => item.period.id === period).feeds
+  const feedsForPeriod = batch.classicFeeds.find((item) => item.period.id === periodId).feeds
   const besoinMS = calculateBesoinMS(batchValuesForPeriod.CI, toModerate, potential, UEcolumn, feedsForPeriod)
 
   const result = Object.values(feedsForPeriod).reduce((acc, curr) => {
@@ -658,6 +644,29 @@ export const getBatchConsumption = (batch, period, stockCode) => {
   }, 0.0)
 
   return result
+}
+
+export function getConsumptionByBarnStockItemByPeriod(simulation, periodId, stockCode) {
+  var consumption = 0
+  simulation.herd.batchs.forEach((batch) => {
+    consumption +=
+      (getBatchConsumption(batch, periodId, stockCode) *
+        batch.housing.presence[periodId - 1].animalCount *
+        DAYS_BY_PERIOD) /
+      1000
+  })
+  return consumption * (1 + simulation.barn.refusalRate / 100)
+}
+
+export function getSticProductionByBarnStockItemByPeriod(simulation, stockCode, period) {
+  // // SUM($calcul_interface.H52:T52) la somme de toutes les production des baguettes de même type par periode
+
+  var quantity = 0
+  if (simulation.barn.stockByPeriod[period].stock !== null) {
+    const stock = simulation.barn.stockByPeriod[period].stock.find((item) => item.code === stockCode)
+    quantity = stock === undefined ? 0 : stock.quantity
+  }
+  return quantity
 }
 
 // *******************************************************//
@@ -808,15 +817,6 @@ export const getPotential = function (simulation, periods, getStic, stockCodeLis
 }
 // Fourrages récoltés
 export const getHarvestedFodder = (simulation, periods, getStic, stockCodeList, totalAvailablePastureByPeriod) => {
-  // SUM(
-  //   $calcul_interface.H52:T52, la somme des productions patures
-  //   $calcul_interface.H76:T76,
-  //   $calcul_interface.H100:T100,
-  //   $calcul_interface.H124:T124,
-  //   $calcul_interface.H148:T148,
-  //   $calcul_interface.H220:T220)
-  //   /
-  //   ($calcul_interface.$V$647/4.75)
   const v647 = getV647(simulation.herd.batchs, periods, totalAvailablePastureByPeriod, stockCodeList) / UGB
   let prodTotal = 0
   stockCodeList.forEach((stockCode) => {
@@ -1022,7 +1022,7 @@ export function getDryMatterProvided(state, rootState, batchId) {
     const toModerate = batch.profile.batch_type.code === 'VL'
     const potential = 1
     const besoinMS = calculateBesoinMS(batchValuesForPeriod.CI, toModerate, potential, UEcolumn, feeds) // ok
-    dryMatterNeeded.data[index] = _.floor(besoinMS, 1)
+    dryMatterNeeded.data[index] = besoinMS
     // les valeurs des baguettes ne sont plus styocké dans la baguette mais dans la liste
     feeds.forEach((feed) => {
       if (feed.type.correspondingStock !== 'RC' && feed.type.correspondingStock !== 'RP') {

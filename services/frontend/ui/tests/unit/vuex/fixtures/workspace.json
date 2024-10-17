@@ -169,13 +169,23 @@
           null,
           null
         ],
-        "initialStrawStock": 53,
         "refusalRate": 10,
-        "initialConcentratedStock": {
-          "energeticQuantity": 216,
-          "proteicQuantity": -96
-        },
-        "initialFeedStock": [
+        "initialStocks": [
+          {
+            "code": "RC",
+            "name": "Céréales en grain",
+            "quantity": 216
+          },
+          {
+            "code": "RP",
+            "name": "Protéagineux en grain",
+            "quantity": -96
+          },
+          {
+            "code": "STRAW",
+            "name": "paille",
+            "quantity": 53
+          },
           {
             "code": "FH",
             "name": "foin",
@@ -3352,12 +3362,7 @@
         }
       },
       "barn": {
-        "initialStrawStock": 0,
-        "initialConcentratedStock": {
-          "energeticQuantity": 0,
-          "proteicQuantity": 0
-        },
-        "initialFeedStock": []
+        "initialStocks": []
       },
       "herd": {
         "batchs": []

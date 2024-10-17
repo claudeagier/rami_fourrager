@@ -6,7 +6,7 @@ export const moduleList = [
     moduleName: 'Global',
     component: null,
     data: {},
-    requiredState: ['simulation', 'barnStockItems'],
+    requiredState: ['dimensioning'],
   },
   {
     name: 'Pasture',
@@ -21,7 +21,7 @@ export const moduleList = [
     labelKey: 'stockNcost.label',
     descriptionKey: 'stockNcost.description',
     moduleName: 'StockNcost',
-    requiredState: ['simulation'],
+    requiredState: [],
     component: null,
     data: {},
   },

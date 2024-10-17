@@ -70,7 +70,7 @@
             <v-card-text>
               <v-data-table
                 :headers="headers"
-                :items="initialFeedStock"
+                :items="initialStocks"
                 class="elevation-1"
                 sort-by="type"
               >
@@ -292,18 +292,23 @@
         barnStockItems: 'barnStockItemList',
       }),
       ...mapGetters('simulator/barn', {
-        initialFeedStock: 'initialFeedStock',
-        initialConcentratedStock: 'initialConcentratedStock',
+        initialStocks: 'initialStocks',
+        getInitialStockQuantityByCode: 'getInitialStockQuantityByCode',
         totalConcentratedStock: 'totalConcentratedStock',
-        strawStock: 'getInitialStrawStock',
         refusal: 'getRefusalRate',
       }),
       strawQuantity: {
         get() {
-          return this.strawStock
+          return this.getInitialStockQuantityByCode('STRAW')
         },
         set(val) {
-          this.$store.commit('simulator/barn/setInitialStrawStock', val)
+          const el = {
+            // type: '',
+            code: 'STRAW',
+            name: 'paille',
+            quantity: val,
+          }
+          this.$store.commit('simulator/barn/setInitialStocks', el)
         },
       },
       refusalRate: {
@@ -316,18 +321,28 @@
       },
       energeticQuantity: {
         get() {
-          return this.initialConcentratedStock.energeticQuantity
+          return this.getInitialStockQuantityByCode('RC')
         },
         set(val) {
-          this.$store.commit('simulator/barn/setEnergeticQuantity', val)
+          const el = {
+            code: 'RC',
+            name: 'Céréales en grain',
+            quantity: val,
+          }
+          this.$store.commit('simulator/barn/setInitialStocks', el)
         },
       },
       proteicQuantity: {
         get() {
-          return this.initialConcentratedStock.proteicQuantity
+          return this.getInitialStockQuantityByCode('RP')
         },
         set(val) {
-          this.$store.commit('simulator/barn/setProteicQuantity', val)
+          const el = {
+            code: 'RP',
+            name: 'Protéagineux en grain',
+            quantity: val,
+          }
+          this.$store.commit('simulator/barn/setInitialStocks', el)
         },
       },
       headers() {
@@ -385,7 +400,7 @@
 
         // if (selectedFeed) {
         if (this.selectedItem) {
-          this.$store.commit('simulator/barn/saveInitialFeedStock', {
+          this.$store.commit('simulator/barn/setInitialStocks', {
             // type: this.selectedItemType,
             ...this.selectedItem,
             quantity: this.quantityInTons,
@@ -414,7 +429,7 @@
         this.$store.commit('simulator/barn/setInitialBarnStock', [])
       },
       applyToSimulation() {
-        this.$store.dispatch('simulator/barn/setStock')
+        this.$store.dispatch('simulator/barn/setSimulation')
         this.$toast({
           message: this.$t('barn.main.messages.apply_success'),
           type: 'success',

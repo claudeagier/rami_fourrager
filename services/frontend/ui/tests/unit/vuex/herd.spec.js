@@ -25,6 +25,10 @@ describe('herds mutations', () => {
   const outputs = JSON.parse(fs.readFileSync(outputsFilePath, 'utf8'))
   const output = outputs.herd
   const batchId = 0
+
+  const batch = rootState.simulator.herd.batchs[0]
+  const periods = rootState.referential.periods
+  const simulation = rootState.simulator
   const totalAvailablePastureByPeriod = rootState.simulator.farm.totalAvailablePastureByPeriod
 
   it('energetic values before', () => {
@@ -35,26 +39,17 @@ describe('herds mutations', () => {
     const result = getProteicCoverage(state, rootState, batchId)
     expect(result).toEqual(output.proteicCoverage)
   })
-  // it('final energetic coverage', () => {
-  //   const result = getFinalEnergeticCoverage(state, rootState, rootGetters, batchId)
-  //   expect(result).toEqual(outputs.herd.energetic.final_coverage)
-  // })
-  // const result = getFinalProteicCoverage(state, rootState, rootGetters, batchId)
-  // it('final feeds PDI', () => {
-  //   expect(result.feedsPDI).toEqual(outputs.herd.proteic.$268)
-  // })
-  // it('final concentrated PDI', () => {
-  //   expect(result.concentratedPDI).toEqual(outputs.herd.proteic.$273)
-  // })
-  // it('final pasture PDI', () => {
-  //   expect(result.pasturePDI).toEqual(outputs.herd.proteic.$250)
-  // })
-  // it('final proteic coverage', () => {
-  //   expect(result.final_coverage).toEqual(outputs.herd.proteic.final_coverage)
-  // })
-
+  it('final energetic coverage', () => {
+    const result = getFinalEnergeticCoverage(state, rootState, getStic, batchId)
+    expect(result).toEqual(outputs.herd.energetic.final_coverage)
+  })
+  const result = getFinalProteicCoverage(batch, simulation, periods, totalAvailablePastureByPeriod, getStic)
+  it('final proteic coverage', () => {
+    expect(result).toEqual(outputs.herd.proteic.final_coverage)
+  })
   it('Dry Matter Provided', () => {
     const res = getDryMatterProvided(state, rootState, batchId)
-    expect(res.dry_matter_needed.data).toEqual(outputs.herd.dry_matter_coverage.dry_matter_needed)
+    const roundedData = res.dry_matter_needed.data.map((el) => _.round(el, 1))
+    expect(roundedData).toEqual(outputs.herd.dry_matter_coverage.dry_matter_needed)
   })
 })

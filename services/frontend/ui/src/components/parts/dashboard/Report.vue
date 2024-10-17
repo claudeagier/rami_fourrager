@@ -73,14 +73,21 @@
   </base-dashboard-card>
 </template>
 <script>
+  import { mapGetters } from 'vuex'
   export default {
     name: 'report-dashboard',
     data() {
-      return {
-        kpis: [
+      return {}
+    },
+    computed: {
+      ...mapGetters('simulator/report', {
+        dimensioning: 'getDimensioning',
+      }),
+      kpis() {
+        return [
           {
             title: 'UGB',
-            value: 122,
+            value: this.dimensioning.ugb,
             icon: 'mdi-scale-balance',
             iconColor: 'deep-orange',
             tooltip: 'Unité de Gros Bétail',
@@ -89,7 +96,7 @@
 
           {
             title: 'Estimation Chargement SAU',
-            value: 1.01,
+            value: this.dimensioning.chargeSAU,
             icon: 'mdi-chart-line',
             iconColor: 'blue darken-4',
             tooltip: 'Charge sur Surface Agricole Utile (SAU)',
@@ -97,7 +104,7 @@
           },
           {
             title: 'Chargement Apparent',
-            value: 1.16,
+            value: this.dimensioning.chargeApparent,
             icon: 'mdi-paw',
             iconColor: 'blue darken-4',
             tooltip: 'Chargement apparent sur le territoire',
@@ -105,7 +112,7 @@
           },
           {
             title: 'Chargement corrigé',
-            value: 1.16,
+            value: this.dimensioning.chargeCorrige,
             icon: 'mdi-tune',
             iconColor: 'blue darken-4',
             tooltip: 'Chargement corrigé sur le territoire',
@@ -113,7 +120,7 @@
           },
           {
             title: 'Chargement potentiel',
-            value: 1.25,
+            value: this.dimensioning.chargePotentiel,
             icon: 'mdi-trending-up',
             iconColor: 'blue darken-4',
             tooltip: 'Chargement potentiel maximum sur le territoire',
@@ -121,7 +128,7 @@
           },
           {
             title: 'SFP/SAU',
-            value: 88,
+            value: this.dimensioning.sfpSau,
             icon: 'mdi-land-plots',
             iconColor: 'green darken-4',
             tooltip: 'Superficie Fourragère Principale (SFP) par rapport à la SAU',
@@ -129,7 +136,7 @@
           },
           {
             title: '%PP/SAU',
-            value: 8,
+            value: this.dimensioning.ppSau,
             icon: 'mdi-grass',
             iconColor: 'green darken-4',
             tooltip: 'Pourcentage de Prairies Permanentes par rapport à la SAU',
@@ -137,7 +144,7 @@
           },
           {
             title: '%PT/SAU',
-            value: 69,
+            value: this.dimensioning.ptSau,
             icon: 'mdi-sprout',
             iconColor: 'green darken-4',
             tooltip: 'Pourcentage de Prairies Temporaires par rapport à la SAU',
@@ -145,14 +152,14 @@
           },
           {
             title: 'Fourrage récolté',
-            value: 3.2,
+            value: this.dimensioning.fourragesRecoltes,
             icon: 'mdi-leaf',
             iconColor: 'green darken-4',
             tooltip: 'Ensemble des fourrages récoltés',
             unit: 'TMS/UGB',
           },
-        ],
-      }
+        ]
+      },
     },
   }
 </script>

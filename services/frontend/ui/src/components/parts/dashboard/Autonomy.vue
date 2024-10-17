@@ -28,9 +28,9 @@
                     v-on="on"
                     class="pa-1 ma-2"
                     dense
-                    type="warning"
+                    :type="autonomy ? 'success' : 'warning'"
                   >
-                    Pas autonome
+                    {{ autonomy ? 'Autonome' : 'Pas autonome' }}
                   </v-alert>
                 </template>
 
@@ -43,9 +43,9 @@
                     v-on="on"
                     class="pa-1 ma-2"
                     dense
-                    type="success"
+                    :type="potential ? 'success' : 'warning'"
                   >
-                    Au potentiel
+                    {{ potential ? 'Au potentiel' : 'Pas au potentiel' }}
                   </v-alert>
                 </template>
 
@@ -60,6 +60,7 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex'
   export default {
     name: 'Autonomy',
     created() {},
@@ -75,6 +76,12 @@
           },
         },
       }
+    },
+    computed: {
+      ...mapGetters('simulator/report', {
+        autonomy: 'getAutonomy',
+        potential: 'getPotential',
+      }),
     },
     methods: {},
   }

@@ -21,6 +21,10 @@ import {
   getPastureFinalStock,
   getPastureFinalMinInitialStock,
   getPasturePurchaseValue,
+  getAutonomy,
+  getPotential,
+  getSticProductionByBarnStockItemByPeriod,
+  getConsumptionByBarnStockItemByPeriod,
 } from './mixins'
 
 export default {
@@ -41,8 +45,8 @@ export default {
   },
   getters: {
     getTotalHerd: (state, getters, rootState, rootGetters) => {
-      console.log('rootgetters', rootGetters)
-      console.log('rootState', rootState)
+      // console.log('rootgetters', rootGetters)
+      // console.log('rootState', rootState)
       return rootGetters
     },
 
@@ -53,31 +57,39 @@ export default {
       return [
         {
           name: 'Pâtures',
+          category: '1_fourrage',
           initialStock: 0,
           production: _.round(getPastureProductionTotal(simulation), 0),
           consommation: _.round(getPastureConsumptionTotal(simulation, periods), 0),
           finalStock: _.round(getPastureFinalStock(simulation, periods), 0),
           final_initialStock: _.round(getPastureFinalMinInitialStock(simulation, periods), 0),
           purchase: _.round(getPasturePurchaseValue(simulation, periods), 0),
-          sold: simulation.report.soldedStock['P'].sale, // valeur à saisir
+          sold: state.soldedStock['P'].sale, // valeur à saisir
+          total: 0,
         },
       ]
     },
-    getClassicFeedsStock: (state, getters, rootState) => {
+    getClassicFeedsStock: (state, getters, rootState, rootGetters) => {
       const stock = []
       const simulation = rootState.simulator
       const periods = rootState.referential.periods
+      const getStic = rootGetters['referential/getSticByName']
       const stockCodeList = ['FH', 'EH', 'EM', 'EL', 'FL']
       stockCodeList.forEach((stockCode) => {
         const stockItem = {
+          category: '1_fourrage',
           name: rootState.referential.barnStockItems.find((item) => item.code === stockCode).name,
-          initialStock: getInitialStockByBarnStockItem(simulation, stockCode),
-          production: getSticProductionByBarnStockItem(simulation, stockCode, periods),
-          consommation: getConsumptionByBarnStockItem(simulation, periods, stockCode),
-          finalStock: getFinalStockByBarnStockItem(simulation, stockCode, periods),
-          final_initialStock: getFinalMinInitialStockByBarnStockItem(simulation, stockCode, periods),
-          purchase: getPurchaseValueByBarnStockItem(simulation, stockCode, periods),
-          sold: state.soldedStock[stockCode], // valeur à saisir
+          initialStock: _.round(getInitialStockByBarnStockItem(simulation, stockCode), 0),
+          production: _.round(getSticProductionByBarnStockItem(simulation, stockCode, periods, getStic), 0),
+          consommation: _.round(getConsumptionByBarnStockItem(simulation, periods, stockCode), 0),
+          finalStock: _.round(getFinalStockByBarnStockItem(simulation, stockCode, periods, getStic), 0),
+          final_initialStock: _.round(
+            getFinalMinInitialStockByBarnStockItem(simulation, stockCode, periods, getStic),
+            0
+          ),
+          purchase: _.round(getPurchaseValueByBarnStockItem(simulation, stockCode, periods, getStic), 0),
+          sold: state.soldedStock[stockCode].sale, // valeur à saisir
+          total: 0,
         }
         stock.push(stockItem)
       })
@@ -85,45 +97,79 @@ export default {
       return stock
     },
 
-    getConcentratedFeedsStock: (state, getters, rootState) => {
+    getConcentratedFeedsStock: (state, getters, rootState, rootGetters) => {
+      // FIXME j'ai un problème avec RP et RC initial
+
       const stock = []
       const simulation = rootState.simulator
       const periods = rootState.referential.periods
       const stockCodeList = ['RC', 'RP']
+      const getStic = rootGetters['referential/getSticByName']
       stockCodeList.forEach((stockCode) => {
         const stockItem = {
           name: rootState.referential.barnStockItems.find((item) => item.code === stockCode).name,
-          initialStock: getInitialStockByBarnStockItem(simulation, stockCode),
-          production: getSticProductionByBarnStockItem(simulation, stockCode, periods),
-          consommation: getConsumptionByBarnStockItem(simulation, periods, stockCode),
-          finalStock: getFinalStockByBarnStockItem(simulation, stockCode, periods),
-          final_initialStock: getFinalMinInitialStockByBarnStockItem(simulation, stockCode, periods),
-          purchase: getPurchaseValueByBarnStockItem(simulation, stockCode, periods),
-          sold: state.soldedStock[stockCode], // valeur à saisir
+          category: '2_concentrated',
+          initialStock: _.round(getInitialStockByBarnStockItem(simulation, stockCode), 0),
+          production: _.round(getSticProductionByBarnStockItem(simulation, stockCode, periods, getStic), 0),
+          consommation: _.round(getConsumptionByBarnStockItem(simulation, periods, stockCode), 0),
+          finalStock: _.round(getFinalStockByBarnStockItem(simulation, stockCode, periods, getStic), 0),
+          final_initialStock: _.round(
+            getFinalMinInitialStockByBarnStockItem(simulation, stockCode, periods, getStic),
+            0
+          ),
+          purchase: _.round(getPurchaseValueByBarnStockItem(simulation, stockCode, periods, getStic), 0),
+          sold: state.soldedStock[stockCode].sale, // valeur à saisir
+          total: 0,
         }
         stock.push(stockItem)
       })
       return stock
     },
-    getStrawStock: (state, getters, rootState) => {
+    getStrawStock: (state, getters, rootState, rootGetters) => {
+      // FIXME j'ai un problème avec straw initial
       const stock = []
       const simulation = rootState.simulator
       const periods = rootState.referential.periods
       const stockCodeList = ['STRAW']
+      const getStic = rootGetters['referential/getSticByName']
       stockCodeList.forEach((stockCode) => {
         const stockItem = {
           name: 'paille',
-          initialStock: getInitialStockByBarnStockItem(simulation, stockCode),
-          production: getSticProductionByBarnStockItem(simulation, stockCode, periods),
-          consommation: getConsumptionByBarnStockItem(simulation, periods, stockCode),
-          finalStock: getFinalStockByBarnStockItem(simulation, stockCode, periods),
-          final_initialStock: getFinalMinInitialStockByBarnStockItem(simulation, stockCode, periods),
-          purchase: getPurchaseValueByBarnStockItem(simulation, stockCode, periods),
-          sold: state.soldedStock[stockCode], // valeur à saisir
+          category: '3_straw',
+          initialStock: _.round(getInitialStockByBarnStockItem(simulation, stockCode), 0),
+          production: _.round(getSticProductionByBarnStockItem(simulation, stockCode, periods, getStic), 0),
+          consommation: _.round(getConsumptionByBarnStockItem(simulation, periods, stockCode), 0),
+          finalStock: _.round(getFinalStockByBarnStockItem(simulation, stockCode, periods, getStic), 0),
+          final_initialStock: _.round(
+            getFinalMinInitialStockByBarnStockItem(simulation, stockCode, periods, getStic),
+            0
+          ),
+          purchase: _.round(getPurchaseValueByBarnStockItem(simulation, stockCode, periods, getStic), 0),
+          sold: state.soldedStock[stockCode].sale, // valeur à saisir
+          total: 0,
         }
         stock.push(stockItem)
       })
       return stock
+    },
+
+    getAutonomy: (state, getters, rootState, rootGetters) => {
+      const simulation = rootState.simulator
+      const periods = rootState.referential.periods
+      const getStic = rootGetters['referential/getSticByName']
+      const stockCodeList = ['FH', 'EH', 'EM', 'EL', 'FL']
+      const totalAvailablePastureByPeriod = rootState.simulator.farm.totalAvailablePastureByPeriod
+
+      return getAutonomy(simulation, periods, getStic, stockCodeList, totalAvailablePastureByPeriod)
+    },
+    getPotential: (state, getters, rootState, rootGetters) => {
+      const simulation = rootState.simulator
+      const periods = rootState.referential.periods
+      const getStic = rootGetters['referential/getSticByName']
+      const stockCodeList = ['FH', 'EH', 'EM', 'EL', 'FL']
+      const totalAvailablePastureByPeriod = rootState.simulator.farm.totalAvailablePastureByPeriod
+      // IF(E8 / E9 >= 0.9, 'au potentiel', 'pas au potentiel')
+      return getPotential(simulation, periods, getStic, stockCodeList, totalAvailablePastureByPeriod) >= 0.9
     },
 
     getDimensioning: (state, getters, rootState, rootGetters) => {
@@ -134,29 +180,67 @@ export default {
       const stockCodeList = ['FH', 'EH', 'EM', 'EL', 'FL']
       const totalAvailablePastureByPeriod = rootState.simulator.farm.totalAvailablePastureByPeriod
       return {
-        nbAnimaux: getTotalHerd(batchs),
-        ugb: getUGBSystem(simulation, periods, stockCodeList, totalAvailablePastureByPeriod),
-        chargeSAU: getEstimatedLivestockDensities(simulation, periods, totalAvailablePastureByPeriod, stockCodeList),
-        chargeApparent: getApparentLivestockDensities(
-          simulation,
-          periods,
-          getStic,
-          stockCodeList,
-          totalAvailablePastureByPeriod
+        nbAnimaux: _.round(getTotalHerd(batchs), 0),
+        ugb: _.round(getUGBSystem(simulation, periods, stockCodeList, totalAvailablePastureByPeriod), 0),
+        chargeSAU: _.round(
+          getEstimatedLivestockDensities(simulation, periods, totalAvailablePastureByPeriod, stockCodeList),
+          2
         ),
-        chargeCorrige: getCorrectedLivestockDensities(
-          simulation,
-          periods,
-          getStic,
-          stockCodeList,
-          totalAvailablePastureByPeriod
+        chargeApparent: _.round(
+          getApparentLivestockDensities(simulation, periods, getStic, stockCodeList, totalAvailablePastureByPeriod),
+          2
         ),
-        chargePotentiel: getPotentialLivestockDensities(simulation, periods, getStic, stockCodeList),
-        fourragesRecoltes: getHarvestedFodder(simulation, periods, getStic),
-        sfpSau: getSFP_SAU(simulation, periods, getStic),
-        ppSau: getPP_SAU(simulation, periods, getStic),
-        ptSau: getPT_SAU(simulation, periods, getStic),
+        chargeCorrige: _.round(
+          getCorrectedLivestockDensities(simulation, periods, getStic, stockCodeList, totalAvailablePastureByPeriod),
+          2
+        ),
+        chargePotentiel: _.round(getPotentialLivestockDensities(simulation, periods, getStic, stockCodeList), 2),
+        autonomy: getAutonomy(simulation, periods, getStic, stockCodeList, totalAvailablePastureByPeriod),
+        fourragesRecoltes: _.round(
+          getHarvestedFodder(simulation, periods, getStic, stockCodeList, totalAvailablePastureByPeriod),
+          2
+        ),
+        sfpSau: _.round(getSFP_SAU(simulation, periods, getStic), 0),
+        ppSau: _.round(getPP_SAU(simulation, periods, getStic), 0),
+        ptSau: _.round(getPT_SAU(simulation, periods, getStic), 0),
       }
+    },
+    getStockEvolution: (state, getters, rootState, rootGetters) => {
+      // par period le récolté de la même période + celui d'avant - (la conso prévu par les rations pour chaque lot)
+      // I257*nbanimaux present*28*(1+$Dim_Systeme.$E$22)/1000
+      const simulation = rootState.simulator
+      const periods = rootState.referential.periods
+
+      // s'il y a de la paille alimentaire, on ajoute la paille ?!
+      const stockCodeList = ['FH', 'EH', 'EM', 'EL', 'FL', 'AS']
+      const initialStocks = simulation.barn.initialStocks
+
+      const stocks = []
+      stockCodeList.forEach((stockCode) => {
+        // Attention décalage d'index pour injecter le stock initial
+        const data = []
+
+        // stock initial pour la periode 0
+        const initialStock = initialStocks.find((item) => item.code === stockCode)
+        data[0] = initialStock ? initialStock.quantity : 0
+
+        // les autres periodes
+        periods.forEach((period, index) => {
+          const previousProduction = data[index]
+          const sticProd = getSticProductionByBarnStockItemByPeriod(simulation, stockCode, index)
+          const conso = getConsumptionByBarnStockItemByPeriod(simulation, period.id, stockCode)
+
+          data[index + 1] = previousProduction + sticProd - conso
+        })
+
+        const item = {
+          name: rootState.referential.barnStockItems.find((item) => item.code === stockCode).name,
+          code: stockCode,
+          data: data.map((item) => _.round(item)),
+        }
+        stocks.push(item)
+      })
+      return stocks
     },
   },
 }

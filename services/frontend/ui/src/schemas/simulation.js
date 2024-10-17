@@ -44,9 +44,8 @@ export default {
     barn: {
       type: 'object',
       properties: {
-        initialStrawStock: { type: ['number', 'null'] },
         refusalRate: { type: ['number', 'null'] },
-        initialFeedStock: {
+        initialStocks: {
           type: 'array',
           items: {
             type: 'object',
@@ -57,14 +56,6 @@ export default {
             },
             required: ['code', 'name', 'quantity'],
           },
-        },
-        initialConcentratedStock: {
-          type: 'object',
-          properties: {
-            proteicQuantity: { type: ['number', 'null'] },
-            energeticQuantity: { type: ['number', 'null'] },
-          },
-          required: ['energeticQuantity', 'proteicQuantity'],
         },
       },
       required: [],

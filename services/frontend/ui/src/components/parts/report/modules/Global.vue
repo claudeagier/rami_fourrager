@@ -51,18 +51,6 @@
                     </v-list-item-subtitle>
                   </v-list-item-content>
                 </v-list-item>
-                <v-divider></v-divider>
-                <v-list-item>
-                  <v-list-item-icon>
-                    <v-icon color="primary">mdi-leaf</v-icon>
-                  </v-list-item-icon>
-                  <v-list-item-content>
-                    <v-list-item-title class="text-h6 grey--text">Fourrages Récoltés</v-list-item-title>
-                    <v-list-item-subtitle class="font-weight-bold text-lg">
-                      {{ dimensioning.fourragesRecoltes }} tonnes
-                    </v-list-item-subtitle>
-                  </v-list-item-content>
-                </v-list-item>
               </v-list>
             </v-row>
           </v-card-text>
@@ -74,9 +62,15 @@
 
 <script>
   import Autonomy from '@/components/parts/dashboard/Autonomy.vue'
+  import { mapGetters } from 'vuex'
   export default {
     name: 'global-module',
     components: { Autonomy },
+    props: {
+      data: {
+        type: Object,
+      },
+    },
     data() {
       return {
         gaugeOptions: {
@@ -88,100 +82,94 @@
             width: 10,
           },
         },
-        dimensioning: {
-          nbAnimaux: 126,
-          ugb: 122,
-          chargeSAU: 1.01,
-          chargeApparent: 1.16,
-          chargeCorrige: 1.16,
-          chargePotentiel: 1.25,
-          fourragesRecoltes: 3.2,
-          sfpSau: 88,
-          ppSau: 8,
-          ptSau: 69,
-        },
-        kpis: [
-          {
-            title: 'Nb Animaux',
-            value: 126,
-            icon: 'mdi-cow',
-            iconColor: 'orange',
-            tooltip: "Nombre total d'animaux dans le troupeau",
-            unit: '',
-          },
-          {
-            title: 'UGB',
-            value: 122,
-            icon: 'mdi-scale-balance',
-            iconColor: 'orange',
-            tooltip: 'Unité de Gros Bétail',
-            unit: '',
-          },
-          {
-            title: 'Estimation Chargement SAU',
-            value: 1.01,
-            icon: 'mdi-chart-line',
-            iconColor: 'info',
-            tooltip: 'Charge sur Surface Agricole Utile (SAU)',
-            unit: 'UGB/ha',
-          },
-          {
-            title: 'Chargement Apparent',
-            value: 1.16,
-            icon: 'mdi-paw',
-            iconColor: 'info',
-            tooltip: 'Chargement apparent sur le territoire',
-            unit: 'UGB/ha',
-          },
-          {
-            title: 'Chargement corrigé',
-            value: 1.16,
-            icon: 'mdi-tune',
-            iconColor: 'info',
-            tooltip: 'Chargement corrigé sur le territoire',
-            unit: 'UGB/ha',
-          },
-          {
-            title: 'Chargement potentiel',
-            value: 1.25,
-            icon: 'mdi-trending-up',
-            iconColor: 'info',
-            tooltip: 'Chargement potentiel maximum sur le territoire',
-            unit: 'UGB/ha',
-          },
-          {
-            title: 'SFP/SAU',
-            value: 88,
-            icon: 'mdi-land-plots',
-            iconColor: 'green',
-            tooltip: 'Superficie Fourragère Principale (SFP) par rapport à la SAU',
-            unit: '%',
-          },
-          {
-            title: '%PP/SAU',
-            value: 8,
-            icon: 'mdi-grass',
-            iconColor: 'green',
-            tooltip: 'Pourcentage de Prairies Permanentes par rapport à la SAU',
-            unit: '%',
-          },
-          {
-            title: '%PT/SAU',
-            value: 69,
-            icon: 'mdi-sprout',
-            iconColor: 'green',
-            tooltip: 'Pourcentage de Prairies Temporaires par rapport à la SAU',
-            unit: '%',
-          },
-        ],
       }
     },
     computed: {
+      ...mapGetters('simulator/report', {
+        dimensioning: 'getDimensioning',
+      }),
       initOptions() {
         return {
           width: 300,
           height: 300,
         }
+      },
+      kpis() {
+        return [
+          {
+            title: 'UGB',
+            value: this.dimensioning.ugb,
+            icon: 'mdi-scale-balance',
+            iconColor: 'deep-orange',
+            tooltip: 'Unité de Gros Bétail',
+            unit: '',
+          },
+
+          {
+            title: 'Estimation Chargement SAU',
+            value: this.dimensioning.chargeSAU,
+            icon: 'mdi-chart-line',
+            iconColor: 'blue darken-4',
+            tooltip: 'Charge sur Surface Agricole Utile (SAU)',
+            unit: 'UGB/ha',
+          },
+          {
+            title: 'Chargement Apparent',
+            value: this.dimensioning.chargeApparent,
+            icon: 'mdi-paw',
+            iconColor: 'blue darken-4',
+            tooltip: 'Chargement apparent sur le territoire',
+            unit: 'UGB/ha',
+          },
+          {
+            title: 'Chargement corrigé',
+            value: this.dimensioning.chargeCorrige,
+            icon: 'mdi-tune',
+            iconColor: 'blue darken-4',
+            tooltip: 'Chargement corrigé sur le territoire',
+            unit: 'UGB/ha',
+          },
+          {
+            title: 'Chargement potentiel',
+            value: this.dimensioning.chargePotentiel,
+            icon: 'mdi-trending-up',
+            iconColor: 'blue darken-4',
+            tooltip: 'Chargement potentiel maximum sur le territoire',
+            unit: 'UGB/ha',
+          },
+          {
+            title: 'SFP/SAU',
+            value: this.dimensioning.sfpSau,
+            icon: 'mdi-land-plots',
+            iconColor: 'green darken-4',
+            tooltip: 'Superficie Fourragère Principale (SFP) par rapport à la SAU',
+            unit: '%',
+          },
+          {
+            title: '%PP/SAU',
+            value: this.dimensioning.ppSau,
+            icon: 'mdi-grass',
+            iconColor: 'green darken-4',
+            tooltip: 'Pourcentage de Prairies Permanentes par rapport à la SAU',
+            unit: '%',
+          },
+          {
+            title: '%PT/SAU',
+            value: this.dimensioning.ptSau,
+            icon: 'mdi-sprout',
+            iconColor: 'green darken-4',
+            tooltip: 'Pourcentage de Prairies Temporaires par rapport à la SAU',
+            unit: '%',
+          },
+          {
+            title: 'Fourrage récolté',
+            value: this.dimensioning.fourragesRecoltes,
+            icon: 'mdi-leaf',
+            iconColor: 'green darken-4',
+            tooltip: 'Ensemble des fourrages récoltés',
+            unit: 'TMS/UGB',
+          },
+        ]
       },
       options() {
         const gaugeData = [

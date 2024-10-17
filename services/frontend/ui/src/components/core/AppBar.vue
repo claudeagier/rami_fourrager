@@ -6,21 +6,33 @@
     color="transparent"
     flat
   >
-    <v-btn
-      class="mr-3"
-      elevation="1"
-      fab
-      small
-      @click="setDrawer(!show)"
+    <v-card
+      id="settings"
+      class="pa-1"
+      color="rgba(0, 0, 0, .3)"
+      dark
+      flat
+      link
+      min-width="60"
+      style="position: fixed; top: -20px; left: -5px; border-radius: 8px"
     >
-      <v-icon v-if="show"> mdi-menu-open </v-icon>
-      <v-icon v-else> mdi-menu-close </v-icon>
-    </v-btn>
+      <v-btn
+        class="mr-3"
+        icon
+        large
+        dark
+        @click="setDrawer(!show)"
+      >
+        <v-icon v-if="show"> mdi-menu-open </v-icon>
+        <v-icon v-else> mdi-menu-close </v-icon>
+      </v-btn>
+    </v-card>
 
     <v-toolbar-title
       class="hidden-sm-and-down font-weight-light"
       text="$route.name"
     />
+    <v-spacer />
     <breadCrumb />
 
     <v-spacer />

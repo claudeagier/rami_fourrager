@@ -1,11 +1,12 @@
 {
+  "tag": "imported",
   "simulations": [
     {
       "name": "simulation 1",
       "site": 17,
       "climaticYear": 49,
       "lastModifiedDate": "15/04/2024",
-      "loaded": false,
+      "loaded": true,
       "farm": {
         "rotations": [
           {
@@ -44,7 +45,6 @@
             "surface": 10
           }
         ],
-        "totalAvailablePastureByPeriod": null,
         "dimensioning": {
           "SAU": 120,
           "constrainedSurfaces": {
@@ -56,11 +56,146 @@
         }
       },
       "barn": {
-        "initialStrawStock": 53,
-        "initialConcentratedStock": { "energeticQuantity": 216, "proteicQuantity": -96 },
-        "initialFeedStock": [
-          { "code": "FH", "name": "foin", "quantity": 58 },
-          { "code": "FH", "name": "foin", "quantity": 58 },
+        "totalStock": [
+          {
+            "code": "EH",
+            "name": "Ensilage et enrubannage d'herbe",
+            "unity": "tMS",
+            "color": "",
+            "quantity": 9.5
+          },
+          {
+            "code": "FH",
+            "name": "Foin",
+            "unity": "tMS",
+            "color": "",
+            "quantity": 8
+          },
+          {
+            "code": "RC",
+            "name": "Céréales en grain",
+            "unity": "qtx",
+            "concentrated": true,
+            "color": "",
+            "quantity": 30
+          },
+          {
+            "code": "EM",
+            "name": "Ensilage de maïs et sorgho (riche UF)",
+            "unity": "tMS",
+            "color": "",
+            "quantity": 10
+          }
+        ],
+        "stockByPeriod": [
+          null,
+          null,
+          null,
+          {
+            "period_id": 4,
+            "stock": [
+              {
+                "code": "EH",
+                "name": "Ensilage et enrubannage d'herbe",
+                "unity": "tMS",
+                "color": "",
+                "quantity": 3
+              }
+            ]
+          },
+          {
+            "period_id": 5,
+            "stock": [
+              {
+                "code": "EH",
+                "name": "Ensilage et enrubannage d'herbe",
+                "unity": "tMS",
+                "color": "",
+                "quantity": 3.5
+              }
+            ]
+          },
+          {
+            "period_id": 6,
+            "stock": [
+              {
+                "code": "FH",
+                "name": "Foin",
+                "unity": "tMS",
+                "color": "",
+                "quantity": 8
+              }
+            ]
+          },
+          {
+            "period_id": 7,
+            "stock": [
+              {
+                "code": "EH",
+                "name": "Ensilage et enrubannage d'herbe",
+                "unity": "tMS",
+                "color": "",
+                "quantity": 3
+              }
+            ]
+          },
+          {
+            "period_id": 8,
+            "stock": [
+              {
+                "code": "RC",
+                "name": "Céréales en grain",
+                "unity": "qtx",
+                "concentrated": true,
+                "color": "",
+                "quantity": 30
+              }
+            ]
+          },
+          null,
+          {
+            "period_id": 10,
+            "stock": [
+              {
+                "code": "EM",
+                "name": "Ensilage de maïs et sorgho (riche UF)",
+                "unity": "tMS",
+                "color": "",
+                "quantity": 10
+              }
+            ]
+          },
+          null,
+          null,
+          null
+        ],
+        "refusalRate": 10,
+        "initialStocks": [
+          {
+            "code": "RC",
+            "name": "Céréales en grain",
+            "quantity": 216
+          },
+          {
+            "code": "RP",
+            "name": "Protéagineux en grain",
+            "quantity": -96
+          },
+          {
+            "code": "STRAW",
+            "name": "paille",
+            "quantity": 53
+          },
+          {
+            "code": "FH",
+            "name": "foin",
+            "quantity": 58
+          },
+          {
+            "code": "FH",
+            "name": "foin",
+            "quantity": 58
+          },
           {
             "code": "EH",
             "name": "Ensilage et enrubannage d'herbe",
@@ -71,14 +206,18 @@
             "name": "Ensilage de maïs et sorgho (riche UF)",
             "quantity": 66
           }
-        ]
+        ],
+        "totalStrawStockProducted": 52500
       },
       "herd": {
         "batchs": [
           {
             "id": 0,
             "priorityOrder": 0,
-            "type": { "id": 6, "name": "Vaches laitières" },
+            "type": {
+              "id": 6,
+              "name": "Vaches laitières"
+            },
             "profile": {
               "id": 145,
               "batch_type_id": 6,
@@ -203,67 +342,106 @@
               },
               "presence": [
                 {
-                  "period": { "id": 1, "name": "P1" },
+                  "period": {
+                    "id": 1,
+                    "name": "P1"
+                  },
                   "animalCount": 78,
                   "days": 28
                 },
                 {
-                  "period": { "id": 2, "name": "P2" },
+                  "period": {
+                    "id": 2,
+                    "name": "P2"
+                  },
                   "animalCount": 78,
                   "days": 22.4
                 },
                 {
-                  "period": { "id": 3, "name": "P3" },
+                  "period": {
+                    "id": 3,
+                    "name": "P3"
+                  },
                   "animalCount": 78,
                   "days": 12.6
                 },
                 {
-                  "period": { "id": 4, "name": "P4" },
+                  "period": {
+                    "id": 4,
+                    "name": "P4"
+                  },
                   "animalCount": 78,
                   "days": 7
                 },
                 {
-                  "period": { "id": 5, "name": "P5" },
+                  "period": {
+                    "id": 5,
+                    "name": "P5"
+                  },
                   "animalCount": 78,
                   "days": 0
                 },
                 {
-                  "period": { "id": 6, "name": "P6" },
+                  "period": {
+                    "id": 6,
+                    "name": "P6"
+                  },
                   "animalCount": 78,
                   "days": 6.16
                 },
                 {
-                  "period": { "id": 7, "name": "P7" },
+                  "period": {
+                    "id": 7,
+                    "name": "P7"
+                  },
                   "animalCount": 78,
                   "days": 16.8
                 },
                 {
-                  "period": { "id": 8, "name": "P8" },
+                  "period": {
+                    "id": 8,
+                    "name": "P8"
+                  },
                   "animalCount": 78,
                   "days": 21
                 },
                 {
-                  "period": { "id": 9, "name": "P9" },
+                  "period": {
+                    "id": 9,
+                    "name": "P9"
+                  },
                   "animalCount": 78,
                   "days": 21
                 },
                 {
-                  "period": { "id": 10, "name": "P10" },
+                  "period": {
+                    "id": 10,
+                    "name": "P10"
+                  },
                   "animalCount": 78,
                   "days": 12.6
                 },
                 {
-                  "period": { "id": 11, "name": "P11" },
+                  "period": {
+                    "id": 11,
+                    "name": "P11"
+                  },
                   "animalCount": 78,
                   "days": 11.2
                 },
                 {
-                  "period": { "id": 12, "name": "P12" },
+                  "period": {
+                    "id": 12,
+                    "name": "P12"
+                  },
                   "animalCount": 78,
                   "days": 19.6
                 },
                 {
-                  "period": { "id": 13, "name": "P13" },
+                  "period": {
+                    "id": 13,
+                    "name": "P13"
+                  },
                   "animalCount": 78,
                   "days": 25.2
                 }
@@ -271,27 +449,11 @@
             },
             "classicFeeds": [
               {
-                "period": { "id": 1, "name": "P1" },
+                "period": {
+                  "id": 1,
+                  "name": "P1"
+                },
                 "feeds": [
-                  {
-                    "type": {
-                      "id": 2,
-                      "name": "Foin bonne qualité",
-                      "correspondingStock": "FH",
-                      "nutritional_values": {
-                        "UEL": 1.05,
-                        "UEB": 1.2,
-                        "UEM": 1.4,
-                        "UFL": 0.6,
-                        "PDI_inf": 60,
-                        "UFV": 0.6,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
-                    "proportion": 5
-                  },
                   {
                     "type": {
                       "id": 7,
@@ -329,11 +491,33 @@
                       }
                     },
                     "proportion": 45
+                  },
+                  {
+                    "type": {
+                      "id": 2,
+                      "name": "Foin bonne qualité",
+                      "correspondingStock": "FH",
+                      "nutritional_values": {
+                        "UEL": 1.05,
+                        "UEB": 1.2,
+                        "UEM": 1.4,
+                        "UFL": 0.6,
+                        "PDI_inf": 60,
+                        "UFV": 0.6,
+                        "PDIN": 0,
+                        "PDIE": 0,
+                        "rejection": 0
+                      }
+                    },
+                    "proportion": 5
                   }
                 ]
               },
               {
-                "period": { "id": 2, "name": "P2" },
+                "period": {
+                  "id": 2,
+                  "name": "P2"
+                },
                 "feeds": [
                   {
                     "type": {
@@ -414,7 +598,10 @@
                 ]
               },
               {
-                "period": { "id": 3, "name": "P3" },
+                "period": {
+                  "id": 3,
+                  "name": "P3"
+                },
                 "feeds": [
                   {
                     "type": {
@@ -495,7 +682,10 @@
                 ]
               },
               {
-                "period": { "id": 4, "name": "P4" },
+                "period": {
+                  "id": 4,
+                  "name": "P4"
+                },
                 "feeds": [
                   {
                     "type": {
@@ -557,7 +747,10 @@
                 ]
               },
               {
-                "period": { "id": 5, "name": "P5" },
+                "period": {
+                  "id": 5,
+                  "name": "P5"
+                },
                 "feeds": [
                   {
                     "type": {
@@ -581,7 +774,10 @@
                 ]
               },
               {
-                "period": { "id": 6, "name": "P6" },
+                "period": {
+                  "id": 6,
+                  "name": "P6"
+                },
                 "feeds": [
                   {
                     "type": {
@@ -643,7 +839,10 @@
                 ]
               },
               {
-                "period": { "id": 7, "name": "P7" },
+                "period": {
+                  "id": 7,
+                  "name": "P7"
+                },
                 "feeds": [
                   {
                     "type": {
@@ -705,7 +904,10 @@
                 ]
               },
               {
-                "period": { "id": 8, "name": "P8" },
+                "period": {
+                  "id": 8,
+                  "name": "P8"
+                },
                 "feeds": [
                   {
                     "type": {
@@ -767,7 +969,10 @@
                 ]
               },
               {
-                "period": { "id": 9, "name": "P9" },
+                "period": {
+                  "id": 9,
+                  "name": "P9"
+                },
                 "feeds": [
                   {
                     "type": {
@@ -829,7 +1034,10 @@
                 ]
               },
               {
-                "period": { "id": 10, "name": "P10" },
+                "period": {
+                  "id": 10,
+                  "name": "P10"
+                },
                 "feeds": [
                   {
                     "type": {
@@ -910,7 +1118,10 @@
                 ]
               },
               {
-                "period": { "id": 11, "name": "P11" },
+                "period": {
+                  "id": 11,
+                  "name": "P11"
+                },
                 "feeds": [
                   {
                     "type": {
@@ -991,7 +1202,10 @@
                 ]
               },
               {
-                "period": { "id": 12, "name": "P12" },
+                "period": {
+                  "id": 12,
+                  "name": "P12"
+                },
                 "feeds": [
                   {
                     "type": {
@@ -1072,7 +1286,10 @@
                 ]
               },
               {
-                "period": { "id": 13, "name": "P13" },
+                "period": {
+                  "id": 13,
+                  "name": "P13"
+                },
                 "feeds": [
                   {
                     "type": {
@@ -1155,7 +1372,10 @@
             ],
             "concentratedFeeds": [
               {
-                "period": { "id": 1, "name": "P1" },
+                "period": {
+                  "id": 1,
+                  "name": "P1"
+                },
                 "feeds": [
                   {
                     "type": {
@@ -1198,7 +1418,10 @@
                 ]
               },
               {
-                "period": { "id": 2, "name": "P2" },
+                "period": {
+                  "id": 2,
+                  "name": "P2"
+                },
                 "feeds": [
                   {
                     "type": {
@@ -1241,7 +1464,10 @@
                 ]
               },
               {
-                "period": { "id": 3, "name": "P3" },
+                "period": {
+                  "id": 3,
+                  "name": "P3"
+                },
                 "feeds": [
                   {
                     "type": {
@@ -1284,7 +1510,10 @@
                 ]
               },
               {
-                "period": { "id": 4, "name": "P4" },
+                "period": {
+                  "id": 4,
+                  "name": "P4"
+                },
                 "feeds": [
                   {
                     "type": {
@@ -1327,7 +1556,10 @@
                 ]
               },
               {
-                "period": { "id": 5, "name": "P5" },
+                "period": {
+                  "id": 5,
+                  "name": "P5"
+                },
                 "feeds": [
                   {
                     "type": {
@@ -1351,7 +1583,10 @@
                 ]
               },
               {
-                "period": { "id": 6, "name": "P6" },
+                "period": {
+                  "id": 6,
+                  "name": "P6"
+                },
                 "feeds": [
                   {
                     "type": {
@@ -1375,7 +1610,10 @@
                 ]
               },
               {
-                "period": { "id": 7, "name": "P7" },
+                "period": {
+                  "id": 7,
+                  "name": "P7"
+                },
                 "feeds": [
                   {
                     "type": {
@@ -1399,7 +1637,10 @@
                 ]
               },
               {
-                "period": { "id": 8, "name": "P8" },
+                "period": {
+                  "id": 8,
+                  "name": "P8"
+                },
                 "feeds": [
                   {
                     "type": {
@@ -1423,7 +1664,10 @@
                 ]
               },
               {
-                "period": { "id": 9, "name": "P9" },
+                "period": {
+                  "id": 9,
+                  "name": "P9"
+                },
                 "feeds": [
                   {
                     "type": {
@@ -1447,7 +1691,10 @@
                 ]
               },
               {
-                "period": { "id": 10, "name": "P10" },
+                "period": {
+                  "id": 10,
+                  "name": "P10"
+                },
                 "feeds": [
                   {
                     "type": {
@@ -1490,7 +1737,10 @@
                 ]
               },
               {
-                "period": { "id": 11, "name": "P11" },
+                "period": {
+                  "id": 11,
+                  "name": "P11"
+                },
                 "feeds": [
                   {
                     "type": {
@@ -1533,7 +1783,10 @@
                 ]
               },
               {
-                "period": { "id": 12, "name": "P12" },
+                "period": {
+                  "id": 12,
+                  "name": "P12"
+                },
                 "feeds": [
                   {
                     "type": {
@@ -1576,7 +1829,10 @@
                 ]
               },
               {
-                "period": { "id": 13, "name": "P13" },
+                "period": {
+                  "id": 13,
+                  "name": "P13"
+                },
                 "feeds": [
                   {
                     "type": {
@@ -1620,25 +1876,54 @@
               }
             ],
             "pastureStrategy": [
-              { "carryOver": 0 },
-              { "carryOver": 0 },
-              { "carryOver": 0 },
-              { "carryOver": 1 },
-              { "carryOver": 1 },
-              { "carryOver": 1 },
-              { "carryOver": 1 },
-              { "carryOver": 1 },
-              { "carryOver": 1 },
-              { "carryOver": 1 },
-              { "carryOver": 1 },
-              { "carryOver": 1 },
-              { "carryOver": 0 }
+              {
+                "carryOver": 0
+              },
+              {
+                "carryOver": 0
+              },
+              {
+                "carryOver": 0
+              },
+              {
+                "carryOver": 1
+              },
+              {
+                "carryOver": 1
+              },
+              {
+                "carryOver": 1
+              },
+              {
+                "carryOver": 1
+              },
+              {
+                "carryOver": 1
+              },
+              {
+                "carryOver": 1
+              },
+              {
+                "carryOver": 1
+              },
+              {
+                "carryOver": 1
+              },
+              {
+                "carryOver": 1
+              },
+              {
+                "carryOver": 0
+              }
             ]
           },
           {
             "id": 1,
             "priorityOrder": 1,
-            "type": { "id": 1, "name": "Génisses de renouvellement" },
+            "type": {
+              "id": 1,
+              "name": "Génisses de renouvellement"
+            },
             "profile": {
               "id": 285,
               "batch_type_id": 1,
@@ -1757,70 +2042,112 @@
             },
             "count": 20,
             "housing": {
-              "type": { "id": 1, "name": "Aire paillée intégrale" },
+              "type": {
+                "id": 1,
+                "name": "Aire paillée intégrale"
+              },
               "presence": [
                 {
-                  "period": { "id": 1, "name": "P1" },
+                  "period": {
+                    "id": 1,
+                    "name": "P1"
+                  },
                   "animalCount": 20,
                   "days": 12.6
                 },
                 {
-                  "period": { "id": 2, "name": "P2" },
+                  "period": {
+                    "id": 2,
+                    "name": "P2"
+                  },
                   "animalCount": 20,
                   "days": 12.6
                 },
                 {
-                  "period": { "id": 3, "name": "P3" },
+                  "period": {
+                    "id": 3,
+                    "name": "P3"
+                  },
                   "animalCount": 20,
                   "days": 11.2
                 },
                 {
-                  "period": { "id": 4, "name": "P4" },
+                  "period": {
+                    "id": 4,
+                    "name": "P4"
+                  },
                   "animalCount": 20,
                   "days": 11.2
                 },
                 {
-                  "period": { "id": 5, "name": "P5" },
+                  "period": {
+                    "id": 5,
+                    "name": "P5"
+                  },
                   "animalCount": 20,
                   "days": 19.6
                 },
                 {
-                  "period": { "id": 6, "name": "P6" },
+                  "period": {
+                    "id": 6,
+                    "name": "P6"
+                  },
                   "animalCount": 20,
                   "days": 11.2
                 },
                 {
-                  "period": { "id": 7, "name": "P7" },
+                  "period": {
+                    "id": 7,
+                    "name": "P7"
+                  },
                   "animalCount": 20,
                   "days": 11.2
                 },
                 {
-                  "period": { "id": 8, "name": "P8" },
+                  "period": {
+                    "id": 8,
+                    "name": "P8"
+                  },
                   "animalCount": 20,
                   "days": 16.8
                 },
                 {
-                  "period": { "id": 9, "name": "P9" },
+                  "period": {
+                    "id": 9,
+                    "name": "P9"
+                  },
                   "animalCount": 20,
                   "days": 11.2
                 },
                 {
-                  "period": { "id": 10, "name": "P10" },
+                  "period": {
+                    "id": 10,
+                    "name": "P10"
+                  },
                   "animalCount": 20,
                   "days": 16.8
                 },
                 {
-                  "period": { "id": 11, "name": "P11" },
+                  "period": {
+                    "id": 11,
+                    "name": "P11"
+                  },
                   "animalCount": 20,
                   "days": 16.8
                 },
                 {
-                  "period": { "id": 12, "name": "P12" },
+                  "period": {
+                    "id": 12,
+                    "name": "P12"
+                  },
                   "animalCount": 20,
                   "days": 16.8
                 },
                 {
-                  "period": { "id": 13, "name": "P13" },
+                  "period": {
+                    "id": 13,
+                    "name": "P13"
+                  },
                   "animalCount": 20,
                   "days": 12.6
                 }
@@ -1828,7 +2155,10 @@
             },
             "classicFeeds": [
               {
-                "period": { "id": 1, "name": "P1" },
+                "period": {
+                  "id": 1,
+                  "name": "P1"
+                },
                 "feeds": [
                   {
                     "type": {
@@ -1890,7 +2220,10 @@
                 ]
               },
               {
-                "period": { "id": 2, "name": "P2" },
+                "period": {
+                  "id": 2,
+                  "name": "P2"
+                },
                 "feeds": [
                   {
                     "type": {
@@ -1952,7 +2285,10 @@
                 ]
               },
               {
-                "period": { "id": 3, "name": "P3" },
+                "period": {
+                  "id": 3,
+                  "name": "P3"
+                },
                 "feeds": [
                   {
                     "type": {
@@ -2014,7 +2350,10 @@
                 ]
               },
               {
-                "period": { "id": 4, "name": "P4" },
+                "period": {
+                  "id": 4,
+                  "name": "P4"
+                },
                 "feeds": [
                   {
                     "type": {
@@ -2076,7 +2415,10 @@
                 ]
               },
               {
-                "period": { "id": 5, "name": "P5" },
+                "period": {
+                  "id": 5,
+                  "name": "P5"
+                },
                 "feeds": [
                   {
                     "type": {
@@ -2138,7 +2480,10 @@
                 ]
               },
               {
-                "period": { "id": 6, "name": "P6" },
+                "period": {
+                  "id": 6,
+                  "name": "P6"
+                },
                 "feeds": [
                   {
                     "type": {
@@ -2200,7 +2545,10 @@
                 ]
               },
               {
-                "period": { "id": 7, "name": "P7" },
+                "period": {
+                  "id": 7,
+                  "name": "P7"
+                },
                 "feeds": [
                   {
                     "type": {
@@ -2262,7 +2610,10 @@
                 ]
               },
               {
-                "period": { "id": 8, "name": "P8" },
+                "period": {
+                  "id": 8,
+                  "name": "P8"
+                },
                 "feeds": [
                   {
                     "type": {
@@ -2305,7 +2656,10 @@
                 ]
               },
               {
-                "period": { "id": 9, "name": "P9" },
+                "period": {
+                  "id": 9,
+                  "name": "P9"
+                },
                 "feeds": [
                   {
                     "type": {
@@ -2367,7 +2721,10 @@
                 ]
               },
               {
-                "period": { "id": 10, "name": "P10" },
+                "period": {
+                  "id": 10,
+                  "name": "P10"
+                },
                 "feeds": [
                   {
                     "type": {
@@ -2410,7 +2767,10 @@
                 ]
               },
               {
-                "period": { "id": 11, "name": "P11" },
+                "period": {
+                  "id": 11,
+                  "name": "P11"
+                },
                 "feeds": [
                   {
                     "type": {
@@ -2453,7 +2813,10 @@
                 ]
               },
               {
-                "period": { "id": 12, "name": "P12" },
+                "period": {
+                  "id": 12,
+                  "name": "P12"
+                },
                 "feeds": [
                   {
                     "type": {
@@ -2515,7 +2878,10 @@
                 ]
               },
               {
-                "period": { "id": 13, "name": "P13" },
+                "period": {
+                  "id": 13,
+                  "name": "P13"
+                },
                 "feeds": [
                   {
                     "type": {
@@ -2579,7 +2945,10 @@
             ],
             "concentratedFeeds": [
               {
-                "period": { "id": 1, "name": "P1" },
+                "period": {
+                  "id": 1,
+                  "name": "P1"
+                },
                 "feeds": [
                   {
                     "type": {
@@ -2603,7 +2972,10 @@
                 ]
               },
               {
-                "period": { "id": 2, "name": "P2" },
+                "period": {
+                  "id": 2,
+                  "name": "P2"
+                },
                 "feeds": [
                   {
                     "type": {
@@ -2627,7 +2999,10 @@
                 ]
               },
               {
-                "period": { "id": 3, "name": "P3" },
+                "period": {
+                  "id": 3,
+                  "name": "P3"
+                },
                 "feeds": [
                   {
                     "type": {
@@ -2651,7 +3026,10 @@
                 ]
               },
               {
-                "period": { "id": 4, "name": "P4" },
+                "period": {
+                  "id": 4,
+                  "name": "P4"
+                },
                 "feeds": [
                   {
                     "type": {
@@ -2675,7 +3053,10 @@
                 ]
               },
               {
-                "period": { "id": 5, "name": "P5" },
+                "period": {
+                  "id": 5,
+                  "name": "P5"
+                },
                 "feeds": [
                   {
                     "type": {
@@ -2699,7 +3080,10 @@
                 ]
               },
               {
-                "period": { "id": 6, "name": "P6" },
+                "period": {
+                  "id": 6,
+                  "name": "P6"
+                },
                 "feeds": [
                   {
                     "type": {
@@ -2723,7 +3107,10 @@
                 ]
               },
               {
-                "period": { "id": 7, "name": "P7" },
+                "period": {
+                  "id": 7,
+                  "name": "P7"
+                },
                 "feeds": [
                   {
                     "type": {
@@ -2747,7 +3134,10 @@
                 ]
               },
               {
-                "period": { "id": 8, "name": "P8" },
+                "period": {
+                  "id": 8,
+                  "name": "P8"
+                },
                 "feeds": [
                   {
                     "type": {
@@ -2771,7 +3161,10 @@
                 ]
               },
               {
-                "period": { "id": 9, "name": "P9" },
+                "period": {
+                  "id": 9,
+                  "name": "P9"
+                },
                 "feeds": [
                   {
                     "type": {
@@ -2795,7 +3188,10 @@
                 ]
               },
               {
-                "period": { "id": 10, "name": "P10" },
+                "period": {
+                  "id": 10,
+                  "name": "P10"
+                },
                 "feeds": [
                   {
                     "type": {
@@ -2819,7 +3215,10 @@
                 ]
               },
               {
-                "period": { "id": 11, "name": "P11" },
+                "period": {
+                  "id": 11,
+                  "name": "P11"
+                },
                 "feeds": [
                   {
                     "type": {
@@ -2843,7 +3242,10 @@
                 ]
               },
               {
-                "period": { "id": 12, "name": "P12" },
+                "period": {
+                  "id": 12,
+                  "name": "P12"
+                },
                 "feeds": [
                   {
                     "type": {
@@ -2867,7 +3269,10 @@
                 ]
               },
               {
-                "period": { "id": 13, "name": "P13" },
+                "period": {
+                  "id": 13,
+                  "name": "P13"
+                },
                 "feeds": [
                   {
                     "type": {
@@ -2892,19 +3297,45 @@
               }
             ],
             "pastureStrategy": [
-              { "carryOver": 0 },
-              { "carryOver": 0 },
-              { "carryOver": 1 },
-              { "carryOver": 1 },
-              { "carryOver": 1 },
-              { "carryOver": 1 },
-              { "carryOver": 1 },
-              { "carryOver": 1 },
-              { "carryOver": 1 },
-              { "carryOver": 1 },
-              { "carryOver": 1 },
-              { "carryOver": 1 },
-              { "carryOver": 1 }
+              {
+                "carryOver": 0
+              },
+              {
+                "carryOver": 0
+              },
+              {
+                "carryOver": 1
+              },
+              {
+                "carryOver": 1
+              },
+              {
+                "carryOver": 1
+              },
+              {
+                "carryOver": 1
+              },
+              {
+                "carryOver": 1
+              },
+              {
+                "carryOver": 1
+              },
+              {
+                "carryOver": 1
+              },
+              {
+                "carryOver": 1
+              },
+              {
+                "carryOver": 1
+              },
+              {
+                "carryOver": 1
+              },
+              {
+                "carryOver": 1
+              }
             ]
           }
         ]
@@ -2931,11 +3362,11 @@
         }
       },
       "barn": {
-        "initialStrawStock": 0,
-        "initialConcentratedStock": { "energeticQuantity": 0, "proteicQuantity": 0 },
-        "initialFeedStock": []
+        "initialStocks": []
       },
-      "herd": { "batchs": [] },
+      "herd": {
+        "batchs": []
+      },
       "description": "fvregergez"
     }
   ],
@@ -2952,7 +3383,12 @@
       "ITK": "DPPFPP",
       "detail_ITK": "Pâturage ras, déprimage",
       "stic_periods": [
-        { "id": 3966, "period_id": 1, "production": 0, "farming_method": "P" },
+        {
+          "id": 3966,
+          "period_id": 1,
+          "production": 0,
+          "farming_method": "P"
+        },
         {
           "id": 3967,
           "period_id": 2,
@@ -2977,24 +3413,54 @@
           "production": 13.8,
           "farming_method": "P"
         },
-        { "id": 3971, "period_id": 6, "production": 0, "farming_method": "" },
-        { "id": 3972, "period_id": 7, "production": 0, "farming_method": "" },
-        { "id": 3973, "period_id": 8, "production": 0, "farming_method": "" },
-        { "id": 3974, "period_id": 9, "production": 1, "farming_method": "FH" },
+        {
+          "id": 3971,
+          "period_id": 6,
+          "production": 0,
+          "farming_method": ""
+        },
+        {
+          "id": 3972,
+          "period_id": 7,
+          "production": 0,
+          "farming_method": ""
+        },
+        {
+          "id": 3973,
+          "period_id": 8,
+          "production": 0,
+          "farming_method": ""
+        },
+        {
+          "id": 3974,
+          "period_id": 9,
+          "production": 1,
+          "farming_method": "FH"
+        },
         {
           "id": 3975,
           "period_id": 10,
           "production": 16.8,
           "farming_method": "P"
         },
-        { "id": 3976, "period_id": 11, "production": 0, "farming_method": "P" },
+        {
+          "id": 3976,
+          "period_id": 11,
+          "production": 0,
+          "farming_method": "P"
+        },
         {
           "id": 3977,
           "period_id": 12,
           "production": 2.4,
           "farming_method": "P"
         },
-        { "id": 3978, "period_id": 13, "production": 0, "farming_method": "P" }
+        {
+          "id": 3978,
+          "period_id": 13,
+          "production": 0,
+          "farming_method": "P"
+        }
       ],
       "pasture_type": {
         "id": 4,
@@ -3147,5 +3613,6 @@
         "rejection": 0
       }
     }
-  ]
+  ],
+  "lastModifiedDate": "6/26/2024"
 }

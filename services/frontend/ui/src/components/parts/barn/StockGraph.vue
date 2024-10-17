@@ -13,96 +13,103 @@
   </div>
 </template>
 <script>
+  import { mapGetters } from 'vuex'
   export default {
     data() {
       return {}
     },
     computed: {
+      ...mapGetters('simulator/report', {
+        stocks: 'getStockEvolution',
+      }),
       initOptions() {
         return { width: 'auto', height: 'auto' }
       },
       options() {
-        const xAxisData = []
-        const data1 = []
-        const data2 = []
-        const data3 = []
-        const data4 = []
-        for (let i = 0; i < 10; i++) {
-          xAxisData.push('Class' + i)
-          data1.push(+(Math.random() * 2).toFixed(2))
-          data2.push(+(Math.random() * 5).toFixed(2))
-          data3.push(+(Math.random() + 0.3).toFixed(2))
-          data4.push(+Math.random().toFixed(2))
-        }
-        var emphasisStyle = {
-          itemStyle: {
-            shadowBlur: 10,
-            shadowColor: 'rgba(0,0,0,0.3)',
-          },
-        }
-        return {
-          // legend: {
-          //   data: ['bar', 'bar2', 'bar3', 'bar4'],
-          //   left: '10%',
-          // },
-          // brush: {
-          //   toolbox: ['rect', 'polygon', 'lineX', 'lineY', 'keep', 'clear'],
-          //   xAxisIndex: 0,
-          // },
-          // toolbox: {
-          //   feature: {
-          //     magicType: {
-          //       type: ['stack'],
-          //     },
-          //     dataView: {},
-          //   },
-          // },
-          tooltip: {},
-          xAxis: {
-            data: xAxisData,
-            // name: 'X Axis',
-            axisLine: { onZero: true },
-            splitLine: { show: false },
-            splitArea: { show: false },
-          },
-          yAxis: {},
-          grid: {
-            left: '10%',
-            right: '10%',
-            bottom: '15%',
-            top: '10%',
-            containLabel: true,
-          },
-          series: [
-            {
-              name: 'bar',
-              type: 'bar',
-              stack: 'one',
-              emphasis: emphasisStyle,
-              data: data1,
+        const periods = ['initial', 'P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8', 'P9', 'P10', 'P11', 'P12', 'fin']
+        var stockEvolutionPerFeedSeries = Object.values(this.stocks).map((stock) => {
+          const colors = {
+            P: '#00CC00',
+            STRAW: '#FFF59D',
+            FH: '#009933',
+            EH: '#00FF00',
+            EM: 'orange',
+            RC: '',
+            RP: '',
+            AS: '#E5E8E8',
+            EL: '#CC6666',
+            FL: '#FF66FF',
+          }
+
+          return {
+            name: stock.name,
+            type: 'bar',
+            stack: 'total',
+            label: {
+              show: false,
             },
-            {
-              name: 'bar2',
-              type: 'bar',
-              stack: 'one',
-              emphasis: emphasisStyle,
-              data: data2,
+            tooltip: {
+              valueFormatter: function (value) {
+                return value + ' kgMS'
+              },
             },
-            {
-              name: 'bar3',
-              type: 'bar',
-              stack: 'two',
-              emphasis: emphasisStyle,
-              data: data3,
+            data: stock.data,
+            itemStyle: { color: colors[stock.code] },
+          }
+        })
+
+        if (this.stocks) {
+          return {
+            tooltip: {
+              trigger: 'axis',
+              axisPointer: {
+                type: 'shadow',
+              },
+              triggerOn: 'click',
             },
-            {
-              name: 'bar4',
-              type: 'bar',
-              stack: 'two',
-              emphasis: emphasisStyle,
-              data: data4,
+            toolbox: {
+              show: true,
+              feature: {
+                // dataZoom: {
+                //   yAxisIndex: 'none',
+                // },
+                // dataView: { readOnly: false },
+                // magicType: { type: ['line', 'bar'] },
+                // restore: {},
+                saveAsImage: {
+                  backgroundColor: 'white',
+                },
+              },
             },
-          ],
+            legend: {
+              type: 'scroll',
+              orient: 'vertical',
+              right: 'right',
+              top: 'middle',
+            },
+            grid: {
+              left: '3%',
+              right: '30%',
+              bottom: '3%',
+              containLabel: true,
+            },
+            title: {
+              text: this.$t('report.main.modules.stockNcost.stockGraph.title'),
+            },
+            yAxis: {
+              type: 'value',
+            },
+            xAxis: {
+              type: 'category',
+              data: periods,
+              axisTick: {
+                alignWithLabel: true,
+              },
+            },
+            series: stockEvolutionPerFeedSeries,
+          }
+        } else {
+          return 'No data'
         }
       },
     },

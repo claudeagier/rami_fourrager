@@ -35,7 +35,7 @@ export const exportGesBV = {
       Race: "Prim' Holstein - 66",
       TB: { quantity: '42,3', unity: 'g/Kg' },
       TP: { quantity: '33,8', unity: 'g/Kg' },
-      'ML de haies': { quantity: 0, unity: 'mètres linéaires ' },
+      'ML de haies': { quantity: 0, unity: 'mètres linéaires' },
     },
   },
   bloc3: {

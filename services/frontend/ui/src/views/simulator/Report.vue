@@ -29,7 +29,7 @@
               :key="tabIndex"
             >
               <v-divider></v-divider>
-              <div>{{ $t('report.main.modules.' + mod.descriptionKey) }}</div>
+              <!-- <div>{{ $t('report.main.modules.' + mod.descriptionKey) }}</div> -->
               <!-- Afficher dynamiquement le composant du module correspondant -->
               <component
                 :is="mod.component"
@@ -62,11 +62,17 @@
       modules: [],
     }),
     created() {
+      console.log('getters', this.totalherd)
       this.loadModules()
     },
     computed: {
       ...mapGetters('referential', {
         barnStockItems: 'barnStockItemList',
+      }),
+      ...mapGetters('simulator/report', {
+        totalherd: 'getTotalHerd',
+        stockNcoastData: 'getStockNcoastData',
+        dimensioning: 'getDimensioning',
       }),
       ...mapState('simulator', {
         simulation: (state) => state,

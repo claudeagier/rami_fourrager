@@ -173,12 +173,18 @@ export default {
       return getProteicCoverage(state, rootState, batchId)
     },
     getFinalEnergeticCoverageByBatch: (state, getters, rootState, rootGetters) => (batchId) => {
-      return getFinalEnergeticCoverage(state, rootState, rootGetters, batchId)
+      return getFinalEnergeticCoverage(state, rootState, rootGetters['referential/getSticByName'], batchId)
     },
 
     getFinalProteicCoverageByBatch: (state, getters, rootState, rootGetters) => (batchId) => {
-      // rootGetters
-      return getFinalProteicCoverage(state, rootState, rootGetters, batchId)
+      return getFinalProteicCoverage(
+        state.batchs[batchId],
+        rootState.simulator,
+        rootState.referential.periods,
+        rootState.simulator.farm.totalAvailablePastureByPeriod,
+        rootGetters['referential/getSticByName'],
+        batchId
+      )
     },
     getDryMatterProvided: (state, getters, rootState) => (batchId) => {
       return getDryMatterProvided(state, rootState, batchId)

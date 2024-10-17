@@ -365,7 +365,15 @@
         "stockNcost": {
           "title": "Stocks et coûts d'alimentations",
           "label": "Stocks et coûts",
-          "description": "Description du module"
+          "description": "Description du module",
+          "stockGraph": {
+            "title": "Evolution des stocks"
+          },
+          "stockTable": {
+            "title": "Evolution des stocks",
+
+            "category": { "1_fourrage": "Les fourrages", "3_straw": "La paille", "2_concentrated": "Les cultures" }
+          }
         },
         "export": {
           "title": "Exporter",
@@ -376,7 +384,7 @@
     }
   },
   "autonomy": {
-    "title": "Autonomie"
+    "title": "Autonomie et Potentiel "
   },
   "workspace": {
     "referential": {
