@@ -102,6 +102,7 @@ export default {
       commit('simulator/farm/setFarm', sim.farm, { root: true })
       commit('simulator/barn/setBarn', sim.barn, { root: true })
       commit('simulator/herd/setHerd', sim.herd, { root: true })
+      commit('simulator/report/setReport', sim.report, { root: true })
 
       // apply all
       dispatch('simulator/farm/setTotalAvailablePastureByPeriod', null, { root: true })

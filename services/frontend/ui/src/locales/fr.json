@@ -367,7 +367,7 @@
           "label": "Stocks et coûts",
           "description": "Description du module",
           "stockGraph": {
-            "title": "Evolution des stocks"
+            "title": "Evolution des stocks (tMS)"
           },
           "stockTable": {
             "title": "Evolution des stocks",

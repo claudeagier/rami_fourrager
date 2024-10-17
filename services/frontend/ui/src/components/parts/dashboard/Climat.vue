@@ -66,6 +66,7 @@
 </template>
 
 <script>
+  // TODO traduction
   export default {
     name: 'SelectCard',
     props: {

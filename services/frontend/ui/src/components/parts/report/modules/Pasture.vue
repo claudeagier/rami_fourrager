@@ -40,7 +40,7 @@
 </template>
 <script>
   import { mapGetters } from 'vuex'
-
+  // TODO traduction
   export default {
     computed: {
       ...mapGetters(['nameOfGetter']),

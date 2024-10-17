@@ -43,13 +43,15 @@ export default {
       STRAW: { purchaseCost: 0, sale: 0, costOfSell: 0, productionCost: 0 },
     },
   },
-  getters: {
-    getTotalHerd: (state, getters, rootState, rootGetters) => {
-      // console.log('rootgetters', rootGetters)
-      // console.log('rootState', rootState)
-      return rootGetters
+  mutations: {
+    setReport(state, { soldedStock }) {
+      state.soldedStock = soldedStock
     },
-
+    setSoldedStock(state, stock) {
+      state.soldedStock[stock.code][stock.key] = stock.value
+    },
+  },
+  getters: {
     getPastureStock: (state, getters, rootState) => {
       const simulation = rootState.simulator
       const periods = rootState.referential.periods
@@ -58,13 +60,17 @@ export default {
         {
           name: 'Pâtures',
           category: '1_fourrage',
+          code: 'P',
           initialStock: 0,
-          production: _.round(getPastureProductionTotal(simulation), 0),
-          consommation: _.round(getPastureConsumptionTotal(simulation, periods), 0),
-          finalStock: _.round(getPastureFinalStock(simulation, periods), 0),
-          final_initialStock: _.round(getPastureFinalMinInitialStock(simulation, periods), 0),
-          purchase: _.round(getPasturePurchaseValue(simulation, periods), 0),
-          sold: state.soldedStock['P'].sale, // valeur à saisir
+          production: getPastureProductionTotal(simulation),
+          consommation: getPastureConsumptionTotal(simulation, periods),
+          finalStock: getPastureFinalStock(simulation, periods),
+          final_initialStock: getPastureFinalMinInitialStock(simulation, periods),
+          purchase: getPasturePurchaseValue(simulation, periods),
+          purchaseCost: state.soldedStock['P'].purchaseCost,
+          sale: state.soldedStock['P'].sale,
+          costOfSell: state.soldedStock['P'].costOfSell,
+          productionCost: state.soldedStock['P'].productionCost,
           total: 0,
         },
       ]
@@ -77,18 +83,19 @@ export default {
       const stockCodeList = ['FH', 'EH', 'EM', 'EL', 'FL']
       stockCodeList.forEach((stockCode) => {
         const stockItem = {
-          category: '1_fourrage',
           name: rootState.referential.barnStockItems.find((item) => item.code === stockCode).name,
-          initialStock: _.round(getInitialStockByBarnStockItem(simulation, stockCode), 0),
-          production: _.round(getSticProductionByBarnStockItem(simulation, stockCode, periods, getStic), 0),
-          consommation: _.round(getConsumptionByBarnStockItem(simulation, periods, stockCode), 0),
-          finalStock: _.round(getFinalStockByBarnStockItem(simulation, stockCode, periods, getStic), 0),
-          final_initialStock: _.round(
-            getFinalMinInitialStockByBarnStockItem(simulation, stockCode, periods, getStic),
-            0
-          ),
-          purchase: _.round(getPurchaseValueByBarnStockItem(simulation, stockCode, periods, getStic), 0),
-          sold: state.soldedStock[stockCode].sale, // valeur à saisir
+          category: '1_fourrage',
+          code: stockCode,
+          initialStock: getInitialStockByBarnStockItem(simulation, stockCode),
+          production: getSticProductionByBarnStockItem(simulation, stockCode, periods, getStic),
+          consommation: getConsumptionByBarnStockItem(simulation, periods, stockCode),
+          finalStock: getFinalStockByBarnStockItem(simulation, stockCode, periods, getStic),
+          final_initialStock: getFinalMinInitialStockByBarnStockItem(simulation, stockCode, periods, getStic),
+          purchase: getPurchaseValueByBarnStockItem(simulation, stockCode, periods, getStic),
+          purchaseCost: state.soldedStock[stockCode].purchaseCost,
+          sale: state.soldedStock[stockCode].sale,
+          costOfSell: state.soldedStock[stockCode].costOfSell,
+          productionCost: state.soldedStock[stockCode].productionCost,
           total: 0,
         }
         stock.push(stockItem)
@@ -96,10 +103,8 @@ export default {
 
       return stock
     },
-
     getConcentratedFeedsStock: (state, getters, rootState, rootGetters) => {
-      // FIXME j'ai un problème avec RP et RC initial
-
+      // FIXME et les conso?
       const stock = []
       const simulation = rootState.simulator
       const periods = rootState.referential.periods
@@ -108,17 +113,18 @@ export default {
       stockCodeList.forEach((stockCode) => {
         const stockItem = {
           name: rootState.referential.barnStockItems.find((item) => item.code === stockCode).name,
+          code: stockCode,
           category: '2_concentrated',
-          initialStock: _.round(getInitialStockByBarnStockItem(simulation, stockCode), 0),
-          production: _.round(getSticProductionByBarnStockItem(simulation, stockCode, periods, getStic), 0),
-          consommation: _.round(getConsumptionByBarnStockItem(simulation, periods, stockCode), 0),
-          finalStock: _.round(getFinalStockByBarnStockItem(simulation, stockCode, periods, getStic), 0),
-          final_initialStock: _.round(
-            getFinalMinInitialStockByBarnStockItem(simulation, stockCode, periods, getStic),
-            0
-          ),
-          purchase: _.round(getPurchaseValueByBarnStockItem(simulation, stockCode, periods, getStic), 0),
-          sold: state.soldedStock[stockCode].sale, // valeur à saisir
+          initialStock: getInitialStockByBarnStockItem(simulation, stockCode),
+          production: getSticProductionByBarnStockItem(simulation, stockCode, periods, getStic),
+          consommation: getConsumptionByBarnStockItem(simulation, periods, stockCode),
+          finalStock: getFinalStockByBarnStockItem(simulation, stockCode, periods, getStic),
+          final_initialStock: getFinalMinInitialStockByBarnStockItem(simulation, stockCode, periods, getStic),
+          purchase: getPurchaseValueByBarnStockItem(simulation, stockCode, periods, getStic),
+          purchaseCost: state.soldedStock[stockCode].purchaseCost,
+          sale: state.soldedStock[stockCode].sale,
+          costOfSell: state.soldedStock[stockCode].costOfSell,
+          productionCost: state.soldedStock[stockCode].productionCost,
           total: 0,
         }
         stock.push(stockItem)
@@ -126,7 +132,7 @@ export default {
       return stock
     },
     getStrawStock: (state, getters, rootState, rootGetters) => {
-      // FIXME j'ai un problème avec straw initial
+      // FIXME et les conso?
       const stock = []
       const simulation = rootState.simulator
       const periods = rootState.referential.periods
@@ -136,23 +142,23 @@ export default {
         const stockItem = {
           name: 'paille',
           category: '3_straw',
-          initialStock: _.round(getInitialStockByBarnStockItem(simulation, stockCode), 0),
-          production: _.round(getSticProductionByBarnStockItem(simulation, stockCode, periods, getStic), 0),
-          consommation: _.round(getConsumptionByBarnStockItem(simulation, periods, stockCode), 0),
-          finalStock: _.round(getFinalStockByBarnStockItem(simulation, stockCode, periods, getStic), 0),
-          final_initialStock: _.round(
-            getFinalMinInitialStockByBarnStockItem(simulation, stockCode, periods, getStic),
-            0
-          ),
-          purchase: _.round(getPurchaseValueByBarnStockItem(simulation, stockCode, periods, getStic), 0),
-          sold: state.soldedStock[stockCode].sale, // valeur à saisir
+          code: stockCode,
+          initialStock: getInitialStockByBarnStockItem(simulation, stockCode),
+          production: getSticProductionByBarnStockItem(simulation, stockCode, periods, getStic),
+          consommation: getConsumptionByBarnStockItem(simulation, periods, stockCode),
+          finalStock: getFinalStockByBarnStockItem(simulation, stockCode, periods, getStic),
+          final_initialStock: getFinalMinInitialStockByBarnStockItem(simulation, stockCode, periods, getStic),
+          purchase: getPurchaseValueByBarnStockItem(simulation, stockCode, periods, getStic),
+          purchaseCost: state.soldedStock['STRAW'].purchaseCost,
+          sale: state.soldedStock['STRAW'].sale,
+          costOfSell: state.soldedStock['STRAW'].costOfSell,
+          productionCost: state.soldedStock['STRAW'].productionCost,
           total: 0,
         }
         stock.push(stockItem)
       })
       return stock
     },
-
     getAutonomy: (state, getters, rootState, rootGetters) => {
       const simulation = rootState.simulator
       const periods = rootState.referential.periods
@@ -171,7 +177,6 @@ export default {
       // IF(E8 / E9 >= 0.9, 'au potentiel', 'pas au potentiel')
       return getPotential(simulation, periods, getStic, stockCodeList, totalAvailablePastureByPeriod) >= 0.9
     },
-
     getDimensioning: (state, getters, rootState, rootGetters) => {
       const simulation = rootState.simulator
       const batchs = rootState.simulator.herd.batchs
@@ -207,7 +212,6 @@ export default {
     },
     getStockEvolution: (state, getters, rootState, rootGetters) => {
       // par period le récolté de la même période + celui d'avant - (la conso prévu par les rations pour chaque lot)
-      // I257*nbanimaux present*28*(1+$Dim_Systeme.$E$22)/1000
       const simulation = rootState.simulator
       const periods = rootState.referential.periods
 
@@ -229,7 +233,6 @@ export default {
           const previousProduction = data[index]
           const sticProd = getSticProductionByBarnStockItemByPeriod(simulation, stockCode, index)
           const conso = getConsumptionByBarnStockItemByPeriod(simulation, period.id, stockCode)
-
           data[index + 1] = previousProduction + sticProd - conso
         })
 
@@ -241,6 +244,11 @@ export default {
         stocks.push(item)
       })
       return stocks
+    },
+  },
+  actions: {
+    setSimulation({ state, commit }) {
+      commit('workspace/updateSimulation', { key: 'report', value: state }, { root: true })
     },
   },
 }

@@ -1,10 +1,10 @@
 <template>
   <div
-    class=".barn-chart-container"
+    class=".stock-chart-container"
     style="width: 100%; height: 200px"
   >
     <v-chart
-      class="barn-chart"
+      class="stock-chart"
       :option="options"
       autoresize
       theme="infographic"
@@ -70,12 +70,6 @@
             toolbox: {
               show: true,
               feature: {
-                // dataZoom: {
-                //   yAxisIndex: 'none',
-                // },
-                // dataView: { readOnly: false },
-                // magicType: { type: ['line', 'bar'] },
-                // restore: {},
                 saveAsImage: {
                   backgroundColor: 'white',
                 },
@@ -92,9 +86,6 @@
               right: '30%',
               bottom: '3%',
               containLabel: true,
-            },
-            title: {
-              text: this.$t('report.main.modules.stockNcost.stockGraph.title'),
             },
             yAxis: {
               type: 'value',
@@ -116,7 +107,7 @@
   }
 </script>
 <style>
-  .barn-chart-container {
+  .stock-chart-container {
     display: flex; /* Utilise flexbox pour la mise en page */
     justify-content: center; /* Centrer le contenu horizontalement */
     align-items: center; /* Centrer le contenu verticalement */

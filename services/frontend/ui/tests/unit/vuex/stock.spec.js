@@ -19,7 +19,6 @@ import {
 } from '@/store/modules/mixins'
 
 // Chemin vers votre fichier JSON
-// TODO mock getStic avec une liste de stic
 const path = require('path')
 
 // mock rootState test application

@@ -62,7 +62,6 @@
       modules: [],
     }),
     created() {
-      console.log('getters', this.totalherd)
       this.loadModules()
     },
     computed: {
@@ -70,7 +69,6 @@
         barnStockItems: 'barnStockItemList',
       }),
       ...mapGetters('simulator/report', {
-        totalherd: 'getTotalHerd',
         stockNcoastData: 'getStockNcoastData',
         dimensioning: 'getDimensioning',
       }),
@@ -89,7 +87,6 @@
             }
           })
         }
-
         return mappedData
       },
 
@@ -107,7 +104,14 @@
         }
         this.modules = modules
       },
-      applyToSimulation() {},
+      applyToSimulation() {
+        this.$store.dispatch('simulator/report/setSimulation')
+        this.$toast({
+          message: this.$t('report.main.messages.apply_success'),
+          type: 'success',
+          timeout: 3000,
+        })
+      },
     },
   }
 </script>

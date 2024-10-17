@@ -1,5 +1,8 @@
 <template>
-  <v-card>
+  <v-card
+    outlined
+    elevation="2"
+  >
     <v-card-title>{{ title }}</v-card-title>
     <v-data-table
       :headers="headers"
@@ -10,6 +13,7 @@
       show-group-by
       hide-default-footer
       class="elevation-2"
+      fixed-header
     >
       <template v-slot:group.header="{ items, group, isOpen, toggle }">
         <th
@@ -39,63 +43,87 @@
           </v-row>
         </th>
       </template>
+
+      <template v-slot:item.initialStock="{ item }"> {{ round(item.initialStock, 0) }}</template>
+      <template v-slot:item.production="{ item }"> {{ round(item.production, 0) }}</template>
+      <template v-slot:item.consommation="{ item }"> {{ round(item.consommation, 0) }}</template>
+      <template v-slot:item.finalStock="{ item }"> {{ round(item.finalStock, 0) }}</template>
+      <template v-slot:item.final_initialStock="{ item }"> {{ round(item.final_initialStock, 0) }}</template>
+      <template v-slot:item.purchase="{ item }"> {{ round(item.purchase, 0) }}</template>
+      <template v-slot:item.purchaseCost="{ item }">
+        <v-text-field
+          v-model.number="item.purchaseCost"
+          type="number"
+          hide-spin-buttons
+          min="0"
+          hide-details
+          dense
+          single-line
+          @change="updateItem(item, 'purchaseCost', $event)"
+        ></v-text-field>
+      </template>
+      <template v-slot:item.sale="{ item }">
+        <v-text-field
+          v-model.number="item.sale"
+          type="number"
+          min="0"
+          hide-spin-buttons
+          hide-details
+          dense
+          single-line
+          @change="updateItem(item, 'sale', $event)"
+        ></v-text-field>
+      </template>
+      <template v-slot:item.costOfSell="{ item }">
+        <v-text-field
+          v-model.number="item.costOfSell"
+          type="number"
+          min="0"
+          hide-spin-buttons
+          hide-details
+          dense
+          single-line
+          @change="updateItem(item, 'costOfSell', $event)"
+        ></v-text-field>
+      </template>
+      <template v-slot:item.productionCost="{ item }">
+        <v-text-field
+          v-model.number="item.productionCost"
+          type="number"
+          min="0"
+          hide-spin-buttons
+          hide-details
+          dense
+          single-line
+          @change="updateItem(item, 'productionCost', $event)"
+        ></v-text-field>
+      </template>
+      <template v-slot:item.total="{ item }">
+        {{ (item.total = totalCost(item)) }}
+      </template>
+
       <template v-slot:group.summary="{ items }">
-        <th class="text-h4 font-weight-light">
-          Totaux
-          <!-- {{ $t('report.main.modules.stockNcost.stockTable.category.' + items[0].category) }} -->
-        </th>
+        <th class="text-h4 font-weight-light">Totaux</th>
         <td>{{ subTotal(items, 'initialStock') }}</td>
         <td>{{ subTotal(items, 'production') }}</td>
         <td>{{ subTotal(items, 'consommation') }}</td>
         <td>{{ subTotal(items, 'finalStock') }}</td>
         <td>{{ subTotal(items, 'final_initialStock') }}</td>
-        <td></td>
+        <td>{{ subTotal(items, 'purchase') }}</td>
         <td></td>
         <td></td>
         <td></td>
         <td></td>
         <td>{{ subTotal(items, 'total') }}</td>
       </template>
-      <template v-slot:item.purchaseCost="{ item }">
-        <v-text-field
-          v-model="item.purchaseCost"
-          type="number"
-          @input="updateItem(item, 'purchaseCost', $event)"
-        ></v-text-field>
-      </template>
-
-      <template v-slot:item.sold="{ item }">
-        <v-text-field
-          v-model="item.sold"
-          type="number"
-          @input="updateItem(item, 'sold', $event)"
-        ></v-text-field>
-      </template>
-
-      <template v-slot:item.purchaseSold="{ item }">
-        <v-text-field
-          v-model="item.purchaseSold"
-          type="number"
-          @input="updateItem(item, 'purchaseSold', $event)"
-        ></v-text-field>
-      </template>
-
-      <template v-slot:item.productionCost="{ item }">
-        <v-text-field
-          v-model="item.productionCost"
-          type="number"
-          @input="updateItem(item, 'productionCost', $event)"
-        ></v-text-field>
-      </template>
-
-      <template v-slot:item.total="{ item }">
-        {{ (item.total = totalCost(item)) }}
-      </template>
     </v-data-table>
   </v-card>
 </template>
 
 <script>
+  // TODO traduction
+  import _ from 'lodash'
+
   export default {
     props: {
       title: {
@@ -109,27 +137,36 @@
     },
     methods: {
       updateItem(item, key, value) {
-        // On met à jour la valeur locale
         item[key] = value
-        // On émet l'événement vers le parent pour lui transmettre l'objet modifié
-        this.$emit('update-stock', { ...item })
+        this.$emit('update-stock', { code: item.code, key: key, value: value })
+      },
+      round(value, digit) {
+        return _.round(value, digit)
       },
       totalCost(stock) {
-        const total = 200
-
-        // console.log('stock', stock)
-        // pour les patures
-        // =F32*N32+J32*K32-L32*M32
-        // pour les fourrages
-        // =E33*N33+J33*K33-L33*M33
-        // pour les cultures
-        // =(K42*J42)+(M42*L42)
-        // pour la paille
-        // =E46*N46+J46*K46-L46*M46
-        return total
+        let total = 0
+        if (stock.category === '1_fourrage' && stock.code === 'P') {
+          total =
+            stock.consommation * stock.productionCost +
+            stock.purchase * stock.purchaseCost -
+            stock.sale * stock.costOfSell
+        }
+        if (stock.category === '3_straw' || (stock.category === '1_fourrage' && stock.code !== 'P')) {
+          total =
+            stock.production * stock.productionCost +
+            stock.purchase * stock.purchaseCost -
+            stock.sale * stock.costOfSell
+        }
+        if (stock.category === '2_concentrated') {
+          total = stock.purchase * stock.purchaseCost + stock.sale * stock.costOfSell
+        }
+        return _.round(total, 0)
       },
       subTotal(items, column) {
-        return items.reduce((sum, item) => sum + item[column], 0)
+        return _.round(
+          items.reduce((sum, item) => sum + item[column], 0),
+          0
+        )
       },
     },
     data() {
@@ -143,12 +180,13 @@
           { text: 'Consommation', value: 'consommation', groupable: false, width: 20 },
           { text: 'Final Stock', value: 'finalStock', groupable: false, width: 20 },
           { text: 'Final-Initial Stock', value: 'final_initialStock', groupable: false, width: 20 },
-          { text: 'Purchase', value: 'purchase', groupable: false, width: 20 },
-          { text: 'Purchase Cost', value: 'purchaseCost', groupable: false, width: 20 },
-          { text: 'Sold', value: 'sold', groupable: false, width: 20 },
-          { text: 'Purchase Sold', value: 'purchaseSold', groupable: false, width: 20 },
-          { text: 'Production Cost', value: 'productionCost', groupable: false, width: 20 },
-          { text: 'Total en Euro', value: 'total', groupable: false, width: 20 },
+          { text: 'Purchase', value: 'purchase', groupable: false, width: 80 },
+          { text: 'Purchase Cost', value: 'purchaseCost', groupable: false, width: 80 },
+          { text: 'sale', value: 'sale', groupable: false, width: 80 },
+          { text: 'cost of sale', value: 'costOfSell', groupable: false, width: 80 },
+          { text: 'Production Cost', value: 'productionCost', groupable: false, width: 80 },
+          { text: 'Total en Euro', value: 'total', groupable: false, width: 80 },
+          { text: 'Code', value: 'code', groupable: false, width: 80, align: ' d-none' },
         ],
       }
     },

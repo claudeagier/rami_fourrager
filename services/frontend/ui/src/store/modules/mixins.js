@@ -331,7 +331,7 @@ export const getPasturesByPeriod = (coverage, batch, period, totalAvailablePastu
 
   return i246 * totalAvailablePastureByPeriod['period_id_' + (period + 1)][coverage] + previous
 }
-// TEST 248 Consommation pâture totale 246+247
+// 248 Consommation pâture totale 246+247
 const getTotalPastureConsumption = (batch, period, totalAvailablePastureByPeriod, batchs) => {
   return (
     getGreenPastureConsumption(batch, period, totalAvailablePastureByPeriod, batchs) +
@@ -971,7 +971,6 @@ export function getProteicCoverage(batch, totalAvailablePastureByPeriod) {
 
   return proteicCoverage
 }
-// TODO à refaire, j'ai des fonctions plus haut pour faire cela plus efficacement
 export function getDryMatterProvided(batch, referential) {
   const precision = 3
 
@@ -1009,7 +1008,6 @@ export function getDryMatterProvided(batch, referential) {
   })
   return dryMatterProvidedPerFeed
 }
-// TODO à refaire, j'ai des fonctions plus haut pour faire cela plus efficacement
 export function getDryMatterNeeded(batch, periods, batchId) {
   const precision = 3
 

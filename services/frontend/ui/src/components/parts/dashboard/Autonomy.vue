@@ -61,6 +61,7 @@
 
 <script>
   import { mapGetters } from 'vuex'
+  // TODO traduction
   export default {
     name: 'Autonomy',
     created() {},
