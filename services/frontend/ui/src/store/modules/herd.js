@@ -7,6 +7,7 @@ import {
   getFinalEnergeticCoverage,
   getFinalProteicCoverage,
   getDryMatterProvided,
+  getDryMatterNeeded,
 } from './mixins'
 import { deepEqual } from '../../plugins/utils'
 
@@ -166,14 +167,20 @@ export default {
 
     // Couverture des besoins énergétiques /animal UFL estimé pour l’ensemble des rations saisie pour un animal
     getEnergeticCoverageByBatch: (state, getters, rootState) => (batchId) => {
-      return getEnergeticCoverage(state, rootState, batchId)
+      return getEnergeticCoverage(state.batchs[batchId], rootState.simulator.farm.totalAvailablePastureByPeriod)
     },
 
     getProteicCoverageByBatch: (state, getters, rootState) => (batchId) => {
-      return getProteicCoverage(state, rootState, batchId)
+      return getProteicCoverage(state.batchs[batchId], rootState.simulator.farm.totalAvailablePastureByPeriod)
     },
     getFinalEnergeticCoverageByBatch: (state, getters, rootState, rootGetters) => (batchId) => {
-      return getFinalEnergeticCoverage(state, rootState, rootGetters['referential/getSticByName'], batchId)
+      return getFinalEnergeticCoverage(
+        state.batchs[batchId],
+        rootState.simulator,
+        rootState.referential.periods,
+        rootState.simulator.farm.totalAvailablePastureByPeriod,
+        rootGetters['referential/getSticByName']
+      )
     },
 
     getFinalProteicCoverageByBatch: (state, getters, rootState, rootGetters) => (batchId) => {
@@ -182,12 +189,14 @@ export default {
         rootState.simulator,
         rootState.referential.periods,
         rootState.simulator.farm.totalAvailablePastureByPeriod,
-        rootGetters['referential/getSticByName'],
-        batchId
+        rootGetters['referential/getSticByName']
       )
     },
     getDryMatterProvided: (state, getters, rootState) => (batchId) => {
-      return getDryMatterProvided(state, rootState, batchId)
+      return getDryMatterProvided(state.batchs[batchId], rootState.referential)
+    },
+    getDryMatterNeeded: (state, getters, rootState) => (batchId) => {
+      return getDryMatterNeeded(state.batchs[batchId], rootState.referential.periods).map((el) => _.round(el, 1))
     },
   },
   actions: {

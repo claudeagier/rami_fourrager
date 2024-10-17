@@ -6,6 +6,7 @@ import {
   getFinalEnergeticCoverage,
   getFinalProteicCoverage,
   getDryMatterProvided,
+  getDryMatterNeeded,
 } from '@/store/modules/mixins'
 
 // Importer la fonction pour lire un fichier JSON
@@ -28,28 +29,29 @@ describe('herds mutations', () => {
 
   const batch = rootState.simulator.herd.batchs[0]
   const periods = rootState.referential.periods
+  const referential = rootState.referential
   const simulation = rootState.simulator
   const totalAvailablePastureByPeriod = rootState.simulator.farm.totalAvailablePastureByPeriod
 
   it('energetic values before', () => {
-    const result = getEnergeticCoverage(state, rootState, batchId)
+    const result = getEnergeticCoverage(batch, totalAvailablePastureByPeriod)
     expect(result).toEqual(output.energeticCoverage)
   })
   it('proteic values before', () => {
-    const result = getProteicCoverage(state, rootState, batchId)
+    const result = getProteicCoverage(batch, totalAvailablePastureByPeriod)
     expect(result).toEqual(output.proteicCoverage)
   })
   it('final energetic coverage', () => {
-    const result = getFinalEnergeticCoverage(state, rootState, getStic, batchId)
+    const result = getFinalEnergeticCoverage(batch, simulation, periods, totalAvailablePastureByPeriod, getStic)
     expect(result).toEqual(outputs.herd.energetic.final_coverage)
   })
   const result = getFinalProteicCoverage(batch, simulation, periods, totalAvailablePastureByPeriod, getStic)
   it('final proteic coverage', () => {
     expect(result).toEqual(outputs.herd.proteic.final_coverage)
   })
-  it('Dry Matter Provided', () => {
-    const res = getDryMatterProvided(state, rootState, batchId)
-    const roundedData = res.dry_matter_needed.data.map((el) => _.round(el, 1))
+  it('Dry Matter needed', () => {
+    const res = getDryMatterNeeded(batch, periods)
+    const roundedData = res.map((el) => _.round(el, 1))
     expect(roundedData).toEqual(outputs.herd.dry_matter_coverage.dry_matter_needed)
   })
 })

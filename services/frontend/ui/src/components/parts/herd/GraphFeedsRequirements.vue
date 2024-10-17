@@ -56,6 +56,7 @@
       ...mapGetters('simulator/herd', {
         getBatch: 'getBatch',
         getDryMatterProvided: 'getDryMatterProvided',
+        getDryMatterNeeded: 'getDryMatterNeeded',
       }),
       initOptions() {
         return { width: 800, height: 300 }
@@ -64,9 +65,11 @@
       options() {
         // const periods = this.periods
         const periods = ['P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8', 'P9', 'P10', 'P11', 'P12', 'P13']
-        const data = this.getDryMatterProvided(this.selectedLot)
+        const dryMatterProvidedPerFeed = this.getDryMatterProvided(this.selectedLot)
+        const dryMatterNeededSerie = this.getDryMatterNeeded(this.selectedLot)
 
-        var dryMatterProvidedPerFeedSeries = Object.values(data.dry_matter_provided_per_feed).map((feed) => {
+        // format
+        var dryMatterProvidedPerFeedSeries = Object.values(dryMatterProvidedPerFeed).map((feed) => {
           const colors = {
             P: '#00CC00',
             STRAW: '#FFF59D',
@@ -96,8 +99,9 @@
             itemStyle: { color: colors[feed.code] },
           }
         })
+
         const colors = ['#5470C6', '#EE6666']
-        if (data) {
+        if (dryMatterProvidedPerFeed && dryMatterNeededSerie) {
           return {
             tooltip: {
               trigger: 'axis',
@@ -150,7 +154,7 @@
                 {
                   name: this.$t('herd.details.graph.ms'),
                   type: 'line',
-                  data: data.dry_matter_needed.data,
+                  data: dryMatterNeededSerie,
                   smooth: true,
                   tooltip: {
                     valueFormatter: function (value) {

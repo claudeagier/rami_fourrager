@@ -431,28 +431,19 @@ const getUFPasturesByPeriod = (batch, period, totalAvailablePastureByPeriod, bat
   const p = getPasturesByPeriod('energeticTotal', batch, period, totalAvailablePastureByPeriod, batchs)
   return p
 }
-export const getFinalEnergeticCoverage = function (state, rootState, getStic, batchId) {
+export const getFinalEnergeticCoverage = function (batch, simulation, periods, totalAvailablePastureByPeriod, getStic) {
   // c'est juste pour faire le test des différentes fonction
   const finalEnergeticCoverage = []
-  const batch = state.batchs[batchId]
-  if (batch === undefined) {
-    console.error('batch_not_found', batchId)
-    return
-  }
+
   const h272 = getUFConcentratedByPeriod(batch) // ok
   const h267 = getUFFeedsByPeriod(batch, true) // OK
-  const totalAvailablePastureByPeriod = setTotalAvailablePasture(
-    rootState.simulator,
-    rootState.referential.periods,
-    getStic
-  )
 
   // for test
   const pasture_uf = []
   // par periode
-  rootState.referential.periods.forEach((period, index) => {
+  periods.forEach((period, index) => {
     const periodId = period.id
-    const h249 = getUFPasturesByPeriod(batch, index, totalAvailablePastureByPeriod, rootState.simulator.herd.batchs)
+    const h249 = getUFPasturesByPeriod(batch, index, totalAvailablePastureByPeriod, simulation.herd.batchs)
     pasture_uf[index] = h249
     const toModerate = batch.profile.batch_type.code === 'VL'
     const potential = 1
@@ -849,16 +840,10 @@ export const getPT_SAU = (simulation, periods, getStic) => {
 // *******************************************************//
 // ******************** HERD *****************************//
 // *******************************************************//
-export function getEnergeticCoverage(state, rootState, batchId) {
+export function getEnergeticCoverage(batch, totalAvailablePastureByPeriod) {
   const precision = 3
-  const batch = state.batchs[batchId]
-  if (batch === undefined) {
-    console.error('batch_not_found', batchId)
-    return
-  }
-  const pastureUF = getUFPasturesByPeriodBefore(batch, rootState.simulator.farm.totalAvailablePastureByPeriod, true)
+  const pastureUF = getUFPasturesByPeriodBefore(batch, totalAvailablePastureByPeriod, true)
   const feedsUF = getUFFeedsByPeriod(batch, false)
-  // const concentratedUF = getUFConcentratedByPeriod(batch)
 
   const feedsByPeriod = batch.classicFeeds
 
@@ -912,13 +897,9 @@ export function getEnergeticCoverage(state, rootState, batchId) {
 
   return energeticCoverage
 }
-export function getProteicCoverage(state, rootState, batchId) {
-  const batch = state.batchs[batchId]
+export function getProteicCoverage(batch, totalAvailablePastureByPeriod) {
   const precision = 4
-  if (batch === undefined) {
-    console.error('batch_not_found', batchId)
-    return
-  }
+
   const feedsByPeriod = batch.classicFeeds
   var proteicCoverage = feedsByPeriod.map(({ period, feeds }, index) => {
     const periodId = period.id
@@ -931,14 +912,13 @@ export function getProteicCoverage(state, rootState, batchId) {
       var PDI = 0
       if (curr.type.name === 'Pâture') {
         if (
-          rootState.simulator.farm.totalAvailablePastureByPeriod === null ||
-          rootState.simulator.farm.totalAvailablePastureByPeriod['period_id_' + periodId] === undefined
+          totalAvailablePastureByPeriod === null ||
+          totalAvailablePastureByPeriod['period_id_' + periodId] === undefined
         ) {
           console.error('farm dimensionning is not apply to the simulation')
           return
         }
-        const proteicPasture =
-          rootState.simulator.farm.totalAvailablePastureByPeriod['period_id_' + periodId].proteicTotal
+        const proteicPasture = totalAvailablePastureByPeriod['period_id_' + periodId].proteicTotal
         // ce n'est que le numérateur de l'opération en dessous
         // somme(surface * production) * proportion
         PDI = proteicPasture * (curr.proportion / 100)
@@ -992,19 +972,15 @@ export function getProteicCoverage(state, rootState, batchId) {
   return proteicCoverage
 }
 // TODO à refaire, j'ai des fonctions plus haut pour faire cela plus efficacement
-export function getDryMatterProvided(state, rootState, batchId) {
+export function getDryMatterProvided(batch, referential) {
   const precision = 3
-  const batch = state.batchs[batchId]
-  if (batch === undefined) {
-    console.error('batch_not_found', batchId)
-    return
-  }
+
   const UEcolumn = batch.profile.batch_type.UE_value_considered
   const UFcolumn = batch.profile.batch_type.UF_value_considered
   var dryMatterProvidedPerFeed = {
     P: { name: 'Pâture', code: 'P', color: '#27AE60', data: Array.from({ length: 13 }, () => 0) },
   }
-  rootState.referential.barnStockItems.forEach((item) => {
+  referential.barnStockItems.forEach((item) => {
     if (item.code !== 'RC' && item.code !== 'RP') {
       dryMatterProvidedPerFeed[item.code] = {
         name: item.name,
@@ -1013,17 +989,13 @@ export function getDryMatterProvided(state, rootState, batchId) {
       }
     }
   })
-
-  var dryMatterNeeded = { name: 'dryMatterNeeded', data: [] }
-  rootState.referential.periods.forEach((period, index) => {
+  referential.periods.forEach((period, index) => {
     // la quantité de matière sèche de chaque aliment
     const batchValuesForPeriod = batch.profile.animal_profile_periods[index]
     const feeds = batch.classicFeeds[index].feeds
     const toModerate = batch.profile.batch_type.code === 'VL'
     const potential = 1
     const besoinMS = calculateBesoinMS(batchValuesForPeriod.CI, toModerate, potential, UEcolumn, feeds) // ok
-    dryMatterNeeded.data[index] = besoinMS
-    // les valeurs des baguettes ne sont plus styocké dans la baguette mais dans la liste
     feeds.forEach((feed) => {
       if (feed.type.correspondingStock !== 'RC' && feed.type.correspondingStock !== 'RP') {
         const q = fixFloatingPoint((feed.proportion / 100) * besoinMS, precision)
@@ -1035,10 +1007,25 @@ export function getDryMatterProvided(state, rootState, batchId) {
       }
     })
   })
-  return {
-    dry_matter_provided_per_feed: dryMatterProvidedPerFeed,
-    dry_matter_needed: dryMatterNeeded,
-  }
+  return dryMatterProvidedPerFeed
+}
+// TODO à refaire, j'ai des fonctions plus haut pour faire cela plus efficacement
+export function getDryMatterNeeded(batch, periods, batchId) {
+  const precision = 3
+
+  const UEcolumn = batch.profile.batch_type.UE_value_considered
+  const UFcolumn = batch.profile.batch_type.UF_value_considered
+
+  var dryMatterNeeded = []
+  periods.forEach((period, index) => {
+    const batchValuesForPeriod = batch.profile.animal_profile_periods[index]
+    const feeds = batch.classicFeeds[index].feeds
+    const toModerate = batch.profile.batch_type.code === 'VL'
+    const potential = 1
+    const besoinMS = calculateBesoinMS(batchValuesForPeriod.CI, toModerate, potential, UEcolumn, feeds) // ok
+    dryMatterNeeded[index] = besoinMS
+  })
+  return dryMatterNeeded
 }
 
 // *******************************************************//
