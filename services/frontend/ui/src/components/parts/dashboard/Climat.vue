@@ -67,6 +67,7 @@
 
 <script>
   // TODO traduction
+  // FIXME problème d'evenement sur le changement de site
   export default {
     name: 'SelectCard',
     props: {

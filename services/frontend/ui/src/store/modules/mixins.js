@@ -663,7 +663,7 @@ export function getSticProductionByBarnStockItemByPeriod(simulation, stockCode, 
 // *******************************************************//
 // *************** Dimensionnement ***********************//
 // *******************************************************//
-
+// FIXME vérifier le changement du nombre d'animaux
 // h647 Consommation totale hors concentrés par période et par lot
 export const getTotalConsumptionExcludingConcentrates = function (
   period,
