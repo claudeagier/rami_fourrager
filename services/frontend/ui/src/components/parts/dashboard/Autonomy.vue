@@ -13,14 +13,6 @@
               cols="12"
               class="pt-0 pb-0"
             >
-              <!-- <base-gauge
-                :gaugeValue="-0.02"
-                :min="-0.5"
-                :max="0.5"
-                :floor="0"
-                gaugeName="Autonomie"
-                :gaugeOptions="gaugeOptions"
-              /> -->
               <v-tooltip right>
                 <template v-slot:activator="{ on, attrs }">
                   <v-alert
@@ -28,13 +20,19 @@
                     v-on="on"
                     class="pa-1 ma-2"
                     dense
-                    :type="autonomy ? 'success' : 'warning'"
+                    :type="
+                      autonomy > 0 ? $t('autonomy.autonomy.step.high.color') : $t('autonomy.autonomy.step.low.color')
+                    "
                   >
-                    {{ autonomy ? 'Autonome' : 'Pas autonome' }}
+                    {{
+                      autonomy > 0 ? $t('autonomy.autonomy.step.high.label') : $t('autonomy.autonomy.step.low.label')
+                    }}
                   </v-alert>
                 </template>
 
-                <span> Produisant les fourrages grossiers nécessaires </span>
+                <span>{{ $t('autonomy.autonomy.tooltip.punchline') }}</span>
+                <br />
+                <span>{{ $t('autonomy.autonomy.tooltip.details') }}</span>
               </v-tooltip>
               <v-tooltip right>
                 <template v-slot:activator="{ on, attrs }">
@@ -43,13 +41,22 @@
                     v-on="on"
                     class="pa-1 ma-2"
                     dense
-                    :type="potential ? 'success' : 'warning'"
+                    :type="
+                      potential >= 90
+                        ? $t('autonomy.potential.step.high.color')
+                        : $t('autonomy.potential.step.low.color')
+                    "
                   >
-                    {{ potential ? 'Au potentiel' : 'Pas au potentiel' }}
+                    {{
+                      potential >= 90
+                        ? $t('autonomy.potential.step.high.label', { rating: potential })
+                        : $t('autonomy.potential.step.low.label', { rating: potential })
+                    }}
                   </v-alert>
                 </template>
-
-                <span> Valorisant l'intégralité de la production fourragère de l'exploitation </span>
+                <span>{{ $t('autonomy.potential.tooltip.punchline') }}</span>
+                <br />
+                <span>{{ $t('autonomy.potential.tooltip.details') }}</span>
               </v-tooltip>
             </v-col>
           </v-row>
@@ -62,6 +69,7 @@
 <script>
   import { mapGetters } from 'vuex'
   // TODO traduction
+  // TEST les couleurs des alertes en fonction de la trad
   export default {
     name: 'Autonomy',
     created() {},

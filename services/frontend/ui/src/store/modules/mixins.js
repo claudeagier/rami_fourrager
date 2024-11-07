@@ -663,7 +663,7 @@ export function getSticProductionByBarnStockItemByPeriod(simulation, stockCode, 
 // *******************************************************//
 // *************** Dimensionnement ***********************//
 // *******************************************************//
-
+// FIXME vérifier le changement du nombre d'animaux
 // h647 Consommation totale hors concentrés par période et par lot
 export const getTotalConsumptionExcludingConcentrates = function (
   period,
@@ -795,7 +795,7 @@ export const getAutonomy = function (simulation, periods, getStic, stockCodeList
   // IF((E8-E7)>0,"Autonome","Pas autonome")
   const e8 = getCorrectedLivestockDensities(simulation, periods, getStic, stockCodeList, totalAvailablePastureByPeriod)
   const e7 = getApparentLivestockDensities(simulation, periods, getStic, stockCodeList, totalAvailablePastureByPeriod)
-  return e8 - e7 > 0
+  return e8 - e7
 }
 // renvoie le pourcentage
 export const getPotential = function (simulation, periods, getStic, stockCodeList, totalAvailablePastureByPeriod) {

@@ -175,7 +175,7 @@ export default {
       const stockCodeList = ['FH', 'EH', 'EM', 'EL', 'FL']
       const totalAvailablePastureByPeriod = rootState.simulator.farm.totalAvailablePastureByPeriod
       // IF(E8 / E9 >= 0.9, 'au potentiel', 'pas au potentiel')
-      return getPotential(simulation, periods, getStic, stockCodeList, totalAvailablePastureByPeriod) >= 0.9
+      return _.round(getPotential(simulation, periods, getStic, stockCodeList, totalAvailablePastureByPeriod), 0)
     },
     getDimensioning: (state, getters, rootState, rootGetters) => {
       const simulation = rootState.simulator

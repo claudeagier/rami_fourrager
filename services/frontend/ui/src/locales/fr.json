@@ -393,7 +393,31 @@
     }
   },
   "autonomy": {
-    "title": "Autonomie et Potentiel "
+    "title": "Autonomie et Potentiel ",
+    "autonomy": {
+      "step": {
+        "outofrange": { "color": "warning", "label": "autonomie fantaisiste" },
+        "low": { "color": "warning", "label": "Pas autonome" },
+        "medium": { "color": "info", "label": "moyennement autonome" },
+        "high": { "color": "success", "label": "Autonome" }
+      },
+      "tooltip": {
+        "punchline": "Produisant les fourrages grossiers nécessaires",
+        "details": "-> Indicateur d'autonomie = chargement réel - chargement apparent"
+      }
+    },
+    "potential": {
+      "step": {
+        "outofrange": { "color": "warning", "label": "potentiel fantaisiste" },
+        "low": { "color": "warning", "label": "Pas au potentiel à {rating} %" },
+        "medium": { "color": "info", "label": "Moyennement au potentiel" },
+        "high": { "color": "success", "label": "Au potentiel à {rating} %" }
+      },
+      "tooltip": {
+        "punchline": "Valorisant l'intégralité de la production fourragère de l'exploitation",
+        "details": "-> Niveau de valorisation du potentiel = chargement réel / chargement apparent"
+      }
+    }
   },
   "workspace": {
     "referential": {
