@@ -190,7 +190,6 @@
       handleSiteChange(id) {
         this.$store.commit('simulator/setSite', id)
         if (!this.sticsIsDeleted) {
-          console.log('site is deleted')
           this.$store.dispatch('simulator/applyTo', 'site')
           this.climaticYears = this.getClimaticYearList(id)
         }

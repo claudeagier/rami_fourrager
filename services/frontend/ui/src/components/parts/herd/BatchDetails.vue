@@ -119,6 +119,7 @@
           return this.batch.count
         },
         set(val) {
+          // changer toutes les présences de housing en demendant confirmation
           this.setBatchCount({
             batchId: this.selectedLot,
             value: val,

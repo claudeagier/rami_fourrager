@@ -73,7 +73,9 @@
     "complete": "Compléter",
     "copy": "Copier",
     "duplicate": "Dupliquer",
-    "apply": "Appliquer à la simulation"
+    "apply": "Appliquer à la simulation",
+    "yes": "Oui",
+    "no": "Non"
   },
   "auth": {
     "login": {
@@ -153,7 +155,14 @@
     },
     "climat": {
       "title": "Le climat",
-      "description": ""
+      "description": "",
+      "site": { "label": "Site" },
+      "climaticyear": { "label": "Année climatique" },
+      "confirmation": {
+        "title": "Confirmation",
+        "subtitle": "Si vous changez de site, l'assolement actuel sera effacé",
+        "punchline": "Voulez-vous vraiment changer de site ?"
+      }
     }
   },
   "barn": {
