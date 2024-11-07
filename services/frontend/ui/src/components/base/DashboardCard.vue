@@ -8,34 +8,45 @@
     :height="forcedHeight"
   >
     <v-sheet :color="titleColor">
-      <v-card-title class="">
-        <v-row>
-          <v-col cols="1">
-            <v-icon
-              medium
-              left
-              v-if="icon"
-            >
-              {{ icon }}
-            </v-icon>
-          </v-col>
-          <v-col cols="8">
-            <div
-              class="card-title text-h3 font-weight-light"
-              style="font-size: 18px !important"
-            >
-              {{ $t(title) }}
-            </div>
-          </v-col>
-          <v-spacer></v-spacer>
-          <v-col
-            v-if="withButton"
-            class="pa-0 ma-0"
+      <v-tooltip right>
+        <template v-slot:activator="{ on, attrs }">
+          <v-card-title
+            v-bind="attrs"
+            v-on="description !== '' && on"
+            class=""
           >
-            <slot name="button"></slot>
-          </v-col>
-        </v-row>
-      </v-card-title>
+            <v-row>
+              <v-col cols="1">
+                <v-icon
+                  medium
+                  left
+                  v-if="icon"
+                >
+                  {{ icon }}
+                </v-icon>
+              </v-col>
+              <v-col cols="8">
+                <div
+                  class="card-title text-h3 font-weight-light"
+                  style="font-size: 18px !important"
+                >
+                  {{ title }}
+                </div>
+              </v-col>
+              <v-spacer></v-spacer>
+              <v-col
+                v-if="withButton"
+                class="pa-0 ma-0"
+              >
+                <slot name="button"></slot>
+              </v-col>
+            </v-row>
+          </v-card-title>
+        </template>
+        <span v-if="description !== ''">
+          {{ description }}
+        </span>
+      </v-tooltip>
       <v-card-subtitle class="mt-0 text-subtitle-1 font-weight-light">
         <slot name="subtitle"></slot>
       </v-card-subtitle>
@@ -66,6 +77,11 @@
       title: {
         type: String,
         required: true,
+      },
+      description: {
+        type: String,
+        required: false,
+        default: '',
       },
       titleColor: {
         type: String,

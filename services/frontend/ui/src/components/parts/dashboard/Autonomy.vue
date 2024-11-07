@@ -1,6 +1,6 @@
 <template>
   <base-dashboard-card
-    title="autonomy.title"
+    :title="$t('autonomy.title')"
     cardColor="blue lighten-3"
     :dark="true"
     icon="mdi-recycle-variant"

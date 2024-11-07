@@ -1,6 +1,6 @@
 <template>
   <base-dashboard-card
-    title="dashboard.climat.title"
+    :title="$t('dashboard.climat.title')"
     cardColor="#ff980080"
     icon="mdi-earth"
     :dark="true"

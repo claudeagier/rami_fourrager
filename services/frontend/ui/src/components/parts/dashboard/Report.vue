@@ -1,6 +1,6 @@
 <template>
   <base-dashboard-card
-    title="dashboard.report.title"
+    :title="$t('dashboard.report.title')"
     cardColor="blue"
     titleColor="transparent"
     :dark="true"
