@@ -143,7 +143,7 @@
             animalCount: 0,
             days: 0,
           }))
-          // TODO-FRONT pour l'instant le premier créé est le premier servi
+          // le premier créé est le premier servi
           this.lotItem.id = this.getNewBatchId
           this.lotItem.priorityOrder = this.lotItem.id
           this.lotItem.classicFeeds = Array.from(this.periods, (period) => ({

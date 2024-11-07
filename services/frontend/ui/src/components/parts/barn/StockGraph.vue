@@ -13,6 +13,7 @@
   </div>
 </template>
 <script>
+  // TODO gérer la légende pour l'affichage dans dashboard/farm et titre du grpah
   import { mapGetters } from 'vuex'
   export default {
     data() {

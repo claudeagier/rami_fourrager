@@ -197,7 +197,8 @@
   import PastureDetails from '@/components/parts/herd/PastureDetails'
   import navigationGuard from '@/mixins/navigationGuard'
   import GraphsModal from '@/components/parts/herd/GraphsModal.vue'
-
+  // FIXME mettre le nombre d'animaux du lot en valeur par défaut sur les présence lot.count = batch.housing.presence[period].animalCount
+  // TODO ajouter un bouton pour module génisse moyenne
   export default {
     name: 'Herd',
     mixins: [navigationGuard],

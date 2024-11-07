@@ -42,6 +42,7 @@
   </v-card> -->
 </template>
 <script>
+  // TODO simulation description en infobulles
   import { mapState } from 'vuex'
   export default {
     name: 'SimulationCard',

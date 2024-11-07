@@ -26,10 +26,7 @@
         </v-col>
       </v-row>
     </template>
-    <template
-      v-slot:content
-      style="height: 100%"
-    >
+    <template v-slot:content>
       <v-row>
         <div
           class=".farm-chart-container"
@@ -48,6 +45,7 @@
   </base-material-card>
 </template>
 <script>
+  // TODO la ferme devient l'assolement
   export default {
     name: 'farm-dashboard',
     data() {

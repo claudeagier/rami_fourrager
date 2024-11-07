@@ -228,7 +228,6 @@ const router = new VueRouter({
   routes,
 })
 
-// TODO-FRONT ajouter la gestion des roles pour admin
 router.beforeEach(async (to, from, next) => {
   if (to.matched.some((record) => record.meta.requiresAuth)) {
     if (!store.getters['auth/isLoggedIn'] || localStorage.getItem('token') === 'null') {

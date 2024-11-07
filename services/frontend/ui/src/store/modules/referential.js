@@ -9,8 +9,6 @@ async function fetch(what, since, commit, getters) {
       const response = await Vue.prototype.$axios.get(`/lists/${what}?lastConnectionDate=${since}`) // ajuster l'URL de l'API
       if (response.data.length > 0) {
         commit('addToList', { whats: response.data, to: what + 's' })
-      } else {
-        // TODO-FRONT faire quelquechose pour dire que c'est à jour return true
       }
       commit('listUpTodate', { what: what })
     } catch (error) {

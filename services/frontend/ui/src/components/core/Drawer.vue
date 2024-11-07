@@ -75,6 +75,7 @@
 </template>
 
 <script>
+  // TODO changer les logos
   import { mapState, mapMutations, mapGetters } from 'vuex'
 
   export default {

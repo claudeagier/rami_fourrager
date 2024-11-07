@@ -73,6 +73,7 @@
   </base-dashboard-card>
 </template>
 <script>
+  // TODO traduction à faire bilan => dimensionnement
   import { mapGetters } from 'vuex'
   export default {
     name: 'report-dashboard',
@@ -100,7 +101,7 @@
             icon: 'mdi-chart-line',
             iconColor: 'blue darken-4',
             tooltip: 'Charge sur Surface Agricole Utile (SAU)',
-            unit: 'UGB/ha',
+            unit: 'UGB/ha SAU',
           },
           {
             title: 'Chargement Apparent',
@@ -108,7 +109,7 @@
             icon: 'mdi-paw',
             iconColor: 'blue darken-4',
             tooltip: 'Chargement apparent sur le territoire',
-            unit: 'UGB/ha',
+            unit: 'UGB/ha SFP',
           },
           {
             title: 'Chargement corrigé',
@@ -116,7 +117,7 @@
             icon: 'mdi-tune',
             iconColor: 'blue darken-4',
             tooltip: 'Chargement corrigé sur le territoire',
-            unit: 'UGB/ha',
+            unit: 'UGB/ha SFP',
           },
           {
             title: 'Chargement potentiel',
@@ -124,7 +125,7 @@
             icon: 'mdi-trending-up',
             iconColor: 'blue darken-4',
             tooltip: 'Chargement potentiel maximum sur le territoire',
-            unit: 'UGB/ha',
+            unit: 'UGB/ha SFP',
           },
           {
             title: 'SFP/SAU',
