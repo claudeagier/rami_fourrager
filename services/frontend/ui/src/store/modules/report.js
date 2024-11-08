@@ -115,7 +115,6 @@ export default {
     },
 
     getConcentratedFeedsStock: (state, getters, rootState, rootGetters) => {
-      // FIXME et les conso?
       if (rootState.simulator.farm.rotations.length === 0 || rootState.simulator.herd.batchs.length === 0) {
         return []
       }
@@ -150,7 +149,7 @@ export default {
     },
 
     getStrawStock: (state, getters, rootState, rootGetters) => {
-      // FIXME et les conso?
+      // FIXME et les conso de la paille?
 
       if (rootState.simulator.farm.rotations.length === 0 || rootState.simulator.herd.batchs.length === 0) {
         return []

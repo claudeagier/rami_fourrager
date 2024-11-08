@@ -252,7 +252,7 @@
   import { mapState, mapGetters } from 'vuex'
   import navigationGuard from '@/mixins/navigationGuard'
 
-  // TODO-FRONT ajouter le refus et mise en page des card
+  // TODO mise en page des card
   export default {
     name: 'Barn',
     mixins: [navigationGuard],

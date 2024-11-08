@@ -82,7 +82,8 @@
   import Climat from '@/components/parts/dashboard/Climat.vue'
   import Autonomy from '@/components/parts/dashboard/Autonomy'
   import Simulation from '@/components/parts/dashboard/Simulation.vue'
-
+  // TODO impression
+  // TODO mise en page
   export default {
     name: 'Dashboard',
     mixins: [navigationGuard],

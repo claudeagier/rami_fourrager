@@ -53,6 +53,7 @@
   </base-material-card>
 </template>
 <script>
+  // TODO les graphiques des lots
   export default {
     name: 'herd-dashboard',
     data() {

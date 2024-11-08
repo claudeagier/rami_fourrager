@@ -210,7 +210,8 @@
 <script>
   import { mapGetters } from 'vuex'
   import navigationGuard from '@/mixins/navigationGuard'
-
+  // TODO la ferme devient l'assolement
+  // TODO mise en page des cards
   export default {
     name: 'Farm',
     mixins: [navigationGuard],
