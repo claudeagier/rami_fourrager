@@ -12,7 +12,6 @@
         <base-material-card>
           <template v-slot:heading>
             <div class="text-h3 font-weight-light">{{ $t('user.profile.title') }}</div>
-
             <div class="text-subtitle-1 font-weight-light">{{ $t('user.profile.subtitle') }}</div>
           </template>
 

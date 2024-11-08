@@ -3,7 +3,6 @@
     :title="$t('dashboard.climat.title')"
     cardColor="#ff980080"
     icon="mdi-earth"
-    :dark="true"
   >
     <template v-slot:content>
       <v-row>
@@ -12,6 +11,9 @@
             ref="siteSelect"
             hide-details
             outlined
+            color="orange"
+            item-color="orange"
+            style="background-color: white"
             :label="$t('dashboard.climat.site.label')"
             :value="selectedSite"
             :items="siteDropdownOptions"
@@ -19,6 +21,7 @@
             item-value="id"
             @change="onSiteChange"
             @click="onSiteClick"
+            :light="true"
           ></v-select>
         </v-col>
 
@@ -31,6 +34,9 @@
             :items="climaticYearDropdownOptions"
             item-text="name"
             item-value="id"
+            color="orange"
+            item-color="orange"
+            style="background-color: white"
           ></v-select>
         </v-col>
         <!-- Boîte de dialogue de confirmation -->
@@ -125,6 +131,7 @@
       confirmSiteChange() {
         this.confirmDialog = false
         this.readyToChange = true
+        this.$emit('confirmSiteChange')
       },
       cancelSiteChange() {
         this.readyToChange = false

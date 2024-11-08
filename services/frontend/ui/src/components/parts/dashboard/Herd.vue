@@ -4,7 +4,6 @@
       <v-row>
         <v-col>
           <div class="text-h3 font-weight-light">{{ $t('herd.title') }}</div>
-          <div class="text-subtitle-1 font-weight-light">{{ $t('herd.subtitle') }}</div>
         </v-col>
         <v-spacer></v-spacer>
         <v-col>
