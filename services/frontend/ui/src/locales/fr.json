@@ -109,7 +109,8 @@
     },
     "herd": {
       "apply_success": "les modifications du troupeau sont appliquées à la simulation",
-      "delete_batch_success": "Le lot a été supprimé"
+      "delete_batch_success": "Le lot a été supprimé",
+      "animalcount": "Le nombre d'animaux présent par période a été modifier pour correspondre au nombre d'animaux du lot"
     },
     "fetch": {
       "success": "Les {itemName} sont à jour"

@@ -34,6 +34,7 @@
       min="0"
       :color="pageColor"
       hide-spin-buttons
+      @focus="confirmUpdate"
     ></v-text-field>
     <v-divider></v-divider>
     <v-select
@@ -119,7 +120,17 @@
           return this.batch.count
         },
         set(val) {
-          // changer toutes les présences de housing en demendant confirmation
+          // changer toutes les présences de housing en demandant confirmation
+          const presences = Array.from(this.batch.housing.presence, (presenceByPeriod) => ({
+            period: presenceByPeriod.period,
+            animalCount: val,
+            days: presenceByPeriod.days,
+          }))
+          this.setBatchAllPresences({
+            batchId: this.selectedLot,
+            presences: presences,
+          })
+
           this.setBatchCount({
             batchId: this.selectedLot,
             value: val,
@@ -144,11 +155,19 @@
         setBatchProfile: 'setBatchProfile',
         setBatchCount: 'setBatchCount',
         setBatchHousingType: 'setBatchHousingType',
+        setBatchAllPresences: 'setBatchAllPresences',
       }),
       loadProfiles(type) {
         if (type.id) {
           this.animalProfiles = this.getAnimalProfiles(type.id)
         }
+      },
+      confirmUpdate() {
+        this.$toast({
+          message: this.$t('notifications.herd.animalcount'),
+          type: 'error',
+          timeout: 5000,
+        })
       },
     },
   }

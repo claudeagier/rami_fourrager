@@ -51,6 +51,9 @@ export default {
     },
 
     // housing details
+    setBatchAllPresences(state, { batchId, presences }) {
+      state.batchs[batchId].housing.presence = presences
+    },
     setHousingAnimalCountByPeriod(state, { batchId, periodId, value }) {
       state.batchs[batchId].housing.presence[periodId].animalCount = value
     },

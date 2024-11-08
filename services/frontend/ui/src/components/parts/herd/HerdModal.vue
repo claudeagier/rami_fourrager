@@ -140,7 +140,7 @@
         if (this.$refs.batchForm.validate()) {
           this.lotItem.housing.presence = Array.from(this.periods, (period) => ({
             period: period,
-            animalCount: 0,
+            animalCount: this.lotItem.count,
             days: 0,
           }))
           // le premier créé est le premier servi
