@@ -26,6 +26,7 @@ import {
   getSticProductionByBarnStockItemByPeriod,
   getConsumptionByBarnStockItemByPeriod,
 } from './mixins'
+import { replaceNan } from '@/plugins/utils'
 
 export default {
   namespaced: true,
@@ -62,11 +63,11 @@ export default {
           category: '1_fourrage',
           code: 'P',
           initialStock: 0,
-          production: getPastureProductionTotal(simulation),
-          consommation: getPastureConsumptionTotal(simulation, periods),
-          finalStock: getPastureFinalStock(simulation, periods),
-          final_initialStock: getPastureFinalMinInitialStock(simulation, periods),
-          purchase: getPasturePurchaseValue(simulation, periods),
+          production: replaceNan(getPastureProductionTotal(simulation), 0),
+          consommation: replaceNan(getPastureConsumptionTotal(simulation, periods), 0),
+          finalStock: replaceNan(getPastureFinalStock(simulation, periods), 0),
+          final_initialStock: replaceNan(getPastureFinalMinInitialStock(simulation, periods), 0),
+          purchase: replaceNan(getPasturePurchaseValue(simulation, periods), 0),
           purchaseCost: state.soldedStock['P'].purchaseCost,
           sale: state.soldedStock['P'].sale,
           costOfSell: state.soldedStock['P'].costOfSell,
@@ -86,12 +87,15 @@ export default {
           name: rootState.referential.barnStockItems.find((item) => item.code === stockCode).name,
           category: '1_fourrage',
           code: stockCode,
-          initialStock: getInitialStockByBarnStockItem(simulation, stockCode),
-          production: getSticProductionByBarnStockItem(simulation, stockCode, periods, getStic),
-          consommation: getConsumptionByBarnStockItem(simulation, periods, stockCode),
-          finalStock: getFinalStockByBarnStockItem(simulation, stockCode, periods, getStic),
-          final_initialStock: getFinalMinInitialStockByBarnStockItem(simulation, stockCode, periods, getStic),
-          purchase: getPurchaseValueByBarnStockItem(simulation, stockCode, periods, getStic),
+          initialStock: replaceNan(getInitialStockByBarnStockItem(simulation, stockCode), 0),
+          production: replaceNan(getSticProductionByBarnStockItem(simulation, stockCode, periods, getStic), 0),
+          consommation: replaceNan(getConsumptionByBarnStockItem(simulation, periods, stockCode), 0),
+          finalStock: replaceNan(getFinalStockByBarnStockItem(simulation, stockCode, periods, getStic), 0),
+          final_initialStock: replaceNan(
+            getFinalMinInitialStockByBarnStockItem(simulation, stockCode, periods, getStic),
+            0
+          ),
+          purchase: replaceNan(getPurchaseValueByBarnStockItem(simulation, stockCode, periods, getStic), 0),
           purchaseCost: state.soldedStock[stockCode].purchaseCost,
           sale: state.soldedStock[stockCode].sale,
           costOfSell: state.soldedStock[stockCode].costOfSell,
@@ -103,8 +107,10 @@ export default {
 
       return stock
     },
+
     getConcentratedFeedsStock: (state, getters, rootState, rootGetters) => {
       // FIXME et les conso?
+
       const stock = []
       const simulation = rootState.simulator
       const periods = rootState.referential.periods
@@ -115,12 +121,15 @@ export default {
           name: rootState.referential.barnStockItems.find((item) => item.code === stockCode).name,
           code: stockCode,
           category: '2_concentrated',
-          initialStock: getInitialStockByBarnStockItem(simulation, stockCode),
-          production: getSticProductionByBarnStockItem(simulation, stockCode, periods, getStic),
-          consommation: getConsumptionByBarnStockItem(simulation, periods, stockCode),
-          finalStock: getFinalStockByBarnStockItem(simulation, stockCode, periods, getStic),
-          final_initialStock: getFinalMinInitialStockByBarnStockItem(simulation, stockCode, periods, getStic),
-          purchase: getPurchaseValueByBarnStockItem(simulation, stockCode, periods, getStic),
+          initialStock: replaceNan(getInitialStockByBarnStockItem(simulation, stockCode), 0),
+          production: replaceNan(getSticProductionByBarnStockItem(simulation, stockCode, periods, getStic), 0),
+          consommation: replaceNan(getConsumptionByBarnStockItem(simulation, periods, stockCode), 0),
+          finalStock: replaceNan(getFinalStockByBarnStockItem(simulation, stockCode, periods, getStic), 0),
+          final_initialStock: replaceNan(
+            getFinalMinInitialStockByBarnStockItem(simulation, stockCode, periods, getStic),
+            0
+          ),
+          purchase: replaceNan(getPurchaseValueByBarnStockItem(simulation, stockCode, periods, getStic), 0),
           purchaseCost: state.soldedStock[stockCode].purchaseCost,
           sale: state.soldedStock[stockCode].sale,
           costOfSell: state.soldedStock[stockCode].costOfSell,
@@ -131,6 +140,7 @@ export default {
       })
       return stock
     },
+
     getStrawStock: (state, getters, rootState, rootGetters) => {
       // FIXME et les conso?
       const stock = []
@@ -143,12 +153,15 @@ export default {
           name: 'paille',
           category: '3_straw',
           code: stockCode,
-          initialStock: getInitialStockByBarnStockItem(simulation, stockCode),
-          production: getSticProductionByBarnStockItem(simulation, stockCode, periods, getStic),
-          consommation: getConsumptionByBarnStockItem(simulation, periods, stockCode),
-          finalStock: getFinalStockByBarnStockItem(simulation, stockCode, periods, getStic),
-          final_initialStock: getFinalMinInitialStockByBarnStockItem(simulation, stockCode, periods, getStic),
-          purchase: getPurchaseValueByBarnStockItem(simulation, stockCode, periods, getStic),
+          initialStock: replaceNan(getInitialStockByBarnStockItem(simulation, stockCode), 0),
+          production: replaceNan(getSticProductionByBarnStockItem(simulation, stockCode, periods, getStic), 0),
+          consommation: replaceNan(getConsumptionByBarnStockItem(simulation, periods, stockCode), 0),
+          finalStock: replaceNan(getFinalStockByBarnStockItem(simulation, stockCode, periods, getStic), 0),
+          final_initialStock: replaceNan(
+            getFinalMinInitialStockByBarnStockItem(simulation, stockCode, periods, getStic),
+            0
+          ),
+          purchase: replaceNan(getPurchaseValueByBarnStockItem(simulation, stockCode, periods, getStic), 0),
           purchaseCost: state.soldedStock['STRAW'].purchaseCost,
           sale: state.soldedStock['STRAW'].sale,
           costOfSell: state.soldedStock['STRAW'].costOfSell,
@@ -159,6 +172,7 @@ export default {
       })
       return stock
     },
+
     getAutonomy: (state, getters, rootState, rootGetters) => {
       const simulation = rootState.simulator
       const periods = rootState.referential.periods
@@ -175,7 +189,10 @@ export default {
       const stockCodeList = ['FH', 'EH', 'EM', 'EL', 'FL']
       const totalAvailablePastureByPeriod = rootState.simulator.farm.totalAvailablePastureByPeriod
       // IF(E8 / E9 >= 0.9, 'au potentiel', 'pas au potentiel')
-      return _.round(getPotential(simulation, periods, getStic, stockCodeList, totalAvailablePastureByPeriod), 0)
+      return _.round(
+        replaceNan(getPotential(simulation, periods, getStic, stockCodeList, totalAvailablePastureByPeriod), 0),
+        0
+      )
     },
     getDimensioning: (state, getters, rootState, rootGetters) => {
       const simulation = rootState.simulator
@@ -184,30 +201,43 @@ export default {
       const getStic = rootGetters['referential/getSticByName']
       const stockCodeList = ['FH', 'EH', 'EM', 'EL', 'FL']
       const totalAvailablePastureByPeriod = rootState.simulator.farm.totalAvailablePastureByPeriod
+
       return {
-        nbAnimaux: _.round(getTotalHerd(batchs), 0),
-        ugb: _.round(getUGBSystem(simulation, periods, stockCodeList, totalAvailablePastureByPeriod), 0),
+        nbAnimaux: _.round(replaceNan(getTotalHerd(batchs), 0), 0),
+        ugb: _.round(replaceNan(getUGBSystem(simulation, periods, stockCodeList, totalAvailablePastureByPeriod), 0), 0),
         chargeSAU: _.round(
-          getEstimatedLivestockDensities(simulation, periods, totalAvailablePastureByPeriod, stockCodeList),
+          replaceNan(
+            getEstimatedLivestockDensities(simulation, periods, totalAvailablePastureByPeriod, stockCodeList),
+            0
+          ),
           2
         ),
         chargeApparent: _.round(
-          getApparentLivestockDensities(simulation, periods, getStic, stockCodeList, totalAvailablePastureByPeriod),
+          replaceNan(
+            getApparentLivestockDensities(simulation, periods, getStic, stockCodeList, totalAvailablePastureByPeriod),
+            0
+          ),
           2
         ),
         chargeCorrige: _.round(
-          getCorrectedLivestockDensities(simulation, periods, getStic, stockCodeList, totalAvailablePastureByPeriod),
+          replaceNan(
+            getCorrectedLivestockDensities(simulation, periods, getStic, stockCodeList, totalAvailablePastureByPeriod),
+            0
+          ),
           2
         ),
-        chargePotentiel: _.round(getPotentialLivestockDensities(simulation, periods, getStic, stockCodeList), 2),
+        chargePotentiel: _.round(
+          replaceNan(getPotentialLivestockDensities(simulation, periods, getStic, stockCodeList), 0),
+          0
+        ),
         autonomy: getAutonomy(simulation, periods, getStic, stockCodeList, totalAvailablePastureByPeriod),
         fourragesRecoltes: _.round(
-          getHarvestedFodder(simulation, periods, getStic, stockCodeList, totalAvailablePastureByPeriod),
+          replaceNan(getHarvestedFodder(simulation, periods, getStic, stockCodeList, totalAvailablePastureByPeriod), 0),
           2
         ),
-        sfpSau: _.round(getSFP_SAU(simulation, periods, getStic), 0),
-        ppSau: _.round(getPP_SAU(simulation, periods, getStic), 0),
-        ptSau: _.round(getPT_SAU(simulation, periods, getStic), 0),
+        sfpSau: _.round(replaceNan(getSFP_SAU(simulation, periods, getStic), 0), 0),
+        ppSau: _.round(replaceNan(getPP_SAU(simulation, periods, getStic), 0), 0),
+        ptSau: _.round(replaceNan(getPT_SAU(simulation, periods, getStic), 0), 0),
       }
     },
     getStockEvolution: (state, getters, rootState, rootGetters) => {
@@ -239,7 +269,7 @@ export default {
         const item = {
           name: rootState.referential.barnStockItems.find((item) => item.code === stockCode).name,
           code: stockCode,
-          data: data.map((item) => _.round(item)),
+          data: data.map((item) => _.round(replaceNan(item, 0))),
         }
         stocks.push(item)
       })

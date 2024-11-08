@@ -1,5 +1,8 @@
 import jsonSchemaValidator from '@/plugins/jsonSchemaValidator'
 
+export function replaceNan(value, defaultValue) {
+  return isNaN(value) ? defaultValue : value
+}
 export const fixFloatingPoint = (val, precision = 3) => Number.parseFloat(val.toPrecision(precision))
 export function deepEqual(obj1, obj2) {
   // Si les deux objets sont identiques, ils sont égaux

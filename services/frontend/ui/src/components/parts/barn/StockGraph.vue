@@ -28,80 +28,81 @@
       },
       options() {
         const periods = ['initial', 'P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8', 'P9', 'P10', 'P11', 'P12', 'fin']
-        var stockEvolutionPerFeedSeries = Object.values(this.stocks).map((stock) => {
-          const colors = {
-            P: '#00CC00',
-            STRAW: '#FFF59D',
-            FH: '#009933',
-            EH: '#00FF00',
-            EM: 'orange',
-            RC: '',
-            RP: '',
-            AS: '#E5E8E8',
-            EL: '#CC6666',
-            FL: '#FF66FF',
-          }
-
-          return {
-            name: stock.name,
-            type: 'bar',
-            stack: 'total',
-            label: {
-              show: false,
-            },
-            tooltip: {
-              valueFormatter: function (value) {
-                return value + ' kgMS'
+        const colors = {
+          P: '#00CC00',
+          STRAW: '#FFF59D',
+          FH: '#009933',
+          EH: '#00FF00',
+          EM: 'orange',
+          RC: '',
+          RP: '',
+          AS: '#E5E8E8',
+          EL: '#CC6666',
+          FL: '#FF66FF',
+        }
+        var stockEvolutionPerFeedSeries = []
+        this.stocks.forEach((stock) => {
+          // si somme de stock.data = 0 alors on push pas
+          const s = Object.values(stock.data).reduce((acc, curr) => {
+            return acc + curr
+          }, 0.0)
+          if (s > 0) {
+            stockEvolutionPerFeedSeries.push({
+              name: stock.name,
+              type: 'bar',
+              stack: 'total',
+              label: {
+                show: false,
               },
-            },
-            data: stock.data,
-            itemStyle: { color: colors[stock.code] },
-          }
-        })
-
-        if (this.stocks) {
-          return {
-            tooltip: {
-              trigger: 'axis',
-              axisPointer: {
-                type: 'shadow',
-              },
-              triggerOn: 'click',
-            },
-            toolbox: {
-              show: true,
-              feature: {
-                saveAsImage: {
-                  backgroundColor: 'white',
+              tooltip: {
+                valueFormatter: function (value) {
+                  return value + ' kgMS'
                 },
               },
+              data: stock.data,
+              itemStyle: { color: colors[stock.code] },
+            })
+          }
+        })
+        return {
+          tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+              type: 'shadow',
             },
-            legend: {
-              type: 'scroll',
-              orient: 'vertical',
-              right: 'right',
-              top: 'middle',
-            },
-            grid: {
-              left: '3%',
-              right: '30%',
-              bottom: '3%',
-              containLabel: true,
-            },
-            yAxis: {
-              type: 'value',
-            },
-            xAxis: {
-              type: 'category',
-              data: periods,
-              axisTick: {
-                alignWithLabel: true,
+            triggerOn: 'click',
+          },
+          toolbox: {
+            show: true,
+            feature: {
+              saveAsImage: {
+                backgroundColor: 'white',
               },
             },
-            series: stockEvolutionPerFeedSeries,
-          }
-        } else {
-          return 'No data'
+          },
+          legend: {
+            type: 'scroll',
+            orient: 'vertical',
+            right: 'right',
+            top: 'middle',
+          },
+          grid: {
+            left: '3%',
+            right: '30%',
+            bottom: '3%',
+            containLabel: true,
+          },
+          yAxis: {
+            type: 'value',
+          },
+          xAxis: {
+            type: 'category',
+            data: periods,
+            axisTick: {
+              alignWithLabel: true,
+            },
+          },
+          series: stockEvolutionPerFeedSeries,
         }
       },
     },

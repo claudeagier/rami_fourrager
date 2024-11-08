@@ -6,8 +6,7 @@ export default {
     initialStocks: [],
   },
   mutations: {
-    setBarn(state, { totalStock, initialStocks, stockByPeriod, refusalRate }) {
-      state.totalStock = totalStock
+    setBarn(state, { initialStocks, stockByPeriod, refusalRate }) {
       state.initialStocks = initialStocks
       state.stockByPeriod = stockByPeriod
       state.refusalRate = refusalRate

@@ -106,9 +106,26 @@
             },
             barn: {
               initialStocks: [],
+              stockByPeriod: [],
+              refusalRate: 0,
+              totalStrawStockProducted: 0,
             },
             herd: {
               batchs: [],
+            },
+            report: {
+              soldedStock: {
+                P: { purchaseCost: 0, sale: 0, costOfSell: 0, productionCost: 0 },
+                FH: { purchaseCost: 0, sale: 0, costOfSell: 0, productionCost: 0 },
+                EH: { purchaseCost: 0, sale: 0, costOfSell: 0, productionCost: 0 },
+                EM: { purchaseCost: 0, sale: 0, costOfSell: 0, productionCost: 0 },
+                RC: { purchaseCost: 0, sale: 0, costOfSell: 0, productionCost: 0 },
+                RP: { purchaseCost: 0, sale: 0, costOfSell: 0, productionCost: 0 },
+                AS: { purchaseCost: 0, sale: 0, costOfSell: 0, productionCost: 0 },
+                EL: { purchaseCost: 0, sale: 0, costOfSell: 0, productionCost: 0 },
+                FL: { purchaseCost: 0, sale: 0, costOfSell: 0, productionCost: 0 },
+                STRAW: { purchaseCost: 0, sale: 0, costOfSell: 0, productionCost: 0 },
+              },
             },
           }
           sim.name = this.simulation.name
