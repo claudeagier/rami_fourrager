@@ -137,23 +137,27 @@ export default {
       )
     },
     setTotalAvailablePastureByPeriod({ state, rootState, commit, rootGetters }) {
-      const totalAvailablePastureByPeriod = setTotalAvailablePasture(
-        rootState.simulator,
-        rootState.referential.periods,
-        rootGetters['referential/getSticByName']
-      )
-      commit('setTotalAvailablePastureByPeriod', totalAvailablePastureByPeriod)
+      if (state.rotations.length > 0) {
+        const totalAvailablePastureByPeriod = setTotalAvailablePasture(
+          rootState.simulator,
+          rootState.referential.periods,
+          rootGetters['referential/getSticByName']
+        )
+        commit('setTotalAvailablePastureByPeriod', totalAvailablePastureByPeriod)
+      }
     },
     dispatchProduction({ state, rootState, commit, rootGetters }) {
-      const production = dispatchProductionByPeriod(
-        rootState.simulator.farm.rotations,
-        rootState.referential,
-        rootState.simulator,
-        rootGetters['referential/getSticByName']
-      )
-      const totalStrawStock = setTotalStrawStock(rootState.simulator, rootGetters['referential/getSticByName'])
-      commit('simulator/barn/setTotalStrawStockProducted', totalStrawStock, { root: true })
-      commit('simulator/barn/setStockByPeriod', production, { root: true })
+      if (rootState.simulator.farm.rotations.length > 0) {
+        const production = dispatchProductionByPeriod(
+          rootState.simulator.farm.rotations,
+          rootState.referential,
+          rootState.simulator,
+          rootGetters['referential/getSticByName']
+        )
+        const totalStrawStock = setTotalStrawStock(rootState.simulator, rootGetters['referential/getSticByName'])
+        commit('simulator/barn/setTotalStrawStockProducted', totalStrawStock, { root: true })
+        commit('simulator/barn/setStockByPeriod', production, { root: true })
+      }
     },
   },
 }

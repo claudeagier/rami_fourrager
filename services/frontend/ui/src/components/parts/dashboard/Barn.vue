@@ -7,7 +7,6 @@
       <v-row>
         <v-col>
           <div class="text-h3 font-weight-light">{{ $t('barn.title') }}</div>
-          <div class="text-subtitle-1 font-weight-light">{{ $t('barn.subtitle') }}</div>
         </v-col>
         <v-spacer></v-spacer>
         <v-col>

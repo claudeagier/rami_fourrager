@@ -54,6 +54,9 @@ export default {
   },
   getters: {
     getPastureStock: (state, getters, rootState) => {
+      if (rootState.simulator.farm.rotations.length === 0 || rootState.simulator.herd.batchs.length === 0) {
+        return []
+      }
       const simulation = rootState.simulator
       const periods = rootState.referential.periods
       // patures
@@ -77,6 +80,9 @@ export default {
       ]
     },
     getClassicFeedsStock: (state, getters, rootState, rootGetters) => {
+      if (rootState.simulator.farm.rotations.length === 0 || rootState.simulator.herd.batchs.length === 0) {
+        return []
+      }
       const stock = []
       const simulation = rootState.simulator
       const periods = rootState.referential.periods
@@ -110,7 +116,9 @@ export default {
 
     getConcentratedFeedsStock: (state, getters, rootState, rootGetters) => {
       // FIXME et les conso?
-
+      if (rootState.simulator.farm.rotations.length === 0 || rootState.simulator.herd.batchs.length === 0) {
+        return []
+      }
       const stock = []
       const simulation = rootState.simulator
       const periods = rootState.referential.periods
@@ -143,6 +151,10 @@ export default {
 
     getStrawStock: (state, getters, rootState, rootGetters) => {
       // FIXME et les conso?
+
+      if (rootState.simulator.farm.rotations.length === 0 || rootState.simulator.herd.batchs.length === 0) {
+        return []
+      }
       const stock = []
       const simulation = rootState.simulator
       const periods = rootState.referential.periods
@@ -174,6 +186,9 @@ export default {
     },
 
     getAutonomy: (state, getters, rootState, rootGetters) => {
+      if (rootState.simulator.farm.rotations.length === 0 || rootState.simulator.herd.batchs.length === 0) {
+        return false
+      }
       const simulation = rootState.simulator
       const periods = rootState.referential.periods
       const getStic = rootGetters['referential/getSticByName']
@@ -183,6 +198,9 @@ export default {
       return getAutonomy(simulation, periods, getStic, stockCodeList, totalAvailablePastureByPeriod)
     },
     getPotential: (state, getters, rootState, rootGetters) => {
+      if (rootState.simulator.farm.rotations.length === 0 || rootState.simulator.herd.batchs.length === 0) {
+        return 0
+      }
       const simulation = rootState.simulator
       const periods = rootState.referential.periods
       const getStic = rootGetters['referential/getSticByName']
@@ -195,61 +213,82 @@ export default {
       )
     },
     getDimensioning: (state, getters, rootState, rootGetters) => {
-      const simulation = rootState.simulator
-      const batchs = rootState.simulator.herd.batchs
-      const periods = rootState.referential.periods
-      const getStic = rootGetters['referential/getSticByName']
-      const stockCodeList = ['FH', 'EH', 'EM', 'EL', 'FL']
-      const totalAvailablePastureByPeriod = rootState.simulator.farm.totalAvailablePastureByPeriod
+      const dimensioning = {
+        nbAnimaux: 0,
+        ugb: 0,
+        chargeApparent: 0,
+        chargeCorrige: 0,
+        chargePotentiel: 0,
+        autonomy: 0,
+        fourragesRecoltes: 0,
+        sfpSau: 0,
+        ppSau: 0,
+        ptSau: 0,
+      }
 
-      return {
-        nbAnimaux: _.round(replaceNan(getTotalHerd(batchs), 0), 0),
-        ugb: _.round(replaceNan(getUGBSystem(simulation, periods, stockCodeList, totalAvailablePastureByPeriod), 0), 0),
-        chargeSAU: _.round(
+      if (rootState.simulator.farm.rotations.length > 0 && rootState.simulator.herd.batchs.length > 0) {
+        const simulation = rootState.simulator
+        const batchs = rootState.simulator.herd.batchs
+        const periods = rootState.referential.periods
+        const getStic = rootGetters['referential/getSticByName']
+        const stockCodeList = ['FH', 'EH', 'EM', 'EL', 'FL']
+        const totalAvailablePastureByPeriod = rootState.simulator.farm.totalAvailablePastureByPeriod
+
+        dimensioning.nbAnimaux = _.round(replaceNan(getTotalHerd(batchs), 0), 0)
+        dimensioning.ugb = _.round(
+          replaceNan(getUGBSystem(simulation, periods, stockCodeList, totalAvailablePastureByPeriod), 0),
+          0
+        )
+        dimensioning.chargeSAU = _.round(
           replaceNan(
             getEstimatedLivestockDensities(simulation, periods, totalAvailablePastureByPeriod, stockCodeList),
             0
           ),
           2
-        ),
-        chargeApparent: _.round(
+        )
+        dimensioning.chargeApparent = _.round(
           replaceNan(
             getApparentLivestockDensities(simulation, periods, getStic, stockCodeList, totalAvailablePastureByPeriod),
             0
           ),
           2
-        ),
-        chargeCorrige: _.round(
+        )
+        dimensioning.chargeCorrige = _.round(
           replaceNan(
             getCorrectedLivestockDensities(simulation, periods, getStic, stockCodeList, totalAvailablePastureByPeriod),
             0
           ),
           2
-        ),
-        chargePotentiel: _.round(
+        )
+        dimensioning.chargePotentiel = _.round(
           replaceNan(getPotentialLivestockDensities(simulation, periods, getStic, stockCodeList), 0),
           0
-        ),
-        autonomy: getAutonomy(simulation, periods, getStic, stockCodeList, totalAvailablePastureByPeriod),
-        fourragesRecoltes: _.round(
+        )
+        dimensioning.autonomy = getAutonomy(simulation, periods, getStic, stockCodeList, totalAvailablePastureByPeriod)
+        dimensioning.fourragesRecoltes = _.round(
           replaceNan(getHarvestedFodder(simulation, periods, getStic, stockCodeList, totalAvailablePastureByPeriod), 0),
           2
-        ),
-        sfpSau: _.round(replaceNan(getSFP_SAU(simulation, periods, getStic), 0), 0),
-        ppSau: _.round(replaceNan(getPP_SAU(simulation, periods, getStic), 0), 0),
-        ptSau: _.round(replaceNan(getPT_SAU(simulation, periods, getStic), 0), 0),
+        )
+        dimensioning.sfpSau = _.round(replaceNan(getSFP_SAU(simulation, periods, getStic), 0), 0)
+        dimensioning.ppSau = _.round(replaceNan(getPP_SAU(simulation, periods, getStic), 0), 0)
+        dimensioning.ptSau = _.round(replaceNan(getPT_SAU(simulation, periods, getStic), 0), 0)
       }
+      return dimensioning
     },
     getStockEvolution: (state, getters, rootState, rootGetters) => {
+      const stocks = []
       // par period le récolté de la même période + celui d'avant - (la conso prévu par les rations pour chaque lot)
+      if (rootState.simulator.farm.rotations.length === 0 || rootState.simulator.herd.batchs.length === 0) {
+        return stocks
+      }
+
       const simulation = rootState.simulator
       const periods = rootState.referential.periods
+      const initialStocks = simulation.barn.initialStocks
 
       // s'il y a de la paille alimentaire, on ajoute la paille ?!
       const stockCodeList = ['FH', 'EH', 'EM', 'EL', 'FL', 'AS']
-      const initialStocks = simulation.barn.initialStocks
 
-      const stocks = []
       stockCodeList.forEach((stockCode) => {
         // Attention décalage d'index pour injecter le stock initial
         const data = []
