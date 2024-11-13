@@ -27,7 +27,12 @@
     </template>
     <template v-slot:content>
       <v-row>
-        <stock-graph />
+        <stock-graph
+          :withLegend="false"
+          :xAxisLabelRotate="true"
+          :withTitle="true"
+          :title="$t('report.main.modules.stockNcost.stockGraph.title')"
+        />
       </v-row>
     </template>
   </base-material-card>

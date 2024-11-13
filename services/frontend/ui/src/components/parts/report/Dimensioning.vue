@@ -1,44 +1,55 @@
 <template>
-  <base-dashboard-card
-    :title="$t('dashboard.report.title')"
-    cardColor="blue"
-    titleColor="transparent"
-    :dark="true"
-    icon="mdi-chart-box-outline"
-    :withButton="true"
-  >
-    <!-- <template v-slot:subtitle>
-      {{ $t('dashboard.report.description') }}
-    </template> -->
-    <template v-slot:content>
-      <dimensioning />
-    </template>
-    <template v-slot:button>
-      <v-btn
-        icon
-        to="/simulation/report"
-        color="white"
-        dense
+  <div>
+    <v-row>
+      <v-col
+        cols="12"
+        class="pt-0 pb-0"
       >
-        <v-icon
-          large
+        <v-list
           dense
+          class="transparent"
         >
-          mdi-eye-outline
-        </v-icon>
-      </v-btn>
-    </template>
-  </base-dashboard-card>
+          <!-- Liste stylée avec icônes, typographies et tooltips -->
+          <v-list-item
+            v-for="(item, index) in kpis"
+            :key="index"
+          >
+            <v-list-item-icon>
+              <!-- Icône d'information pour le tooltip -->
+              <v-tooltip
+                top
+                right
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-icon
+                    v-bind="attrs"
+                    v-on="on"
+                    :color="item.iconColor"
+                    dark
+                  >
+                    {{ item.icon }}
+                  </v-icon>
+                </template>
+                <span>{{ item.tooltip }}</span>
+              </v-tooltip>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title class="text-h8 indigo--text font-italic">{{ item.title }} </v-list-item-title>
+              <v-list-item-subtitle class="font-weight-bold text-lg">
+                {{ item.value }} {{ item.unit }}
+              </v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+      </v-col>
+    </v-row>
+  </div>
 </template>
 <script>
   // TODO traduction à faire bilan => dimensionnement
   import { mapGetters } from 'vuex'
-  import Dimensioning from '../report/Dimensioning.vue'
   export default {
-    name: 'report-dashboard',
-    components: {
-      Dimensioning,
-    },
+    name: 'dimensioning',
     data() {
       return {}
     },

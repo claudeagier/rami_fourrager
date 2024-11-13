@@ -44,7 +44,6 @@
   </base-material-card>
 </template>
 <script>
-  // TODO la ferme devient l'assolement
   // TODO le graphique de l'assolement
   export default {
     name: 'farm-dashboard',

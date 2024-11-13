@@ -13,11 +13,28 @@
   </div>
 </template>
 <script>
-  // TODO gérer la légende pour l'affichage dans dashboard/farm et titre du grpah
   import { mapGetters } from 'vuex'
   export default {
     data() {
       return {}
+    },
+    props: {
+      withLegend: {
+        type: Boolean,
+        default: true,
+      },
+      xAxisLabelRotate: {
+        type: Boolean,
+        default: false,
+      },
+      withTitle: {
+        type: Boolean,
+        default: false,
+      },
+      title: {
+        type: String,
+        default: '',
+      },
     },
     computed: {
       ...mapGetters('simulator/report', {
@@ -27,7 +44,22 @@
         return { width: 'auto', height: 'auto' }
       },
       options() {
-        const periods = ['initial', 'P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8', 'P9', 'P10', 'P11', 'P12', 'fin']
+        const periods = [
+          this.$t('report.main.modules.stockNcost.stockGraph.periods.start'),
+          this.$t('report.main.modules.stockNcost.stockGraph.periods.P1'),
+          this.$t('report.main.modules.stockNcost.stockGraph.periods.P2'),
+          this.$t('report.main.modules.stockNcost.stockGraph.periods.P3'),
+          this.$t('report.main.modules.stockNcost.stockGraph.periods.P4'),
+          this.$t('report.main.modules.stockNcost.stockGraph.periods.P5'),
+          this.$t('report.main.modules.stockNcost.stockGraph.periods.P6'),
+          this.$t('report.main.modules.stockNcost.stockGraph.periods.P7'),
+          this.$t('report.main.modules.stockNcost.stockGraph.periods.P8'),
+          this.$t('report.main.modules.stockNcost.stockGraph.periods.P9'),
+          this.$t('report.main.modules.stockNcost.stockGraph.periods.P10'),
+          this.$t('report.main.modules.stockNcost.stockGraph.periods.P11'),
+          this.$t('report.main.modules.stockNcost.stockGraph.periods.P12'),
+          this.$t('report.main.modules.stockNcost.stockGraph.periods.end'),
+        ]
         const colors = {
           P: '#00CC00',
           STRAW: '#FFF59D',
@@ -42,6 +74,7 @@
         }
         var stockEvolutionPerFeedSeries = []
         this.stocks.forEach((stock) => {
+          const unity = this.$t('report.main.modules.stockNcost.stockGraph.unity')
           // si somme de stock.data = 0 alors on push pas
           const s = Object.values(stock.data).reduce((acc, curr) => {
             return acc + curr
@@ -56,7 +89,7 @@
               },
               tooltip: {
                 valueFormatter: function (value) {
-                  return value + ' kgMS'
+                  return value + ' ' + unity
                 },
               },
               data: stock.data,
@@ -64,7 +97,18 @@
             })
           }
         })
-        return {
+        const options = {
+          title: {
+            show: this.withTitle,
+            text: this.title,
+          },
+          legend: {
+            show: this.withLegend,
+            type: 'scroll',
+            orient: 'vertical',
+            right: 'right',
+            top: 'middle',
+          },
           tooltip: {
             trigger: 'axis',
             axisPointer: {
@@ -80,20 +124,15 @@
               },
             },
           },
-          legend: {
-            type: 'scroll',
-            orient: 'vertical',
-            right: 'right',
-            top: 'middle',
-          },
           grid: {
-            left: '3%',
-            right: '30%',
+            left: this.withLegend ? '3%' : '0%',
+            right: this.withLegend ? '30%' : '3%',
             bottom: '3%',
             containLabel: true,
           },
           yAxis: {
             type: 'value',
+            show: this.withLegend,
           },
           xAxis: {
             type: 'category',
@@ -101,9 +140,14 @@
             axisTick: {
               alignWithLabel: true,
             },
+            axisLabel: {
+              interval: 0,
+              rotate: this.xAxisLabelRotate ? '45' : '0',
+            },
           },
           series: stockEvolutionPerFeedSeries,
         }
+        return options
       },
     },
   }

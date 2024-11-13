@@ -25,7 +25,7 @@
         class="pt-0 pb-0"
       >
         <stock-table
-          :title="'Les coûts'"
+          :title="$t('report.main.modules.stockNcost.stockTable.title')"
           :datas="groupedStocks"
           @update-stock="handleStockUpdate"
         />
@@ -34,7 +34,6 @@
   </v-container>
 </template>
 <script>
-  // TODO traduction
   import StockGraph from '@/components/parts/barn/StockGraph.vue'
   import StockTable from '@/components/parts/barn/StockTable.vue'
   import { mapGetters } from 'vuex'

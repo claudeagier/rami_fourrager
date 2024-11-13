@@ -87,7 +87,7 @@
   "breadcrumb": {
     "workspace": "Espace de travail",
     "simulation": "Simulation",
-    "farm": "Ferme",
+    "farm": "Assolement",
     "barn": "Grange",
     "herd": "Troupeau",
     "report": "Bilan",
@@ -209,13 +209,13 @@
     }
   },
   "farm": {
-    "title": "La ferme",
+    "title": "L'assolement",
     "main": {
-      "title": "La ferme",
-      "subtitle": "Gérer votre ferme",
+      "title": "L'assolement",
+      "subtitle": "Gérer votre assolement",
       "btn_apply": "Appliquer à la simulation",
       "messages": {
-        "apply_success": "les modifications de la ferme sont appliquées à la simulation"
+        "apply_success": "les modifications de l'assolement sont appliquées à la simulation"
       }
     },
     "dimensioning": {
@@ -370,19 +370,56 @@
       "subtitle": "Bilan du système paramétré",
       "modules": {
         "title": "Modules",
-        "global": { "title": "Bilan global", "label": "Bilan global", "description": "Description du module" },
+        "global": {
+          "title": "Bilan global",
+          "label": "Bilan global",
+          "description": "Description du module",
+          "dimensioning": {
+            "title": "Dimensionnement du système"
+          }
+        },
         "pasture": { "title": "Les pâtures", "label": "Pâtures", "description": "Description du module" },
         "stockNcost": {
           "title": "Stocks et coûts d'alimentations",
           "label": "Stocks et coûts",
           "description": "Description du module",
           "stockGraph": {
-            "title": "Evolution des stocks (tMS)"
+            "title": "Evolution des stocks (tMS)",
+            "unity": "tMS",
+            "periods": {
+              "start": "Début",
+              "P1": "P1",
+              "P2": "P2",
+              "P3": "P3",
+              "P4": "P4",
+              "P5": "P5",
+              "P6": "P6",
+              "P7": "P7",
+              "P8": "P8",
+              "P9": "P9",
+              "P10": "P10",
+              "P11": "P11",
+              "P12": "P12",
+              "end": "Fin"
+            }
           },
           "stockTable": {
-            "title": "Evolution des stocks",
-
-            "category": { "1_fourrage": "Les fourrages", "3_straw": "La paille", "2_concentrated": "Les cultures" }
+            "title": "Les coûts",
+            "category": { "1_fourrage": "Les fourrages", "3_straw": "La paille", "2_concentrated": "Les cultures" },
+            "headers": {
+              "name": "Nom de l'aliment",
+              "initialStock": "Stock début",
+              "production": "Production",
+              "consommation": "Consommation",
+              "finalStock": "Stock fin",
+              "final_initialStock": "Stock fin - début",
+              "purchase": "Achat (t)",
+              "purchaseCost": "Coût d'achat",
+              "sale": "Vente (t)",
+              "costOfSell": "Coût Vente",
+              "productionCost": "Coût prod",
+              "total": "Total (€)"
+            }
           }
         },
         "export": {
