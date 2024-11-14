@@ -124,6 +124,35 @@ export default {
       }
       return Array.from(Object.values(arr), (el) => _.round(el.production_total))
     },
+    getRotationsData: (state, getters, rootState, rootGetters) => {
+      const rot = state.rotations
+      return state.rotations.map((rotation) => {
+        const stic = rootGetters['referential/getSticByName'](rootState.simulator.climaticYear, rotation.name)
+        const theoricProduction = stic.stic_periods
+        // farming_method="P"
+        const production = theoricProduction.map((prod) => {
+          // let realProduction = 0
+          // if (prod.farming_method === 'P') {
+          //   realProduction = _.round(prod.production * rotation.surface, 0)
+          // }
+          // return realProduction
+          // return _.round(prod.production, 0)
+          return { farmingMethod: prod.farming_method, production: _.round(prod.production, 0) }
+        })
+        // on ne renvoie que les patures
+        // pour chaque période production de la surface
+        // le nom
+        // la production
+
+        return {
+          ...rotation,
+          type: stic.type,
+          production: production,
+        }
+      })
+
+      // .filter((el) => el.type.startsWith('P'))
+    },
   },
   actions: {
     initializeRotations({ commit }) {

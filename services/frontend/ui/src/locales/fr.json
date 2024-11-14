@@ -55,7 +55,22 @@
   "FeedTypes": "Types d'aliment",
   "ConcentratedFeeds": "Aliments concentrés",
   "HousingTypes": "Types de logement sont à jour",
-  "period": "P {id}",
+  "periods": {
+    "start": "Début",
+    "P1": "P1",
+    "P2": "P2",
+    "P3": "P3",
+    "P4": "P4",
+    "P5": "P5",
+    "P6": "P6",
+    "P7": "P7",
+    "P8": "P8",
+    "P9": "P9",
+    "P10": "P10",
+    "P11": "P11",
+    "P12": "P12",
+    "end": "Fin"
+  },
   "confirmation_dialog": {
     "title": "Confirmer",
     "description": "Vous n'avez pas enregistré les modifications apportées à la simulation",
@@ -385,23 +400,7 @@
           "description": "Description du module",
           "stockGraph": {
             "title": "Evolution des stocks (tMS)",
-            "unity": "tMS",
-            "periods": {
-              "start": "Début",
-              "P1": "P1",
-              "P2": "P2",
-              "P3": "P3",
-              "P4": "P4",
-              "P5": "P5",
-              "P6": "P6",
-              "P7": "P7",
-              "P8": "P8",
-              "P9": "P9",
-              "P10": "P10",
-              "P11": "P11",
-              "P12": "P12",
-              "end": "Fin"
-            }
+            "unity": "tMS"
           },
           "stockTable": {
             "title": "Les coûts",
