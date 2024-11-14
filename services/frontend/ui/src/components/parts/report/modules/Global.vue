@@ -31,7 +31,6 @@
 </template>
 
 <script>
-  // TODO traduction
   import Autonomy from '@/components/parts/dashboard/Autonomy.vue'
   import { mapGetters } from 'vuex'
   import Dimensioning from '../Dimensioning.vue'

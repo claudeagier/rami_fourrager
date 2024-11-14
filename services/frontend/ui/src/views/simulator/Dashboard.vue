@@ -103,26 +103,6 @@
       return {
         climaticYears: [],
         sticsIsDeleted: false,
-
-        dataCompletedTasksChart: {
-          data: {
-            labels: ['12am', '3pm', '6pm', '9pm', '12pm', '3am', '6am', '9am'],
-            series: [[230, 750, 450, 300, 280, 240, 200, 190]],
-          },
-          options: {
-            lineSmooth: this.$chartist.Interpolation.cardinal({
-              tension: 0,
-            }),
-            low: 0,
-            high: 1000,
-            chartPadding: {
-              top: 0,
-              right: 0,
-              bottom: 0,
-              left: 0,
-            },
-          },
-        },
       }
     },
     created() {
@@ -142,46 +122,6 @@
       ...mapGetters('simulator/farm', {
         availablePastures: 'getAvailablePasture',
       }),
-
-      farmGraph() {
-        const periods = ['P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8', 'P9', 'P10', 'P11', 'P12', 'P13']
-        const graph = {
-          type: 'Bar',
-          data: {
-            labels: periods,
-            series: [this.availablePastures],
-          },
-          options: {
-            // width: '300px',
-            height: '100px',
-            lineSmooth: this.$chartist.Interpolation.cardinal({
-              tension: 0,
-            }),
-            low: 0,
-            high: 2000,
-            chartPadding: {
-              top: 0,
-              right: 0,
-              bottom: 0,
-              left: 0,
-            },
-          },
-          responsiveOptions: [
-            [
-              'screen and (max-width: 640px)',
-              {
-                seriesBarDistance: 1,
-                axisX: {
-                  labelInterpolationFnc: function (value) {
-                    return value[0]
-                  },
-                },
-              },
-            ],
-          ],
-        }
-        return graph
-      },
     },
     methods: {
       ...mapMutations('simulator', {

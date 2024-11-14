@@ -151,7 +151,7 @@
       "description": "{desc}"
     },
     "report": {
-      "title": "Le bilan",
+      "title": "Le dimensionement",
       "description": "Le bilan de la simulation"
     },
     "climat": {

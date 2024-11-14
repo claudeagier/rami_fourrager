@@ -121,7 +121,6 @@
 </template>
 
 <script>
-  // TODO traduction
   import _ from 'lodash'
 
   export default {

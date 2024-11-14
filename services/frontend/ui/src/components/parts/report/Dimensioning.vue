@@ -46,7 +46,6 @@
   </div>
 </template>
 <script>
-  // TODO traduction à faire bilan => dimensionnement
   import { mapGetters } from 'vuex'
   export default {
     name: 'dimensioning',

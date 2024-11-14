@@ -68,24 +68,9 @@
 
 <script>
   import { mapGetters } from 'vuex'
-  // TODO traduction
-  // TEST les couleurs des alertes en fonction de la trad
   export default {
     name: 'Autonomy',
     created() {},
-    data() {
-      return {
-        gaugeOptions: {
-          size: {
-            width: 'auto',
-            height: '80 px',
-          },
-          lineStyle: {
-            width: 10,
-          },
-        },
-      }
-    },
     computed: {
       ...mapGetters('simulator/report', {
         autonomy: 'getAutonomy',
