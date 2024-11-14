@@ -23,138 +23,63 @@
       </v-row>
     </template>
     <template v-slot:content>
-      <v-row>
-        <div
-          class=".herd-chart-container"
-          style="width: 100%; height: 120px"
+      <div class="herd-chart-container">
+        <v-row
+          v-for="(batch, index) in batchs"
+          :key="index"
         >
-          <v-chart
-            class="herd-chart"
-            :option="options"
-            autoresize
-            theme="infographic"
-            :init-options="initOptions"
+          <graph-feeds-requirements
+            :selected-lot="index"
+            @click="handleRequirementsClick"
+            :withYaxis="false"
+            :withLegend="false"
+            :xAxisLabelRotate="true"
+            :layout="{ width: 'auto', height: '200px' }"
+            :withTitle="true"
+            :title="$t('dashboard.herd.graph.title', { id: index + 1 })"
           />
-        </div>
-        <div
-          class=".herd-chart-container"
-          style="width: 100%; height: 120px"
-        >
-          <v-chart
-            class="herd-chart"
-            :option="options"
-            autoresize
-            theme="infographic"
-            :init-options="initOptions"
-          />
-        </div>
-      </v-row>
+        </v-row>
+      </div>
     </template>
   </base-material-card>
 </template>
 <script>
+  import GraphFeedsRequirements from '@/components/parts/herd/GraphFeedsRequirements.vue'
+  import { mapState } from 'vuex'
+
   // TODO les graphiques des lots
+  // TODO model overflow pour appliquer à drawer
   export default {
     name: 'herd-dashboard',
+    components: {
+      GraphFeedsRequirements,
+    },
     data() {
       return {}
     },
     computed: {
-      initOptions() {
-        return { width: 'auto', height: 'auto' }
-      },
-      options() {
-        const xAxisData = []
-        const data1 = []
-        const data2 = []
-        const data3 = []
-        const data4 = []
-        for (let i = 0; i < 10; i++) {
-          xAxisData.push('Class' + i)
-          data1.push(+(Math.random() * 2).toFixed(2))
-          data2.push(+(Math.random() * 5).toFixed(2))
-          data3.push(+(Math.random() + 0.3).toFixed(2))
-          data4.push(+Math.random().toFixed(2))
-        }
-        var emphasisStyle = {
-          itemStyle: {
-            shadowBlur: 10,
-            shadowColor: 'rgba(0,0,0,0.3)',
-          },
-        }
-        return {
-          // legend: {
-          //   data: ['bar', 'bar2', 'bar3', 'bar4'],
-          //   left: '10%',
-          // },
-          // brush: {
-          //   toolbox: ['rect', 'polygon', 'lineX', 'lineY', 'keep', 'clear'],
-          //   xAxisIndex: 0,
-          // },
-          // toolbox: {
-          //   feature: {
-          //     magicType: {
-          //       type: ['stack'],
-          //     },
-          //     dataView: {},
-          //   },
-          // },
-          tooltip: {},
-          xAxis: {
-            data: xAxisData,
-            // name: 'X Axis',
-            axisLine: { onZero: true },
-            splitLine: { show: false },
-            splitArea: { show: false },
-          },
-          yAxis: {},
-          grid: {
-            left: '10%',
-            right: '10%',
-            bottom: '15%',
-            top: '10%',
-            containLabel: true,
-          },
-          series: [
-            {
-              name: 'bar',
-              type: 'bar',
-              stack: 'one',
-              emphasis: emphasisStyle,
-              data: data1,
-            },
-            {
-              name: 'bar2',
-              type: 'bar',
-              stack: 'one',
-              emphasis: emphasisStyle,
-              data: data2,
-            },
-            {
-              name: 'bar3',
-              type: 'bar',
-              stack: 'two',
-              emphasis: emphasisStyle,
-              data: data3,
-            },
-            {
-              name: 'bar4',
-              type: 'bar',
-              stack: 'two',
-              emphasis: emphasisStyle,
-              data: data4,
-            },
-          ],
-        }
+      ...mapState('simulator/herd', {
+        batchs: (state) => state.batchs,
+      }),
+    },
+    methods: {
+      handleRequirementsClick(params) {
+        this.selectedPeriodIndex = params.dataIndex
       },
     },
   }
 </script>
 <style>
   .herd-chart-container {
-    display: flex; /* Utilise flexbox pour la mise en page */
-    justify-content: center; /* Centrer le contenu horizontalement */
-    align-items: center; /* Centrer le contenu verticalement */
-    position: relative; /* Positionnement relatif pour des ajustements plus fins si nécessaire */
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    max-height: 300px; /* Définissez la hauteur max de votre conteneur */
+    padding: 10px; /* Espace en haut pour éviter le tronquage */
+    -ms-overflow-style: none; /* Pour Internet Explorer et Edge */
+    scrollbar-width: none; /* Pour Firefox */
+  }
+  .herd-chart-container::-webkit-scrollbar {
+    display: none; /* Masque la scrollbar pour Chrome, Safari et Opera */
   }
 </style>

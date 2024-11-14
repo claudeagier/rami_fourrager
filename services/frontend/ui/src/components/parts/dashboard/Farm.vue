@@ -34,8 +34,8 @@
   </base-material-card>
 </template>
 <script>
-  // import RotationGraph from '../farm/RotationGraph.vue'
-  import RotationGraphTreemap from '../farm/RotationGraphTreemap.vue'
+  // import RotationGraph from '@/components/parts/farm/RotationGraph.vue'
+  import RotationGraphTreemap from '@/components/parts/farm/RotationGraphTreemap.vue'
 
   // TODO le graphique de l'assolement
   export default {

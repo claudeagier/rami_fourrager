@@ -69,6 +69,7 @@
     "P10": "P10",
     "P11": "P11",
     "P12": "P12",
+    "P13": "P13",
     "end": "Fin"
   },
   "confirmation_dialog": {
@@ -178,6 +179,23 @@
         "title": "Confirmation",
         "subtitle": "Si vous changez de site, l'assolement actuel sera effacé",
         "punchline": "Voulez-vous vraiment changer de site ?"
+      }
+    },
+    "farm": {
+      "title": "L'assolement",
+      "graph": {
+        "pasture": "Pâtures",
+        "culture": "Cultures",
+        "PT": "Prairie temporaire",
+        "PP": "Prairie permanente",
+        "PCF": "",
+        "C": "Culture paturée"
+      }
+    },
+    "herd": {
+      "title": "Le troupeau",
+      "graph": {
+        "title": "Matière sèche apportée vs Besoins pour le Lot {id}"
       }
     }
   },
@@ -361,10 +379,11 @@
     "details": {
       "modal": { "title": "Graphiques du Lot {batch}" },
       "graph": {
-        "title": "Besoins en matière sèche",
+        "title": "Matière sèche apportée vs Besoins",
         "ms": "Besoin MS",
         "btn": "Afficher les graphiques",
-        "comment": "Comparer la quantité que le lot d'animaux choisi a besoin d'ingérer \n pour satisfaire ses besoins quantitatifs \n à ce qui est apporté par la ration de base (hors concentrés) "
+        "comment": "Comparer la quantité que le lot d'animaux choisi a besoin d'ingérer \n pour satisfaire ses besoins quantitatifs \n à ce qui est apporté par la ration de base (hors concentrés) ",
+        "unity": "kgMS"
       },
       "profile": "Profil",
       "type": "Type de bétail",

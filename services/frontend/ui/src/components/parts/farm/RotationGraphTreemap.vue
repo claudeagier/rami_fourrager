@@ -43,18 +43,17 @@
           this.$t('periods.P12'),
           this.$t('periods.end'),
         ]
-        console.log('rotations', this.rotations)
         const stics = this.rotations
         const sticNames = []
         const sticData = [
           {
-            name: 'Pature',
+            name: this.$t('dashboard.farm.graph.pasture'),
             id: 'pasture',
             value: 0,
             children: [],
           },
           {
-            name: 'Culture',
+            name: this.$t('dashboard.farm.graph.culture'),
             id: 'culture',
             value: 0,
             children: [],
@@ -66,9 +65,7 @@
             id = sticData.findIndex((d) => d.id === 'pasture')
           } else {
             id = sticData.findIndex((d) => d.id === 'culture')
-            console.log('pas pature ?', s.type, id)
           }
-          console.log('stic data', sticData[id])
           const cid = sticData[id].children.findIndex((c) => c.id === s.type)
           if (cid > -1) {
             sticData[id].value += s.surface
@@ -80,7 +77,7 @@
           } else {
             sticData[id].value += s.surface
             sticData[id].children.push({
-              name: s.type,
+              name: this.$t('dashboard.farm.graph.' + s.type) || s.type,
               id: s.type,
               value: s.surface,
               children: [
@@ -91,16 +88,7 @@
               ],
             })
           }
-          // }
         })
-        // stics.forEach((s, sIndex) => {
-        //   sticNames.push(s.name)
-        //   s.production.forEach((p, pIndex) => {
-        //     sticData.push([pIndex, sIndex, p.production || '-'])
-        //   })
-        // })
-
-        // si pas de contraintes je mets directement le stic sinon je met le niveau contraintes
 
         const series = [
           {

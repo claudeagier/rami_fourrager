@@ -4,6 +4,9 @@
       <graph-feeds-requirements
         :selected-lot="selectedLot"
         @click="handleRequirementsClick"
+        :withTitle="true"
+        :title="$t('herd.details.graph.title')"
+        :layout="{ width: 800, height: 300 }"
       />
     </v-card>
     <v-card>

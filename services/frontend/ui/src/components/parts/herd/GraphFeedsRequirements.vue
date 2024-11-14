@@ -8,6 +8,7 @@
       <div
         v-bind="attrs"
         v-on="on"
+        style="width: 100%"
       >
         <v-chart
           class="feeds-requirements-chart"
@@ -30,19 +31,36 @@
   export default {
     name: 'GraphFeedsRequirements',
     props: {
+      layout: {
+        type: Object,
+        default: () => ({ width: 'auto', height: 'auto' }),
+      },
       selectedLot: {
         type: null,
         required: true,
       },
-    },
-    watch: {
-      selectedLot: {
-        immediate: true,
-        handler(newValue, oldValue) {
-          // this.batch = this.getBatch(newValue)
-        },
+      withLegend: {
+        type: Boolean,
+        default: true,
+      },
+      xAxisLabelRotate: {
+        type: Boolean,
+        default: false,
+      },
+      withYaxis: {
+        type: Boolean,
+        default: true,
+      },
+      withTitle: {
+        type: Boolean,
+        default: false,
+      },
+      title: {
+        type: String,
+        default: '',
       },
     },
+
     created() {},
     data() {
       return {
@@ -59,15 +77,29 @@
         getDryMatterNeeded: 'getDryMatterNeeded',
       }),
       initOptions() {
-        return { width: 800, height: 300 }
+        return this.layout
       },
 
       options() {
         // const periods = this.periods
-        const periods = ['P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8', 'P9', 'P10', 'P11', 'P12', 'P13']
+        const periods = [
+          this.$t('periods.P1'),
+          this.$t('periods.P2'),
+          this.$t('periods.P3'),
+          this.$t('periods.P4'),
+          this.$t('periods.P5'),
+          this.$t('periods.P6'),
+          this.$t('periods.P7'),
+          this.$t('periods.P8'),
+          this.$t('periods.P9'),
+          this.$t('periods.P10'),
+          this.$t('periods.P11'),
+          this.$t('periods.P12'),
+          this.$t('periods.P13'),
+        ]
         const dryMatterProvidedPerFeed = this.getDryMatterProvided(this.selectedLot)
         const dryMatterNeededSerie = this.getDryMatterNeeded(this.selectedLot)
-
+        const unity = this.$t('herd.details.graph.unity')
         // format
         var dryMatterProvidedPerFeedSeries = Object.values(dryMatterProvidedPerFeed).map((feed) => {
           const colors = {
@@ -92,7 +124,7 @@
             },
             tooltip: {
               valueFormatter: function (value) {
-                return value + ' kgMS'
+                return value + ' ' + unity
               },
             },
             data: feed.data,
@@ -125,28 +157,35 @@
               },
             },
             legend: {
+              show: this.withLegend,
               type: 'scroll',
               orient: 'vertical',
               right: 'right',
               top: 'middle',
             },
             grid: {
-              left: '3%',
-              right: '30%',
+              left: this.withLegend ? '3%' : '0%',
+              right: this.withLegend ? '30%' : '3%',
               bottom: '3%',
               containLabel: true,
             },
             title: {
-              text: this.$t('herd.details.graph.title'),
+              show: this.withTitle,
+              text: this.title,
             },
             yAxis: {
               type: 'value',
+              show: this.withYaxis,
             },
             xAxis: {
               type: 'category',
               data: periods,
               axisTick: {
                 alignWithLabel: true,
+              },
+              axisLabel: {
+                interval: 0,
+                rotate: this.xAxisLabelRotate ? '45' : '0',
               },
             },
             series: [
