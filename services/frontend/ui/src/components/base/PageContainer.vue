@@ -17,8 +17,9 @@
             <v-row>
               <v-col
                 cols="12"
-                lg="9"
-                sm="9"
+                lg="8"
+                md="6"
+                sm="6"
               >
                 <div class="text-h3 font-weight-light">{{ title }}</div>
                 <div class="text-subtitle-1 font-weight-light">{{ subtitle }}</div>

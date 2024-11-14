@@ -12,236 +12,176 @@
           cols="5"
           class="pt-0 pb-0"
         >
-          <v-card>
-            <v-card-title>
-              <div class="text-h4 font-weight-light">{{ $t('barn.straw.title') }}</div>
-            </v-card-title>
-            <v-card-text>
-              <v-text-field
-                v-model.number="strawQuantity"
-                :label="$t('barn.straw.quantity')"
-                type="number"
-                hide-spin-buttons
-                min="0"
-              ></v-text-field>
-            </v-card-text>
-          </v-card>
-          <v-card>
-            <v-card-title>
-              <div class="text-h4 font-weight-light">{{ $t('barn.concentrated.title') }}</div>
-            </v-card-title>
-            <v-card-text>
-              <v-text-field
-                v-model.number="energeticQuantity"
-                :label="$t('barn.concentrated.energeticQuantity')"
-                type="number"
-                hide-spin-buttons
-                min="0"
-              ></v-text-field>
-              <v-text-field
-                v-model.number="proteicQuantity"
-                :label="$t('barn.concentrated.proteicQuantity')"
-                type="number"
-                hide-spin-buttons
-                min="0"
-              ></v-text-field>
-            </v-card-text>
-          </v-card>
-          <v-card>
-            <v-card-title>
-              <div class="text-h4 font-weight-light">{{ $t('barn.refusal.title') }}</div>
-            </v-card-title>
-            <v-card-text>
-              <v-text-field
-                v-model.number="refusalRate"
-                :label="$t('barn.refusal.rate')"
-                type="number"
-                hide-spin-buttons
-                min="0"
-              ></v-text-field>
-            </v-card-text>
-          </v-card>
+          <v-sheet
+            elevation="1"
+            color="white"
+            class="pa-3 mb-1"
+          >
+            <div class="text-h4 font-weight-light">{{ $t('barn.straw.title') }}</div>
+
+            <v-text-field
+              v-model.number="strawQuantity"
+              :label="$t('barn.straw.quantity')"
+              type="number"
+              hide-spin-buttons
+              min="0"
+            ></v-text-field>
+          </v-sheet>
+          <v-sheet
+            elevation="1"
+            color="white"
+            class="pa-3 mb-1"
+          >
+            <div class="text-h4 font-weight-light">{{ $t('barn.concentrated.title') }}</div>
+            <v-text-field
+              v-model.number="energeticQuantity"
+              :label="$t('barn.concentrated.energeticQuantity')"
+              type="number"
+              hide-spin-buttons
+              min="0"
+            ></v-text-field>
+            <v-text-field
+              v-model.number="proteicQuantity"
+              :label="$t('barn.concentrated.proteicQuantity')"
+              type="number"
+              hide-spin-buttons
+              min="0"
+            ></v-text-field>
+          </v-sheet>
+          <v-sheet
+            elevation="1"
+            color="white"
+            class="pa-3 mb-1"
+          >
+            <div class="text-h4 font-weight-light">{{ $t('barn.refusal.title') }}</div>
+            <v-text-field
+              v-model.number="refusalRate"
+              :label="$t('barn.refusal.rate')"
+              type="number"
+              hide-spin-buttons
+              min="0"
+            ></v-text-field>
+          </v-sheet>
         </v-col>
         <v-col
           cols="7"
-          class="pt-0 pb-0"
+          class="pt-0 pb-0 mb-1"
         >
-          <v-card>
-            <v-card-text>
-              <v-data-table
-                :headers="headers"
-                :items="initialStocks"
-                class="elevation-1"
-                sort-by="type"
+          <v-data-table
+            :headers="headers"
+            :items="initialStocks"
+            class="elevation-1"
+            sort-by="type"
+            style="height: 100%"
+          >
+            <template v-slot:top>
+              <v-toolbar
+                color="white"
+                flat
               >
-                <template v-slot:top>
-                  <v-toolbar
-                    color="white"
-                    flat
-                  >
-                    <v-toolbar-title class="text-h4 font-weight-light">
-                      {{ $t('barn.table.title') }}
-                    </v-toolbar-title>
-                    <v-divider
-                      class="mx-4"
-                      inset
-                      vertical
-                    ></v-divider>
-                    <v-spacer></v-spacer>
-                    <v-dialog
-                      max-width="500px"
-                      v-model="dialog"
+                <v-toolbar-title class="text-h4 font-weight-light">
+                  {{ $t('barn.table.title') }}
+                </v-toolbar-title>
+                <v-divider
+                  class="mx-4"
+                  inset
+                  vertical
+                ></v-divider>
+                <v-spacer></v-spacer>
+                <v-dialog
+                  max-width="500px"
+                  v-model="dialog"
+                >
+                  <template v-slot:activator="{ on }">
+                    <v-btn
+                      class="mb-2"
+                      :color="pageColor"
+                      outlined
+                      v-on="on"
                     >
-                      <template v-slot:activator="{ on }">
-                        <v-btn
-                          class="mb-2"
-                          :color="pageColor"
-                          outlined
-                          v-on="on"
-                        >
-                          {{ $t('barn.modal.title') }}
-                        </v-btn>
-                      </template>
-                      <v-card>
-                        <v-card-title>
-                          <span class="text-h4">{{ $t('barn.modal.add_btn') }}</span>
-                        </v-card-title>
+                      {{ $t('barn.modal.title') }}
+                    </v-btn>
+                  </template>
+                  <v-card>
+                    <v-card-title>
+                      <span class="text-h4">{{ $t('barn.modal.add_btn') }}</span>
+                    </v-card-title>
 
-                        <v-card-text>
-                          <v-container>
-                            <v-row>
-                              <!-- <v-col
+                    <v-card-text>
+                      <v-container>
+                        <v-row>
+                          <v-col
                             cols="12"
                             md="12"
                             sm="12"
                           >
                             <v-select
-                              v-model="selectedItemType"
-                              :items="itemTypes"
-                              label="Item Type"
+                              v-model="selectedItem"
+                              :items="barnStockItems"
+                              item-text="name"
+                              item-value="code"
+                              :label="$t('barn.modal.select_label')"
+                              return-object
                             ></v-select>
                           </v-col>
                           <v-col
-                            v-if="selectedItemType === 'feed'"
-                            cols="12"
-                            md="12"
-                            sm="12"
-                          >
-                            <v-select
-                              v-model="selectedFeedType"
-                              :items="feedTypes"
-                              item-text="name"
-                              item-value="id"
-                              label="Feed Type"
-                            ></v-select>
-                          </v-col>
-                          <v-col
-                            v-else-if="selectedItemType === 'concentrated_feed'"
-                            cols="12"
-                            md="12"
-                            sm="12"
-                          >
-                            <v-select
-                              v-model="selectedConcentratedFeed"
-                              :items="concentratedFeeds"
-                              item-text="name"
-                              item-value="id"
-                              label="Concentrated Feed"
-                            ></v-select>
-                          </v-col> -->
-
-                              <!-- <v-col
                             cols="12"
                             md="12"
                             sm="12"
                           >
                             <v-text-field
-                              v-model.number="quantityInDays"
-                              label="Quantity (in days)"
+                              v-model.number="quantityInTons"
+                              :label="$t('barn.modal.quantity', { unity: selectedItem?.unity })"
+                              type="number"
+                              hide-spin-buttons
+                              min="0"
                             ></v-text-field>
-                          </v-col> -->
-                              <v-col
-                                cols="12"
-                                md="12"
-                                sm="12"
-                              >
-                                <v-select
-                                  v-model="selectedItem"
-                                  :items="barnStockItems"
-                                  item-text="name"
-                                  item-value="code"
-                                  :label="$t('barn.modal.select_label')"
-                                  return-object
-                                ></v-select>
-                              </v-col>
-                              <v-col
-                                cols="12"
-                                md="12"
-                                sm="12"
-                              >
-                                <v-text-field
-                                  v-model.number="quantityInTons"
-                                  :label="$t('barn.modal.quantity', { unity: selectedItem?.unity })"
-                                  type="number"
-                                  hide-spin-buttons
-                                  min="0"
-                                ></v-text-field>
-                              </v-col>
-                            </v-row>
-                          </v-container>
-                        </v-card-text>
+                          </v-col>
+                        </v-row>
+                      </v-container>
+                    </v-card-text>
 
-                        <v-card-actions>
-                          <v-spacer></v-spacer>
-                          <v-btn
-                            @click="close"
-                            color="grey"
-                            text
-                          >
-                            {{ $t('btn.cancel') }}
-                          </v-btn>
-                          <v-btn
-                            @click="save"
-                            color="primary"
-                            text
-                            outlined
-                          >
-                            {{ $t('btn.save') }}
-                          </v-btn>
-                        </v-card-actions>
-                      </v-card>
-                    </v-dialog>
-                  </v-toolbar>
-                </template>
-                <template v-slot:[`item.concentrated`]="{ value }">
-                  <v-chip :color="getColor(value)"> {{ !value ? '' : $t('barn.table.concentrated') }}</v-chip>
-                </template>
-                <template v-slot:[`item.actions`]="{ item }">
-                  <v-icon
-                    @click="deleteItem(item)"
-                    small
-                  >
-                    mdi-delete
-                  </v-icon>
-                  <v-icon
-                    medium
-                    color="green"
-                    background-color="green"
-                  >
-                    mdi-square-edit-outline
-                  </v-icon>
-                </template>
-                <!-- <template v-slot:no-data>
-                    <v-btn
-                      @click="initialize"
-                      color="primary"
-                    >
-                      Reset
-                    </v-btn>
-                  </template> -->
-              </v-data-table>
-            </v-card-text>
-          </v-card>
+                    <v-card-actions>
+                      <v-spacer></v-spacer>
+                      <v-btn
+                        @click="close"
+                        color="grey"
+                        text
+                      >
+                        {{ $t('btn.cancel') }}
+                      </v-btn>
+                      <v-btn
+                        @click="save"
+                        color="primary"
+                        text
+                        outlined
+                      >
+                        {{ $t('btn.save') }}
+                      </v-btn>
+                    </v-card-actions>
+                  </v-card>
+                </v-dialog>
+              </v-toolbar>
+            </template>
+            <template v-slot:[`item.concentrated`]="{ value }">
+              <v-chip :color="getColor(value)"> {{ !value ? '' : $t('barn.table.concentrated') }}</v-chip>
+            </template>
+            <template v-slot:[`item.actions`]="{ item }">
+              <v-icon
+                @click="deleteItem(item)"
+                small
+              >
+                mdi-delete
+              </v-icon>
+              <v-icon
+                medium
+                color="green"
+                background-color="green"
+              >
+                mdi-square-edit-outline
+              </v-icon>
+            </template>
+          </v-data-table>
         </v-col>
       </v-row>
     </template>

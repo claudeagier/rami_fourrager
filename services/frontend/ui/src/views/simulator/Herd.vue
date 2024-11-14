@@ -13,7 +13,11 @@
           lg="3"
           class="pt-0 pb-0"
         >
-          <v-card id="batch-list">
+          <v-card
+            id="batch-list"
+            style="height: 100%"
+            class="mt-0"
+          >
             <v-card-title>
               <span class="font-weight-bold text-lg-h3 text-md-h4">{{ $t('herd.main.list.title') }}</span>
               <v-divider
@@ -84,11 +88,20 @@
         <v-col
           cols="12"
           lg="9"
-          class="pt-0 pb-0"
+          class="pt-0 pb-0 ma-0"
+          style="height: 100%"
         >
           <v-card
+            v-if="selectedLot === null"
+            class="ma-0"
+            style="height: 68vh"
+          >
+          </v-card>
+          <v-card
             id="batch-details"
-            v-if="selectedLot !== null"
+            class="ma-0"
+            style="height: 100%"
+            v-else
           >
             <v-card-title class="text-center justify-center py-6">
               <v-row>
@@ -317,7 +330,7 @@
 
   .scrollable-list {
     overflow-y: auto;
-    max-height: calc(70vh - 100px); /* Adjust height according to your needs */
+    max-height: calc(75vh - 100px); /* Adjust height according to your needs */
   }
 
   /* .scrollable-list::-webkit-scrollbar {
