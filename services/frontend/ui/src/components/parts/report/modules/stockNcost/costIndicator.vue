@@ -2,36 +2,36 @@
   <v-btn
     :color="pageColor"
     outlined
-    small
+    class="text-h6"
     @click="dynamic"
   >
-    {{ $t('herd.details.graph.btn') }}
+    {{ $t('report.main.modules.stockNcost.stockTable.costIndicator.btnShow') }}
   </v-btn>
 </template>
 <script>
-  import GraphsLayout from './GraphsLayout.vue'
   import VTitle from '@/components/base/VTitle.vue'
   import CustomModal from '@/components/base/CustomModal.vue'
+  import CostIndicatorModal from '@components/parts/report/modules/stockNcost/CostIndicatorModal'
 
   export default {
-    name: 'GraphsModal',
+    name: 'cost-indicator',
     props: {
-      selectedLot: {
-        type: null,
-        required: true,
-      },
+      // selectedLot: {
+      //   type: null,
+      //   required: true,
+      // },
       pageColor: {
         type: String,
         required: true,
       },
     },
     watch: {
-      selectedLot: {
-        immediate: true,
-        handler(newValue, oldValue) {
-          this.selectedLot = newValue
-        },
-      },
+      // selectedLot: {
+      //   immediate: true,
+      //   handler(newValue, oldValue) {
+      //     this.selectedLot = newValue
+      //   },
+      // },
     },
     methods: {
       dynamic() {
@@ -50,15 +50,15 @@
               component: VTitle,
               bind: {
                 text: {
-                  key: 'herd.details.modal.title',
-                  params: { batch: this.selectedLot + 1 },
+                  key: 'report.main.modules.stockNcost.stockTable.costIndicator.modal.title',
+                  // params: { batch: this.selectedLot + 1 },
                 },
               },
             },
             default: {
-              component: GraphsLayout,
+              component: CostIndicatorModal,
               bind: {
-                selectedLot: this.selectedLot,
+                // selectedLot: this.selectedLot,
                 pageColor: this.pageColor,
               },
             },

@@ -437,6 +437,10 @@
               "costOfSell": "Coût Vente",
               "productionCost": "Coût prod",
               "total": "Total (€)"
+            },
+            "costIndicator": {
+              "btnShow": "Indicateurs économiques",
+              "modal": { "title": "Indicateurs économiques" }
             }
           }
         },
@@ -449,7 +453,7 @@
     }
   },
   "autonomy": {
-    "title": "Autonomie et Potentiel ",
+    "title": "Autonomie - Potentiel",
     "autonomy": {
       "step": {
         "outofrange": { "color": "warning", "label": "autonomie fantaisiste" },

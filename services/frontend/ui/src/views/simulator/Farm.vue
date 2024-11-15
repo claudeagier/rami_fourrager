@@ -14,7 +14,7 @@
           class="pt-0 pb-0"
         >
           <v-sheet
-            elevation="1"
+            elevation="2"
             color="white"
             class="pa-3 mb-1"
             style="height: 100%"

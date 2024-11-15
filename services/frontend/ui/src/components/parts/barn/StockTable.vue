@@ -3,7 +3,6 @@
     outlined
     elevation="2"
   >
-    <v-card-title>{{ title }}</v-card-title>
     <v-data-table
       :headers="headers"
       :items="datas"
@@ -15,6 +14,21 @@
       class="elevation-2"
       fixed-header
     >
+      <template v-slot:top>
+        <v-toolbar
+          color="white"
+          flat
+        >
+          <v-toolbar-title class="text-h4 font-weight-light"> {{ title }} </v-toolbar-title>
+          <v-divider
+            class="mx-4"
+            inset
+            vertical
+          />
+          <v-spacer></v-spacer>
+          <cost-indicator pageColor="primary" />
+        </v-toolbar>
+      </template>
       <template v-slot:group.header="{ items, group, isOpen, toggle }">
         <th
           colspan="12"
@@ -122,8 +136,13 @@
 
 <script>
   import _ from 'lodash'
+  import CostIndicator from '@components/parts/report/modules/stockNcost/costIndicator'
 
   export default {
+    name: 'stock-table',
+    components: {
+      CostIndicator,
+    },
     props: {
       title: {
         type: String,
