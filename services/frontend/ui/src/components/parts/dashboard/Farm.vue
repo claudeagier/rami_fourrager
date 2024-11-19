@@ -27,22 +27,24 @@
     </template>
     <template v-slot:content>
       <v-row>
-        <!-- <rotation-graph /> -->
-        <rotation-graph-treemap />
+        <rotation-graph />
+        <!-- <rotation-graph-treemap /> -->
       </v-row>
     </template>
   </base-material-card>
 </template>
 <script>
-  // import RotationGraph from '@/components/parts/farm/RotationGraph.vue'
-  import RotationGraphTreemap from '@/components/parts/farm/RotationGraphTreemap.vue'
+  import RotationGraph from '@/components/parts/farm/RotationGraph.vue'
+  // import RotationGraphTreemap from '@/components/parts/farm/RotationGraphTreemap.vue'
 
   // TODO le graphique de l'assolement
+  // reprendre le code couleur des baguettes
+
   export default {
     name: 'farm-dashboard',
     components: {
-      // RotationGraph,
-      RotationGraphTreemap,
+      RotationGraph,
+      // RotationGraphTreemap,
     },
     data() {
       return {}

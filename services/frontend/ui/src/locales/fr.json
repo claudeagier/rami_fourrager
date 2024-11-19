@@ -412,7 +412,7 @@
             "title": "Dimensionnement du système"
           }
         },
-        "pasture": { "title": "Les pâtures", "label": "Pâtures", "description": "Description du module" },
+        "pasture": { "title": "Les pâtures", "label": "Travail", "description": "Description du module" },
         "stockNcost": {
           "title": "Stocks et coûts d'alimentations",
           "label": "Stocks et coûts",

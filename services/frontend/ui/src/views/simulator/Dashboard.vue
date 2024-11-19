@@ -84,6 +84,7 @@
   import Simulation from '@/components/parts/dashboard/Simulation.vue'
   // TODO impression
   // TODO mise en page
+  // demander l'export quand on sort
   export default {
     name: 'Dashboard',
     mixins: [navigationGuard],

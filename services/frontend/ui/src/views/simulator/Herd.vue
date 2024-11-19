@@ -15,7 +15,6 @@
         >
           <v-card
             id="batch-list"
-            style="height: 100%"
             class="mt-0"
           >
             <v-card-title>
@@ -84,6 +83,36 @@
               </div>
             </v-card-text>
           </v-card>
+          <v-alert
+            color="primary lighten-3"
+            icon="mdi-cloud-download-outline"
+            border="left"
+            prominent
+            dense
+            @click="handleClick"
+          >
+            <v-row align="center">
+              <v-col class="grow"> Télécharger le module de calcul génisse </v-col>
+            </v-row>
+          </v-alert>
+
+          <!-- <v-sheet
+            color="primary lighten-3"
+            dark
+            elevation="1"
+          >
+            <v-row
+              justify="center"
+              align="center"
+            >
+              <v-col cols="2">
+                <v-icon class="pa-3">mdi-cloud-download-outline</v-icon>
+              </v-col>
+              <v-col cols="10">
+                <div style="width: 100%">Télécharger le module de calcul génisse</div>
+              </v-col>
+            </v-row>
+          </v-sheet> -->
         </v-col>
         <v-col
           cols="12"
@@ -261,6 +290,9 @@
       },
     },
     methods: {
+      handleClick() {
+        console.log('ckick on downloade')
+      },
       // pour le parent
       applyToSimulation() {
         this.$store.dispatch('simulator/herd/setHerd')
@@ -351,5 +383,10 @@
     left: 0;
     top: 0;
     z-index: 10; */
+  }
+  .adaptive-text-button {
+    white-space: normal; /* Permet d'enrouler le texte sur plusieurs lignes */
+    text-align: center; /* Centre le texte si besoin */
+    line-height: 1.5; /* Ajoute de l'espacement entre les lignes */
   }
 </style>
