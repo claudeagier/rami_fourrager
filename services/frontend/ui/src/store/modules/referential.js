@@ -122,6 +122,24 @@ export default {
 
       fetch(what, since, commit, getters)
     },
+
+    async downloadFile() {
+      try {
+        const response = await Vue.prototype.$axios.get('/files/genisses-moyennes', {
+          responseType: 'blob', // Nécessaire pour les fichiers
+        })
+        // Créer un lien pour le téléchargement
+        const url = window.URL.createObjectURL(new Blob([response.data]))
+        const link = document.createElement('a')
+        link.href = url
+        link.setAttribute('download', 'calculs_genisses_moyennes.xlsx') // Nom du fichier
+        document.body.appendChild(link)
+        link.click()
+        link.remove()
+      } catch (error) {
+        throw new Error('file upload error')
+      }
+    },
   },
   getters: {
     isUpToDate: (state) => (what) => {

@@ -56,21 +56,24 @@
   "ConcentratedFeeds": "Aliments concentrés",
   "HousingTypes": "Types de logement sont à jour",
   "periods": {
-    "start": "Début",
-    "P1": "P1",
-    "P2": "P2",
-    "P3": "P3",
-    "P4": "P4",
-    "P5": "P5",
-    "P6": "P6",
-    "P7": "P7",
-    "P8": "P8",
-    "P9": "P9",
-    "P10": "P10",
-    "P11": "P11",
-    "P12": "P12",
-    "P13": "P13",
-    "end": "Fin"
+    "graph": {
+      "start": "Début",
+      "P1": "P1",
+      "P2": "P2",
+      "P3": "P3",
+      "P4": "P4",
+      "P5": "P5",
+      "P6": "P6",
+      "P7": "P7",
+      "P8": "P8",
+      "P9": "P9",
+      "P10": "P10",
+      "P11": "P11",
+      "P12": "P12",
+      "P13": "P13",
+      "end": "Fin"
+    },
+    "tab": "P {id}"
   },
   "confirmation_dialog": {
     "title": "Confirmer",
@@ -127,6 +130,10 @@
       "apply_success": "les modifications du troupeau sont appliquées à la simulation",
       "delete_batch_success": "Le lot a été supprimé",
       "animalcount": "Le nombre d'animaux présent par période a été modifier pour correspondre au nombre d'animaux du lot"
+    },
+    "download": {
+      "success": "Le fichier est en cours de téléchargement",
+      "error": "Une erreur s'est produite lors du téléchargement."
     },
     "fetch": {
       "success": "Les {itemName} sont à jour"
@@ -290,6 +297,7 @@
     "main": {
       "title": "Le troupeau",
       "subtitle": "Gérer votre troupeau",
+      "btn_download": "Télécharger le module de calcul génisse",
       "list": {
         "title": "Les lots",
         "btn_add": "Ajouter"

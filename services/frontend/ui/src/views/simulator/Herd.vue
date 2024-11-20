@@ -83,53 +83,21 @@
               </div>
             </v-card-text>
           </v-card>
-          <v-alert
-            color="primary lighten-3"
-            icon="mdi-cloud-download-outline"
-            border="left"
-            prominent
-            dense
-            @click="handleClick"
-          >
-            <v-row align="center">
-              <v-col class="grow"> Télécharger le module de calcul génisse </v-col>
-            </v-row>
-          </v-alert>
-
-          <!-- <v-sheet
-            color="primary lighten-3"
-            dark
-            elevation="1"
-          >
-            <v-row
-              justify="center"
-              align="center"
-            >
-              <v-col cols="2">
-                <v-icon class="pa-3">mdi-cloud-download-outline</v-icon>
-              </v-col>
-              <v-col cols="10">
-                <div style="width: 100%">Télécharger le module de calcul génisse</div>
-              </v-col>
-            </v-row>
-          </v-sheet> -->
+          <download-file />
         </v-col>
         <v-col
           cols="12"
           lg="9"
-          class="pt-0 pb-0 ma-0"
-          style="height: 100%"
+          class="pt-0 pb-0"
         >
           <v-card
             v-if="selectedLot === null"
             class="ma-0"
-            style="height: 68vh"
           >
           </v-card>
           <v-card
             id="batch-details"
             class="ma-0"
-            style="height: 100%"
             v-else
           >
             <v-card-title class="text-center justify-center py-6">
@@ -151,7 +119,6 @@
               </v-row>
             </v-card-title>
             <v-card-text>
-              <!-- <div class="vertical-text">Lot {{ selectedLot + 1 }}</div> -->
               <v-row
                 align="center"
                 justify="start"
@@ -217,10 +184,6 @@
                     </v-tab-item>
                   </v-tabs>
                 </v-col>
-                <v-col>
-                  <!-- <feeds-requirements-graph :selectedLot="selectedLot" />
-                        <feeds-requirements-graph :selectedLot="selectedLot" /> -->
-                </v-col>
               </v-row>
             </v-card-text>
           </v-card>
@@ -239,7 +202,8 @@
   import PastureDetails from '@/components/parts/herd/PastureDetails'
   import navigationGuard from '@/mixins/navigationGuard'
   import GraphsModal from '@/components/parts/herd/GraphsModal.vue'
-  // TODO ajouter un bouton pour module génisse moyenne
+  import DownloadFile from '../../components/core/DownloadFile.vue'
+
   export default {
     name: 'Herd',
     mixins: [navigationGuard],
@@ -254,6 +218,7 @@
       BatchDetails,
       PastureDetails,
       GraphsModal,
+      DownloadFile,
     },
     data() {
       return {
@@ -290,9 +255,6 @@
       },
     },
     methods: {
-      handleClick() {
-        console.log('ckick on downloade')
-      },
       // pour le parent
       applyToSimulation() {
         this.$store.dispatch('simulator/herd/setHerd')
@@ -360,9 +322,14 @@
     animation: pulse 0.5s ease 3;
   }
 
+  #batch-details {
+    overflow-y: auto;
+    height: calc(75vh - 42px);
+  }
+
   .scrollable-list {
     overflow-y: auto;
-    max-height: calc(75vh - 100px); /* Adjust height according to your needs */
+    max-height: calc(75vh - 210px); /* Adjust height according to your needs */
   }
 
   /* .scrollable-list::-webkit-scrollbar {
