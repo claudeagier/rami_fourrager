@@ -1,42 +1,18 @@
 <template>
   <v-container>
-    <housing-graph
-      :selectedLot="selectedLot"
-      :selection="selectedPeriodIndex"
-    />
-
-    <v-tabs
-      centered
-      :color="pageColor"
+    <base-period-layout
+      :pageColor="pageColor"
+      toolBarTitleKey="herd.housing.title"
+      @selected="periodSelected"
+      @duplicate="duplicate"
     >
-      <v-tab
-        v-for="(period, index) in periods"
-        :key="index"
-        @click="periodSelected(index)"
-      >
-        {{ $t('period', { id: period.id }) }}
-      </v-tab>
-      <v-tab-item
-        v-for="(period, index) in periods"
-        :key="index"
-      >
-        <v-toolbar
-          color="white"
-          flat
-        >
-          <v-toolbar-title> {{ $t('herd.housing.title', { id: period.id }) }} </v-toolbar-title>
-          <v-divider
-            class="mx-4"
-            inset
-            vertical
-          ></v-divider>
-          <v-spacer></v-spacer>
-          <base-duplicate-modal
-            :ids="periods"
-            :sourceItem="period"
-            @duplicate="duplicate"
-          />
-        </v-toolbar>
+      <template v-slot:graph>
+        <housing-graph
+          :selectedLot="selectedLot"
+          :selection="selectedPeriodIndex"
+        />
+      </template>
+      <template v-slot:tab-item>
         <v-text-field
           v-model.number="animalCount"
           :rules="[rules.required, rules.integer, presenceRule]"
@@ -55,8 +31,8 @@
           min="0"
           :color="pageColor"
         ></v-text-field>
-      </v-tab-item>
-    </v-tabs>
+      </template>
+    </base-period-layout>
   </v-container>
 </template>
 <script>
@@ -97,9 +73,6 @@
       }
     },
     computed: {
-      ...mapGetters('referential', {
-        periods: 'periodList',
-      }),
       ...mapGetters('simulator/herd', {
         getHousingDetailByPeriod: 'getHousingDetailByPeriod',
         getBatch: 'getBatch',

@@ -29,19 +29,19 @@
       },
       options() {
         const periods = [
-          this.$t('periods.P1'),
-          this.$t('periods.P2'),
-          this.$t('periods.P3'),
-          this.$t('periods.P4'),
-          this.$t('periods.P5'),
-          this.$t('periods.P6'),
-          this.$t('periods.P7'),
-          this.$t('periods.P8'),
-          this.$t('periods.P9'),
-          this.$t('periods.P10'),
-          this.$t('periods.P11'),
-          this.$t('periods.P12'),
-          this.$t('periods.end'),
+          this.$t('periods.graph.P1'),
+          this.$t('periods.graph.P2'),
+          this.$t('periods.graph.P3'),
+          this.$t('periods.graph.P4'),
+          this.$t('periods.graph.P5'),
+          this.$t('periods.graph.P6'),
+          this.$t('periods.graph.P7'),
+          this.$t('periods.graph.P8'),
+          this.$t('periods.graph.P9'),
+          this.$t('periods.graph.P10'),
+          this.$t('periods.graph.P11'),
+          this.$t('periods.graph.P12'),
+          this.$t('periods.graph.end'),
         ]
 
         const stics = this.rotations

@@ -99,9 +99,6 @@
         getBatch: 'getBatch',
         getEnergeticCoverageByBatch: 'getEnergeticCoverageByBatch',
       }),
-      ...mapGetters('referential', {
-        periods: 'periodList',
-      }),
       feeds: {
         get() {
           return this.getBatch(this.selectedLot).classicFeeds[this.selectedPeriodIndex].feeds

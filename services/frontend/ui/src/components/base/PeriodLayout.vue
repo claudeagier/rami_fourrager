@@ -11,7 +11,7 @@
         @click="$emit('selected', index)"
         class="period-tab"
       >
-        {{ $t('period', { id: period.id }) }}
+        {{ $t('periods.tab', { id: period.id }) }}
       </v-tab>
       <v-tab-item
         v-for="(period, index) in periods"
@@ -21,7 +21,7 @@
           color="white"
           flat
         >
-          <v-toolbar-title> {{ $t(toolBarTitleKey, { period: period.id }) }} </v-toolbar-title>
+          <v-toolbar-title> {{ $t(toolBarTitleKey, { id: period.id }) }} </v-toolbar-title>
           <v-divider
             class="mx-4"
             inset
