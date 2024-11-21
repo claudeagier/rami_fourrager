@@ -18,6 +18,7 @@ services:
       - DATABASE_URL=postgresql://${DATABASE_USER}:${DATABASE_PWD}@db:5432/${DATABASE_NAME}
       - DATABASE_TEST_URL=postgresql://${DATABASE_USER}:${DATABASE_PWD}@db:5432/${DATABASE_NAME_TEST}
       - SECRET_KEY=${SECRET_KEY}
+      - UPLOAD_FOLDER=${UPLOAD_FOLDER}
     depends_on:
       - db
     networks:

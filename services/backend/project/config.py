@@ -9,6 +9,7 @@ class BaseConfig:
     BCRYPT_LOG_ROUNDS = 13
     ACCESS_TOKEN_EXPIRATION = 900  # 15 minutes
     REFRESH_TOKEN_EXPIRATION = 2592000  # 30 days
+    UPLOAD_FOLDER = os.environ.get("UPLOAD_FOLDER")
 
 
 class development(BaseConfig):

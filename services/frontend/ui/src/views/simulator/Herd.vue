@@ -93,6 +93,7 @@
           <v-card
             v-if="selectedLot === null"
             class="ma-0"
+            style="height: 100%"
           >
           </v-card>
           <v-card
