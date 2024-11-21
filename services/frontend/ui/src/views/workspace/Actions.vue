@@ -33,10 +33,17 @@
 
       <!-- si un espace de travail dans le state mais qui n'est pas tagué exporté -->
       <div v-if="workspace.tag === 'imported' || workspace.tag === 'created'">
-        {{ $t('workspace.actions.export.content') }}
-        <br />
-        <br />
-        {{ $t('workspace.actions.export.description') }}
+        <v-alert
+          dense
+          text
+          prominent
+          type="warning"
+        >
+          {{ $t('workspace.actions.export.content') }}
+          <br />
+          <br />
+          {{ $t('workspace.actions.export.description') }}
+        </v-alert>
       </div>
     </v-card-text>
     <template v-slot:actions>
@@ -51,9 +58,10 @@
       >
         {{ $t('workspace.actions.create.btn') }}
       </v-btn>
+      <!-- v-if="workspace.tag === 'exported'" -->
       <v-btn
         outlined
-        color="#065c4a"
+        color="grey lighten-1"
         @click="importWorkspace"
         class="text-h6"
       >
@@ -62,7 +70,7 @@
       <v-btn
         v-if="workspace.tag === 'imported' || workspace.tag === 'created'"
         outlined
-        color="#065c4a"
+        color="primary"
         @click="exportWorkspace"
         class="text-h6"
       >

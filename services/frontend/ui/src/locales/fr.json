@@ -82,8 +82,13 @@
     "btn_confirm": "OUI",
     "btn_cancel": "NON"
   },
+  "confirmation_logout": {
+    "title": "Confirmer la déconnexion",
+    "description": "Êtes-vous sûr de vouloir vous déconnecter sans EXPORTER votre espace de travail sur votre ordinateur ?"
+  },
   "btn": {
     "login": "Connexion",
+    "logout": "Déconnexion",
     "save": "Enregistrer",
     "cancel": "Annuler",
     "add": "Ajouter",

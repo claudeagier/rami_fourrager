@@ -15,6 +15,7 @@ import '@/plugins/vee-validate'
 import '@/plugins/vueFinalModal'
 import '@/plugins/confirmationDialog'
 import '@/plugins/axios'
+import '@/plugins/event_bus/storeObserver'
 
 Vue.config.productionTip = false
 

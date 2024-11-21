@@ -5,15 +5,20 @@ export default {
       next() // ne fait rien
       return
     }
-    if (this.$options.confirmNavigation) {
-      this.$options.confirmNavigation.call(this, (confirmed) => {
-        if (confirmed) {
-          next()
-        } else {
-          next(false)
-        }
-      })
+    if (!this.$store.getters['auth/isLogoutCanceled']) {
+      if (this.$options.confirmNavigation) {
+        this.$options.confirmNavigation.call(this, (confirmed) => {
+          if (confirmed) {
+            next()
+          } else {
+            next(false)
+          }
+        })
+      } else {
+        next()
+      }
     } else {
+      this.$store.commit('auth/setLogoutCanceled')
       next()
     }
   },

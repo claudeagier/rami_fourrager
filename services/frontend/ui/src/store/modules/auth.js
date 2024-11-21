@@ -11,6 +11,7 @@ export default {
     refreshToken: localStorage.getItem('refresh_token') || '',
     user: {},
     isAdmin: false,
+    logoutCanceled: false,
   },
   mutations: {
     auth_request(state) {
@@ -49,6 +50,9 @@ export default {
     },
     setLastConnectionDate(state) {
       state.lastConnectionDate = getCurrentDateTime()
+    },
+    setLogoutCanceled(state, canceling) {
+      state.logoutCanceled = canceling
     },
   },
   actions: {
@@ -140,5 +144,6 @@ export default {
     authStatus: (state) => state.status,
     isAdmin: (state) => (state.user.authorization !== undefined ? state.user.authorization.name === 'admin' : false),
     getUser: (state) => state.user,
+    isLogoutCanceled: (state) => state.logoutCanceled,
   },
 }
