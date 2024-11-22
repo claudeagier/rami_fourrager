@@ -222,4 +222,9 @@
   .text-block {
     white-space: pre;
   }
+  .feeds-requirements-chart {
+    width: 100% !important; /* Ajuste à la largeur de la page */
+    height: auto !important; /* Préserve le ratio aspect */
+    page-break-inside: avoid; /* Empêche les coupures dans les graphiques */
+  }
 </style>

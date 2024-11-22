@@ -1,5 +1,5 @@
 <template>
-  <v-main>
+  <v-main id="printable-area">
     <router-view />
     <!-- <app-core-footer /> -->
   </v-main>

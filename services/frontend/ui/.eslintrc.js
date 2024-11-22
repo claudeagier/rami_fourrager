@@ -15,6 +15,7 @@ module.exports = {
     'no-unused-vars': 'off',
     'vue/max-attributes-per-line': 'off',
     'comma-dangle': 'off',
+    'new-cap': 'off',
   },
   parserOptions: {
     parser: '@babel/eslint-parser',

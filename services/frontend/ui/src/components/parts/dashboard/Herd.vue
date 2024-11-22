@@ -47,8 +47,6 @@
   import GraphFeedsRequirements from '@/components/parts/herd/GraphFeedsRequirements.vue'
   import { mapState } from 'vuex'
 
-  // TODO les graphiques des lots
-  // TODO model overflow pour appliquer à drawer
   export default {
     name: 'herd-dashboard',
     components: {

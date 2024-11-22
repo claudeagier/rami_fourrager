@@ -38,7 +38,7 @@
     <v-spacer />
 
     <div class="mx-3" />
-
+    <pretty-print />
     <v-btn
       class="ml-2"
       min-width="0"
@@ -57,6 +57,7 @@
   import breadCrumb from './BreadCrumb.vue'
   // Utilities
   import { mapState, mapMutations } from 'vuex'
+  import PrettyPrint from './PrettyPrint.vue'
 
   export default {
     name: 'AppCoreAppBar',
@@ -64,6 +65,7 @@
     components: {
       breadCrumb,
       Logout,
+      PrettyPrint,
     },
 
     props: {

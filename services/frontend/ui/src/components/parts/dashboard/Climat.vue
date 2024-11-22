@@ -142,4 +142,65 @@
   }
 </script>
 
-<style></style>
+<style>
+  /* Styles d'impression pour le composant climat */
+  @media print {
+    /* Cacher les boutons et dialogues */
+    v-dialog,
+    v-btn {
+      display: none !important;
+    }
+
+    /* Assurer une largeur pleine pour les colonnes */
+    .v-col {
+      width: 100%;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+
+    /* Organisation des champs (v-select) */
+    .v-select {
+      border: 1px solid #000; /* Ajouter une bordure pour mieux distinguer les champs */
+      background-color: #fff !important; /* Conserver un fond blanc */
+      font-size: 14px; /* Ajuster la taille de la police */
+      color: #000; /* Assurer un contraste suffisant */
+      margin-bottom: 8px;
+    }
+
+    /* Masquer les détails et les icônes dans les sélecteurs */
+    .v-select__selections,
+    .v-select__control {
+      display: block !important;
+    }
+
+    .v-select__control::after,
+    .v-icon {
+      display: none !important; /* Masque les icônes de sélection */
+    }
+
+    /* Espacement entre les lignes et colonnes */
+    .v-row {
+      margin-bottom: 16px;
+    }
+
+    /* Gérer la carte contenant les sélecteurs */
+    base-dashboard-card {
+      page-break-inside: avoid; /* Évite que la carte soit coupée entre deux pages */
+      padding: 16px; /* Ajouter un peu d'espacement */
+      border: 1px solid #ddd; /* Délimiter visuellement la carte */
+    }
+
+    /* Ajuster le titre de la carte */
+    base-dashboard-card .card-title {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 12px;
+      color: #000;
+    }
+
+    /* Masquer les ombrages inutiles pour une impression plus propre */
+    base-dashboard-card {
+      box-shadow: none !important;
+    }
+  }
+</style>
