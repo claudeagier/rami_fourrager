@@ -4,9 +4,8 @@ from project.api.utils.decorators import authorization_required
 import os
 
 download_namespace = Namespace('download')
-# TODO genisse moyennes change file name
 availableFiles = {
-    "genisses_moyennes": "real_values_bkp.xlsx"
+    "genisses_moyennes": " calculs_genisses_moyennes.xlsx"
 }
 
 

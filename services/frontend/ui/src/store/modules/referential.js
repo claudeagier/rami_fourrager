@@ -132,7 +132,7 @@ export default {
         const url = window.URL.createObjectURL(new Blob([response.data]))
         const link = document.createElement('a')
         link.href = url
-        link.setAttribute('download', 'calculs_genisses_moyennes.xlsx') // TODO genisse moyennes change file name
+        link.setAttribute('download', 'calculs_genisses_moyennes.xlsx')
         document.body.appendChild(link)
         link.click()
         link.remove()
