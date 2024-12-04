@@ -7,13 +7,13 @@
     <div v-if="simulation.loaded">
       <!-- <div>{{ simulator.simulationName }}</div> -->
       <!-- Bouton d'impression -->
-      <v-btn
+      <!-- <v-btn
         color="primary"
         class="mb-3"
         @click="printPage"
       >
         Imprimer la page
-      </v-btn>
+      </v-btn> -->
       <v-row class="pt-3">
         <v-col
           cols="6"
