@@ -425,7 +425,24 @@
             "title": "Dimensionnement du système"
           }
         },
-        "pasture": { "title": "Les pâtures", "label": "Travail", "description": "Description du module" },
+        "work": {
+          "label": "Travail",
+          "description": "Description du module",
+          "work": {
+            "title": "Le travail",
+            "headers": { "total": "Total" },
+            "distribution": "Nb de périodes de distribution de fourrage grossier",
+            "withoutPasture": "Périodes consécutives sans pâturage (hiver)",
+            "housing": { "title": "Animaux présents en batiment" },
+            "harvest": { "title": "hectares à récolter par période (foin + ensilage + grain + autre)" }
+          },
+          "pasture": {
+            "title": "La gestion du pâturage",
+            "surplus": {
+              "title": "Excédents au pâturage par période (en % du total produit à l'année en pâture)"
+            }
+          }
+        },
         "stockNcost": {
           "title": "Stocks et coûts d'alimentations",
           "label": "Stocks et coûts",

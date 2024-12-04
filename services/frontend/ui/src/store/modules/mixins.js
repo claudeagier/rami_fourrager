@@ -704,6 +704,7 @@ export const getRotationSurface = function (type, simulation, getStic) {
     return acc + calcul
   }, 0.0)
 }
+
 // x55 SFP total surface pature ajouter toutes les surfaces qui contiennent un P dans leur code type baguette
 export const getSFP = function (simulation, getStic) {
   return getRotationSurface('P', simulation, getStic)
@@ -834,6 +835,45 @@ export const getPT_SAU = (simulation, periods, getStic) => {
   const sau = getSAU(simulation, getStic)
   const d130 = surfacesPT / sau
   return fixFloatingPoint(d130 * 100)
+}
+
+// *******************************************************//
+// ****************** TRAVAIL ****************************//
+// *******************************************************//
+export const getRotationSurfaceHarvestedByPeriod = function (periodId, simulation, getStic) {
+  return Object.values(simulation.farm.rotations).reduce((acc, curr) => {
+    const stic = getStic(simulation.climaticYear, curr.name)
+    var calcul = 0
+    const sp = stic.stic_periods.find((item) => item.period_id === periodId)
+    if (sp.farming_method !== '' && sp.farming_method !== 'P' && sp.production > 0) {
+      calcul = curr.surface
+    }
+    return acc + calcul
+  }, 0.0)
+}
+
+// 653 % de la perte par rapport à la production annuelle à la pâture 651*100/$U$28
+export const getPastureSurplusesByPeriod = function (periodIndex, simulation, totalAvailablePastureByPeriod, periods) {
+  const batchs = simulation.herd.batchs
+  const lastPriorityOrder = batchs[batchs.length - 1].priorityOrder
+  const batch = {
+    priorityOrder: lastPriorityOrder + 1,
+    housing: {},
+  }
+  batch.housing.presence = Array.from(periods, (period) => ({
+    period: period,
+    animalCount: 0,
+    days: 0,
+  }))
+  const patureReport = getAvailableCarryOverPastureByAnimal(batch, periodIndex, totalAvailablePastureByPeriod, batchs)
+  const totalProdPasture = Object.values(totalAvailablePastureByPeriod).reduce((acc, curr) => {
+    var calcul = curr.production_total
+    return acc + calcul
+  }, 0.0)
+  const surplus = (patureReport / totalProdPasture) * 100
+
+  // le retour doit être un pourcentage
+  return surplus
 }
 
 // *******************************************************//

@@ -133,6 +133,11 @@ export default {
     getHousingDetailByPeriod: (state) => (batchId, periodId) => {
       return state.batchs[batchId].housing.presence[periodId]
     },
+    getReportHousingDetailsByPeriod: (state) => (periodId) => {
+      return Object.values(state.batchs).reduce((acc, curr) => {
+        return acc + curr.housing.presence[periodId].animalCount
+      }, 0.0)
+    },
     getClassicFeedByPeriod:
       (state) =>
       (batchId, periodId, feed = null) => {
@@ -200,6 +205,51 @@ export default {
     },
     getDryMatterNeeded: (state, getters, rootState) => (batchId) => {
       return getDryMatterNeeded(state.batchs[batchId], rootState.referential.periods).map((el) => _.round(el, 1))
+    },
+    getDistribution: (state, getters, rootState) => () => {
+      // si on distribut du fourrage dans la ration pour la période on met 1
+      // !="P"
+      let distrib = 0
+      rootState.referential.periods.forEach((period, index) => {
+        let has = 0
+        state.batchs.forEach((batch) => {
+          if (batch.classicFeeds[index].feeds.filter((el) => el.type.correspondingStock !== 'P').length > 0) {
+            has += 1
+          }
+        })
+        if (has > 0) {
+          distrib += 1
+        }
+      })
+      return distrib
+    },
+
+    getWithoutPasture: (state, getters, rootState) => () => {
+      // dont périodes consécutives sans pâturage (hiver)
+      // si 2 periodes consécutive sans pature on met 1 pour p
+      // p-1=0 p=0 => wp=1
+      // p-1=1 et p=0 ou p-1=0 et p=1 => wp=0
+      let distrib = 0
+      rootState.referential.periods.forEach((period, index) => {
+        let has = 0
+        state.batchs.forEach((batch) => {
+          if (index > 0) {
+            const findPBefore = batch.classicFeeds[index - 1].feeds.findIndex(
+              (el) => el.type.correspondingStock === 'P'
+            )
+            const findP = batch.classicFeeds[index].feeds.findIndex((el) => el.type.correspondingStock === 'P')
+
+            if (findPBefore < 0 && findP < 0) {
+              // on met 1
+              has += 1
+            }
+          }
+        })
+        if (has > 0) {
+          distrib += 1
+        }
+      })
+      return distrib
     },
   },
   actions: {
