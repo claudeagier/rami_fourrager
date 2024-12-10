@@ -141,14 +141,15 @@
       },
       handleSiteChange(id) {
         this.$store.commit('simulator/setSite', id)
-        if (!this.sticsIsDeleted) {
-          this.$store.dispatch('simulator/applyTo', 'site')
-          this.climaticYears = this.getClimaticYearList(id)
-        }
+        console.log('sitechange', id)
+        // FIXME j'ai toujours des problèmes if (!this.sticsIsDeleted) {
+        this.$store.dispatch('simulator/applyTo', 'site')
+        this.climaticYears = this.getClimaticYearList(id)
+        // }
       },
 
       deleteStics() {
-        console.log('delete stic')
+        // console.log('delete stic')
         this.sticsIsDeleted = true
         this.$store.dispatch('simulator/farm/initializeRotations')
       },
