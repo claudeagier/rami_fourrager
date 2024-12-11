@@ -153,6 +153,7 @@
                 // magicType: { type: ['line', 'bar'] },
                 // restore: {},
                 saveAsImage: {
+                  name: 'matiere_seche_vs_besoin_lot_' + (this.selectedLot + 1),
                   backgroundColor: 'white',
                 },
               },
