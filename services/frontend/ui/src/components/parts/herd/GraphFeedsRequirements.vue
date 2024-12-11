@@ -1,6 +1,6 @@
 <template>
   <v-tooltip
-    right
+    bottom
     open-delay="500"
     dark
   >
@@ -15,9 +15,7 @@
           :option="options"
           autoresize
           theme="infographic"
-          @mouseover="handleMouseOver"
           :init-options="initOptions"
-          @click="handleClick"
         />
       </div>
     </template>
@@ -141,6 +139,9 @@
                 type: 'shadow',
               },
               triggerOn: 'click',
+              appendToBody: true,
+              hideDelay: 50,
+              enterable: true,
             },
             toolbox: {
               show: true,
@@ -210,12 +211,7 @@
         }
       },
     },
-    methods: {
-      handleMouseOver(params) {},
-      handleClick(params) {
-        this.$emit('click', params)
-      },
-    },
+    methods: {},
   }
 </script>
 <style>
@@ -225,6 +221,5 @@
   .feeds-requirements-chart {
     width: 100% !important; /* Ajuste à la largeur de la page */
     height: auto !important; /* Préserve le ratio aspect */
-    page-break-inside: avoid; /* Empêche les coupures dans les graphiques */
   }
 </style>

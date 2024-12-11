@@ -24,7 +24,7 @@
     </template>
     <template v-slot:content>
       <div class="herd-chart-container">
-        <v-row
+        <div
           v-for="(batch, index) in batchs"
           :key="index"
         >
@@ -38,7 +38,7 @@
             :withTitle="true"
             :title="$t('dashboard.herd.graph.title', { id: index + 1 })"
           />
-        </v-row>
+        </div>
       </div>
     </template>
   </base-material-card>
@@ -69,8 +69,6 @@
 </script>
 <style>
   .herd-chart-container {
-    display: flex;
-    flex-direction: column;
     overflow-y: auto;
     max-height: 300px; /* Définissez la hauteur max de votre conteneur */
     padding: 10px; /* Espace en haut pour éviter le tronquage */
