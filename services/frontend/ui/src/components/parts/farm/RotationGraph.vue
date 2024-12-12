@@ -13,7 +13,6 @@
   </div>
 </template>
 <script>
-  // TODO le graphique de l'assolement
   import { mapGetters } from 'vuex'
   export default {
     name: 'rotation-graph',
@@ -24,9 +23,13 @@
       ...mapGetters('simulator/farm', {
         rotations: 'getRotationsData',
       }),
+      ...mapGetters('referential', {
+        farmingMethodList: 'farmingMethodList',
+      }),
       initOptions() {
         return { width: 'auto', height: 'auto' }
       },
+
       options() {
         const periods = [
           this.$t('periods.graph.P1'),
@@ -50,7 +53,18 @@
         stics.forEach((s, sIndex) => {
           sticNames.push(s.name)
           s.production.forEach((p, pIndex) => {
-            sticData.push([pIndex, sIndex, p.production || '-'])
+            const item = {
+              value: [pIndex, sIndex, p.production || '-'],
+            }
+            const fm = this.farmingMethodList.find((el) => el.code === p.farmingMethod)
+            if (fm) {
+              item.sticName = fm.name
+              item.unity = fm.unity
+            }
+            if (p.farmingMethod !== 'P') {
+              item.itemStyle = { color: 'grey' }
+            }
+            sticData.push(item)
           })
         })
 
@@ -58,8 +72,14 @@
         const baseOptions = {
           calculable: true,
           tooltip: {
-            show: false,
-            position: 'top',
+            trigger: 'item',
+            axisPointer: {
+              type: 'shadow',
+            },
+            triggerOn: 'click',
+            appendToBody: true,
+            hideDelay: 50,
+            enterable: true,
           },
           grid: {
             left: '10%',
@@ -96,11 +116,17 @@
           },
           series: [
             {
-              name: 'Punch Card',
+              name: 'Production',
               type: 'heatmap',
               data: sticData,
               label: {
                 show: true,
+              },
+              tooltip: {
+                formatter: function (params, ticket, callback) {
+                  const content = params.data.sticName + ' : <b>' + params.value[2] + ' ' + params.data.unity + '</b>'
+                  return content
+                },
               },
               emphasis: {
                 itemStyle: {

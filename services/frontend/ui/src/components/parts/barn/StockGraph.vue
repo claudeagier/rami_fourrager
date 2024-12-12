@@ -14,6 +14,8 @@
 </template>
 <script>
   import { mapGetters } from 'vuex'
+  // FIXME il faut afficher les valeurs au fur et à mesure de leur saisie
+  // pour l'instant il faut avoir saisie le troupeau et l'assolement pour afficher le graph
   export default {
     data() {
       return {}
@@ -115,11 +117,15 @@
               type: 'shadow',
             },
             triggerOn: 'click',
+            appendToBody: true,
+            hideDelay: 50,
+            enterable: true,
           },
           toolbox: {
             show: true,
             feature: {
               saveAsImage: {
+                name: 'stock_grange',
                 backgroundColor: 'white',
               },
             },
@@ -158,5 +164,6 @@
     justify-content: center; /* Centrer le contenu horizontalement */
     align-items: center; /* Centrer le contenu verticalement */
     position: relative; /* Positionnement relatif pour des ajustements plus fins si nécessaire */
+    page-break-inside: avoid;
   }
 </style>
