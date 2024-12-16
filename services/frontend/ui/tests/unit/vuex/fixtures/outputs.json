@@ -226,6 +226,7 @@
       "$269": {
         "batch0": [36.7, 29.8, 16.9, 9.4, 0.0, 8.1, 21.5, 26.6, 26.6, 17.0, 15.1, 25.7, 33.3]
       },
+      "$646": [1.58, 1.6, 1.61, 1.61, 1.62, 1.59, 1.55, 1.54, 1.54, 1.62, 1.62, 1.59, 1.59],
       "$647": [44, 45, 45, 45, 45, 44, 43, 43, 43, 45, 45, 44, 45],
       "sfp": 105,
       "SAU": 120.0,
@@ -251,6 +252,54 @@
         "final_initialStock": 1,
         "purchase": 0,
         "sold": 0
+      },
+      "indicators": {
+        "1_fourrage": {
+          "without": {
+            "haSFP": 421,
+            "tms": 72,
+            "ugb": 363,
+            "vl": 566,
+            "milleLitre": 81
+          },
+          "with": {
+            "haSFP": 422,
+            "tms": 72,
+            "ugb": 364,
+            "vl": 568,
+            "milleLitre": 81
+          }
+        },
+        "2_concentrated": {
+          "without": {
+            "haCultive": 0,
+            "tms": 0,
+            "ugb": 0
+          },
+          "with": {
+            "vl": 533,
+            "milleLitre": 76,
+            "ugb": 342
+          }
+        },
+        "3_straw": {
+          "without": {
+            "ha": 0,
+            "tms": 0,
+            "ugb": 0
+          },
+          "with": {
+            "ha": 43,
+            "milleLitre": 6,
+            "ugb": 28
+          }
+        },
+        "4_cost": {
+          "with": {
+            "ugb": 705,
+            "milleLitre": 157
+          }
+        }
       }
     },
     "stock": {
@@ -286,46 +335,150 @@
           { "EH": 2.7, "FH": 7.5, "EM": 0.0, "EL": 0.0, "RC": 0.0, "RP": 0.0, "AS": 0.0, "FL": 0.0, "STRAW": 0.0 }
         ]
       ],
-      "totalStock": [
-        {
-          "name": "Foin",
-          "initialStock": 58,
-          "production": 111,
-          "consommation": 110,
-          "finalStock": 59,
-          "final_initialStock": 1,
-          "purchase": 0,
-          "sold": 0
-        },
-        {
-          "name": "Ensilage et enrubannage d'herbe",
-          "initialStock": 79,
-          "production": 158,
-          "consommation": 156,
-          "finalStock": 81,
-          "final_initialStock": 2,
-          "purchase": 0,
-          "sold": 0
-        },
-        {
-          "name": "Ensilage de maïs et sorgho (riche UF)",
-          "initialStock": 66,
-          "production": 120,
-          "consommation": 121,
-          "finalStock": 65,
-          "final_initialStock": -1,
-          "purchase": 1,
-          "sold": 0
-        },
+      "groupedStock": [
         {
           "name": "Pâtures",
+          "category": "1_fourrage",
+          "code": "P",
           "initialStock": 0,
           "production": 234,
           "consommation": 226,
           "finalStock": 8,
           "final_initialStock": 8,
           "purchase": 0,
-          "sold": 0
+          "purchaseCost": 0,
+          "sale": 0,
+          "costOfSell": 0,
+          "productionCost": 40,
+          "total": 9052
+        },
+        {
+          "name": "Foin",
+          "category": "1_fourrage",
+          "code": "FH",
+          "initialStock": 58,
+          "production": 111,
+          "consommation": 110,
+          "finalStock": 59,
+          "final_initialStock": 1,
+          "purchase": 0,
+          "purchaseCost": 120,
+          "sale": 0,
+          "costOfSell": 0,
+          "productionCost": 80,
+          "total": 8896
+        },
+        {
+          "name": "Ensilage et enrubannage d'herbe",
+          "category": "1_fourrage",
+          "code": "EH",
+          "initialStock": 79,
+          "production": 158,
+          "consommation": 156,
+          "finalStock": 81,
+          "final_initialStock": 2,
+          "purchase": 0,
+          "purchaseCost": 140,
+          "sale": 0,
+          "costOfSell": 0,
+          "productionCost": 90,
+          "total": 14229
+        },
+        {
+          "name": "Ensilage de maïs et sorgho (riche UF)",
+          "category": "1_fourrage",
+          "code": "EM",
+          "initialStock": 66,
+          "production": 120,
+          "consommation": 121,
+          "finalStock": 65,
+          "final_initialStock": -1,
+          "purchase": 1,
+          "purchaseCost": 180,
+          "sale": 0,
+          "costOfSell": 0,
+          "productionCost": 100,
+          "total": 12129
+        },
+        {
+          "name": "Ensilage de légumineuses (riche PDI)",
+          "category": "1_fourrage",
+          "code": "EL",
+          "initialStock": 0,
+          "production": 0,
+          "consommation": 0,
+          "finalStock": 0,
+          "final_initialStock": 0,
+          "purchase": 0,
+          "purchaseCost": 168,
+          "sale": 0,
+          "costOfSell": 0,
+          "productionCost": 120,
+          "total": 0
+        },
+        {
+          "name": "Foin de légumineuses (riche PDI)",
+          "category": "1_fourrage",
+          "code": "FL",
+          "initialStock": 0,
+          "production": 0,
+          "consommation": 0,
+          "finalStock": 0,
+          "final_initialStock": 0,
+          "purchase": 0,
+          "purchaseCost": 120,
+          "sale": 0,
+          "costOfSell": 0,
+          "productionCost": 90,
+          "total": 0
+        },
+        {
+          "name": "Céréales en grain",
+          "code": "RC",
+          "category": "2_concentrated",
+          "initialStock": 216,
+          "production": 450,
+          "consommation": 459,
+          "finalStock": 208,
+          "final_initialStock": -9,
+          "purchase": 9,
+          "purchaseCost": 46.8,
+          "sale": 459,
+          "costOfSell": 46.8,
+          "productionCost": 0,
+          "total": 21869
+        },
+        {
+          "name": "Protéagineux en grain",
+          "code": "RP",
+          "category": "2_concentrated",
+          "initialStock": -96,
+          "production": 0,
+          "consommation": 201,
+          "finalStock": -297,
+          "final_initialStock": -201,
+          "purchase": 201,
+          "purchaseCost": 98.2,
+          "sale": 0,
+          "costOfSell": 0,
+          "productionCost": 0,
+          "total": 19731
+        },
+        {
+          "name": "paille",
+          "category": "3_straw",
+          "code": "STRAW",
+          "initialStock": 0,
+          "production": 53,
+          "consommation": 120,
+          "finalStock": -67,
+          "final_initialStock": -67,
+          "purchase": 67,
+          "purchaseCost": 50,
+          "sale": 0,
+          "costOfSell": 0,
+          "productionCost": 0,
+          "total": 3370
         }
       ]
     }

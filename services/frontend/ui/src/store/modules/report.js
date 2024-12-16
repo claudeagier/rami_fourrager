@@ -16,6 +16,7 @@ import {
   getSticProductionByBarnStockItem,
   getTotalHerd,
   getUGBSystem,
+  getUGBtoFeed,
   getPastureProductionTotal,
   getPastureConsumptionTotal,
   getPastureFinalStock,
@@ -25,6 +26,10 @@ import {
   getPotential,
   getSticProductionByBarnStockItemByPeriod,
   getConsumptionByBarnStockItemByPeriod,
+  getSFP,
+  getSAU,
+  getStrawSurface,
+  getCostIndicator,
 } from './mixins'
 import { replaceNan } from '@/plugins/utils'
 
@@ -113,8 +118,9 @@ export default {
 
       return stock
     },
-
     getConcentratedFeedsStock: (state, getters, rootState, rootGetters) => {
+      // FIXME pas de conso de concentré 0
+      // console.log('rootState', rootState)
       if (rootState.simulator.farm.rotations.length === 0 || rootState.simulator.herd.batchs.length === 0) {
         return []
       }
@@ -147,7 +153,6 @@ export default {
       })
       return stock
     },
-
     getStrawStock: (state, getters, rootState, rootGetters) => {
       // FIXME et les conso de la paille?
 
@@ -183,7 +188,6 @@ export default {
       })
       return stock
     },
-
     getAutonomy: (state, getters, rootState, rootGetters) => {
       if (rootState.simulator.farm.rotations.length === 0 || rootState.simulator.herd.batchs.length === 0) {
         return false
@@ -214,7 +218,9 @@ export default {
     getDimensioning: (state, getters, rootState, rootGetters) => {
       const dimensioning = {
         nbAnimaux: 0,
-        ugb: 0,
+        ugbN: 0,
+        ugbAN: 0,
+        chargeSAU: 0,
         chargeApparent: 0,
         chargeCorrige: 0,
         chargePotentiel: 0,
@@ -234,10 +240,11 @@ export default {
         const totalAvailablePastureByPeriod = rootState.simulator.farm.totalAvailablePastureByPeriod
 
         dimensioning.nbAnimaux = _.round(replaceNan(getTotalHerd(batchs), 0), 0)
-        dimensioning.ugb = _.round(
+        dimensioning.ugbN = _.round(
           replaceNan(getUGBSystem(simulation, periods, stockCodeList, totalAvailablePastureByPeriod), 0),
           0
         )
+        dimensioning.ugbAN = _.round(replaceNan(getUGBtoFeed(simulation, periods), 0), 0)
         dimensioning.chargeSAU = _.round(
           replaceNan(
             getEstimatedLivestockDensities(simulation, periods, totalAvailablePastureByPeriod, stockCodeList),
@@ -276,10 +283,6 @@ export default {
     },
     getStockEvolution: (state, getters, rootState, rootGetters) => {
       const stocks = []
-      // par period le récolté de la même période + celui d'avant - (la conso prévu par les rations pour chaque lot)
-      if (rootState.simulator.farm.rotations.length === 0 || rootState.simulator.herd.batchs.length === 0) {
-        return stocks
-      }
 
       const simulation = rootState.simulator
       const periods = rootState.referential.periods
@@ -295,14 +298,15 @@ export default {
         // stock initial pour la periode 0
         const initialStock = initialStocks.find((item) => item.code === stockCode)
         data[0] = initialStock ? initialStock.quantity : 0
-
-        // les autres periodes
-        periods.forEach((period, index) => {
-          const previousProduction = data[index]
-          const sticProd = getSticProductionByBarnStockItemByPeriod(simulation, stockCode, index)
-          const conso = getConsumptionByBarnStockItemByPeriod(simulation, period.id, stockCode)
-          data[index + 1] = previousProduction + sticProd - conso
-        })
+        if (rootState.simulator.farm.rotations.length > 0 && rootState.simulator.herd.batchs.length > 0) {
+          // les autres periodes
+          periods.forEach((period, index) => {
+            const previousProduction = data[index]
+            const sticProd = getSticProductionByBarnStockItemByPeriod(simulation, stockCode, index)
+            const conso = getConsumptionByBarnStockItemByPeriod(simulation, period.id, stockCode)
+            data[index + 1] = previousProduction + sticProd - conso
+          })
+        }
 
         const item = {
           name: rootState.referential.barnStockItems.find((item) => item.code === stockCode).name,
@@ -312,6 +316,15 @@ export default {
         stocks.push(item)
       })
       return stocks
+    },
+    getCostIndicators: (state, getters, rootState, rootGetters) => (data) => {
+      const simulation = rootState.simulator
+      // console.log('rootstate', rootState)
+      const periods = rootState.referential.periods
+      const getStic = rootGetters['referential/getSticByName']
+      const stockCodeList = ['FH', 'EH', 'EM', 'EL', 'FL']
+      const totalAvailablePastureByPeriod = rootState.simulator.farm.totalAvailablePastureByPeriod
+      return getCostIndicator(data, periods, simulation, totalAvailablePastureByPeriod, stockCodeList, getStic)
     },
   },
   actions: {

@@ -76,7 +76,7 @@
             axisPointer: {
               type: 'shadow',
             },
-            triggerOn: 'click',
+            triggerOn: 'mousemove|click',
             appendToBody: true,
             hideDelay: 50,
             enterable: true,

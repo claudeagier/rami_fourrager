@@ -14,8 +14,7 @@
 </template>
 <script>
   import { mapGetters } from 'vuex'
-  // FIXME il faut afficher les valeurs au fur et à mesure de leur saisie
-  // pour l'instant il faut avoir saisie le troupeau et l'assolement pour afficher le graph
+
   export default {
     data() {
       return {}

@@ -43,12 +43,12 @@ export default {
       // { code: 'P', name: 'Pature', unity: 'kgMS/ha/j' },
       { code: 'FH', name: 'Foin', unity: 'tMS', color: '' },
       { code: 'EH', name: "Ensilage et enrubannage d'herbe", unity: 'tMS', color: '' },
-      { code: 'EM', name: 'Ensilage de maïs et sorgho (riche UF)', unity: 'tMS', color: '' },
+      { code: 'EM', name: 'Ensilage de maïs et sorgho', unity: 'tMS', color: '' },
       { code: 'RC', name: 'Céréales en grain', unity: 'qtx', concentrated: true, color: '' },
       { code: 'RP', name: 'Protéagineux en grain', unity: 'qtx', concentrated: true, color: '' },
       { code: 'AS', name: 'autre stock', unity: 'tMS', color: '' },
-      { code: 'EL', name: 'Ensilage de légumineuses (riche PDI)', unity: 'tMS', color: '' },
-      { code: 'FL', name: 'Foin de légumineuses (riche PDI)', unity: 'tMS', color: '' },
+      { code: 'EL', name: 'Ensilage de légumineuses', unity: 'tMS', color: '' },
+      { code: 'FL', name: 'Foin de légumineuses', unity: 'tMS', color: '' },
     ],
     batch_types: [],
     climatic_years: [],
@@ -57,9 +57,9 @@ export default {
       { code: 'FH', name: 'foin', feedType: '', unity: 'tMS/ha' },
       { code: 'P', name: 'Pature', feedType: '', unity: 'kgMS/ha/j' },
       { code: 'EH', name: "Ensilage et enrubannage d'herbe", feedType: '', unity: 'tMS/ha' },
-      { code: 'EM', name: 'Ensilage de maïs et sorgho (riche UF)', feedType: '', unity: 'tMS/ha' },
-      { code: 'EL', name: 'Ensilage de légumineuses (riche PDI)', feedType: '', unity: 'tMS/ha' },
-      { code: 'FL', name: 'Foin de légumineuses (riche PDI)', feedType: '', unity: 'tMS/ha' },
+      { code: 'EM', name: 'Ensilage de maïs et sorgho', feedType: '', unity: 'tMS/ha' },
+      { code: 'EL', name: 'Ensilage de légumineuses', feedType: '', unity: 'tMS/ha' },
+      { code: 'FL', name: 'Foin de légumineuses', feedType: '', unity: 'tMS/ha' },
       { code: 'RC', name: 'Céréales en grain', feedType: '', unity: 'qtx/ha' },
       { code: 'RP', name: 'Protéagineux en grain', feedType: '', unity: 'qtx/ha' },
     ],
@@ -162,11 +162,17 @@ export default {
         return cy.site_id === siteId
       })
     },
-    concentratedFeedList: (state) => state.concentrated_feeds,
+    concentratedFeedList: (state, getters, rootState) => {
+      var list = state.concentrated_feeds
+      if (rootState.workspace.workspace.concentratedFeeds?.length > 0) {
+        list = mergeLists([...state.feed_types], [...rootState.workspace.workspace.concentratedFeeds])
+      }
+      return list
+    },
     farmingMethodList: (state) => state.farming_methods,
-    feedTypeList: (state, getters, rootState) => {
+    classicFeedList: (state, getters, rootState) => {
       var list = state.feed_types
-      if (rootState.workspace.workspace.classicFeeds.length > 0) {
+      if (rootState.workspace.workspace.classicFeeds?.length > 0) {
         list = mergeLists([...state.feed_types], [...rootState.workspace.workspace.classicFeeds])
       }
       return list
@@ -195,9 +201,23 @@ export default {
       })
       return filtered
     },
+    getFeedListByType: (state, getters, rootState) => (type) => {
+      switch (type) {
+        case 'classicFeeds':
+          return getters.classicFeedList
+        case 'concentratedFeeds':
+          return state.concentratedFeedList
+
+        default:
+          return []
+      }
+    },
 
     getSticByName: (state, getters) => (climaticYear, name) => {
       return getters.sticList(climaticYear).find((el) => el.name === name)
+    },
+    getFeedByTypeById: (state, getters) => (type, feedId) => {
+      return getters.getFeedListByType(type).find((el) => el.id === feedId)
     },
   },
 }

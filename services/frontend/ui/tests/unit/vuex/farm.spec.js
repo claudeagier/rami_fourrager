@@ -37,7 +37,7 @@ describe('farm mutations', () => {
   // })
   it('farms dispatch production by period', () => {
     const result = dispatchProductionByPeriod(rotations, referential, simulation, getStic)
-    // console.log(result)
+    // // console.log(result)
     const res = result.map((period) => {
       period.stock = period.stock.map((st) => {
         st.quantity = _.round(st.quantity)

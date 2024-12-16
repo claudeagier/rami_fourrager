@@ -71,7 +71,7 @@
       "P11": "P11",
       "P12": "P12",
       "P13": "P13",
-      "end": "Fin"
+      "end": "P13"
     },
     "tab": "P {id}"
   },
@@ -196,6 +196,7 @@
     "farm": {
       "title": "L'assolement",
       "graph": {
+        "unity": "toto",
         "pasture": "Pâtures",
         "culture": "Cultures",
         "PT": "Prairie temporaire",
@@ -294,6 +295,15 @@
         "name": "Code et Nom de la culture",
         "constraint": "Contrainte",
         "surface": "Surface"
+      }
+    },
+    "details": {
+      "graph": {
+        "unity": {
+          "pasture": "kgMS/ha/j",
+          "grainHarvest": "qtx/ha",
+          "stockHarvest": "tMS/ha"
+        }
       }
     }
   },
@@ -509,6 +519,58 @@
       }
     }
   },
+  "dimensioning": {
+    "ugbN": {
+      "title": "UGB nourris",
+      "tooltip": "Unité de Gros Bétail",
+      "unit": ""
+    },
+    "ugbAN": {
+      "title": "UGB à nourrir",
+      "tooltip": "Unité de Gros Bétail",
+      "unit": ""
+    },
+    "chargeSAU": {
+      "title": "Estimation Chargement SAU",
+      "tooltip": "Charge sur Surface Agricole Utile (SAU)",
+      "unit": "UGB/ha SAU"
+    },
+    "chargeApparent": {
+      "title": "Chargement apparent",
+      "tooltip": "prend déjà en compte la mise en estive ou pension car dépend du nb d'animaux présent par période.",
+      "unit": "UGB/ha SAU"
+    },
+    "chargeCorrige": {
+      "title": "Chargement corrigé",
+      "tooltip": "prend en compte, en plus estive et pension, le delta stock, les achats, la vente. Il reste à soustraire les dérobées externes.",
+      "unit": "UGB/ha SFP"
+    },
+    "chargePotentiel": {
+      "title": "Chargement potentiel",
+      "tooltip": "Chargement potentiel maximum sur le territoire",
+      "unit": "UGB/ha SFP"
+    },
+    "sfpSau": {
+      "title": "SFP/SAU",
+      "tooltip": "Superficie Fourragère Principale (SFP) par rapport à la SAU",
+      "unit": "%"
+    },
+    "ppSau": {
+      "title": "%PP/SAU",
+      "tooltip": "Pourcentage de Prairies Permanentes par rapport à la SAU",
+      "unit": "%"
+    },
+    "ptSau": {
+      "title": "%PT/SAU",
+      "tooltip": "Pourcentage de Prairies Temporaires par rapport à la SAU",
+      "unit": "%"
+    },
+    "fourragesRecoltes": {
+      "title": "Fourrage récolté",
+      "tooltip": "Ensemble des fourrages récoltés",
+      "unit": "TMS/UGB"
+    }
+  },
   "workspace": {
     "referential": {
       "title": "Le référentiel",
@@ -518,7 +580,7 @@
       "btn_refresh": "Mettre à jour"
     },
     "actions": {
-      "title": "L' espace de travail",
+      "title": "Mes Fichiers",
       "create": {
         "content": "Vous n'avez pas d'espace de travail",
         "description": "Créer un nouvel espace de travail ou importer",
@@ -526,7 +588,7 @@
       },
       "import": {
         "content": "Votre espace de travail a été sauvegardé précédemment ",
-        "description": "Importer votre espace de travail si des modifications ont été apporté",
+        "description": "Importer votre espace de travail si des modifications ont été apportées",
         "btn": "Importer",
         "dialog": { "title": "Importer l'espace de travail", "btn_close": "Fermer" }
       },
@@ -537,7 +599,7 @@
       }
     },
     "content": {
-      "title": "Mon espace de travail",
+      "title": "Mes configurations",
       "tabs": {
         "simulation": "Mes Simulations",
         "animalProfile": "Mes Profils Animaux",
