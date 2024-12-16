@@ -9,6 +9,48 @@
           dense
           class="transparent"
         >
+          <v-list-item key="ugb">
+            <v-list-item-icon>
+              <!-- Icône d'information pour le tooltip -->
+              <v-tooltip
+                top
+                right
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-icon
+                    v-bind="attrs"
+                    v-on="on"
+                    color="deep-orange"
+                    dark
+                  >
+                    mdi-scale-balance
+                  </v-icon>
+                </template>
+                <span>{{ $t('dimensioning.ugbN.tooltip') }}</span>
+              </v-tooltip>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-row>
+                <v-col>
+                  <v-list-item-title class="text-h8 indigo--text font-italic">
+                    {{ $t('dimensioning.ugbN.title') }}
+                  </v-list-item-title>
+                  <v-list-item-subtitle class="font-weight-bold text-lg">
+                    {{ ugbs.ugbN }} {{ $t('dimensioning.ugbN.unit') }}
+                  </v-list-item-subtitle>
+                </v-col>
+                <v-col>
+                  <v-list-item-title class="text-h8 indigo--text font-italic">
+                    {{ $t('dimensioning.ugbAN.title') }}
+                  </v-list-item-title>
+                  <v-list-item-subtitle class="font-weight-bold text-lg">
+                    {{ ugbs.ugbAN }} {{ $t('dimensioning.ugbAN.unit') }}
+                  </v-list-item-subtitle>
+                </v-col>
+              </v-row>
+            </v-list-item-content>
+          </v-list-item>
+
           <!-- Liste stylée avec icônes, typographies et tooltips -->
           <v-list-item
             v-for="(item, index) in kpis"
@@ -30,13 +72,15 @@
                     {{ item.icon }}
                   </v-icon>
                 </template>
-                <span>{{ item.tooltip }}</span>
+                <span>{{ $t('dimensioning.' + item.name + '.tooltip') }}</span>
               </v-tooltip>
             </v-list-item-icon>
             <v-list-item-content>
-              <v-list-item-title class="text-h8 indigo--text font-italic">{{ item.title }} </v-list-item-title>
+              <v-list-item-title class="text-h8 indigo--text font-italic">
+                {{ $t('dimensioning.' + item.name + '.title') }}
+              </v-list-item-title>
               <v-list-item-subtitle class="font-weight-bold text-lg">
-                {{ item.value }} {{ item.unit }}
+                {{ item.value }} {{ $t('dimensioning.' + item.name + '.unit') }}
               </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
@@ -56,80 +100,61 @@
       ...mapGetters('simulator/report', {
         dimensioning: 'getDimensioning',
       }),
+      ugbs() {
+        return {
+          ugbN: this.dimensioning.ugbN,
+          ugbAN: this.dimensioning.ugbAN,
+        }
+      },
       kpis() {
         return [
           {
-            title: 'UGB',
-            value: this.dimensioning.ugb,
-            icon: 'mdi-scale-balance',
-            iconColor: 'deep-orange',
-            tooltip: 'Unité de Gros Bétail',
-            unit: '',
-          },
-
-          {
-            title: 'Estimation Chargement SAU',
+            name: 'chargeSAU',
             value: this.dimensioning.chargeSAU,
             icon: 'mdi-chart-line',
             iconColor: 'blue darken-4',
-            tooltip: 'Charge sur Surface Agricole Utile (SAU)',
-            unit: 'UGB/ha SAU',
           },
           {
-            title: 'Chargement Apparent',
+            name: 'chargeApparent',
             value: this.dimensioning.chargeApparent,
             icon: 'mdi-paw',
             iconColor: 'blue darken-4',
-            tooltip: 'Chargement apparent sur le territoire',
-            unit: 'UGB/ha SFP',
           },
           {
-            title: 'Chargement corrigé',
+            name: 'chargeCorrige',
             value: this.dimensioning.chargeCorrige,
             icon: 'mdi-tune',
             iconColor: 'blue darken-4',
-            tooltip: 'Chargement corrigé sur le territoire',
-            unit: 'UGB/ha SFP',
           },
           {
-            title: 'Chargement potentiel',
+            name: 'chargePotentiel',
             value: this.dimensioning.chargePotentiel,
             icon: 'mdi-trending-up',
             iconColor: 'blue darken-4',
-            tooltip: 'Chargement potentiel maximum sur le territoire',
-            unit: 'UGB/ha SFP',
           },
           {
-            title: 'SFP/SAU',
+            name: 'sfpSau',
             value: this.dimensioning.sfpSau,
             icon: 'mdi-land-plots',
             iconColor: 'green darken-4',
-            tooltip: 'Superficie Fourragère Principale (SFP) par rapport à la SAU',
-            unit: '%',
           },
           {
-            title: '%PP/SAU',
+            name: 'ppSau',
             value: this.dimensioning.ppSau,
             icon: 'mdi-grass',
             iconColor: 'green darken-4',
-            tooltip: 'Pourcentage de Prairies Permanentes par rapport à la SAU',
-            unit: '%',
           },
           {
-            title: '%PT/SAU',
+            name: 'ptSau',
             value: this.dimensioning.ptSau,
             icon: 'mdi-sprout',
             iconColor: 'green darken-4',
-            tooltip: 'Pourcentage de Prairies Temporaires par rapport à la SAU',
-            unit: '%',
           },
           {
-            title: 'Fourrage récolté',
+            name: 'fourragesRecoltes',
             value: this.dimensioning.fourragesRecoltes,
             icon: 'mdi-leaf',
             iconColor: 'green darken-4',
-            tooltip: 'Ensemble des fourrages récoltés',
-            unit: 'TMS/UGB',
           },
         ]
       },
