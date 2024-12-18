@@ -106,6 +106,7 @@ available_models = {
         "fields": {
             "id": fields.Integer,
             "name": fields.String,
+            "straw_requirement": fields.Float,
         }
     },
     "climatic_year": {
