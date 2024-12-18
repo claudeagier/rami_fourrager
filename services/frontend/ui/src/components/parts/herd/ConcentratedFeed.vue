@@ -1,56 +1,56 @@
 <template>
-  <base-period-layout
-    :pageColor="pageColor"
-    toolBarTitleKey="herd.concentratedfeed.tabs.table.title"
-    @selected="periodSelected"
-    @duplicate="duplicate"
-  >
-    <template v-slot:graph>
-      <graph-coverage
-        :selected-lot="selectedLot"
-        :selection="selectedPeriodIndex"
-        :stand-alone="false"
-        :small="true"
-      />
-    </template>
-    <template v-slot:create-modal>
-      <concentrated-feed-modal
-        :pageColor="pageColor"
-        :item="feedItem"
-        :forceOpen="dialogs[selectedPeriodIndex]"
-        :selectedPeriodIndex="selectedPeriodIndex"
-        @add-item="saveItem"
-        @cancel-modal="closeModal"
-      />
-    </template>
-
-    <template v-slot:tab-item>
-      <v-data-table
-        :headers="headers"
-        :items="feeds"
-        class="elevation-1"
-        sort-by="type"
-        hide-default-footer
-      >
-        <template v-slot:[`item.actions`]="{ item }">
-          <v-icon
-            @click="deleteItem(item)"
-            small
-          >
-            mdi-delete
-          </v-icon>
-          <v-icon
-            @click="editItem(item)"
-            medium
-            color="green"
-            background-color="green"
-          >
-            mdi-square-edit-outline
-          </v-icon>
-        </template>
-      </v-data-table>
-    </template>
-  </base-period-layout>
+  <div>
+    <base-period-layout
+      :pageColor="pageColor"
+      toolBarTitleKey="herd.concentratedfeed.tabs.table.title"
+      @selected="periodSelected"
+      @duplicate="duplicate"
+      @add-modal="openModal(selectedPeriodIndex)"
+    >
+      <template v-slot:graph>
+        <graph-coverage
+          :selected-lot="selectedLot"
+          :selection="selectedPeriodIndex"
+          :stand-alone="false"
+          :small="true"
+        />
+      </template>
+      <template v-slot:tab-item>
+        <v-data-table
+          :headers="headers"
+          :items="feeds"
+          class="elevation-1"
+          sort-by="type"
+          hide-default-footer
+        >
+          <template v-slot:[`item.actions`]="{ item }">
+            <v-icon
+              @click="deleteItem(item)"
+              small
+            >
+              mdi-delete
+            </v-icon>
+            <v-icon
+              @click="editItem(item)"
+              medium
+              color="green"
+              background-color="green"
+            >
+              mdi-square-edit-outline
+            </v-icon>
+          </template>
+        </v-data-table>
+      </template>
+    </base-period-layout>
+    <concentrated-feed-modal
+      :pageColor="pageColor"
+      :item="feedItem"
+      :forceOpen="dialogs[selectedPeriodIndex]"
+      :selectedPeriodIndex="selectedPeriodIndex"
+      @add-item="saveItem"
+      @cancel-modal="closeModal"
+    />
+  </div>
 </template>
 <script>
   import { mapGetters } from 'vuex'

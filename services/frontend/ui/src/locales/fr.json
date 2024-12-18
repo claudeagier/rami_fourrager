@@ -136,6 +136,9 @@
       "delete_batch_success": "Le lot a été supprimé",
       "animalcount": "Le nombre d'animaux présent par période a été modifier pour correspondre au nombre d'animaux du lot"
     },
+    "report": {
+      "apply_success": "les modifications du bilan sont appliquées à la simulation"
+    },
     "download": {
       "success": "Le fichier est en cours de téléchargement",
       "error": "Une erreur s'est produite lors du téléchargement."
@@ -489,7 +492,8 @@
           "label": "Exporter",
           "description": "Exporter les données au format csv pour le module GES"
         }
-      }
+      },
+      "apply": { "success": "" }
     }
   },
   "autonomy": {

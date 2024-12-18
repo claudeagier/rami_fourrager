@@ -2,18 +2,9 @@
   <div>
     <v-dialog
       max-width="500px"
-      v-model="showModal"
+      v-model="forceOpen"
       persistent
     >
-      <template v-slot:activator="{ on }">
-        <v-btn
-          :color="pageColor"
-          v-on="on"
-          outlined
-        >
-          {{ $t('herd.concentratedfeed.modal.btn_add') }}
-        </v-btn>
-      </template>
       <v-form
         ref="concentratedFeedForm"
         @submit.prevent="saveItem"
@@ -122,18 +113,9 @@
           }
         },
       },
-      forceOpen: {
-        immediate: true,
-        handler(newValue, oldvalue) {
-          if (newValue === true) {
-            this.showModal = true
-          }
-        },
-      },
     },
     data() {
       return {
-        showModal: false,
         oldFeedItem: null,
         feedItem: null,
         valid: true,
@@ -150,7 +132,6 @@
     },
     methods: {
       cancelModal() {
-        this.showModal = false
         this.clearFeedItem()
         this.$emit('cancel-modal', this.selectedPeriodIndex)
       },
@@ -166,7 +147,6 @@
         if (this.$refs.concentratedFeedForm.validate()) {
           this.$emit('add-item', this.feedItem)
           this.clearFeedItem()
-          this.showModal = false
         } else {
           return false
         }

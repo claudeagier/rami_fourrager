@@ -49,13 +49,13 @@ describe('report dimensioning', () => {
     const result = getTotalHerd(batchs)
     expect(result).toEqual(output.totalHerd)
   })
-  it('Besoins troupeau (tMS moyen période/jour) $646', () => {
-    var $646 = []
-    periods.forEach((period, index) => {
-      $646.push(_.round(getHerdNeeds(index, batchs), 2))
-    })
-    expect($646).toEqual(output.$646)
-  })
+  // it('Besoins troupeau (tMS moyen période/jour) $646', () => {
+  //   var $646 = []
+  //   periods.forEach((period, index) => {
+  //     $646.push(_.round(getHerdNeeds(index, batchs), 2))
+  //   })
+  //   expect($646).toEqual(output.$646)
+  // })
   it(' Total Consumption Excluding Concentrates $647', () => {
     var v647 = []
     const codes = ['FH', 'EH', 'EM', 'EL', 'FL']

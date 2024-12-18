@@ -33,7 +33,13 @@
             :sourceItem="period"
             @duplicate="duplicate"
           />
-          <slot name="create-modal" />
+          <v-btn
+            :color="pageColor"
+            @click="$emit('add-modal')"
+            outlined
+          >
+            {{ $t('btn.add') }}
+          </v-btn>
         </v-toolbar>
         <slot name="tab-item" />
       </v-tab-item>
@@ -57,9 +63,6 @@
       }),
     },
     methods: {
-      periodSelected(period) {
-        this.$emit('selected', period)
-      },
       duplicate({ source, targets }) {
         this.$emit('duplicate', { source: source, targets: targets })
       },

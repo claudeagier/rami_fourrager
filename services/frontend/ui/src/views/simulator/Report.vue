@@ -107,7 +107,7 @@
       applyToSimulation() {
         this.$store.dispatch('simulator/report/setSimulation')
         this.$toast({
-          message: this.$t('report.main.messages.apply_success'),
+          message: this.$t('notifications.report.apply_success'),
           type: 'success',
           timeout: 3000,
         })

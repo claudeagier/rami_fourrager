@@ -1,76 +1,30 @@
 {
-  "tag": "imported",
   "simulations": [
     {
       "name": "simulation 1",
       "site": 17,
       "climaticYear": 49,
       "lastModifiedDate": "15/04/2024",
-      "loaded": true,
+      "loaded": false,
       "farm": {
         "rotations": [
-          {
-            "name": "C0: méteil récolté en grain",
-            "constraint": "",
-            "surface": 15
-          },
-          {
-            "name": "C1: maïs ensilage",
-            "constraint": null,
-            "surface": 12
-          },
-          {
-            "name": "P1: Paturage",
-            "constraint": null,
-            "surface": 33.6
-          },
-          {
-            "name": "P2: Ensilage précoce pature",
-            "constraint": null,
-            "surface": 11.8
-          },
-          {
-            "name": "P4: Ensilage Foin Pature",
-            "constraint": null,
-            "surface": 17.8
-          },
-          {
-            "name": "P5: Ensilage Pature",
-            "constraint": null,
-            "surface": 19.8
-          },
-          {
-            "name": "P6: Foin",
-            "constraint": null,
-            "surface": 10
-          }
+          { "name": "C0: méteil récolté en grain", "constraint": "", "surface": 15 },
+          { "name": "C1: maïs ensilage", "constraint": null, "surface": 12 },
+          { "name": "P1: Paturage", "constraint": null, "surface": 33.6 },
+          { "name": "P2: Ensilage précoce pature", "constraint": null, "surface": 11.8 },
+          { "name": "P4: Ensilage Foin Pature", "constraint": null, "surface": 17.8 },
+          { "name": "P5: Ensilage Pature", "constraint": null, "surface": 19.8 },
+          { "name": "P6: Foin", "constraint": null, "surface": 10 }
         ],
         "dimensioning": {
           "SAU": 120,
-          "constrainedSurfaces": {
-            "irrigable": null,
-            "ploughable": null,
-            "superficial": null,
-            "reachable": null
-          }
+          "constrainedSurfaces": { "irrigable": null, "ploughable": null, "superficial": null, "reachable": null }
         }
       },
       "barn": {
         "totalStock": [
-          {
-            "code": "EH",
-            "name": "Ensilage et enrubannage d'herbe",
-            "unity": "tMS",
-            "color": "",
-            "quantity": 9.5
-          },
-          {
-            "code": "FH",
-            "name": "Foin",
-            "unity": "tMS",
-            "color": "",
-            "quantity": 8
-          },
+          { "code": "EH", "name": "Ensilage et enrubannage d'herbe", "unity": "tMS", "color": "", "quantity": 9.5 },
+          { "code": "FH", "name": "Foin", "unity": "tMS", "color": "", "quantity": 8 },
           {
             "code": "RC",
             "name": "Céréales en grain",
@@ -79,13 +33,7 @@
             "color": "",
             "quantity": 30
           },
-          {
-            "code": "EM",
-            "name": "Ensilage de maïs et sorgho (riche UF)",
-            "unity": "tMS",
-            "color": "",
-            "quantity": 10
-          }
+          { "code": "EM", "name": "Ensilage de maïs et sorgho (riche UF)", "unity": "tMS", "color": "", "quantity": 10 }
         ],
         "stockByPeriod": [
           null,
@@ -94,49 +42,20 @@
           {
             "period_id": 4,
             "stock": [
-              {
-                "code": "EH",
-                "name": "Ensilage et enrubannage d'herbe",
-                "unity": "tMS",
-                "color": "",
-                "quantity": 3
-              }
+              { "code": "EH", "name": "Ensilage et enrubannage d'herbe", "unity": "tMS", "color": "", "quantity": 3 }
             ]
           },
           {
             "period_id": 5,
             "stock": [
-              {
-                "code": "EH",
-                "name": "Ensilage et enrubannage d'herbe",
-                "unity": "tMS",
-                "color": "",
-                "quantity": 3.5
-              }
+              { "code": "EH", "name": "Ensilage et enrubannage d'herbe", "unity": "tMS", "color": "", "quantity": 3.5 }
             ]
           },
-          {
-            "period_id": 6,
-            "stock": [
-              {
-                "code": "FH",
-                "name": "Foin",
-                "unity": "tMS",
-                "color": "",
-                "quantity": 8
-              }
-            ]
-          },
+          { "period_id": 6, "stock": [{ "code": "FH", "name": "Foin", "unity": "tMS", "color": "", "quantity": 8 }] },
           {
             "period_id": 7,
             "stock": [
-              {
-                "code": "EH",
-                "name": "Ensilage et enrubannage d'herbe",
-                "unity": "tMS",
-                "color": "",
-                "quantity": 3
-              }
+              { "code": "EH", "name": "Ensilage et enrubannage d'herbe", "unity": "tMS", "color": "", "quantity": 3 }
             ]
           },
           {
@@ -171,41 +90,13 @@
         ],
         "refusalRate": 10,
         "initialStocks": [
-          {
-            "code": "RC",
-            "name": "Céréales en grain",
-            "quantity": 216
-          },
-          {
-            "code": "RP",
-            "name": "Protéagineux en grain",
-            "quantity": -96
-          },
-          {
-            "code": "STRAW",
-            "name": "paille",
-            "quantity": 53
-          },
-          {
-            "code": "FH",
-            "name": "foin",
-            "quantity": 58
-          },
-          {
-            "code": "FH",
-            "name": "foin",
-            "quantity": 58
-          },
-          {
-            "code": "EH",
-            "name": "Ensilage et enrubannage d'herbe",
-            "quantity": 79
-          },
-          {
-            "code": "EM",
-            "name": "Ensilage de maïs et sorgho (riche UF)",
-            "quantity": 66
-          }
+          { "code": "RC", "name": "Céréales en grain", "quantity": 216 },
+          { "code": "RP", "name": "Protéagineux en grain", "quantity": -96 },
+          { "code": "STRAW", "name": "paille", "quantity": 53 },
+          { "code": "FH", "name": "foin", "quantity": 58 },
+          { "code": "FH", "name": "foin", "quantity": 58 },
+          { "code": "EH", "name": "Ensilage et enrubannage d'herbe", "quantity": 79 },
+          { "code": "EM", "name": "Ensilage de maïs et sorgho (riche UF)", "quantity": 66 }
         ],
         "totalStrawStockProducted": 52500
       },
@@ -214,10 +105,7 @@
           {
             "id": 0,
             "priorityOrder": 0,
-            "type": {
-              "id": 6,
-              "name": "Vaches laitières"
-            },
+            "type": { "id": 6, "name": "Vaches laitières" },
             "profile": {
               "id": 145,
               "batch_type_id": 6,
@@ -336,1035 +224,257 @@
             },
             "count": 78,
             "housing": {
-              "type": {
-                "id": 5,
-                "name": "Logettes tête à tête en conduite fumier"
-              },
+              "type": { "id": 5, "name": "Logettes tête à tête en conduite fumier" },
               "presence": [
-                {
-                  "period": {
-                    "id": 1,
-                    "name": "P1"
-                  },
-                  "animalCount": 78,
-                  "days": 28
-                },
-                {
-                  "period": {
-                    "id": 2,
-                    "name": "P2"
-                  },
-                  "animalCount": 78,
-                  "days": 22.4
-                },
-                {
-                  "period": {
-                    "id": 3,
-                    "name": "P3"
-                  },
-                  "animalCount": 78,
-                  "days": 12.6
-                },
-                {
-                  "period": {
-                    "id": 4,
-                    "name": "P4"
-                  },
-                  "animalCount": 78,
-                  "days": 7
-                },
-                {
-                  "period": {
-                    "id": 5,
-                    "name": "P5"
-                  },
-                  "animalCount": 78,
-                  "days": 0
-                },
-                {
-                  "period": {
-                    "id": 6,
-                    "name": "P6"
-                  },
-                  "animalCount": 78,
-                  "days": 6.16
-                },
-                {
-                  "period": {
-                    "id": 7,
-                    "name": "P7"
-                  },
-                  "animalCount": 78,
-                  "days": 16.8
-                },
-                {
-                  "period": {
-                    "id": 8,
-                    "name": "P8"
-                  },
-                  "animalCount": 78,
-                  "days": 21
-                },
-                {
-                  "period": {
-                    "id": 9,
-                    "name": "P9"
-                  },
-                  "animalCount": 78,
-                  "days": 21
-                },
-                {
-                  "period": {
-                    "id": 10,
-                    "name": "P10"
-                  },
-                  "animalCount": 78,
-                  "days": 12.6
-                },
-                {
-                  "period": {
-                    "id": 11,
-                    "name": "P11"
-                  },
-                  "animalCount": 78,
-                  "days": 11.2
-                },
-                {
-                  "period": {
-                    "id": 12,
-                    "name": "P12"
-                  },
-                  "animalCount": 78,
-                  "days": 19.6
-                },
-                {
-                  "period": {
-                    "id": 13,
-                    "name": "P13"
-                  },
-                  "animalCount": 78,
-                  "days": 25.2
-                }
+                { "period": { "id": 1, "name": "P1" }, "animalCount": 78, "days": 28 },
+                { "period": { "id": 2, "name": "P2" }, "animalCount": 78, "days": 22.4 },
+                { "period": { "id": 3, "name": "P3" }, "animalCount": 78, "days": 12.6 },
+                { "period": { "id": 4, "name": "P4" }, "animalCount": 78, "days": 7 },
+                { "period": { "id": 5, "name": "P5" }, "animalCount": 78, "days": 0 },
+                { "period": { "id": 6, "name": "P6" }, "animalCount": 78, "days": 6.16 },
+                { "period": { "id": 7, "name": "P7" }, "animalCount": 78, "days": 16.8 },
+                { "period": { "id": 8, "name": "P8" }, "animalCount": 78, "days": 21 },
+                { "period": { "id": 9, "name": "P9" }, "animalCount": 78, "days": 21 },
+                { "period": { "id": 10, "name": "P10" }, "animalCount": 78, "days": 12.6 },
+                { "period": { "id": 11, "name": "P11" }, "animalCount": 78, "days": 11.2 },
+                { "period": { "id": 12, "name": "P12" }, "animalCount": 78, "days": 19.6 },
+                { "period": { "id": 13, "name": "P13" }, "animalCount": 78, "days": 25.2 }
               ]
             },
             "classicFeeds": [
               {
-                "period": {
-                  "id": 1,
-                  "name": "P1"
-                },
+                "period": { "id": 1, "name": "P1" },
                 "feeds": [
                   {
-                    "type": {
-                      "id": 7,
-                      "name": "Ensilage de maïs/sorgho",
-                      "correspondingStock": "EM",
-                      "nutritional_values": {
-                        "UEL": 0.95,
-                        "UEB": 1,
-                        "UEM": 1.28,
-                        "UFL": 0.8,
-                        "PDI_inf": 50,
-                        "UFV": 0.8,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 7,
                     "proportion": 50
                   },
                   {
-                    "type": {
-                      "id": 6,
-                      "name": "Ensilage d'herbe",
-                      "correspondingStock": "EH",
-                      "nutritional_values": {
-                        "UEL": 1.06,
-                        "UEB": 1.2,
-                        "UEM": 1.5,
-                        "UFL": 0.7,
-                        "PDI_inf": 70,
-                        "UFV": 0.7,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 6,
                     "proportion": 45
                   },
                   {
-                    "type": {
-                      "id": 2,
-                      "name": "Foin bonne qualité",
-                      "correspondingStock": "FH",
-                      "nutritional_values": {
-                        "UEL": 1.05,
-                        "UEB": 1.2,
-                        "UEM": 1.4,
-                        "UFL": 0.6,
-                        "PDI_inf": 60,
-                        "UFV": 0.6,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 2,
                     "proportion": 5
                   }
                 ]
               },
               {
-                "period": {
-                  "id": 2,
-                  "name": "P2"
-                },
+                "period": { "id": 2, "name": "P2" },
                 "feeds": [
                   {
-                    "type": {
-                      "id": 1,
-                      "name": "Pâture",
-                      "correspondingStock": "P",
-                      "nutritional_values": {
-                        "UEL": 0.98,
-                        "UEB": 1.1,
-                        "UEM": 0.95,
-                        "UFL": 0,
-                        "PDI_inf": 0,
-                        "UFV": 0,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 1,
                     "proportion": 20
                   },
                   {
-                    "type": {
-                      "id": 2,
-                      "name": "Foin bonne qualité",
-                      "correspondingStock": "FH",
-                      "nutritional_values": {
-                        "UEL": 1.05,
-                        "UEB": 1.2,
-                        "UEM": 1.4,
-                        "UFL": 0.6,
-                        "PDI_inf": 60,
-                        "UFV": 0.6,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 2,
                     "proportion": 5
                   },
                   {
-                    "type": {
-                      "id": 7,
-                      "name": "Ensilage de maïs/sorgho",
-                      "correspondingStock": "EM",
-                      "nutritional_values": {
-                        "UEL": 0.95,
-                        "UEB": 1,
-                        "UEM": 1.28,
-                        "UFL": 0.8,
-                        "PDI_inf": 50,
-                        "UFV": 0.8,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 7,
                     "proportion": 50
                   },
                   {
-                    "type": {
-                      "id": 6,
-                      "name": "Ensilage d'herbe",
-                      "correspondingStock": "EH",
-                      "nutritional_values": {
-                        "UEL": 1.06,
-                        "UEB": 1.2,
-                        "UEM": 1.5,
-                        "UFL": 0.7,
-                        "PDI_inf": 70,
-                        "UFV": 0.7,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 6,
                     "proportion": 25
                   }
                 ]
               },
               {
-                "period": {
-                  "id": 3,
-                  "name": "P3"
-                },
+                "period": { "id": 3, "name": "P3" },
                 "feeds": [
                   {
-                    "type": {
-                      "id": 1,
-                      "name": "Pâture",
-                      "correspondingStock": "P",
-                      "nutritional_values": {
-                        "UEL": 0.98,
-                        "UEB": 1.1,
-                        "UEM": 0.95,
-                        "UFL": 0,
-                        "PDI_inf": 0,
-                        "UFV": 0,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 1,
                     "proportion": 55
                   },
                   {
-                    "type": {
-                      "id": 2,
-                      "name": "Foin bonne qualité",
-                      "correspondingStock": "FH",
-                      "nutritional_values": {
-                        "UEL": 1.05,
-                        "UEB": 1.2,
-                        "UEM": 1.4,
-                        "UFL": 0.6,
-                        "PDI_inf": 60,
-                        "UFV": 0.6,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 2,
                     "proportion": 5
                   },
                   {
-                    "type": {
-                      "id": 7,
-                      "name": "Ensilage de maïs/sorgho",
-                      "correspondingStock": "EM",
-                      "nutritional_values": {
-                        "UEL": 0.95,
-                        "UEB": 1,
-                        "UEM": 1.28,
-                        "UFL": 0.8,
-                        "PDI_inf": 50,
-                        "UFV": 0.8,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 7,
                     "proportion": 30
                   },
                   {
-                    "type": {
-                      "id": 6,
-                      "name": "Ensilage d'herbe",
-                      "correspondingStock": "EH",
-                      "nutritional_values": {
-                        "UEL": 1.06,
-                        "UEB": 1.2,
-                        "UEM": 1.5,
-                        "UFL": 0.7,
-                        "PDI_inf": 70,
-                        "UFV": 0.7,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 6,
                     "proportion": 10
                   }
                 ]
               },
               {
-                "period": {
-                  "id": 4,
-                  "name": "P4"
-                },
+                "period": { "id": 4, "name": "P4" },
                 "feeds": [
                   {
-                    "type": {
-                      "id": 1,
-                      "name": "Pâture",
-                      "correspondingStock": "P",
-                      "nutritional_values": {
-                        "UEL": 0.98,
-                        "UEB": 1.1,
-                        "UEM": 0.95,
-                        "UFL": 0,
-                        "PDI_inf": 0,
-                        "UFV": 0,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 1,
                     "proportion": 75
                   },
                   {
-                    "type": {
-                      "id": 2,
-                      "name": "Foin bonne qualité",
-                      "correspondingStock": "FH",
-                      "nutritional_values": {
-                        "UEL": 1.05,
-                        "UEB": 1.2,
-                        "UEM": 1.4,
-                        "UFL": 0.6,
-                        "PDI_inf": 60,
-                        "UFV": 0.6,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 2,
                     "proportion": 5
                   },
                   {
-                    "type": {
-                      "id": 7,
-                      "name": "Ensilage de maïs/sorgho",
-                      "correspondingStock": "EM",
-                      "nutritional_values": {
-                        "UEL": 0.95,
-                        "UEB": 1,
-                        "UEM": 1.28,
-                        "UFL": 0.8,
-                        "PDI_inf": 50,
-                        "UFV": 0.8,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 7,
                     "proportion": 20
                   }
                 ]
               },
               {
-                "period": {
-                  "id": 5,
-                  "name": "P5"
-                },
+                "period": { "id": 5, "name": "P5" },
                 "feeds": [
                   {
-                    "type": {
-                      "id": 1,
-                      "name": "Pâture",
-                      "correspondingStock": "P",
-                      "nutritional_values": {
-                        "UEL": 0.98,
-                        "UEB": 1.1,
-                        "UEM": 0.95,
-                        "UFL": 0,
-                        "PDI_inf": 0,
-                        "UFV": 0,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 1,
                     "proportion": 100
                   }
                 ]
               },
               {
-                "period": {
-                  "id": 6,
-                  "name": "P6"
-                },
+                "period": { "id": 6, "name": "P6" },
                 "feeds": [
                   {
-                    "type": {
-                      "id": 1,
-                      "name": "Pâture",
-                      "correspondingStock": "P",
-                      "nutritional_values": {
-                        "UEL": 0.98,
-                        "UEB": 1.1,
-                        "UEM": 0.95,
-                        "UFL": 0,
-                        "PDI_inf": 0,
-                        "UFV": 0,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 1,
                     "proportion": 78
                   },
                   {
-                    "type": {
-                      "id": 2,
-                      "name": "Foin bonne qualité",
-                      "correspondingStock": "FH",
-                      "nutritional_values": {
-                        "UEL": 1.05,
-                        "UEB": 1.2,
-                        "UEM": 1.4,
-                        "UFL": 0.6,
-                        "PDI_inf": 60,
-                        "UFV": 0.6,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 2,
                     "proportion": 7
                   },
                   {
-                    "type": {
-                      "id": 6,
-                      "name": "Ensilage d'herbe",
-                      "correspondingStock": "EH",
-                      "nutritional_values": {
-                        "UEL": 1.06,
-                        "UEB": 1.2,
-                        "UEM": 1.5,
-                        "UFL": 0.7,
-                        "PDI_inf": 70,
-                        "UFV": 0.7,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 6,
                     "proportion": 15
                   }
                 ]
               },
               {
-                "period": {
-                  "id": 7,
-                  "name": "P7"
-                },
+                "period": { "id": 7, "name": "P7" },
                 "feeds": [
                   {
-                    "type": {
-                      "id": 1,
-                      "name": "Pâture",
-                      "correspondingStock": "P",
-                      "nutritional_values": {
-                        "UEL": 0.98,
-                        "UEB": 1.1,
-                        "UEM": 0.95,
-                        "UFL": 0,
-                        "PDI_inf": 0,
-                        "UFV": 0,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 1,
                     "proportion": 40
                   },
                   {
-                    "type": {
-                      "id": 2,
-                      "name": "Foin bonne qualité",
-                      "correspondingStock": "FH",
-                      "nutritional_values": {
-                        "UEL": 1.05,
-                        "UEB": 1.2,
-                        "UEM": 1.4,
-                        "UFL": 0.6,
-                        "PDI_inf": 60,
-                        "UFV": 0.6,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 2,
                     "proportion": 22
                   },
                   {
-                    "type": {
-                      "id": 6,
-                      "name": "Ensilage d'herbe",
-                      "correspondingStock": "EH",
-                      "nutritional_values": {
-                        "UEL": 1.06,
-                        "UEB": 1.2,
-                        "UEM": 1.5,
-                        "UFL": 0.7,
-                        "PDI_inf": 70,
-                        "UFV": 0.7,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 6,
                     "proportion": 38
                   }
                 ]
               },
               {
-                "period": {
-                  "id": 8,
-                  "name": "P8"
-                },
+                "period": { "id": 8, "name": "P8" },
                 "feeds": [
                   {
-                    "type": {
-                      "id": 1,
-                      "name": "Pâture",
-                      "correspondingStock": "P",
-                      "nutritional_values": {
-                        "UEL": 0.98,
-                        "UEB": 1.1,
-                        "UEM": 0.95,
-                        "UFL": 0,
-                        "PDI_inf": 0,
-                        "UFV": 0,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 1,
                     "proportion": 25
                   },
                   {
-                    "type": {
-                      "id": 2,
-                      "name": "Foin bonne qualité",
-                      "correspondingStock": "FH",
-                      "nutritional_values": {
-                        "UEL": 1.05,
-                        "UEB": 1.2,
-                        "UEM": 1.4,
-                        "UFL": 0.6,
-                        "PDI_inf": 60,
-                        "UFV": 0.6,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 2,
                     "proportion": 25
                   },
                   {
-                    "type": {
-                      "id": 6,
-                      "name": "Ensilage d'herbe",
-                      "correspondingStock": "EH",
-                      "nutritional_values": {
-                        "UEL": 1.06,
-                        "UEB": 1.2,
-                        "UEM": 1.5,
-                        "UFL": 0.7,
-                        "PDI_inf": 70,
-                        "UFV": 0.7,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 6,
                     "proportion": 50
                   }
                 ]
               },
               {
-                "period": {
-                  "id": 9,
-                  "name": "P9"
-                },
+                "period": { "id": 9, "name": "P9" },
                 "feeds": [
                   {
-                    "type": {
-                      "id": 1,
-                      "name": "Pâture",
-                      "correspondingStock": "P",
-                      "nutritional_values": {
-                        "UEL": 0.98,
-                        "UEB": 1.1,
-                        "UEM": 0.95,
-                        "UFL": 0,
-                        "PDI_inf": 0,
-                        "UFV": 0,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 1,
                     "proportion": 25
                   },
                   {
-                    "type": {
-                      "id": 2,
-                      "name": "Foin bonne qualité",
-                      "correspondingStock": "FH",
-                      "nutritional_values": {
-                        "UEL": 1.05,
-                        "UEB": 1.2,
-                        "UEM": 1.4,
-                        "UFL": 0.6,
-                        "PDI_inf": 60,
-                        "UFV": 0.6,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 2,
                     "proportion": 25
                   },
                   {
-                    "type": {
-                      "id": 6,
-                      "name": "Ensilage d'herbe",
-                      "correspondingStock": "EH",
-                      "nutritional_values": {
-                        "UEL": 1.06,
-                        "UEB": 1.2,
-                        "UEM": 1.5,
-                        "UFL": 0.7,
-                        "PDI_inf": 70,
-                        "UFV": 0.7,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 6,
                     "proportion": 50
                   }
                 ]
               },
               {
-                "period": {
-                  "id": 10,
-                  "name": "P10"
-                },
+                "period": { "id": 10, "name": "P10" },
                 "feeds": [
                   {
-                    "type": {
-                      "id": 1,
-                      "name": "Pâture",
-                      "correspondingStock": "P",
-                      "nutritional_values": {
-                        "UEL": 0.98,
-                        "UEB": 1.1,
-                        "UEM": 0.95,
-                        "UFL": 0,
-                        "PDI_inf": 0,
-                        "UFV": 0,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 1,
                     "proportion": 55
                   },
                   {
-                    "type": {
-                      "id": 2,
-                      "name": "Foin bonne qualité",
-                      "correspondingStock": "FH",
-                      "nutritional_values": {
-                        "UEL": 1.05,
-                        "UEB": 1.2,
-                        "UEM": 1.4,
-                        "UFL": 0.6,
-                        "PDI_inf": 60,
-                        "UFV": 0.6,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 2,
                     "proportion": 5
                   },
                   {
-                    "type": {
-                      "id": 7,
-                      "name": "Ensilage de maïs/sorgho",
-                      "correspondingStock": "EM",
-                      "nutritional_values": {
-                        "UEL": 0.95,
-                        "UEB": 1,
-                        "UEM": 1.28,
-                        "UFL": 0.8,
-                        "PDI_inf": 50,
-                        "UFV": 0.8,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 7,
                     "proportion": 35
                   },
                   {
-                    "type": {
-                      "id": 6,
-                      "name": "Ensilage d'herbe",
-                      "correspondingStock": "EH",
-                      "nutritional_values": {
-                        "UEL": 1.06,
-                        "UEB": 1.2,
-                        "UEM": 1.5,
-                        "UFL": 0.7,
-                        "PDI_inf": 70,
-                        "UFV": 0.7,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 6,
                     "proportion": 5
                   }
                 ]
               },
               {
-                "period": {
-                  "id": 11,
-                  "name": "P11"
-                },
+                "period": { "id": 11, "name": "P11" },
                 "feeds": [
                   {
-                    "type": {
-                      "id": 1,
-                      "name": "Pâture",
-                      "correspondingStock": "P",
-                      "nutritional_values": {
-                        "UEL": 0.98,
-                        "UEB": 1.1,
-                        "UEM": 0.95,
-                        "UFL": 0,
-                        "PDI_inf": 0,
-                        "UFV": 0,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 1,
                     "proportion": 60
                   },
                   {
-                    "type": {
-                      "id": 2,
-                      "name": "Foin bonne qualité",
-                      "correspondingStock": "FH",
-                      "nutritional_values": {
-                        "UEL": 1.05,
-                        "UEB": 1.2,
-                        "UEM": 1.4,
-                        "UFL": 0.6,
-                        "PDI_inf": 60,
-                        "UFV": 0.6,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 2,
                     "proportion": 5
                   },
                   {
-                    "type": {
-                      "id": 7,
-                      "name": "Ensilage de maïs/sorgho",
-                      "correspondingStock": "EM",
-                      "nutritional_values": {
-                        "UEL": 0.95,
-                        "UEB": 1,
-                        "UEM": 1.28,
-                        "UFL": 0.8,
-                        "PDI_inf": 50,
-                        "UFV": 0.8,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 7,
                     "proportion": 30
                   },
                   {
-                    "type": {
-                      "id": 6,
-                      "name": "Ensilage d'herbe",
-                      "correspondingStock": "EH",
-                      "nutritional_values": {
-                        "UEL": 1.06,
-                        "UEB": 1.2,
-                        "UEM": 1.5,
-                        "UFL": 0.7,
-                        "PDI_inf": 70,
-                        "UFV": 0.7,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 6,
                     "proportion": 5
                   }
                 ]
               },
               {
-                "period": {
-                  "id": 12,
-                  "name": "P12"
-                },
+                "period": { "id": 12, "name": "P12" },
                 "feeds": [
                   {
-                    "type": {
-                      "id": 1,
-                      "name": "Pâture",
-                      "correspondingStock": "P",
-                      "nutritional_values": {
-                        "UEL": 0.98,
-                        "UEB": 1.1,
-                        "UEM": 0.95,
-                        "UFL": 0,
-                        "PDI_inf": 0,
-                        "UFV": 0,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 1,
                     "proportion": 30
                   },
                   {
-                    "type": {
-                      "id": 2,
-                      "name": "Foin bonne qualité",
-                      "correspondingStock": "FH",
-                      "nutritional_values": {
-                        "UEL": 1.05,
-                        "UEB": 1.2,
-                        "UEM": 1.4,
-                        "UFL": 0.6,
-                        "PDI_inf": 60,
-                        "UFV": 0.6,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 2,
                     "proportion": 20
                   },
                   {
-                    "type": {
-                      "id": 7,
-                      "name": "Ensilage de maïs/sorgho",
-                      "correspondingStock": "EM",
-                      "nutritional_values": {
-                        "UEL": 0.95,
-                        "UEB": 1,
-                        "UEM": 1.28,
-                        "UFL": 0.8,
-                        "PDI_inf": 50,
-                        "UFV": 0.8,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 7,
                     "proportion": 30
                   },
                   {
-                    "type": {
-                      "id": 6,
-                      "name": "Ensilage d'herbe",
-                      "correspondingStock": "EH",
-                      "nutritional_values": {
-                        "UEL": 1.06,
-                        "UEB": 1.2,
-                        "UEM": 1.5,
-                        "UFL": 0.7,
-                        "PDI_inf": 70,
-                        "UFV": 0.7,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 6,
                     "proportion": 20
                   }
                 ]
               },
               {
-                "period": {
-                  "id": 13,
-                  "name": "P13"
-                },
+                "period": { "id": 13, "name": "P13" },
                 "feeds": [
                   {
-                    "type": {
-                      "id": 1,
-                      "name": "Pâture",
-                      "correspondingStock": "P",
-                      "nutritional_values": {
-                        "UEL": 0.98,
-                        "UEB": 1.1,
-                        "UEM": 0.95,
-                        "UFL": 0,
-                        "PDI_inf": 0,
-                        "UFV": 0,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 1,
                     "proportion": 10
                   },
                   {
-                    "type": {
-                      "id": 2,
-                      "name": "Foin bonne qualité",
-                      "correspondingStock": "FH",
-                      "nutritional_values": {
-                        "UEL": 1.05,
-                        "UEB": 1.2,
-                        "UEM": 1.4,
-                        "UFL": 0.6,
-                        "PDI_inf": 60,
-                        "UFV": 0.6,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 2,
                     "proportion": 10
                   },
                   {
-                    "type": {
-                      "id": 7,
-                      "name": "Ensilage de maïs/sorgho",
-                      "correspondingStock": "EM",
-                      "nutritional_values": {
-                        "UEL": 0.95,
-                        "UEB": 1,
-                        "UEM": 1.28,
-                        "UFL": 0.8,
-                        "PDI_inf": 50,
-                        "UFV": 0.8,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 7,
                     "proportion": 50
                   },
                   {
-                    "type": {
-                      "id": 6,
-                      "name": "Ensilage d'herbe",
-                      "correspondingStock": "EH",
-                      "nutritional_values": {
-                        "UEL": 1.06,
-                        "UEB": 1.2,
-                        "UEM": 1.5,
-                        "UFL": 0.7,
-                        "PDI_inf": 70,
-                        "UFV": 0.7,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 6,
                     "proportion": 30
                   }
                 ]
@@ -1372,558 +482,175 @@
             ],
             "concentratedFeeds": [
               {
-                "period": {
-                  "id": 1,
-                  "name": "P1"
-                },
+                "period": { "id": 1, "name": "P1" },
                 "feeds": [
                   {
-                    "type": {
-                      "id": 3,
-                      "name": "Tourteau de colza AB",
-                      "correspondingStock": "",
-                      "nutritional_values": {
-                        "UEL": 0,
-                        "UEB": 0,
-                        "UEM": 0,
-                        "UFL": 0.96,
-                        "PDI_inf": 110,
-                        "UFV": 0.9,
-                        "PDIN": 180,
-                        "PDIE": 110,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 3,
                     "quantity": 1.2
                   },
                   {
-                    "type": {
-                      "id": 15,
-                      "name": "Triticale_pois (70% - 30 %) AB",
-                      "correspondingStock": "RC-RP",
-                      "nutritional_values": {
-                        "UEL": 0,
-                        "UEB": 0,
-                        "UEM": 0,
-                        "UFL": 0.98,
-                        "PDI_inf": 82,
-                        "UFV": 0.97,
-                        "PDIN": 87,
-                        "PDIE": 82,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 15,
                     "quantity": 1.7
                   }
                 ]
               },
               {
-                "period": {
-                  "id": 2,
-                  "name": "P2"
-                },
+                "period": { "id": 2, "name": "P2" },
                 "feeds": [
                   {
-                    "type": {
-                      "id": 3,
-                      "name": "Tourteau de colza AB",
-                      "correspondingStock": "",
-                      "nutritional_values": {
-                        "UEL": 0,
-                        "UEB": 0,
-                        "UEM": 0,
-                        "UFL": 0.96,
-                        "PDI_inf": 110,
-                        "UFV": 0.9,
-                        "PDIN": 180,
-                        "PDIE": 110,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 3,
                     "quantity": 1.2
                   },
                   {
-                    "type": {
-                      "id": 15,
-                      "name": "Triticale_pois (70% - 30 %) AB",
-                      "correspondingStock": "RC-RP",
-                      "nutritional_values": {
-                        "UEL": 0,
-                        "UEB": 0,
-                        "UEM": 0,
-                        "UFL": 0.98,
-                        "PDI_inf": 82,
-                        "UFV": 0.97,
-                        "PDIN": 87,
-                        "PDIE": 82,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 15,
                     "quantity": 1.7
                   }
                 ]
               },
               {
-                "period": {
-                  "id": 3,
-                  "name": "P3"
-                },
+                "period": { "id": 3, "name": "P3" },
                 "feeds": [
                   {
-                    "type": {
-                      "id": 3,
-                      "name": "Tourteau de colza AB",
-                      "correspondingStock": "",
-                      "nutritional_values": {
-                        "UEL": 0,
-                        "UEB": 0,
-                        "UEM": 0,
-                        "UFL": 0.96,
-                        "PDI_inf": 110,
-                        "UFV": 0.9,
-                        "PDIN": 180,
-                        "PDIE": 110,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 3,
                     "quantity": 1.2
                   },
                   {
-                    "type": {
-                      "id": 15,
-                      "name": "Triticale_pois (70% - 30 %) AB",
-                      "correspondingStock": "RC-RP",
-                      "nutritional_values": {
-                        "UEL": 0,
-                        "UEB": 0,
-                        "UEM": 0,
-                        "UFL": 0.98,
-                        "PDI_inf": 82,
-                        "UFV": 0.97,
-                        "PDIN": 87,
-                        "PDIE": 82,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 15,
                     "quantity": 1.7
                   }
                 ]
               },
               {
-                "period": {
-                  "id": 4,
-                  "name": "P4"
-                },
+                "period": { "id": 4, "name": "P4" },
                 "feeds": [
                   {
-                    "type": {
-                      "id": 3,
-                      "name": "Tourteau de colza AB",
-                      "correspondingStock": "",
-                      "nutritional_values": {
-                        "UEL": 0,
-                        "UEB": 0,
-                        "UEM": 0,
-                        "UFL": 0.96,
-                        "PDI_inf": 110,
-                        "UFV": 0.9,
-                        "PDIN": 180,
-                        "PDIE": 110,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 3,
                     "quantity": 1.2
                   },
                   {
-                    "type": {
-                      "id": 15,
-                      "name": "Triticale_pois (70% - 30 %) AB",
-                      "correspondingStock": "RC-RP",
-                      "nutritional_values": {
-                        "UEL": 0,
-                        "UEB": 0,
-                        "UEM": 0,
-                        "UFL": 0.98,
-                        "PDI_inf": 82,
-                        "UFV": 0.97,
-                        "PDIN": 87,
-                        "PDIE": 82,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 15,
                     "quantity": 0.5
                   }
                 ]
               },
               {
-                "period": {
-                  "id": 5,
-                  "name": "P5"
-                },
+                "period": { "id": 5, "name": "P5" },
                 "feeds": [
                   {
-                    "type": {
-                      "id": 15,
-                      "name": "Triticale_pois (70% - 30 %) AB",
-                      "correspondingStock": "RC-RP",
-                      "nutritional_values": {
-                        "UEL": 0,
-                        "UEB": 0,
-                        "UEM": 0,
-                        "UFL": 0.98,
-                        "PDI_inf": 82,
-                        "UFV": 0.97,
-                        "PDIN": 87,
-                        "PDIE": 82,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 15,
                     "quantity": 0.5
                   }
                 ]
               },
               {
-                "period": {
-                  "id": 6,
-                  "name": "P6"
-                },
+                "period": { "id": 6, "name": "P6" },
                 "feeds": [
                   {
-                    "type": {
-                      "id": 15,
-                      "name": "Triticale_pois (70% - 30 %) AB",
-                      "correspondingStock": "RC-RP",
-                      "nutritional_values": {
-                        "UEL": 0,
-                        "UEB": 0,
-                        "UEM": 0,
-                        "UFL": 0.98,
-                        "PDI_inf": 82,
-                        "UFV": 0.97,
-                        "PDIN": 87,
-                        "PDIE": 82,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 15,
                     "quantity": 0.5
                   }
                 ]
               },
               {
-                "period": {
-                  "id": 7,
-                  "name": "P7"
-                },
+                "period": { "id": 7, "name": "P7" },
                 "feeds": [
                   {
-                    "type": {
-                      "id": 15,
-                      "name": "Triticale_pois (70% - 30 %) AB",
-                      "correspondingStock": "RC-RP",
-                      "nutritional_values": {
-                        "UEL": 0,
-                        "UEB": 0,
-                        "UEM": 0,
-                        "UFL": 0.98,
-                        "PDI_inf": 82,
-                        "UFV": 0.97,
-                        "PDIN": 87,
-                        "PDIE": 82,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 15,
                     "quantity": 1
                   }
                 ]
               },
               {
-                "period": {
-                  "id": 8,
-                  "name": "P8"
-                },
+                "period": { "id": 8, "name": "P8" },
                 "feeds": [
                   {
-                    "type": {
-                      "id": 15,
-                      "name": "Triticale_pois (70% - 30 %) AB",
-                      "correspondingStock": "RC-RP",
-                      "nutritional_values": {
-                        "UEL": 0,
-                        "UEB": 0,
-                        "UEM": 0,
-                        "UFL": 0.98,
-                        "PDI_inf": 82,
-                        "UFV": 0.97,
-                        "PDIN": 87,
-                        "PDIE": 82,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 15,
                     "quantity": 1.5
                   }
                 ]
               },
               {
-                "period": {
-                  "id": 9,
-                  "name": "P9"
-                },
+                "period": { "id": 9, "name": "P9" },
                 "feeds": [
                   {
-                    "type": {
-                      "id": 15,
-                      "name": "Triticale_pois (70% - 30 %) AB",
-                      "correspondingStock": "RC-RP",
-                      "nutritional_values": {
-                        "UEL": 0,
-                        "UEB": 0,
-                        "UEM": 0,
-                        "UFL": 0.98,
-                        "PDI_inf": 82,
-                        "UFV": 0.97,
-                        "PDIN": 87,
-                        "PDIE": 82,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 15,
                     "quantity": 1.5
                   }
                 ]
               },
               {
-                "period": {
-                  "id": 10,
-                  "name": "P10"
-                },
+                "period": { "id": 10, "name": "P10" },
                 "feeds": [
                   {
-                    "type": {
-                      "id": 3,
-                      "name": "Tourteau de colza AB",
-                      "correspondingStock": "",
-                      "nutritional_values": {
-                        "UEL": 0,
-                        "UEB": 0,
-                        "UEM": 0,
-                        "UFL": 0.96,
-                        "PDI_inf": 110,
-                        "UFV": 0.9,
-                        "PDIN": 180,
-                        "PDIE": 110,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 3,
                     "quantity": 0.8
                   },
                   {
-                    "type": {
-                      "id": 15,
-                      "name": "Triticale_pois (70% - 30 %) AB",
-                      "correspondingStock": "RC-RP",
-                      "nutritional_values": {
-                        "UEL": 0,
-                        "UEB": 0,
-                        "UEM": 0,
-                        "UFL": 0.98,
-                        "PDI_inf": 82,
-                        "UFV": 0.97,
-                        "PDIN": 87,
-                        "PDIE": 82,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 15,
                     "quantity": 1
                   }
                 ]
               },
               {
-                "period": {
-                  "id": 11,
-                  "name": "P11"
-                },
+                "period": { "id": 11, "name": "P11" },
                 "feeds": [
                   {
-                    "type": {
-                      "id": 3,
-                      "name": "Tourteau de colza AB",
-                      "correspondingStock": "",
-                      "nutritional_values": {
-                        "UEL": 0,
-                        "UEB": 0,
-                        "UEM": 0,
-                        "UFL": 0.96,
-                        "PDI_inf": 110,
-                        "UFV": 0.9,
-                        "PDIN": 180,
-                        "PDIE": 110,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 3,
                     "quantity": 1.2
                   },
                   {
-                    "type": {
-                      "id": 15,
-                      "name": "Triticale_pois (70% - 30 %) AB",
-                      "correspondingStock": "RC-RP",
-                      "nutritional_values": {
-                        "UEL": 0,
-                        "UEB": 0,
-                        "UEM": 0,
-                        "UFL": 0.98,
-                        "PDI_inf": 82,
-                        "UFV": 0.97,
-                        "PDIN": 87,
-                        "PDIE": 82,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 15,
                     "quantity": 1
                   }
                 ]
               },
               {
-                "period": {
-                  "id": 12,
-                  "name": "P12"
-                },
+                "period": { "id": 12, "name": "P12" },
                 "feeds": [
                   {
-                    "type": {
-                      "id": 3,
-                      "name": "Tourteau de colza AB",
-                      "correspondingStock": "",
-                      "nutritional_values": {
-                        "UEL": 0,
-                        "UEB": 0,
-                        "UEM": 0,
-                        "UFL": 0.96,
-                        "PDI_inf": 110,
-                        "UFV": 0.9,
-                        "PDIN": 180,
-                        "PDIE": 110,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 3,
                     "quantity": 1.2
                   },
                   {
-                    "type": {
-                      "id": 15,
-                      "name": "Triticale_pois (70% - 30 %) AB",
-                      "correspondingStock": "RC-RP",
-                      "nutritional_values": {
-                        "UEL": 0,
-                        "UEB": 0,
-                        "UEM": 0,
-                        "UFL": 0.98,
-                        "PDI_inf": 82,
-                        "UFV": 0.97,
-                        "PDIN": 87,
-                        "PDIE": 82,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 15,
                     "quantity": 1.7
                   }
                 ]
               },
               {
-                "period": {
-                  "id": 13,
-                  "name": "P13"
-                },
+                "period": { "id": 13, "name": "P13" },
                 "feeds": [
                   {
-                    "type": {
-                      "id": 3,
-                      "name": "Tourteau de colza AB",
-                      "correspondingStock": "",
-                      "nutritional_values": {
-                        "UEL": 0,
-                        "UEB": 0,
-                        "UEM": 0,
-                        "UFL": 0.96,
-                        "PDI_inf": 110,
-                        "UFV": 0.9,
-                        "PDIN": 180,
-                        "PDIE": 110,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 3,
                     "quantity": 1.2
                   },
                   {
-                    "type": {
-                      "id": 15,
-                      "name": "Triticale_pois (70% - 30 %) AB",
-                      "correspondingStock": "RC-RP",
-                      "nutritional_values": {
-                        "UEL": 0,
-                        "UEB": 0,
-                        "UEM": 0,
-                        "UFL": 0.98,
-                        "PDI_inf": 82,
-                        "UFV": 0.97,
-                        "PDIN": 87,
-                        "PDIE": 82,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 15,
                     "quantity": 1.7
                   }
                 ]
               }
             ],
             "pastureStrategy": [
-              {
-                "carryOver": 0
-              },
-              {
-                "carryOver": 0
-              },
-              {
-                "carryOver": 0
-              },
-              {
-                "carryOver": 1
-              },
-              {
-                "carryOver": 1
-              },
-              {
-                "carryOver": 1
-              },
-              {
-                "carryOver": 1
-              },
-              {
-                "carryOver": 1
-              },
-              {
-                "carryOver": 1
-              },
-              {
-                "carryOver": 1
-              },
-              {
-                "carryOver": 1
-              },
-              {
-                "carryOver": 1
-              },
-              {
-                "carryOver": 0
-              }
+              { "carryOver": 0 },
+              { "carryOver": 0 },
+              { "carryOver": 0 },
+              { "carryOver": 1 },
+              { "carryOver": 1 },
+              { "carryOver": 1 },
+              { "carryOver": 1 },
+              { "carryOver": 1 },
+              { "carryOver": 1 },
+              { "carryOver": 1 },
+              { "carryOver": 1 },
+              { "carryOver": 1 },
+              { "carryOver": 0 }
             ]
           },
           {
             "id": 1,
             "priorityOrder": 1,
-            "type": {
-              "id": 1,
-              "name": "Génisses de renouvellement"
-            },
+            "type": { "id": 1, "name": "Génisses de renouvellement" },
             "profile": {
               "id": 285,
               "batch_type_id": 1,
@@ -1947,997 +674,246 @@
                 "UF_concentrated_value_considered": "UFL"
               },
               "animal_profile_periods": [
-                {
-                  "period_id": 1,
-                  "CI": 16.8100221568627,
-                  "UFL": 13.2581189019608,
-                  "PDI": 1270.29956862745,
-                  "PL": 0
-                },
-                {
-                  "period_id": 2,
-                  "CI": 16.8100221568627,
-                  "UFL": 13.2581189019608,
-                  "PDI": 1270.29956862745,
-                  "PL": 0
-                },
-                {
-                  "period_id": 3,
-                  "CI": 16.8100221568627,
-                  "UFL": 13.2581189019608,
-                  "PDI": 1270.29956862745,
-                  "PL": 0
-                },
-                {
-                  "period_id": 4,
-                  "CI": 16.8100221568627,
-                  "UFL": 13.2581189019608,
-                  "PDI": 1270.29956862745,
-                  "PL": 0
-                },
-                {
-                  "period_id": 5,
-                  "CI": 16.8100221568627,
-                  "UFL": 13.2581189019608,
-                  "PDI": 1270.29956862745,
-                  "PL": 0
-                },
-                {
-                  "period_id": 6,
-                  "CI": 16.8100221568627,
-                  "UFL": 13.2581189019608,
-                  "PDI": 1270.29956862745,
-                  "PL": 0
-                },
-                {
-                  "period_id": 7,
-                  "CI": 16.8100221568627,
-                  "UFL": 13.2581189019608,
-                  "PDI": 1270.29956862745,
-                  "PL": 0
-                },
-                {
-                  "period_id": 8,
-                  "CI": 16.8100221568627,
-                  "UFL": 13.2581189019608,
-                  "PDI": 1270.29956862745,
-                  "PL": 0
-                },
-                {
-                  "period_id": 9,
-                  "CI": 16.8100221568627,
-                  "UFL": 13.2581189019608,
-                  "PDI": 1270.29956862745,
-                  "PL": 0
-                },
-                {
-                  "period_id": 10,
-                  "CI": 16.8100221568627,
-                  "UFL": 13.2581189019608,
-                  "PDI": 1270.29956862745,
-                  "PL": 0
-                },
-                {
-                  "period_id": 11,
-                  "CI": 16.8100221568627,
-                  "UFL": 13.2581189019608,
-                  "PDI": 1270.29956862745,
-                  "PL": 0
-                },
-                {
-                  "period_id": 12,
-                  "CI": 16.8100221568627,
-                  "UFL": 13.2581189019608,
-                  "PDI": 1270.29956862745,
-                  "PL": 0
-                },
-                {
-                  "period_id": 13,
-                  "CI": 16.8100221568627,
-                  "UFL": 13.2581189019608,
-                  "PDI": 1270.29956862745,
-                  "PL": 0
-                }
+                { "period_id": 1, "CI": 16.8100221568627, "UFL": 13.2581189019608, "PDI": 1270.29956862745, "PL": 0 },
+                { "period_id": 2, "CI": 16.8100221568627, "UFL": 13.2581189019608, "PDI": 1270.29956862745, "PL": 0 },
+                { "period_id": 3, "CI": 16.8100221568627, "UFL": 13.2581189019608, "PDI": 1270.29956862745, "PL": 0 },
+                { "period_id": 4, "CI": 16.8100221568627, "UFL": 13.2581189019608, "PDI": 1270.29956862745, "PL": 0 },
+                { "period_id": 5, "CI": 16.8100221568627, "UFL": 13.2581189019608, "PDI": 1270.29956862745, "PL": 0 },
+                { "period_id": 6, "CI": 16.8100221568627, "UFL": 13.2581189019608, "PDI": 1270.29956862745, "PL": 0 },
+                { "period_id": 7, "CI": 16.8100221568627, "UFL": 13.2581189019608, "PDI": 1270.29956862745, "PL": 0 },
+                { "period_id": 8, "CI": 16.8100221568627, "UFL": 13.2581189019608, "PDI": 1270.29956862745, "PL": 0 },
+                { "period_id": 9, "CI": 16.8100221568627, "UFL": 13.2581189019608, "PDI": 1270.29956862745, "PL": 0 },
+                { "period_id": 10, "CI": 16.8100221568627, "UFL": 13.2581189019608, "PDI": 1270.29956862745, "PL": 0 },
+                { "period_id": 11, "CI": 16.8100221568627, "UFL": 13.2581189019608, "PDI": 1270.29956862745, "PL": 0 },
+                { "period_id": 12, "CI": 16.8100221568627, "UFL": 13.2581189019608, "PDI": 1270.29956862745, "PL": 0 },
+                { "period_id": 13, "CI": 16.8100221568627, "UFL": 13.2581189019608, "PDI": 1270.29956862745, "PL": 0 }
               ]
             },
             "count": 20,
             "housing": {
-              "type": {
-                "id": 1,
-                "name": "Aire paillée intégrale"
-              },
+              "type": { "id": 1, "name": "Aire paillée intégrale" },
               "presence": [
-                {
-                  "period": {
-                    "id": 1,
-                    "name": "P1"
-                  },
-                  "animalCount": 20,
-                  "days": 12.6
-                },
-                {
-                  "period": {
-                    "id": 2,
-                    "name": "P2"
-                  },
-                  "animalCount": 20,
-                  "days": 12.6
-                },
-                {
-                  "period": {
-                    "id": 3,
-                    "name": "P3"
-                  },
-                  "animalCount": 20,
-                  "days": 11.2
-                },
-                {
-                  "period": {
-                    "id": 4,
-                    "name": "P4"
-                  },
-                  "animalCount": 20,
-                  "days": 11.2
-                },
-                {
-                  "period": {
-                    "id": 5,
-                    "name": "P5"
-                  },
-                  "animalCount": 20,
-                  "days": 19.6
-                },
-                {
-                  "period": {
-                    "id": 6,
-                    "name": "P6"
-                  },
-                  "animalCount": 20,
-                  "days": 11.2
-                },
-                {
-                  "period": {
-                    "id": 7,
-                    "name": "P7"
-                  },
-                  "animalCount": 20,
-                  "days": 11.2
-                },
-                {
-                  "period": {
-                    "id": 8,
-                    "name": "P8"
-                  },
-                  "animalCount": 20,
-                  "days": 16.8
-                },
-                {
-                  "period": {
-                    "id": 9,
-                    "name": "P9"
-                  },
-                  "animalCount": 20,
-                  "days": 11.2
-                },
-                {
-                  "period": {
-                    "id": 10,
-                    "name": "P10"
-                  },
-                  "animalCount": 20,
-                  "days": 16.8
-                },
-                {
-                  "period": {
-                    "id": 11,
-                    "name": "P11"
-                  },
-                  "animalCount": 20,
-                  "days": 16.8
-                },
-                {
-                  "period": {
-                    "id": 12,
-                    "name": "P12"
-                  },
-                  "animalCount": 20,
-                  "days": 16.8
-                },
-                {
-                  "period": {
-                    "id": 13,
-                    "name": "P13"
-                  },
-                  "animalCount": 20,
-                  "days": 12.6
-                }
+                { "period": { "id": 1, "name": "P1" }, "animalCount": 20, "days": 12.6 },
+                { "period": { "id": 2, "name": "P2" }, "animalCount": 20, "days": 12.6 },
+                { "period": { "id": 3, "name": "P3" }, "animalCount": 20, "days": 11.2 },
+                { "period": { "id": 4, "name": "P4" }, "animalCount": 20, "days": 11.2 },
+                { "period": { "id": 5, "name": "P5" }, "animalCount": 20, "days": 19.6 },
+                { "period": { "id": 6, "name": "P6" }, "animalCount": 20, "days": 11.2 },
+                { "period": { "id": 7, "name": "P7" }, "animalCount": 20, "days": 11.2 },
+                { "period": { "id": 8, "name": "P8" }, "animalCount": 20, "days": 16.8 },
+                { "period": { "id": 9, "name": "P9" }, "animalCount": 20, "days": 11.2 },
+                { "period": { "id": 10, "name": "P10" }, "animalCount": 20, "days": 16.8 },
+                { "period": { "id": 11, "name": "P11" }, "animalCount": 20, "days": 16.8 },
+                { "period": { "id": 12, "name": "P12" }, "animalCount": 20, "days": 16.8 },
+                { "period": { "id": 13, "name": "P13" }, "animalCount": 20, "days": 12.6 }
               ]
             },
             "classicFeeds": [
               {
-                "period": {
-                  "id": 1,
-                  "name": "P1"
-                },
+                "period": { "id": 1, "name": "P1" },
                 "feeds": [
                   {
-                    "type": {
-                      "id": 1,
-                      "name": "Pâture",
-                      "correspondingStock": "P",
-                      "nutritional_values": {
-                        "UEL": 0.98,
-                        "UEB": 1.1,
-                        "UEM": 0.95,
-                        "UFL": 0,
-                        "PDI_inf": 0,
-                        "UFV": 0,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 1,
                     "proportion": 25
                   },
                   {
-                    "type": {
-                      "id": 6,
-                      "name": "Ensilage herbe",
-                      "correspondingStock": "EH",
-                      "nutritional_values": {
-                        "UEL": 1.06,
-                        "UEB": 1.2,
-                        "UEM": 1.5,
-                        "UFL": 0.7,
-                        "PDI_inf": 70,
-                        "UFV": 0.7,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 6,
                     "proportion": 20
                   },
                   {
-                    "type": {
-                      "id": 3,
-                      "name": "Foin moyenne qualité",
-                      "correspondingStock": "FH",
-                      "nutritional_values": {
-                        "UEL": 1.1,
-                        "UEB": 1.3,
-                        "UEM": 1.55,
-                        "UFL": 0.5,
-                        "PDI_inf": 50,
-                        "UFV": 0.5,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 3,
                     "proportion": 55
                   }
                 ]
               },
               {
-                "period": {
-                  "id": 2,
-                  "name": "P2"
-                },
+                "period": { "id": 2, "name": "P2" },
                 "feeds": [
                   {
-                    "type": {
-                      "id": 1,
-                      "name": "Pâture",
-                      "correspondingStock": "P",
-                      "nutritional_values": {
-                        "UEL": 0.98,
-                        "UEB": 1.1,
-                        "UEM": 0.95,
-                        "UFL": 0,
-                        "PDI_inf": 0,
-                        "UFV": 0,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 1,
                     "proportion": 25
                   },
                   {
-                    "type": {
-                      "id": 6,
-                      "name": "Ensilage herbe",
-                      "correspondingStock": "EH",
-                      "nutritional_values": {
-                        "UEL": 1.06,
-                        "UEB": 1.2,
-                        "UEM": 1.5,
-                        "UFL": 0.7,
-                        "PDI_inf": 70,
-                        "UFV": 0.7,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 6,
                     "proportion": 20
                   },
                   {
-                    "type": {
-                      "id": 3,
-                      "name": "Foin moyenne qualité",
-                      "correspondingStock": "FH",
-                      "nutritional_values": {
-                        "UEL": 1.1,
-                        "UEB": 1.3,
-                        "UEM": 1.55,
-                        "UFL": 0.5,
-                        "PDI_inf": 50,
-                        "UFV": 0.5,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 3,
                     "proportion": 55
                   }
                 ]
               },
               {
-                "period": {
-                  "id": 3,
-                  "name": "P3"
-                },
+                "period": { "id": 3, "name": "P3" },
                 "feeds": [
                   {
-                    "type": {
-                      "id": 1,
-                      "name": "Pâture",
-                      "correspondingStock": "P",
-                      "nutritional_values": {
-                        "UEL": 0.98,
-                        "UEB": 1.1,
-                        "UEM": 0.95,
-                        "UFL": 0,
-                        "PDI_inf": 0,
-                        "UFV": 0,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 1,
                     "proportion": 10
                   },
                   {
-                    "type": {
-                      "id": 6,
-                      "name": "Ensilage herbe",
-                      "correspondingStock": "EH",
-                      "nutritional_values": {
-                        "UEL": 1.06,
-                        "UEB": 1.2,
-                        "UEM": 1.5,
-                        "UFL": 0.7,
-                        "PDI_inf": 70,
-                        "UFV": 0.7,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 6,
                     "proportion": 30
                   },
                   {
-                    "type": {
-                      "id": 3,
-                      "name": "Foin moyenne qualité",
-                      "correspondingStock": "FH",
-                      "nutritional_values": {
-                        "UEL": 1.1,
-                        "UEB": 1.3,
-                        "UEM": 1.55,
-                        "UFL": 0.5,
-                        "PDI_inf": 50,
-                        "UFV": 0.5,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 3,
                     "proportion": 60
                   }
                 ]
               },
               {
-                "period": {
-                  "id": 4,
-                  "name": "P4"
-                },
+                "period": { "id": 4, "name": "P4" },
                 "feeds": [
                   {
-                    "type": {
-                      "id": 1,
-                      "name": "Pâture",
-                      "correspondingStock": "P",
-                      "nutritional_values": {
-                        "UEL": 0.98,
-                        "UEB": 1.1,
-                        "UEM": 0.95,
-                        "UFL": 0,
-                        "PDI_inf": 0,
-                        "UFV": 0,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 1,
                     "proportion": 10
                   },
                   {
-                    "type": {
-                      "id": 6,
-                      "name": "Ensilage herbe",
-                      "correspondingStock": "EH",
-                      "nutritional_values": {
-                        "UEL": 1.06,
-                        "UEB": 1.2,
-                        "UEM": 1.5,
-                        "UFL": 0.7,
-                        "PDI_inf": 70,
-                        "UFV": 0.7,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 6,
                     "proportion": 30
                   },
                   {
-                    "type": {
-                      "id": 3,
-                      "name": "Foin moyenne qualité",
-                      "correspondingStock": "FH",
-                      "nutritional_values": {
-                        "UEL": 1.1,
-                        "UEB": 1.3,
-                        "UEM": 1.55,
-                        "UFL": 0.5,
-                        "PDI_inf": 50,
-                        "UFV": 0.5,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 3,
                     "proportion": 60
                   }
                 ]
               },
               {
-                "period": {
-                  "id": 5,
-                  "name": "P5"
-                },
+                "period": { "id": 5, "name": "P5" },
                 "feeds": [
                   {
-                    "type": {
-                      "id": 1,
-                      "name": "Pâture",
-                      "correspondingStock": "P",
-                      "nutritional_values": {
-                        "UEL": 0.98,
-                        "UEB": 1.1,
-                        "UEM": 0.95,
-                        "UFL": 0,
-                        "PDI_inf": 0,
-                        "UFV": 0,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 1,
                     "proportion": 40
                   },
                   {
-                    "type": {
-                      "id": 6,
-                      "name": "Ensilage herbe",
-                      "correspondingStock": "EH",
-                      "nutritional_values": {
-                        "UEL": 1.06,
-                        "UEB": 1.2,
-                        "UEM": 1.5,
-                        "UFL": 0.7,
-                        "PDI_inf": 70,
-                        "UFV": 0.7,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 6,
                     "proportion": 30
                   },
                   {
-                    "type": {
-                      "id": 3,
-                      "name": "Foin moyenne qualité",
-                      "correspondingStock": "FH",
-                      "nutritional_values": {
-                        "UEL": 1.1,
-                        "UEB": 1.3,
-                        "UEM": 1.55,
-                        "UFL": 0.5,
-                        "PDI_inf": 50,
-                        "UFV": 0.5,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 3,
                     "proportion": 30
                   }
                 ]
               },
               {
-                "period": {
-                  "id": 6,
-                  "name": "P6"
-                },
+                "period": { "id": 6, "name": "P6" },
                 "feeds": [
                   {
-                    "type": {
-                      "id": 1,
-                      "name": "Pâture",
-                      "correspondingStock": "P",
-                      "nutritional_values": {
-                        "UEL": 0.98,
-                        "UEB": 1.1,
-                        "UEM": 0.95,
-                        "UFL": 0,
-                        "PDI_inf": 0,
-                        "UFV": 0,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 1,
                     "proportion": 5
                   },
                   {
-                    "type": {
-                      "id": 6,
-                      "name": "Ensilage herbe",
-                      "correspondingStock": "EH",
-                      "nutritional_values": {
-                        "UEL": 1.06,
-                        "UEB": 1.2,
-                        "UEM": 1.5,
-                        "UFL": 0.7,
-                        "PDI_inf": 70,
-                        "UFV": 0.7,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 6,
                     "proportion": 35
                   },
                   {
-                    "type": {
-                      "id": 3,
-                      "name": "Foin moyenne qualité",
-                      "correspondingStock": "FH",
-                      "nutritional_values": {
-                        "UEL": 1.1,
-                        "UEB": 1.3,
-                        "UEM": 1.55,
-                        "UFL": 0.5,
-                        "PDI_inf": 50,
-                        "UFV": 0.5,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 3,
                     "proportion": 60
                   }
                 ]
               },
               {
-                "period": {
-                  "id": 7,
-                  "name": "P7"
-                },
+                "period": { "id": 7, "name": "P7" },
                 "feeds": [
                   {
-                    "type": {
-                      "id": 1,
-                      "name": "Pâture",
-                      "correspondingStock": "P",
-                      "nutritional_values": {
-                        "UEL": 0.98,
-                        "UEB": 1.1,
-                        "UEM": 0.95,
-                        "UFL": 0,
-                        "PDI_inf": 0,
-                        "UFV": 0,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 1,
                     "proportion": 10
                   },
                   {
-                    "type": {
-                      "id": 6,
-                      "name": "Ensilage herbe",
-                      "correspondingStock": "EH",
-                      "nutritional_values": {
-                        "UEL": 1.06,
-                        "UEB": 1.2,
-                        "UEM": 1.5,
-                        "UFL": 0.7,
-                        "PDI_inf": 70,
-                        "UFV": 0.7,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 6,
                     "proportion": 30
                   },
                   {
-                    "type": {
-                      "id": 3,
-                      "name": "Foin moyenne qualité",
-                      "correspondingStock": "FH",
-                      "nutritional_values": {
-                        "UEL": 1.1,
-                        "UEB": 1.3,
-                        "UEM": 1.55,
-                        "UFL": 0.5,
-                        "PDI_inf": 50,
-                        "UFV": 0.5,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 3,
                     "proportion": 60
                   }
                 ]
               },
               {
-                "period": {
-                  "id": 8,
-                  "name": "P8"
-                },
+                "period": { "id": 8, "name": "P8" },
                 "feeds": [
                   {
-                    "type": {
-                      "id": 6,
-                      "name": "Ensilage herbe",
-                      "correspondingStock": "EH",
-                      "nutritional_values": {
-                        "UEL": 1.06,
-                        "UEB": 1.2,
-                        "UEM": 1.5,
-                        "UFL": 0.7,
-                        "PDI_inf": 70,
-                        "UFV": 0.7,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 6,
                     "proportion": 60
                   },
                   {
-                    "type": {
-                      "id": 3,
-                      "name": "Foin moyenne qualité",
-                      "correspondingStock": "FH",
-                      "nutritional_values": {
-                        "UEL": 1.1,
-                        "UEB": 1.3,
-                        "UEM": 1.55,
-                        "UFL": 0.5,
-                        "PDI_inf": 50,
-                        "UFV": 0.5,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 3,
                     "proportion": 40
                   }
                 ]
               },
               {
-                "period": {
-                  "id": 9,
-                  "name": "P9"
-                },
+                "period": { "id": 9, "name": "P9" },
                 "feeds": [
                   {
-                    "type": {
-                      "id": 1,
-                      "name": "Pâture",
-                      "correspondingStock": "P",
-                      "nutritional_values": {
-                        "UEL": 0.98,
-                        "UEB": 1.1,
-                        "UEM": 0.95,
-                        "UFL": 0,
-                        "PDI_inf": 0,
-                        "UFV": 0,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 1,
                     "proportion": 10
                   },
                   {
-                    "type": {
-                      "id": 6,
-                      "name": "Ensilage herbe",
-                      "correspondingStock": "EH",
-                      "nutritional_values": {
-                        "UEL": 1.06,
-                        "UEB": 1.2,
-                        "UEM": 1.5,
-                        "UFL": 0.7,
-                        "PDI_inf": 70,
-                        "UFV": 0.7,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 6,
                     "proportion": 30
                   },
                   {
-                    "type": {
-                      "id": 3,
-                      "name": "Foin moyenne qualité",
-                      "correspondingStock": "FH",
-                      "nutritional_values": {
-                        "UEL": 1.1,
-                        "UEB": 1.3,
-                        "UEM": 1.55,
-                        "UFL": 0.5,
-                        "PDI_inf": 50,
-                        "UFV": 0.5,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 3,
                     "proportion": 60
                   }
                 ]
               },
               {
-                "period": {
-                  "id": 10,
-                  "name": "P10"
-                },
+                "period": { "id": 10, "name": "P10" },
                 "feeds": [
                   {
-                    "type": {
-                      "id": 6,
-                      "name": "Ensilage herbe",
-                      "correspondingStock": "EH",
-                      "nutritional_values": {
-                        "UEL": 1.06,
-                        "UEB": 1.2,
-                        "UEM": 1.5,
-                        "UFL": 0.7,
-                        "PDI_inf": 70,
-                        "UFV": 0.7,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 6,
                     "proportion": 60
                   },
                   {
-                    "type": {
-                      "id": 3,
-                      "name": "Foin moyenne qualité",
-                      "correspondingStock": "FH",
-                      "nutritional_values": {
-                        "UEL": 1.1,
-                        "UEB": 1.3,
-                        "UEM": 1.55,
-                        "UFL": 0.5,
-                        "PDI_inf": 50,
-                        "UFV": 0.5,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 3,
                     "proportion": 40
                   }
                 ]
               },
               {
-                "period": {
-                  "id": 11,
-                  "name": "P11"
-                },
+                "period": { "id": 11, "name": "P11" },
                 "feeds": [
                   {
-                    "type": {
-                      "id": 6,
-                      "name": "Ensilage herbe",
-                      "correspondingStock": "EH",
-                      "nutritional_values": {
-                        "UEL": 1.06,
-                        "UEB": 1.2,
-                        "UEM": 1.5,
-                        "UFL": 0.7,
-                        "PDI_inf": 70,
-                        "UFV": 0.7,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 6,
                     "proportion": 60
                   },
                   {
-                    "type": {
-                      "id": 3,
-                      "name": "Foin moyenne qualité",
-                      "correspondingStock": "FH",
-                      "nutritional_values": {
-                        "UEL": 1.1,
-                        "UEB": 1.3,
-                        "UEM": 1.55,
-                        "UFL": 0.5,
-                        "PDI_inf": 50,
-                        "UFV": 0.5,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 3,
                     "proportion": 40
                   }
                 ]
               },
               {
-                "period": {
-                  "id": 12,
-                  "name": "P12"
-                },
+                "period": { "id": 12, "name": "P12" },
                 "feeds": [
                   {
-                    "type": {
-                      "id": 1,
-                      "name": "Pâture",
-                      "correspondingStock": "P",
-                      "nutritional_values": {
-                        "UEL": 0.98,
-                        "UEB": 1.1,
-                        "UEM": 0.95,
-                        "UFL": 0,
-                        "PDI_inf": 0,
-                        "UFV": 0,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 1,
                     "proportion": 15
                   },
                   {
-                    "type": {
-                      "id": 6,
-                      "name": "Ensilage herbe",
-                      "correspondingStock": "EH",
-                      "nutritional_values": {
-                        "UEL": 1.06,
-                        "UEB": 1.2,
-                        "UEM": 1.5,
-                        "UFL": 0.7,
-                        "PDI_inf": 70,
-                        "UFV": 0.7,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 6,
                     "proportion": 45
                   },
                   {
-                    "type": {
-                      "id": 3,
-                      "name": "Foin moyenne qualité",
-                      "correspondingStock": "FH",
-                      "nutritional_values": {
-                        "UEL": 1.1,
-                        "UEB": 1.3,
-                        "UEM": 1.55,
-                        "UFL": 0.5,
-                        "PDI_inf": 50,
-                        "UFV": 0.5,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 3,
                     "proportion": 40
                   }
                 ]
               },
               {
-                "period": {
-                  "id": 13,
-                  "name": "P13"
-                },
+                "period": { "id": 13, "name": "P13" },
                 "feeds": [
                   {
-                    "type": {
-                      "id": 1,
-                      "name": "Pâture",
-                      "correspondingStock": "P",
-                      "nutritional_values": {
-                        "UEL": 0.98,
-                        "UEB": 1.1,
-                        "UEM": 0.95,
-                        "UFL": 0,
-                        "PDI_inf": 0,
-                        "UFV": 0,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 1,
                     "proportion": 25
                   },
                   {
-                    "type": {
-                      "id": 6,
-                      "name": "Ensilage herbe",
-                      "correspondingStock": "EH",
-                      "nutritional_values": {
-                        "UEL": 1.06,
-                        "UEB": 1.2,
-                        "UEM": 1.5,
-                        "UFL": 0.7,
-                        "PDI_inf": 70,
-                        "UFV": 0.7,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 6,
                     "proportion": 20
                   },
                   {
-                    "type": {
-                      "id": 3,
-                      "name": "Foin moyenne qualité",
-                      "correspondingStock": "FH",
-                      "nutritional_values": {
-                        "UEL": 1.1,
-                        "UEB": 1.3,
-                        "UEM": 1.55,
-                        "UFL": 0.5,
-                        "PDI_inf": 50,
-                        "UFV": 0.5,
-                        "PDIN": 0,
-                        "PDIE": 0,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 3,
                     "proportion": 55
                   }
                 ]
@@ -2945,402 +921,156 @@
             ],
             "concentratedFeeds": [
               {
-                "period": {
-                  "id": 1,
-                  "name": "P1"
-                },
+                "period": { "id": 1, "name": "P1" },
                 "feeds": [
                   {
-                    "type": {
-                      "id": 15,
-                      "name": "Triticale_pois (70% - 30 %) AB",
-                      "correspondingStock": "RC-RP",
-                      "nutritional_values": {
-                        "UEL": 0,
-                        "UEB": 0,
-                        "UEM": 0,
-                        "UFL": 0.98,
-                        "PDI_inf": 82,
-                        "UFV": 0.97,
-                        "PDIN": 87,
-                        "PDIE": 82,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 15,
                     "quantity": 1.5
                   }
                 ]
               },
               {
-                "period": {
-                  "id": 2,
-                  "name": "P2"
-                },
+                "period": { "id": 2, "name": "P2" },
                 "feeds": [
                   {
-                    "type": {
-                      "id": 15,
-                      "name": "Triticale_pois (70% - 30 %) AB",
-                      "correspondingStock": "RC-RP",
-                      "nutritional_values": {
-                        "UEL": 0,
-                        "UEB": 0,
-                        "UEM": 0,
-                        "UFL": 0.98,
-                        "PDI_inf": 82,
-                        "UFV": 0.97,
-                        "PDIN": 87,
-                        "PDIE": 82,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 15,
                     "quantity": 1.5
                   }
                 ]
               },
               {
-                "period": {
-                  "id": 3,
-                  "name": "P3"
-                },
+                "period": { "id": 3, "name": "P3" },
                 "feeds": [
                   {
-                    "type": {
-                      "id": 15,
-                      "name": "Triticale_pois (70% - 30 %) AB",
-                      "correspondingStock": "RC-RP",
-                      "nutritional_values": {
-                        "UEL": 0,
-                        "UEB": 0,
-                        "UEM": 0,
-                        "UFL": 0.98,
-                        "PDI_inf": 82,
-                        "UFV": 0.97,
-                        "PDIN": 87,
-                        "PDIE": 82,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 15,
                     "quantity": 1.5
                   }
                 ]
               },
               {
-                "period": {
-                  "id": 4,
-                  "name": "P4"
-                },
+                "period": { "id": 4, "name": "P4" },
                 "feeds": [
                   {
-                    "type": {
-                      "id": 15,
-                      "name": "Triticale_pois (70% - 30 %) AB",
-                      "correspondingStock": "RC-RP",
-                      "nutritional_values": {
-                        "UEL": 0,
-                        "UEB": 0,
-                        "UEM": 0,
-                        "UFL": 0.98,
-                        "PDI_inf": 82,
-                        "UFV": 0.97,
-                        "PDIN": 87,
-                        "PDIE": 82,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 15,
                     "quantity": 1.5
                   }
                 ]
               },
               {
-                "period": {
-                  "id": 5,
-                  "name": "P5"
-                },
+                "period": { "id": 5, "name": "P5" },
                 "feeds": [
                   {
-                    "type": {
-                      "id": 15,
-                      "name": "Triticale_pois (70% - 30 %) AB",
-                      "correspondingStock": "RC-RP",
-                      "nutritional_values": {
-                        "UEL": 0,
-                        "UEB": 0,
-                        "UEM": 0,
-                        "UFL": 0.98,
-                        "PDI_inf": 82,
-                        "UFV": 0.97,
-                        "PDIN": 87,
-                        "PDIE": 82,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 15,
                     "quantity": 1.5
                   }
                 ]
               },
               {
-                "period": {
-                  "id": 6,
-                  "name": "P6"
-                },
+                "period": { "id": 6, "name": "P6" },
                 "feeds": [
                   {
-                    "type": {
-                      "id": 15,
-                      "name": "Triticale_pois (70% - 30 %) AB",
-                      "correspondingStock": "RC-RP",
-                      "nutritional_values": {
-                        "UEL": 0,
-                        "UEB": 0,
-                        "UEM": 0,
-                        "UFL": 0.98,
-                        "PDI_inf": 82,
-                        "UFV": 0.97,
-                        "PDIN": 87,
-                        "PDIE": 82,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 15,
                     "quantity": 1.5
                   }
                 ]
               },
               {
-                "period": {
-                  "id": 7,
-                  "name": "P7"
-                },
+                "period": { "id": 7, "name": "P7" },
                 "feeds": [
                   {
-                    "type": {
-                      "id": 15,
-                      "name": "Triticale_pois (70% - 30 %) AB",
-                      "correspondingStock": "RC-RP",
-                      "nutritional_values": {
-                        "UEL": 0,
-                        "UEB": 0,
-                        "UEM": 0,
-                        "UFL": 0.98,
-                        "PDI_inf": 82,
-                        "UFV": 0.97,
-                        "PDIN": 87,
-                        "PDIE": 82,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 15,
                     "quantity": 1.5
                   }
                 ]
               },
               {
-                "period": {
-                  "id": 8,
-                  "name": "P8"
-                },
+                "period": { "id": 8, "name": "P8" },
                 "feeds": [
                   {
-                    "type": {
-                      "id": 15,
-                      "name": "Triticale_pois (70% - 30 %) AB",
-                      "correspondingStock": "RC-RP",
-                      "nutritional_values": {
-                        "UEL": 0,
-                        "UEB": 0,
-                        "UEM": 0,
-                        "UFL": 0.98,
-                        "PDI_inf": 82,
-                        "UFV": 0.97,
-                        "PDIN": 87,
-                        "PDIE": 82,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 15,
                     "quantity": 1.5
                   }
                 ]
               },
               {
-                "period": {
-                  "id": 9,
-                  "name": "P9"
-                },
+                "period": { "id": 9, "name": "P9" },
                 "feeds": [
                   {
-                    "type": {
-                      "id": 15,
-                      "name": "Triticale_pois (70% - 30 %) AB",
-                      "correspondingStock": "RC-RP",
-                      "nutritional_values": {
-                        "UEL": 0,
-                        "UEB": 0,
-                        "UEM": 0,
-                        "UFL": 0.98,
-                        "PDI_inf": 82,
-                        "UFV": 0.97,
-                        "PDIN": 87,
-                        "PDIE": 82,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 15,
                     "quantity": 1.5
                   }
                 ]
               },
               {
-                "period": {
-                  "id": 10,
-                  "name": "P10"
-                },
+                "period": { "id": 10, "name": "P10" },
                 "feeds": [
                   {
-                    "type": {
-                      "id": 15,
-                      "name": "Triticale_pois (70% - 30 %) AB",
-                      "correspondingStock": "RC-RP",
-                      "nutritional_values": {
-                        "UEL": 0,
-                        "UEB": 0,
-                        "UEM": 0,
-                        "UFL": 0.98,
-                        "PDI_inf": 82,
-                        "UFV": 0.97,
-                        "PDIN": 87,
-                        "PDIE": 82,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 15,
                     "quantity": 1.5
                   }
                 ]
               },
               {
-                "period": {
-                  "id": 11,
-                  "name": "P11"
-                },
+                "period": { "id": 11, "name": "P11" },
                 "feeds": [
                   {
-                    "type": {
-                      "id": 15,
-                      "name": "Triticale_pois (70% - 30 %) AB",
-                      "correspondingStock": "RC-RP",
-                      "nutritional_values": {
-                        "UEL": 0,
-                        "UEB": 0,
-                        "UEM": 0,
-                        "UFL": 0.98,
-                        "PDI_inf": 82,
-                        "UFV": 0.97,
-                        "PDIN": 87,
-                        "PDIE": 82,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 15,
                     "quantity": 1.5
                   }
                 ]
               },
               {
-                "period": {
-                  "id": 12,
-                  "name": "P12"
-                },
+                "period": { "id": 12, "name": "P12" },
                 "feeds": [
                   {
-                    "type": {
-                      "id": 15,
-                      "name": "Triticale_pois (70% - 30 %) AB",
-                      "correspondingStock": "RC-RP",
-                      "nutritional_values": {
-                        "UEL": 0,
-                        "UEB": 0,
-                        "UEM": 0,
-                        "UFL": 0.98,
-                        "PDI_inf": 82,
-                        "UFV": 0.97,
-                        "PDIN": 87,
-                        "PDIE": 82,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 15,
                     "quantity": 1.5
                   }
                 ]
               },
               {
-                "period": {
-                  "id": 13,
-                  "name": "P13"
-                },
+                "period": { "id": 13, "name": "P13" },
                 "feeds": [
                   {
-                    "type": {
-                      "id": 15,
-                      "name": "Triticale_pois (70% - 30 %) AB",
-                      "correspondingStock": "RC-RP",
-                      "nutritional_values": {
-                        "UEL": 0,
-                        "UEB": 0,
-                        "UEM": 0,
-                        "UFL": 0.98,
-                        "PDI_inf": 82,
-                        "UFV": 0.97,
-                        "PDIN": 87,
-                        "PDIE": 82,
-                        "rejection": 0
-                      }
-                    },
+                    "type": 15,
                     "quantity": 1.5
                   }
                 ]
               }
             ],
             "pastureStrategy": [
-              {
-                "carryOver": 0
-              },
-              {
-                "carryOver": 0
-              },
-              {
-                "carryOver": 1
-              },
-              {
-                "carryOver": 1
-              },
-              {
-                "carryOver": 1
-              },
-              {
-                "carryOver": 1
-              },
-              {
-                "carryOver": 1
-              },
-              {
-                "carryOver": 1
-              },
-              {
-                "carryOver": 1
-              },
-              {
-                "carryOver": 1
-              },
-              {
-                "carryOver": 1
-              },
-              {
-                "carryOver": 1
-              },
-              {
-                "carryOver": 1
-              }
+              { "carryOver": 0 },
+              { "carryOver": 0 },
+              { "carryOver": 1 },
+              { "carryOver": 1 },
+              { "carryOver": 1 },
+              { "carryOver": 1 },
+              { "carryOver": 1 },
+              { "carryOver": 1 },
+              { "carryOver": 1 },
+              { "carryOver": 1 },
+              { "carryOver": 1 },
+              { "carryOver": 1 },
+              { "carryOver": 1 }
             ]
           }
         ]
       },
-      "description": ""
+      "description": "",
+      "report": {
+        "soldedStock": {
+          "P": { "purchaseCost": 0, "sale": 0, "costOfSell": 0, "productionCost": 0 },
+          "FH": { "purchaseCost": 0, "sale": 0, "costOfSell": 0, "productionCost": 0 },
+          "EH": { "purchaseCost": 0, "sale": 0, "costOfSell": 0, "productionCost": 0 },
+          "EM": { "purchaseCost": 0, "sale": 0, "costOfSell": 0, "productionCost": 0 },
+          "RC": { "purchaseCost": 0, "sale": 0, "costOfSell": 0, "productionCost": 0 },
+          "RP": { "purchaseCost": 0, "sale": 0, "costOfSell": 0, "productionCost": 0 },
+          "AS": { "purchaseCost": 0, "sale": 0, "costOfSell": 0, "productionCost": 0 },
+          "EL": { "purchaseCost": 0, "sale": 0, "costOfSell": 0, "productionCost": 0 },
+          "FL": { "purchaseCost": 0, "sale": 0, "costOfSell": 0, "productionCost": 0 },
+          "STRAW": { "purchaseCost": 0, "sale": 0, "costOfSell": 0, "productionCost": 0 }
+        }
+      }
     },
     {
       "name": "simulation 2 test",
@@ -3353,19 +1083,24 @@
         "totalAvailablePastureByPeriod": null,
         "dimensioning": {
           "SAU": null,
-          "constrainedSurfaces": {
-            "irrigable": null,
-            "ploughable": null,
-            "superficial": null,
-            "reachable": null
-          }
+          "constrainedSurfaces": { "irrigable": null, "ploughable": null, "superficial": null, "reachable": null }
         }
       },
-      "barn": {
-        "initialStocks": []
-      },
-      "herd": {
-        "batchs": []
+      "barn": { "initialStocks": [] },
+      "herd": { "batchs": [] },
+      "report": {
+        "soldedStock": {
+          "P": { "purchaseCost": 0, "sale": 0, "costOfSell": 0, "productionCost": 0 },
+          "FH": { "purchaseCost": 0, "sale": 0, "costOfSell": 0, "productionCost": 0 },
+          "EH": { "purchaseCost": 0, "sale": 0, "costOfSell": 0, "productionCost": 0 },
+          "EM": { "purchaseCost": 0, "sale": 0, "costOfSell": 0, "productionCost": 0 },
+          "RC": { "purchaseCost": 0, "sale": 0, "costOfSell": 0, "productionCost": 0 },
+          "RP": { "purchaseCost": 0, "sale": 0, "costOfSell": 0, "productionCost": 0 },
+          "AS": { "purchaseCost": 0, "sale": 0, "costOfSell": 0, "productionCost": 0 },
+          "EL": { "purchaseCost": 0, "sale": 0, "costOfSell": 0, "productionCost": 0 },
+          "FL": { "purchaseCost": 0, "sale": 0, "costOfSell": 0, "productionCost": 0 },
+          "STRAW": { "purchaseCost": 0, "sale": 0, "costOfSell": 0, "productionCost": 0 }
+        }
       },
       "description": "fvregergez"
     }
@@ -3383,84 +1118,19 @@
       "ITK": "DPPFPP",
       "detail_ITK": "Pâturage ras, déprimage",
       "stic_periods": [
-        {
-          "id": 3966,
-          "period_id": 1,
-          "production": 0,
-          "farming_method": "P"
-        },
-        {
-          "id": 3967,
-          "period_id": 2,
-          "production": 9.3,
-          "farming_method": "P"
-        },
-        {
-          "id": 3968,
-          "period_id": 3,
-          "production": 26.4,
-          "farming_method": "P"
-        },
-        {
-          "id": 3969,
-          "period_id": 4,
-          "production": 44.5,
-          "farming_method": "P"
-        },
-        {
-          "id": 3970,
-          "period_id": 5,
-          "production": 13.8,
-          "farming_method": "P"
-        },
-        {
-          "id": 3971,
-          "period_id": 6,
-          "production": 0,
-          "farming_method": ""
-        },
-        {
-          "id": 3972,
-          "period_id": 7,
-          "production": 0,
-          "farming_method": ""
-        },
-        {
-          "id": 3973,
-          "period_id": 8,
-          "production": 0,
-          "farming_method": ""
-        },
-        {
-          "id": 3974,
-          "period_id": 9,
-          "production": 1,
-          "farming_method": "FH"
-        },
-        {
-          "id": 3975,
-          "period_id": 10,
-          "production": 16.8,
-          "farming_method": "P"
-        },
-        {
-          "id": 3976,
-          "period_id": 11,
-          "production": 0,
-          "farming_method": "P"
-        },
-        {
-          "id": 3977,
-          "period_id": 12,
-          "production": 2.4,
-          "farming_method": "P"
-        },
-        {
-          "id": 3978,
-          "period_id": 13,
-          "production": 0,
-          "farming_method": "P"
-        }
+        { "id": 3966, "period_id": 1, "production": 0, "farming_method": "P" },
+        { "id": 3967, "period_id": 2, "production": 9.3, "farming_method": "P" },
+        { "id": 3968, "period_id": 3, "production": 26.4, "farming_method": "P" },
+        { "id": 3969, "period_id": 4, "production": 44.5, "farming_method": "P" },
+        { "id": 3970, "period_id": 5, "production": 13.8, "farming_method": "P" },
+        { "id": 3971, "period_id": 6, "production": 0, "farming_method": "" },
+        { "id": 3972, "period_id": 7, "production": 0, "farming_method": "" },
+        { "id": 3973, "period_id": 8, "production": 0, "farming_method": "" },
+        { "id": 3974, "period_id": 9, "production": 1, "farming_method": "FH" },
+        { "id": 3975, "period_id": 10, "production": 16.8, "farming_method": "P" },
+        { "id": 3976, "period_id": 11, "production": 0, "farming_method": "P" },
+        { "id": 3977, "period_id": 12, "production": 2.4, "farming_method": "P" },
+        { "id": 3978, "period_id": 13, "production": 0, "farming_method": "P" }
       ],
       "pasture_type": {
         "id": 4,
@@ -3613,6 +1283,5 @@
         "rejection": 0
       }
     }
-  ],
-  "lastModifiedDate": "6/26/2024"
+  ]
 }

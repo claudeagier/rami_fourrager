@@ -197,7 +197,7 @@
           "stock": [
             {
               "code": "EM",
-              "name": "Ensilage de maïs et sorgho (riche UF)",
+              "name": "Ensilage de maïs et sorgho",
               "unity": "tMS",
               "color": "",
               "quantity": 120
@@ -385,7 +385,7 @@
           "total": 14229
         },
         {
-          "name": "Ensilage de maïs et sorgho (riche UF)",
+          "name": "Ensilage de maïs et sorgho",
           "category": "1_fourrage",
           "code": "EM",
           "initialStock": 66,
@@ -401,7 +401,7 @@
           "total": 12129
         },
         {
-          "name": "Ensilage de légumineuses (riche PDI)",
+          "name": "Ensilage de légumineuses",
           "category": "1_fourrage",
           "code": "EL",
           "initialStock": 0,
@@ -417,7 +417,7 @@
           "total": 0
         },
         {
-          "name": "Foin de légumineuses (riche PDI)",
+          "name": "Foin de légumineuses",
           "category": "1_fourrage",
           "code": "FL",
           "initialStock": 0,

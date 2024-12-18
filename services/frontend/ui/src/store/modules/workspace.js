@@ -112,7 +112,8 @@ export default {
     getWorkspace: (state) => {
       return state.workspace
     },
-    getActivatedSimulation: (state) => {
+    getActivatedSimulation: (state, getters, rootState) => {
+      console.log('rootState', rootState)
       if (state.workspace.simulations !== undefined) {
         const finded = state.workspace.simulations.find((sim) => sim.loaded === true)
         return finded

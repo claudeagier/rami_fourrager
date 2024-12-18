@@ -2,18 +2,9 @@
   <div>
     <v-dialog
       max-width="500px"
-      v-model="showModal"
+      v-model="forceOpen"
       persistent
     >
-      <template v-slot:activator="{ on }">
-        <v-btn
-          :color="pageColor"
-          v-on="on"
-          outlined
-        >
-          {{ $t('btn.add') }}
-        </v-btn>
-      </template>
       <v-form
         ref="classicFeedForm"
         @submit.prevent="saveItem"
@@ -122,18 +113,20 @@
           }
         },
       },
-      forceOpen: {
-        immediate: true,
-        handler(newValue, oldvalue) {
-          if (newValue === true) {
-            this.showModal = true
-          }
-        },
-      },
+      // forceOpen: {
+      //   immediate: true,
+      //   handler(newValue, oldvalue) {
+      //     if (newValue === true) {
+      //       this.showModal = true
+      //     } else {
+      //       this.showModal = false
+      //     }
+      //   },
+      // },
     },
     data() {
       return {
-        showModal: false,
+        // showModal: false,
         feedItem: null,
         valid: true,
         rules: {
@@ -144,12 +137,12 @@
     },
     computed: {
       ...mapGetters('referential', {
-        feedTypes: 'feedTypeList',
+        feedTypes: 'classicFeedList',
       }),
     },
     methods: {
       cancelModal() {
-        this.showModal = false
+        // this.showModal = false
         this.clearFeedItem()
         this.$emit('cancel-modal', this.selectedPeriodIndex)
       },
@@ -165,7 +158,7 @@
         if (this.$refs.classicFeedForm.validate()) {
           this.$emit('add-item', this.feedItem)
           this.clearFeedItem()
-          this.showModal = false
+          // this.showModal = false
         } else {
           return false
         }
