@@ -113,22 +113,22 @@
         ></v-text-field>
       </template>
       <template v-slot:item.total="{ item }">
-        {{ (item.total = totalCost(item)) }}
+        {{ (item.total = round(totalCost(item), 0)) }}
       </template>
 
       <template v-slot:group.summary="{ items }">
         <th class="text-h4 font-weight-light">Totaux</th>
-        <td>{{ subTotal(items, 'initialStock') }}</td>
-        <td>{{ subTotal(items, 'production') }}</td>
-        <td>{{ subTotal(items, 'consommation') }}</td>
-        <td>{{ subTotal(items, 'finalStock') }}</td>
-        <td>{{ subTotal(items, 'final_initialStock') }}</td>
-        <td>{{ subTotal(items, 'purchase') }}</td>
+        <td>{{ round(subTotal(items, 'initialStock'), 0) }}</td>
+        <td>{{ round(subTotal(items, 'production'), 0) }}</td>
+        <td>{{ round(subTotal(items, 'consommation'), 0) }}</td>
+        <td>{{ round(subTotal(items, 'finalStock'), 0) }}</td>
+        <td>{{ round(subTotal(items, 'final_initialStock'), 0) }}</td>
+        <td>{{ round(subTotal(items, 'purchase'), 0) }}</td>
         <td></td>
         <td></td>
         <td></td>
         <td></td>
-        <td>{{ subTotal(items, 'total') }}</td>
+        <td>{{ round(subTotal(items, 'total'), 0) }}</td>
       </template>
     </v-data-table>
   </v-card>
@@ -178,13 +178,10 @@
         if (stock.category === '2_concentrated') {
           total = stock.purchase * stock.purchaseCost + stock.sale * stock.costOfSell
         }
-        return _.round(total, 0)
+        return total
       },
       subTotal(items, column) {
-        return _.round(
-          items.reduce((sum, item) => sum + item[column], 0),
-          0
-        )
+        return items.reduce((sum, item) => sum + item[column], 0)
       },
     },
     data() {

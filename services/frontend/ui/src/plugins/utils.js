@@ -1,5 +1,5 @@
 import jsonSchemaValidator from '@/plugins/jsonSchemaValidator'
-
+import _ from 'lodash'
 export function replaceNan(value, defaultValue) {
   return isNaN(value) ? defaultValue : value
 }
@@ -77,4 +77,14 @@ export async function validateJson(data, schemaName) {
   const isValid = validation.valid
 
   return isValid
+}
+
+export function roundValues(obj) {
+  for (const key in obj) {
+    if (typeof obj[key] === 'object' && obj[key] !== null) {
+      roundValues(obj[key]) // Appel récursif pour les objets imbriqués
+    } else if (typeof obj[key] === 'number') {
+      obj[key] = _.round(obj[key], 0) // Arrondir la valeur
+    }
+  }
 }

@@ -1,68 +1,191 @@
 <template>
-  <div>
-    <v-data-table
-      :headers="headers"
-      :items="items"
-      class="elevation-1"
-      item-key="id"
-      loading="true"
-      hide-default-footer
+  <v-container>
+    <v-card
+      outlined
+      elevation="2"
+      style="width: 500px"
     >
-      <template v-slot:top>
-        <v-toolbar
-          color="white"
-          flat
+      <v-card-title>{{ $t('report.main.modules.stockNcost.stockTable.costIndicator.modal.title') }}</v-card-title>
+      <v-card-text>
+        <v-row justify="center">
+          <v-col cols="6">
+            <v-card
+              outlined
+              class="kpi-card--content"
+            >
+              <v-card-text style="padding-bottom: 0">
+                <div class="kpi-value">
+                  <span class="text-h3 font-weight-bold kpi-number">{{ round(kpi.totalCost, 0) + ' €' }}</span>
+                </div>
+              </v-card-text>
+              <v-card-subtitle class="text-center kpi-subtitle">
+                {{ $t('report.main.modules.stockNcost.stockTable.costIndicator.modal.kpi.totalCost') }}
+              </v-card-subtitle>
+            </v-card>
+          </v-col>
+          <v-col cols="6">
+            <v-card
+              outlined
+              class="kpi-card--content"
+            >
+              <v-card-text style="padding-bottom: 0">
+                <div class="kpi-value">
+                  <span class="text-h3 font-weight-bold kpi-number">{{ round(kpi.concentratedPart, 0) + ' %' }}</span>
+                </div>
+              </v-card-text>
+              <v-card-subtitle class="text-center kpi-subtitle">
+                {{ $t('report.main.modules.stockNcost.stockTable.costIndicator.modal.kpi.concentratedPart') }}
+              </v-card-subtitle>
+            </v-card>
+          </v-col>
+        </v-row>
+        <v-data-table
+          :headers="headers"
+          :items="formattedItems"
+          class="elevation-2"
+          dense
+          item-value="key"
+          :group-by="['category']"
+          :disable-sort="true"
+          hide-default-footer
+          disable-pagination
+          fixed-header
         >
-          <v-toolbar-title class="text-h4 font-weight-light">
-            {{ $t('report.main.modules.stockNcost.stockTable.costIndicator.modal.title') }}
-          </v-toolbar-title>
-          <v-divider
-            class="mx-4"
-            inset
-            vertical
-          />
-          <v-spacer></v-spacer>
-          <cost-indicator pageColor="primary" />
-        </v-toolbar>
-      </template>
-    </v-data-table>
-    <v-card>
-      <v-card-title primary-title>
-        <div>
-          <h3 class="text-h6 mb-0">headline</h3>
-          <div>description</div>
-        </div>
-      </v-card-title>
+          <!-- Affichage des groupes (catégories) -->
+          <template v-slot:group.header="{ items, group, isOpen, toggle }">
+            <th
+              colspan="3"
+              style="border-top: thick double grey"
+            >
+              <v-row>
+                <v-col cols="1">
+                  <v-btn
+                    icon
+                    dense
+                    dark
+                    color="primary"
+                    @click="toggle()"
+                  >
+                    <v-icon dense>
+                      {{ isOpen ? 'mdi-arrow-collapse-vertical' : 'mdi-arrow-expand-vertical' }}
+                    </v-icon>
+                  </v-btn>
+                </v-col>
+                <v-col
+                  class="text-h4 font-weight-light"
+                  align-self="center"
+                >
+                  {{ $t('report.main.modules.stockNcost.stockTable.costIndicator.modal.category.' + group) }}
+                </v-col>
+              </v-row>
+            </th>
+          </template>
+          <!-- Affichage des lignes (clés et valeurs) -->
+          <template v-slot:item="{ item }">
+            <tr>
+              <td>{{ item.without }}</td>
+              <td>{{ item.with }}</td>
+              <td>
+                {{ $t('report.main.modules.stockNcost.stockTable.costIndicator.modal.unity.' + item.key) }}
+              </td>
+            </tr>
+          </template>
+        </v-data-table>
+      </v-card-text>
     </v-card>
-  </div>
+  </v-container>
 </template>
+
 <script>
+  import { mapGetters } from 'vuex'
+  import _ from 'lodash'
+
   export default {
-    name: 'cost-indicator-modal',
-    data() {
-      return {
-        headers: [
-          {
-            text: this.$t('report.main.modules.stockNcost.stockTable.headers.name'),
-            value: 'name',
-            groupable: false,
-            width: 200,
-          },
-          {
-            text: this.$t('report.main.modules.stockNcost.stockTable.headers.name'),
-            value: 'name',
-            groupable: false,
-            width: 200,
-          },
-          {
-            text: this.$t('report.main.modules.stockNcost.stockTable.headers.name'),
-            value: 'name',
-            groupable: false,
-            width: 200,
-          },
-        ],
-        items: [],
-      }
+    name: 'CostIndicatorModal',
+    methods: {
+      round(value, digit) {
+        return _.round(value, digit)
+      },
+    },
+    computed: {
+      ...mapGetters('simulator/report', {
+        pastureStock: 'getPastureStock',
+        feedStocks: 'getClassicFeedsStock',
+        concentratedStock: 'getConcentratedFeedsStock',
+        strawStock: 'getStrawStock',
+        getCostIndicators: 'getCostIndicators',
+        getKpis: 'getCIKpis',
+      }),
+      kpi() {
+        return this.getKpis(this.groupedStocks)
+      },
+      groupedStocks() {
+        const all = [...this.pastureStock, ...this.feedStocks, ...this.concentratedStock, ...this.strawStock]
+        return Object.groupBy(all, ({ category }) => category)
+      },
+      headers() {
+        return [
+          { text: this.$t('report.main.modules.stockNcost.stockTable.costIndicator.modal.without'), value: 'without' },
+          { text: this.$t('report.main.modules.stockNcost.stockTable.costIndicator.modal.with'), value: 'with' },
+          { text: this.$t('report.main.modules.stockNcost.stockTable.costIndicator.modal.key'), value: 'key' },
+        ]
+      },
+      formattedItems() {
+        const items = []
+        for (const [category, subcategories] of Object.entries(this.getCostIndicators(this.groupedStocks))) {
+          // Traiter les valeurs dans "without"
+          if (subcategories.without) {
+            for (const key of Object.keys(subcategories.without)) {
+              items.push({
+                category,
+                key,
+                without: _.round(subcategories.without[key]),
+                with: _.round(subcategories.with?.[key]) || '-',
+              })
+            }
+          }
+          // Traiter les clés uniquement présentes dans "with"
+          if (subcategories.with) {
+            for (const key of Object.keys(subcategories.with)) {
+              if (!subcategories.without || !(key in subcategories.without)) {
+                items.push({
+                  category,
+                  key,
+                  without: '-',
+                  with: _.round(subcategories.with[key], 0),
+                })
+              }
+            }
+          }
+        }
+        return items
+      },
     },
   }
 </script>
+
+<style scoped>
+  .kpi-card {
+    margin: 20px;
+  }
+  .kpi-card--content {
+    border-radius: 12px;
+    background: #f9f9f9;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  .kpi-value {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+  }
+  .kpi-number {
+    color: #4caf50;
+  }
+  .kpi-subtitle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #888;
+  }
+</style>

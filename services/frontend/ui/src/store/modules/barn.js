@@ -52,6 +52,9 @@ export default {
       }
       return quantity
     },
+    getTotalStrawStockProducted(state) {
+      return state.totalStrawStockProducted
+    },
     getRefusalRate: (state) => state.refusalRate,
   },
   actions: {

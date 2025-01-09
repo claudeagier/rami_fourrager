@@ -30,6 +30,7 @@ import {
   getSAU,
   getStrawSurface,
   getCostIndicator,
+  getCostIndicatorsKpis,
 } from './mixins'
 import { replaceNan } from '@/plugins/utils'
 
@@ -119,8 +120,6 @@ export default {
       return stock
     },
     getConcentratedFeedsStock: (state, getters, rootState, rootGetters) => {
-      // FIXME pas de conso de concentré 0
-      // console.log('rootState', rootState)
       if (rootState.simulator.farm.rotations.length === 0 || rootState.simulator.herd.batchs.length === 0) {
         return []
       }
@@ -154,8 +153,6 @@ export default {
       return stock
     },
     getStrawStock: (state, getters, rootState, rootGetters) => {
-      // FIXME et les conso de la paille?
-
       if (rootState.simulator.farm.rotations.length === 0 || rootState.simulator.herd.batchs.length === 0) {
         return []
       }
@@ -170,7 +167,8 @@ export default {
           category: '3_straw',
           code: stockCode,
           initialStock: replaceNan(getInitialStockByBarnStockItem(simulation, stockCode), 0),
-          production: replaceNan(getSticProductionByBarnStockItem(simulation, stockCode, periods, getStic), 0),
+          // production: replaceNan(getSticProductionByBarnStockItem(simulation, stockCode, periods, getStic), 0),
+          production: replaceNan(rootGetters['simulator/barn/getTotalStrawStockProducted'], 0),
           consommation: replaceNan(getConsumptionByBarnStockItem(simulation, periods, stockCode), 0),
           finalStock: replaceNan(getFinalStockByBarnStockItem(simulation, stockCode, periods, getStic), 0),
           final_initialStock: replaceNan(
@@ -319,12 +317,14 @@ export default {
     },
     getCostIndicators: (state, getters, rootState, rootGetters) => (data) => {
       const simulation = rootState.simulator
-      // console.log('rootstate', rootState)
       const periods = rootState.referential.periods
       const getStic = rootGetters['referential/getSticByName']
       const stockCodeList = ['FH', 'EH', 'EM', 'EL', 'FL']
       const totalAvailablePastureByPeriod = rootState.simulator.farm.totalAvailablePastureByPeriod
       return getCostIndicator(data, periods, simulation, totalAvailablePastureByPeriod, stockCodeList, getStic)
+    },
+    getCIKpis: (state) => (data) => {
+      return getCostIndicatorsKpis(data)
     },
   },
   actions: {

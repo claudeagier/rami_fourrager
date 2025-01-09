@@ -94,7 +94,6 @@ export const setTotalAvailablePasture = (simulation, periods, getStic) => {
       const key = 'period_id_' + period.id
       const total = Object.values(simulation.farm.rotations).reduce((total, rotation) => {
         // find stic in sticList
-        // TODO-FRONT si on ne trouve pas le stic il faut faire quelquechose car ça plante tout
         const stic = getStic(simulation.climaticYear, rotation.name)
         const sp = stic.stic_periods.find((el) => el.period_id === period.id)
         var calcul = 0
@@ -537,7 +536,6 @@ export const getFinalProteicCoverage = function (batch, simulation, periods, tot
 
 // D stock debut à déplacer directement dans le store c'est plus simple
 export function getInitialStockByBarnStockItem(simulation, stockCode) {
-  // $Dim_Systeme.E15
   const stock = simulation.barn.initialStocks.find((item) => item.code === stockCode)
   return stock === undefined ? 0 : stock.quantity
 }
@@ -547,11 +545,6 @@ export function getSticProductionByBarnStockItem(simulation, stockCode, periods,
   const prodTotal = Object.values(periods).reduce((acc, curr, index) => {
     return acc + getSticProductionByBarnStockItemByPeriod(simulation, stockCode, index)
   }, 0.0)
-  // if (stockCode === 'P') {
-  //   // ajouter la prod des patures
-  //   const p = getPastureProductionTotal(simulation, periods, getStic)
-  //   prodTotal += p
-  // }
   return prodTotal
 }
 export function getPastureProductionTotal(simulation) {
@@ -576,26 +569,33 @@ export function getConsumptionForOthers(simulation, periods, stockCode) {
 }
 export function getConsumptionForConcentrated(simulation, periods, stockCode) {
   var consumption = 0
-  // console.log('stockCode', stockCode)
   simulation.herd.batchs.forEach((batch) => {
     var barnStockConsumptionByBatch = 0
     periods.forEach((p, i) => {
       const c = getBatchConcentratedConsumption(batch, p.id, stockCode) * batch.housing.presence[i].animalCount
       barnStockConsumptionByBatch += c
     })
-    // console.log('barnStockConsumptionByBatch', barnStockConsumptionByBatch)
     consumption += barnStockConsumptionByBatch * DAYS_BY_PERIOD
   })
   const rt = consumption / 100
-  // console.log('rt', rt)
   return rt
+}
+export function getConsumptionForStraw(simulation, periods) {
+  return (
+    getConsumptionForOthers(simulation, periods, 'STRAW') + // conso aliment
+    getConsumptionOfNonFoodStraw(simulation, periods)
+  ) // conso logement
 }
 // F la somme consommation pour chaque type de baguettes groupé par grand type de production
 export function getConsumptionByBarnStockItem(simulation, periods, stockCode) {
-  if (stockCode === 'RC' || stockCode === 'RP') {
-    return getConsumptionForConcentrated(simulation, periods, stockCode)
-  } else {
-    return getConsumptionForOthers(simulation, periods, stockCode)
+  switch (stockCode) {
+    case 'RP':
+    case 'RC':
+      return getConsumptionForConcentrated(simulation, periods, stockCode)
+    case 'STRAW':
+      return getConsumptionForStraw(simulation, periods)
+    default:
+      return getConsumptionForOthers(simulation, periods, stockCode)
   }
 }
 export function getPastureConsumptionTotal(simulation, periods) {
@@ -612,6 +612,9 @@ export function getPastureConsumptionTotal(simulation, periods) {
 }
 // G stock fin
 export function getFinalStockByBarnStockItem(simulation, stockCode, periods, getStic) {
+  if (stockCode === 'STRAW') {
+    return simulation.barn.totalStrawStockProducted - getConsumptionForStraw(simulation, periods)
+  }
   return (
     getInitialStockByBarnStockItem(simulation, stockCode) +
     getSticProductionByBarnStockItem(simulation, stockCode, periods, getStic) -
@@ -642,18 +645,9 @@ export function getPasturePurchaseValue(simulation, periods) {
 }
 export const getBatchConcentratedConsumption = (batch, periodId, stockCode) => {
   // somme des consommation de chaque aliment
-  const batchValuesForPeriod = batch.profile.animal_profile_periods.find((item) => item.period_id === periodId)
-  const toModerate = batch.profile.batch_type.code === 'VL'
-  const potential = 1
-  const UEcolumn = batch.profile.batch_type.UE_value_considered
   const feedsForPeriod = batch.concentratedFeeds.find((item) => item.period.id === periodId).feeds
-  // FIXME et pour les concentré et la paille ?
-
   const result = Object.values(feedsForPeriod).reduce((acc, curr) => {
     var calcul = 0
-    if (stockCode === 'RC') {
-      // console.log('curr', curr)
-    }
     if (curr.type.correspondingStock === stockCode) {
       calcul = curr.quantity
     }
@@ -670,7 +664,6 @@ export const getBatchConsumption = (batch, periodId, stockCode) => {
   const potential = 1
   const UEcolumn = batch.profile.batch_type.UE_value_considered
   const feedsForPeriod = batch.classicFeeds.find((item) => item.period.id === periodId).feeds
-  // FIXME et pour les concentré et la paille ?
   const besoinMS = calculateBesoinMS(batchValuesForPeriod.CI, toModerate, potential, UEcolumn, feedsForPeriod)
 
   const result = Object.values(feedsForPeriod).reduce((acc, curr) => {
@@ -683,19 +676,19 @@ export const getBatchConsumption = (batch, periodId, stockCode) => {
 
   return result
 }
-// Pour le graph des stocks
-export function getConcentratedConsumptionByBarnStockItemByPeriod(simulation, periodId, stockCode) {
-  var consumption = 0
-  simulation.herd.batchs.forEach((batch) => {
-    if (stockCode === 'RC' || stockCode === 'RP') {
-      consumption +=
-        getBatchConcentratedConsumption(batch, periodId, stockCode) *
-        batch.housing.presence[periodId - 1].animalCount *
-        DAYS_BY_PERIOD
-    }
-  })
-  return consumption / 100
-}
+// // Pour le graph des stocks
+// export function getConcentratedConsumptionByBarnStockItemByPeriod(simulation, periodId, stockCode) {
+//   var consumption = 0
+//   simulation.herd.batchs.forEach((batch) => {
+//     if (stockCode === 'RC' || stockCode === 'RP') {
+//       consumption +=
+//         getBatchConcentratedConsumption(batch, periodId, stockCode) *
+//         batch.housing.presence[periodId - 1].animalCount *
+//         DAYS_BY_PERIOD
+//     }
+//   })
+//   return consumption / 100
+// }
 // Pour le graph des stocks
 export function getConsumptionByBarnStockItemByPeriod(simulation, periodId, stockCode) {
   var consumption = 0
@@ -708,6 +701,29 @@ export function getConsumptionByBarnStockItemByPeriod(simulation, periodId, stoc
   })
   return consumption * (1 + simulation.barn.refusalRate / 100)
 }
+// conso paille non alim V676
+export function getConsumptionOfNonFoodStraw(simulation, periods) {
+  var consumption = 0
+  periods.forEach((p, i) => {
+    var c = 0
+    simulation.herd.batchs.forEach((batch) => {
+      const UEcolumn = batch.profile.batch_type.UE_value_considered
+      const batchValuesForPeriod = batch.profile.animal_profile_periods[i]
+      const feeds = batch.classicFeeds[i].feeds
+      const toModerate = batch.profile.batch_type.code === 'VL'
+      const potential = 1
+      const besoinMS = calculateBesoinMS(batchValuesForPeriod.CI, toModerate, potential, UEcolumn, feeds) // ok
+
+      const besoin = batch.housing.type.straw_requirement
+      const presence = batch.housing.presence[i].days
+      const nbAni = batch.housing.presence[i].animalCount
+      const byBatch = (besoin * presence * besoinMS * nbAni) / 13
+      c += byBatch
+    })
+    consumption += c
+  })
+  return consumption / 1000
+}
 export function getSticProductionByBarnStockItemByPeriod(simulation, stockCode, period) {
   // // SUM($calcul_interface.H52:T52) la somme de toutes les production des baguettes de même type par periode
 
@@ -719,90 +735,61 @@ export function getSticProductionByBarnStockItemByPeriod(simulation, stockCode, 
   return quantity
 }
 export function getCostIndicator(data, periods, simulation, totalAvailablePastureByPeriod, stockCodeList, getStic) {
-  const batchs = simulation.herd.batchs
-
   const x55 = getSFP(simulation, getStic)
   const x647 = getUGBSystem(simulation, periods, stockCodeList, totalAvailablePastureByPeriod)
   const sauE6 = getSAU(simulation, getStic)
-  // (SI($calcul.B8="VL";$LOT1.C7+SI($calcul.B9="VL";$LOT2.C7+SI($calcul.B10="VL";$LOT3.C7;0);0);0))
-  const allAnimalsCountVL = Object.values(batchs).reduce((acc, curr) => {
-    var calcul = 0
-    if (curr.profile.batch_type.code === 'VL') {
-      calcul = curr.count
+
+  let allAnimalsCountVL = 0
+  let allAnimalsProductionVL = 0
+  Object.values(simulation.herd.batchs).forEach((batch) => {
+    if (batch.profile.batch_type.code === 'VL') {
+      allAnimalsProductionVL += batch.profile.milk_product_kg * batch.count
+      allAnimalsCountVL += batch.count
     }
-    return acc + calcul
-  }, 0.0)
-  const allAnimalsProductionVL = Object.values(batchs).reduce((acc, curr) => {
-    var calcul = 0
-    if (curr.profile.batch_type.code === 'VL') {
-      calcul = curr.profile.milk_product_kg
-    }
-    return acc + calcul
-  }, 0.0)
+  })
 
   // 1_fourrage
   // without
-  const sommProd = Object.values(data['1_fourrage']).reduce((acc, curr) => {
-    // category ==='1_fourrage'&& code === 'p'
-    // somme prod*coutProd hors pature
-    var calcul = 0
-    if (curr.code !== 'P') {
-      calcul = curr.production * curr.productionCost
-    }
-    return acc + calcul
-  }, 0.0)
-  const sommPature = Object.values(data['1_fourrage']).reduce((acc, curr) => {
-    // category ==='1_fourrage'&& code === 'p'
-    // somme prod*coutProd hors pature
-    var calcul = 0
-    if (curr.code === 'P') {
-      calcul = curr.consommation * curr.productionCost
-    }
-    return acc + calcul
-  }, 0.0)
-  // (SOMMEPROD(E33:E38;N33:N38)+F32*N32)
-  // + conso pature * cout prod pature
-  const coutprodtotal = sommProd + sommPature
-
+  let sommProd = 0
+  let sommPature = 0
   // somme des prod
-  const productions = Object.values(data['1_fourrage']).reduce((acc, curr) => {
-    var calcul = curr.code !== 'P' ? curr.production : 0
-    return acc + calcul
-  }, 0.0)
+  let productions = 0
   //  F32 : conso pature
-  const consoPature = Object.values(data['1_fourrage']).reduce((acc, curr) => {
-    // category ==='1_fourrage'&& code === 'p'
-    // somme prod*coutProd hors pature
-    var calcul = 0
-    if (curr.code === 'P') {
-      calcul = curr.consommation
-    }
-    return acc + calcul
-  }, 0.0)
+  let consoPature = 0
 
   // with
   // cout fourrage hors paille
-  const o39 = Object.values(data['1_fourrage']).reduce((acc, curr) => acc + curr.total, 0.0)
-  // console.log('o39', o39)
+  let o39 = 0
+  let sommeAchat = 0
+  let sommeVente = 0
+
+  Object.values(data['1_fourrage']).forEach((item) => {
+    o39 += item.total
+    sommeAchat += item.purchase
+    sommeVente += item.sale
+    if (item.code === 'P') {
+      consoPature += item.consommation
+      sommPature += item.consommation * item.productionCost
+    } else {
+      productions += item.production
+      sommProd += item.production * item.productionCost
+    }
+  })
+  const coutprodtotal = sommProd + sommPature
 
   // 2_concentrated
   // without
-  // (E42*N42/10+E43*N43/10)
-  const sommeCulture = Object.values(data['2_concentrated']).reduce((acc, curr) => {
-    var calcul = curr.production * curr.productionCost
-    return acc + calcul
-  }, 0.0)
-  const sommeProdCulture = Object.values(data['2_concentrated']).reduce((acc, curr) => {
-    var calcul = curr.production
-    return acc + calcul
-  }, 0.0)
-  // ($Dim_Systeme.E6-$calcul_interface.X55)
+  let sommeCulture = 0
+  let sommeProdCulture = 0
   const haCultiveDenum = sauE6 - x55
-
   // with
-  const o44 = Object.values(data['2_concentrated']).reduce((acc, curr) => {
-    return acc + curr.total
-  }, 0.0)
+  let o44 = 0
+
+  Object.values(data['2_concentrated']).forEach((item) => {
+    o44 += item.total
+    sommeProdCulture += item.production
+    sommeCulture += item.production * item.productionCost
+  })
 
   // 3_straw
   // without
@@ -814,20 +801,19 @@ export function getCostIndicator(data, periods, simulation, totalAvailablePastur
   // 4_cost
   // with
   const o49 = o39 + o44
-  const allAnimalsCount = Object.values(batchs).reduce((acc, curr) => acc + curr.count, 0.0)
 
   const response = {
     '1_fourrage': {
       without: {
-        haSFP: _.round(coutprodtotal / x55, 0),
+        haSFP: coutprodtotal / x55,
         tms: coutprodtotal / (productions + consoPature),
         ugb: coutprodtotal / x647,
         vl: coutprodtotal / allAnimalsCountVL,
-        milleLitre: (coutprodtotal * 1000) / allAnimalsProductionVL, // probleme
+        milleLitre: (coutprodtotal * 1000) / allAnimalsProductionVL,
       },
       with: {
         haSFP: o39 / x55,
-        tms: o39, // probleme
+        tms: o39 / (consoPature + productions + sommeAchat - sommeVente), // probleme
         ugb: o39 / x647,
         vl: o39 / allAnimalsCountVL,
         milleLitre: (o39 * 1000) / allAnimalsProductionVL, // probleme
@@ -835,7 +821,6 @@ export function getCostIndicator(data, periods, simulation, totalAvailablePastur
     },
     '2_concentrated': {
       without: {
-        // (E42*N42/10+E43*N43/10)/($Dim_Systeme.E6-$calcul_interface.X55)
         haCultive: sommeCulture / 10 / haCultiveDenum,
         tms: sommeCulture / 10 / sommeProdCulture,
         ugb: sommeCulture / x647,
@@ -853,7 +838,7 @@ export function getCostIndicator(data, periods, simulation, totalAvailablePastur
         ugb: strawCoutProd / x647,
       },
       with: {
-        ha: o47 / allAnimalsCountVL,
+        vl: o47 / allAnimalsCountVL,
         milleLitre: (o47 * 1000) / allAnimalsProductionVL,
         ugb: o47 / x647,
       },
@@ -861,12 +846,23 @@ export function getCostIndicator(data, periods, simulation, totalAvailablePastur
     '4_cost': {
       with: {
         ugb: o49 / x647,
-        milleLitre: (o49 * 1000) / allAnimalsCount,
+        milleLitre: (o49 * 1000) / allAnimalsProductionVL,
       },
     },
   }
-  // // console.log('reponse', response)
   return response
+}
+
+export function getCostIndicatorsKpis(data) {
+  const totalAlim = Object.values(data['1_fourrage']).reduce((acc, curr) => acc + curr.total, 0.0)
+  const concentrates = Object.values(data['2_concentrated']).reduce((acc, curr) => acc + curr.total, 0.0)
+  const totalCost = totalAlim + concentrates
+  const concentratedPart = (concentrates / totalCost) * 100
+
+  return {
+    totalCost: totalCost,
+    concentratedPart: concentratedPart,
+  }
 }
 
 // *******************************************************//
@@ -885,7 +881,6 @@ export const getTotalConsumptionExcludingConcentrates = function (
     // Consommation stock (kg MS/animal/jour)
     const h266 = Object.values(stockCodeList).reduce((hi269, code) => {
       const calcul = getBatchConsumption(batch, period + 1, code)
-      // // console.log(calcul)
       return hi269 + calcul
     }, 0.0)
     // Consommation stock (tMS)
@@ -1310,7 +1305,7 @@ export function setTotalStrawStock(simulation, getStic) {
       totalStrawStock += stic.rendement * rotation.surface
     }
   })
-  return totalStrawStock
+  return totalStrawStock / 1000
 }
 // TEST straw surface
 export function getStrawSurface(simulation, getStic) {

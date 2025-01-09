@@ -67,8 +67,8 @@
       >
         {{ $t('workspace.actions.import.btn') }}
       </v-btn>
+      <!-- v-if="workspace.tag === 'imported' || workspace.tag === 'created'" -->
       <v-btn
-        v-if="workspace.tag === 'imported' || workspace.tag === 'created'"
         outlined
         color="primary"
         @click="exportWorkspace"

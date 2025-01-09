@@ -483,7 +483,31 @@
             },
             "costIndicator": {
               "btnShow": "Indicateurs économiques",
-              "modal": { "title": "Indicateurs économiques" }
+              "modal": {
+                "title": "Indicateurs économiques",
+                "without": "hors achat-vente",
+                "with": "achat-vente compris",
+                "key": "Unité",
+                "unity": {
+                  "haSFP": "€ / ha SFP",
+                  "tms": "€ / tMS",
+                  "ugb": "€ / UGB",
+                  "vl": "€ / VL",
+                  "milleLitre": "€ / 1000 L de lait",
+                  "haCultive": "€ / ha cultivé",
+                  "ha": "€ / ha"
+                },
+                "category": {
+                  "1_fourrage": "Les fourrages",
+                  "2_concentrated": "Les cultures",
+                  "3_straw": "La paille",
+                  "4_cost": "Coût del'alimantation"
+                },
+                "kpi": {
+                  "totalCost": "Coût de l'alimentation",
+                  "concentratedPart": "Part du coût des concentrés"
+                }
+              }
             }
           }
         },
