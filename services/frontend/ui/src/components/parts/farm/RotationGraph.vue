@@ -1,6 +1,7 @@
 <template>
   <div
-    class=".farm-chart-container"
+    ref="farmChartContainer"
+    class="farm-chart-container"
     style="width: 100%; height: 250px"
   >
     <v-chart
@@ -14,11 +15,9 @@
 </template>
 <script>
   import { mapGetters } from 'vuex'
+
   export default {
     name: 'rotation-graph',
-    data() {
-      return {}
-    },
     computed: {
       ...mapGetters('simulator/farm', {
         rotations: 'getRotationsData',
@@ -29,7 +28,6 @@
       initOptions() {
         return { width: 'auto', height: 'auto' }
       },
-
       options() {
         const periods = [
           this.$t('periods.graph.P1'),

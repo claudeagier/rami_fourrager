@@ -219,5 +219,8 @@ export default {
     getFeedByTypeById: (state, getters) => (type, feedId) => {
       return getters.getFeedListByType(type).find((el) => el.id === feedId)
     },
+    getItemById: (state) => (what, id) => {
+      return state[what].find((el) => el.id === id)
+    },
   },
 }

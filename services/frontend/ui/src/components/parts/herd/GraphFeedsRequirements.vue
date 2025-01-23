@@ -8,9 +8,10 @@
       <div
         v-bind="attrs"
         v-on="on"
-        style="width: 100%"
+        class="chart-container"
       >
         <v-chart
+          ref="feedsRequirementsChart"
           class="feeds-requirements-chart"
           :option="options"
           autoresize
@@ -29,15 +30,19 @@
   export default {
     name: 'GraphFeedsRequirements',
     props: {
-      layout: {
-        type: Object,
-        default: () => ({ width: 'auto', height: 'auto' }),
-      },
       selectedLot: {
         type: null,
         required: true,
       },
       withLegend: {
+        type: Boolean,
+        default: true,
+      },
+      withTooltip: {
+        type: Boolean,
+        default: true,
+      },
+      withToolBox: {
         type: Boolean,
         default: true,
       },
@@ -58,24 +63,16 @@
         default: '',
       },
     },
-
-    created() {},
-    data() {
-      return {
-        batch: null,
-      }
-    },
     computed: {
       ...mapGetters('referential', {
         periods: 'periodList',
       }),
       ...mapGetters('simulator/herd', {
-        getBatch: 'getBatch',
         getDryMatterProvided: 'getDryMatterProvided',
         getDryMatterNeeded: 'getDryMatterNeeded',
       }),
       initOptions() {
-        return this.layout
+        return { width: 'auto', height: 'auto' }
       },
 
       options() {
@@ -112,115 +109,117 @@
             EL: '#CC6666',
             FL: '#FF66FF',
           }
-
-          return {
+          const serie = {
             name: feed.name,
             type: 'bar',
             stack: 'total',
             label: {
               show: false,
             },
-            tooltip: {
-              valueFormatter: function (value) {
-                return value + ' ' + unity
-              },
-            },
+
             data: feed.data,
             itemStyle: { color: colors[feed.code] },
           }
+          if (this.withTooltip) {
+            serie.tooltip = {
+              valueFormatter: function (value) {
+                return value + ' ' + unity
+              },
+            }
+          }
+          return serie
         })
 
         const colors = ['#5470C6', '#EE6666']
-        if (dryMatterProvidedPerFeed && dryMatterNeededSerie) {
-          return {
-            tooltip: {
-              trigger: 'axis',
-              axisPointer: {
-                type: 'shadow',
-              },
-              triggerOn: 'click',
-              appendToBody: true,
-              hideDelay: 50,
-              enterable: true,
-            },
-            toolbox: {
-              show: true,
-              feature: {
-                // dataZoom: {
-                //   yAxisIndex: 'none',
-                // },
-                // dataView: { readOnly: false },
-                // magicType: { type: ['line', 'bar'] },
-                // restore: {},
-                saveAsImage: {
-                  name: 'matiere_seche_vs_besoin_lot_' + (this.selectedLot + 1),
-                  backgroundColor: 'white',
-                },
+        const options = {
+          toolbox: {
+            show: this.withToolBox,
+            feature: {
+              saveAsImage: {
+                name: 'matiere_seche_vs_besoin_lot_' + (this.selectedLot + 1),
+                backgroundColor: 'white',
               },
             },
-            legend: {
-              show: this.withLegend,
-              type: 'scroll',
-              orient: 'vertical',
-              right: 'right',
-              top: 'middle',
+          },
+          legend: {
+            show: this.withLegend,
+            renderMode: 'html',
+            type: 'scroll',
+            orient: 'vertical',
+            right: 'right',
+            top: 'middle',
+          },
+          grid: {
+            left: this.withLegend ? '3%' : '0%',
+            right: this.withLegend ? '30%' : '3%',
+            bottom: '3%',
+            containLabel: true,
+          },
+          title: {
+            show: this.withTitle,
+            text: this.title,
+          },
+          yAxis: {
+            type: 'value',
+            show: this.withYaxis,
+          },
+          xAxis: {
+            type: 'category',
+            data: periods,
+            axisTick: {
+              alignWithLabel: true,
             },
-            grid: {
-              left: this.withLegend ? '3%' : '0%',
-              right: this.withLegend ? '30%' : '3%',
-              bottom: '3%',
-              containLabel: true,
+            axisLabel: {
+              interval: 0,
+              rotate: this.xAxisLabelRotate ? '45' : '0',
             },
-            title: {
-              show: this.withTitle,
-              text: this.title,
-            },
-            yAxis: {
-              type: 'value',
-              show: this.withYaxis,
-            },
-            xAxis: {
-              type: 'category',
-              data: periods,
-              axisTick: {
-                alignWithLabel: true,
-              },
-              axisLabel: {
-                interval: 0,
-                rotate: this.xAxisLabelRotate ? '45' : '0',
-              },
-            },
-            series: [
-              ...[
-                {
-                  name: this.$t('herd.details.graph.ms'),
-                  type: 'line',
-                  data: dryMatterNeededSerie,
-                  smooth: true,
-                  tooltip: {
-                    valueFormatter: function (value) {
-                      return value + ' kgMS/animal/jour'
-                    },
+          },
+          series: [
+            ...[
+              {
+                name: this.$t('herd.details.graph.ms'),
+                type: 'line',
+                data: dryMatterNeededSerie,
+                smooth: true,
+                tooltip: {
+                  valueFormatter: function (value) {
+                    return value + ' kgMS/animal/jour'
                   },
                 },
-              ],
-              ...dryMatterProvidedPerFeedSeries,
+              },
             ],
-          }
-        } else {
-          return 'No data'
+            ...dryMatterProvidedPerFeedSeries,
+          ],
         }
+        if (this.withTooltip) {
+          options.tooltip = {
+            trigger: 'axis',
+            axisPointer: {
+              type: 'shadow',
+            },
+            triggerOn: 'click',
+            appendToBody: true,
+            hideDelay: 50,
+            enterable: true,
+          }
+        }
+
+        return options
       },
     },
-    methods: {},
   }
 </script>
 <style>
   .text-block {
     white-space: pre;
   }
-  .feeds-requirements-chart {
-    width: 100% !important; /* Ajuste à la largeur de la page */
-    height: auto !important; /* Préserve le ratio aspect */
+  .chart-container {
+    display: flex; /* Utilise flexbox pour la mise en page */
+    justify-content: center; /* Centrer le contenu horizontalement */
+    align-items: center; /* Centrer le contenu verticalement */
+    position: relative; /* Positionnement relatif pour des ajustements plus fins si nécessaire */
+    page-break-inside: avoid;
+    width: 100%;
+    height: 200px;
   }
 </style>

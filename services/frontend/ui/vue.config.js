@@ -10,10 +10,6 @@ module.exports = {
   transpileDependencies: ['vuetify', 'vue-echarts', 'resize-detector', 'vuex-persist'],
   chainWebpack: (config) => {
     config.resolve.extensions.clear().add('.ts').add('.tsx').add('.js').add('.vue').add('.json')
-    config.externals({
-      // only define the dependencies you are NOT using as externals!
-      html2canvas: 'html2canvas',
-    })
   },
   pluginOptions: {
     i18n: {

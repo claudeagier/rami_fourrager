@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid>
+  <div>
     <div
       v-if="!standAlone"
       class="text-6 font-weight-medium"
@@ -12,8 +12,9 @@
       :option="options"
       autoresize
       theme="infographic"
+      :init-options="initOptions"
     />
-  </v-container>
+  </div>
 </template>
 
 <script>
@@ -36,12 +37,6 @@
       },
     },
     watch: {
-      selectedLot: {
-        immediate: true,
-        handler(newValue, oldValue) {
-          // this.batch = this.getBatch(newValue)
-        },
-      },
       selection: {
         handler(newValue, oldValue) {
           if (oldValue != null) {
@@ -74,22 +69,16 @@
       },
     },
     created() {},
-    data() {
-      return {
-        batch: null,
-      }
-    },
     computed: {
       ...mapGetters('referential', {
         periods: 'periodList',
       }),
       ...mapGetters('simulator/herd', {
-        getBatch: 'getBatch',
         getFinalEnergeticCoverageByBatch: 'getFinalEnergeticCoverageByBatch',
         getFinalProteicCoverageByBatch: 'getFinalProteicCoverageByBatch',
       }),
       initOptions() {
-        return { width: 800, height: 150 }
+        return { width: 'auto', height: 150 }
       },
       options() {
         // const periods = this.periods
@@ -193,7 +182,6 @@
             left: '3%',
             right: '30%',
             bottom: '20%',
-            // containLabel: true,
           }
           options.yAxis.position = 'right'
         }
@@ -207,9 +195,11 @@
 
 <style scoped>
   .coverage-chart {
-    height: 20vh;
+    width: 100% !important; /* Ajuste à la largeur de la page */
+    height: auto !important; /* Préserve le ratio aspect */
   }
   .coverage-chart-small {
-    height: 8vh;
+    width: 100% !important; /* Ajuste à la largeur de la page */
+    height: auto !important; /* Préserve le ratio aspect */
   }
 </style>

@@ -24,7 +24,7 @@
                 >
                   <v-card-text>
                     <div class="kpi-value text-center">
-                      <span class="text-h3 font-weight-bold kpi-number">{{ harvest.distribution }}</span>
+                      <span class="text-h3 font-weight-bold kpi-number">{{ kpis.distribution }}</span>
                     </div>
                   </v-card-text>
                   <v-card-subtitle class="text-center kpi-subtitle">
@@ -39,7 +39,7 @@
                 >
                   <v-card-text>
                     <div class="kpi-value text-center">
-                      <span class="text-h3 font-weight-bold kpi-number">{{ harvest.withoutPasture }}</span>
+                      <span class="text-h3 font-weight-bold kpi-number">{{ kpis.withoutPasture }}</span>
                     </div>
                   </v-card-text>
                   <v-card-subtitle class="text-center kpi-subtitle">
@@ -73,31 +73,8 @@
                 </v-toolbar>
               </template>
             </v-data-table>
-            <v-data-table
-              :headers="harvest.headers"
-              :items="harvest.items"
-              class="elevation-1"
-              item-key="id"
-              loading="true"
-              hide-default-footer
-            >
-              <template v-slot:top>
-                <v-toolbar
-                  color="white"
-                  flat
-                >
-                  <v-toolbar-title class="text-h4 font-weight-light">
-                    {{ $t('report.main.modules.work.work.harvest.title') }}
-                  </v-toolbar-title>
-                  <v-divider
-                    class="mx-4"
-                    inset
-                    vertical
-                  />
-                  <v-spacer></v-spacer>
-                </v-toolbar>
-              </template>
-            </v-data-table>
+            <!-- recolte -->
+            <harvest />
           </v-card-text>
         </v-card>
       </v-col>
@@ -118,31 +95,7 @@
           }}</v-card-title>
           <v-divider></v-divider>
           <v-card-text>
-            <v-data-table
-              :headers="surplus.headers"
-              :items="surplus.items"
-              class="elevation-1"
-              item-key="id"
-              loading="true"
-              hide-default-footer
-            >
-              <template v-slot:top>
-                <v-toolbar
-                  color="white"
-                  flat
-                >
-                  <v-toolbar-title class="text-h4 font-weight-light">
-                    {{ $t('report.main.modules.work.pasture.surplus.title') }}
-                  </v-toolbar-title>
-                  <v-divider
-                    class="mx-4"
-                    inset
-                    vertical
-                  />
-                  <v-spacer></v-spacer>
-                </v-toolbar>
-              </template>
-            </v-data-table>
+            <surplus />
           </v-card-text>
         </v-card>
       </v-col>
@@ -151,8 +104,14 @@
 </template>
 <script>
   import { mapGetters } from 'vuex'
-  // TODO traduction
+  import Harvest from '@/components/parts/farm/Harvest.vue'
+  import Surplus from '@/components/parts/farm/Surplus.vue'
+
   export default {
+    components: {
+      Harvest,
+      Surplus,
+    },
     computed: {
       ...mapGetters('referential', {
         periods: 'periodList',
@@ -161,10 +120,6 @@
         getHousing: 'getReportHousingDetailsByPeriod',
         getDistribution: 'getDistribution',
         getWithoutPasture: 'getWithoutPasture',
-      }),
-      ...mapGetters('simulator/farm', {
-        getHarvest: 'getReportHarvestByperiod',
-        getSurplus: 'getPastureSurplusesByPeriod',
       }),
       housing() {
         const resp = {
@@ -180,48 +135,11 @@
 
         return resp
       },
-      harvest() {
-        const resp = {
-          headers: [],
-          items: [],
+      kpis() {
+        return {
           distribution: this.getDistribution(),
           withoutPasture: this.getWithoutPasture(),
         }
-        const harvest = {}
-        this.periods.forEach((p, index) => {
-          resp.headers.push({ text: this.$t('periods.tab', { id: p.id }), value: p.name })
-          harvest[p.name] = this.getHarvest(p.id)
-        })
-        resp.items.push(harvest)
-
-        return resp
-      },
-      surplus() {
-        const resp = {
-          headers: [],
-          items: [],
-        }
-        const surplusItem = {}
-        this.periods.forEach((p, index) => {
-          resp.headers.push({ text: this.$t('periods.tab', { id: p.id }), value: p.name })
-          surplusItem[p.name] = this.getSurplus(index)
-        })
-
-        const total = Object.values(surplusItem).reduce((acc, curr) => {
-          return acc + curr
-        }, 0)
-        surplusItem['total'] = total
-
-        resp.items.push(surplusItem)
-
-        resp.headers.push({
-          text: this.$t('report.main.modules.work.work.headers.total'),
-          value: 'total',
-          groupable: false,
-          width: 80,
-        })
-
-        return resp
       },
     },
   }

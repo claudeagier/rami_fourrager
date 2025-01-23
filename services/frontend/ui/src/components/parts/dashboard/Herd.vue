@@ -30,7 +30,6 @@
         >
           <graph-feeds-requirements
             :selected-lot="index"
-            @click="handleRequirementsClick"
             :withYaxis="false"
             :withLegend="false"
             :xAxisLabelRotate="true"
@@ -59,11 +58,6 @@
       ...mapState('simulator/herd', {
         batchs: (state) => state.batchs,
       }),
-    },
-    methods: {
-      handleRequirementsClick(params) {
-        this.selectedPeriodIndex = params.dataIndex
-      },
     },
   }
 </script>

@@ -714,7 +714,7 @@ export function getConsumptionOfNonFoodStraw(simulation, periods) {
       const potential = 1
       const besoinMS = calculateBesoinMS(batchValuesForPeriod.CI, toModerate, potential, UEcolumn, feeds) // ok
 
-      const besoin = batch.housing.type.straw_requirement
+      const besoin = batch.housing.type ? batch.housing.type.straw_requirement : 0
       const presence = batch.housing.presence[i].days
       const nbAni = batch.housing.presence[i].animalCount
       const byBatch = (besoin * presence * besoinMS * nbAni) / 13
@@ -1307,7 +1307,7 @@ export function setTotalStrawStock(simulation, getStic) {
   })
   return totalStrawStock / 1000
 }
-// TEST straw surface
+// straw surface
 export function getStrawSurface(simulation, getStic) {
   let totalSurface = 0
   simulation.farm.rotations.forEach((rotation) => {

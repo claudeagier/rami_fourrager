@@ -28,6 +28,10 @@
         type: Boolean,
         default: false,
       },
+      withYaxis: {
+        type: Boolean,
+        default: true,
+      },
       withTitle: {
         type: Boolean,
         default: false,
@@ -35,6 +39,10 @@
       title: {
         type: String,
         default: '',
+      },
+      withToolBox: {
+        type: Boolean,
+        default: true,
       },
     },
     computed: {
@@ -121,7 +129,7 @@
             enterable: true,
           },
           toolbox: {
-            show: true,
+            show: this.withToolBox,
             feature: {
               saveAsImage: {
                 name: 'stock_grange',
@@ -137,7 +145,7 @@
           },
           yAxis: {
             type: 'value',
-            show: this.withLegend,
+            show: this.withYaxis,
           },
           xAxis: {
             type: 'category',
@@ -164,5 +172,7 @@
     align-items: center; /* Centrer le contenu verticalement */
     position: relative; /* Positionnement relatif pour des ajustements plus fins si nécessaire */
     page-break-inside: avoid;
+    width: 100%;
+    height: 200px;
   }
 </style>

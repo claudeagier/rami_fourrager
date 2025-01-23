@@ -35,16 +35,11 @@
 </template>
 <script>
   import RotationGraph from '@/components/parts/farm/RotationGraph.vue'
-  // import RotationGraphTreemap from '@/components/parts/farm/RotationGraphTreemap.vue'
-
-  // TODO le graphique de l'assolement
-  // reprendre le code couleur des baguettes
 
   export default {
     name: 'farm-dashboard',
     components: {
       RotationGraph,
-      // RotationGraphTreemap,
     },
     data() {
       return {}

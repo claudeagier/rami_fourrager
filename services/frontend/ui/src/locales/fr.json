@@ -99,7 +99,10 @@
     "duplicate": "Dupliquer",
     "apply": "Appliquer à la simulation",
     "yes": "Oui",
-    "no": "Non"
+    "no": "Non",
+    "previewpdf": "Prévisualiser PDF",
+    "downloadpdf": "Télécharger PDF",
+    "close": "Fermer"
   },
   "auth": {
     "login": {
@@ -409,7 +412,17 @@
         "ms": "Besoin MS",
         "btn": "Afficher les graphiques",
         "comment": "Comparer la quantité que le lot d'animaux choisi a besoin d'ingérer \n pour satisfaire ses besoins quantitatifs \n à ce qui est apporté par la ration de base (hors concentrés) ",
-        "unity": "kgMS"
+        "unity": "kgMS",
+        "legend": {
+          "ms": "Besoin MS",
+          "pasture": "Pâture",
+          "hay": "Foin",
+          "EH": "Ensilage et enrubannage d'herbe",
+          "EMS": "Ensilage de maïs et sorgho",
+          "EL": "Ensilage de légumineuses",
+          "FL": "Foin de légumineuses",
+          "others": "Autre stock"
+        }
       },
       "profile": "Profil",
       "type": "Type de bétail",
@@ -421,7 +434,8 @@
       "source": "Elément source",
       "target": "Eléments cibles",
       "selectall": "Tout sélectionner"
-    }
+    },
+    "print": { "feeds": { "title": " Lot {selectedLot} : {count} {profile}" } }
   },
   "report": {
     "title": "Le bilan",
@@ -434,8 +448,34 @@
           "title": "Bilan global",
           "label": "Bilan global",
           "description": "Description du module",
-          "dimensioning": {
-            "title": "Dimensionnement du système"
+          "print": {
+            "preview": {
+              "title": "Prévisualisation du PDF",
+              "imagealt": "Prévisualisation PDF",
+              "placeholder": "Génération de la prévisualisation..."
+            },
+            "template": {
+              "simulation": {
+                "name": "{name}",
+                "description": "{description}"
+              },
+              "rotation": "L'assolement",
+              "herd": "Le troupeau",
+              "climat": {
+                "title": "Le climat",
+                "site": { "title": "Site" },
+                "climaticyear": { "title": "Année climatique" }
+              },
+              "dimensioning": "Dimensionnement du système",
+              "autonomy": {
+                "title": "Autonomie et valorisation du potentiel de production",
+                "value": "Autonomie : {value}"
+              },
+              "potential": {
+                "value": "Potentiel : {value} % "
+              },
+              "feeds": { "title": "Les rations" }
+            }
           }
         },
         "work": {
@@ -501,7 +541,7 @@
                   "1_fourrage": "Les fourrages",
                   "2_concentrated": "Les cultures",
                   "3_straw": "La paille",
-                  "4_cost": "Coût del'alimantation"
+                  "4_cost": "Coût de l'alimantation"
                 },
                 "kpi": {
                   "totalCost": "Coût de l'alimentation",
@@ -545,6 +585,10 @@
         "punchline": "Valorisant l'intégralité de la production fourragère de l'exploitation",
         "details": "-> Niveau de valorisation du potentiel = chargement réel / chargement apparent"
       }
+    },
+    "print": {
+      "autonomy": { "title": "Indicateur d'autonomie (chargement réel - chargement apparent)" },
+      "potential": { "title": "Niveau de réalisation du potentiel (chargement réel/chargement potentiel)" }
     }
   },
   "dimensioning": {
@@ -598,6 +642,10 @@
       "tooltip": "Ensemble des fourrages récoltés",
       "unit": "TMS/UGB"
     }
+  },
+  "climat": {
+    "site": { "title": "Site" },
+    "climaticyear": { "title": "Année climatique" }
   },
   "workspace": {
     "referential": {

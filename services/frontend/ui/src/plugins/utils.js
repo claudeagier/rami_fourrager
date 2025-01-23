@@ -44,7 +44,7 @@ export function deepCopy(obj) {
 
   return copy
 }
-export function getCurrentDateTime() {
+export function getCurrentDateTime(full = true) {
   var now = new Date()
   var year = now.getFullYear()
   var month = ('0' + (now.getMonth() + 1)).slice(-2) // Les mois sont 0-indexés, donc on ajoute 1
@@ -52,7 +52,12 @@ export function getCurrentDateTime() {
   var hours = ('0' + now.getHours()).slice(-2)
   var minutes = ('0' + now.getMinutes()).slice(-2)
   var seconds = ('0' + now.getSeconds()).slice(-2)
-  var formattedDateTime = year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds
+  var formattedDateTime = ''
+  if (full) {
+    formattedDateTime = year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds
+  } else {
+    formattedDateTime = day + '-' + month + '-' + year
+  }
   return formattedDateTime
 }
 

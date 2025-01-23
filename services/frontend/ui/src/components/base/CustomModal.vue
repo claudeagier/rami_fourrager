@@ -43,6 +43,7 @@
     align-items: start;
   }
   ::v-deep .modal-content {
+    min-width: 750px;
     position: relative;
     display: flex;
     flex-direction: column;
