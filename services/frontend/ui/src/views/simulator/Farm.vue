@@ -142,7 +142,7 @@
                                 v-model="rotationItem.constraint"
                                 :items="constraintsList"
                                 :label="$t('farm.rotations.modal.constraint')"
-                                item-text="name"
+                                item-text="text"
                                 item-value="id"
                                 return-object
                                 clearable
@@ -210,7 +210,6 @@
 <script>
   import { mapGetters } from 'vuex'
   import navigationGuard from '@/mixins/navigationGuard'
-  // TODO mise en page des cards
   export default {
     name: 'Farm',
     mixins: [navigationGuard],
@@ -228,10 +227,10 @@
           { text: this.$t('farm.rotations.table.headers.actions'), value: 'actions', sortable: false },
         ],
         constraintsList: [
-          { id: 1, name: this.$t('farm.dimensioning.irrigable') },
-          { id: 2, name: this.$t('farm.dimensioning.ploughable') },
-          { id: 3, name: this.$t('farm.dimensioning.superficial') },
-          { id: 4, name: this.$t('farm.dimensioning.reachable') },
+          { id: 1, name: 'irrigable', text: this.$t('farm.dimensioning.irrigable') },
+          { id: 2, name: 'ploughable', text: this.$t('farm.dimensioning.ploughable') },
+          { id: 3, name: 'superficial', text: this.$t('farm.dimensioning.superficial') },
+          { id: 4, name: 'reachable', text: this.$t('farm.dimensioning.reachable') },
         ],
         rotationItem: {
           // soil: '',

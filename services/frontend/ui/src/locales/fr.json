@@ -833,7 +833,7 @@
     "herd": {
       "housing": {
         "presence": "La présence en bâtiment doit être inférieure ou égale au nombre d'animaux",
-        "days": "Le nombre de jours de présence doit être inférieur ou égal à 28"
+        "days": "Le nombre de jours de présence doit être compris entre 0 et 28 jours"
       }
     }
   }
