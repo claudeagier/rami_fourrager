@@ -24,7 +24,7 @@
         ></v-text-field>
         <v-text-field
           v-model.number="days"
-          :rules="[rules.required, daysRule]"
+          :rules="[daysRule]"
           type="number"
           :label="$t('herd.housing.presence')"
           hide-spin-buttons
@@ -123,7 +123,7 @@
       },
       daysRule(val) {
         if (!val) return true
-        return parseInt(val) <= 28 || this.$t('validation.herd.housing.days')
+        return (parseInt(val) >= 0 && parseInt(val) <= 28) || this.$t('validation.herd.housing.days')
       },
     },
   }
