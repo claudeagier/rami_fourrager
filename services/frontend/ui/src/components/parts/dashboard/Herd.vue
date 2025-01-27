@@ -30,7 +30,7 @@
         >
           <graph-feeds-requirements
             :selected-lot="index"
-            :withYaxis="false"
+            :withYaxis="true"
             :withLegend="false"
             :xAxisLabelRotate="true"
             :layout="{ width: 'auto', height: '200px' }"
