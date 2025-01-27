@@ -79,12 +79,12 @@
           cols="7"
           class="pt-0 pb-0"
         >
+          <rotation-graph />
           <v-data-table
             :headers="headers"
             :items="rotations"
             class="elevation-1"
             sort-by="name"
-            style="height: 100%"
           >
             <template v-slot:top>
               <v-toolbar
@@ -210,11 +210,15 @@
 <script>
   import { mapGetters } from 'vuex'
   import navigationGuard from '@/mixins/navigationGuard'
+  import RotationGraph from '@/components/parts/farm/RotationGraph.vue'
   export default {
     name: 'Farm',
     mixins: [navigationGuard],
     confirmNavigation(callback) {
       this.$confirmNavigation(callback)
+    },
+    components: {
+      RotationGraph,
     },
     data() {
       return {
