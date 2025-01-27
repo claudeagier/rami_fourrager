@@ -1,19 +1,17 @@
 <template>
-  <v-container
-    fluid
-    class="pb-0"
-  >
+  <div>
     <div class="text-6 font-weight-medium">
       {{ $t('herd.classicfeed.graph.title') }}
     </div>
     <v-chart
       ref="feedChart"
-      class="feed-chart"
+      :class="small ? 'feed-chart-small' : 'feed-chart'"
       :option="options"
       autoresize
       theme="infographic"
+      :init-options="initOptions"
     />
-  </v-container>
+  </div>
 </template>
 
 <script>
@@ -27,6 +25,9 @@
       },
       selection: {
         type: null,
+      },
+      small: {
+        type: Boolean,
       },
     },
     watch: {
@@ -82,12 +83,15 @@
         getEnergeticCoverageValues: 'getEnergeticCoverageByBatch',
         getProteicCoverageValues: 'getProteicCoverageByBatch',
       }),
+      initOptions() {
+        return { width: 'auto', height: 150 }
+      },
 
       options() {
         // const periods = this.periods
         const periods = ['P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8', 'P9', 'P10', 'P11', 'P12', 'P13']
 
-        const rows = ['Protéique', 'Energétique']
+        const rows = [this.$t('herd.concentratedfeed.graph.proteic'), this.$t('herd.concentratedfeed.graph.energetic')]
         const energeticCoverage = this.getEnergeticCoverageValues(this.selectedLot)
         const proteicCoverage = this.getProteicCoverageValues(this.selectedLot)
 
@@ -185,6 +189,11 @@
 
 <style scoped>
   .feed-chart {
-    height: 8vh;
+    width: 100% !important; /* Ajuste à la largeur de la page */
+    height: auto !important; /* Préserve le ratio aspect */
+  }
+  .feed-chart-small {
+    width: 100% !important; /* Ajuste à la largeur de la page */
+    height: auto !important; /* Préserve le ratio aspect */
   }
 </style>
