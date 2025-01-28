@@ -120,17 +120,17 @@
       exportToCSV() {
         // Ajouter un nouvel en-tête pour la catégorie
         const headers = [
-          this.$t('report.main.modules.stockNcost.stockTable.costIndicator.modal.typeOfProduction'), // Type de production
-          ...this.headers.map((header) => header.text), // Colonnes existantes
+          `"${this.$t('report.main.modules.stockNcost.stockTable.costIndicator.modal.typeOfProduction')}"`, // Type de production
+          ...this.headers.map((header) => `"${header.text}"`), // Colonnes existantes
         ].join(';')
 
-        // Construire les lignes du CSV avec la catégorie incluse
+        // Construire les lignes du CSV avec la catégorie incluse et les guillemets
         const rows = this.formattedItems.map((item) =>
           [
-            this.$t(`report.main.modules.stockNcost.stockTable.costIndicator.modal.category.${item.category}`), // Traduction de la catégorie
-            item.without,
-            item.with,
-            this.$t(`report.main.modules.stockNcost.stockTable.costIndicator.modal.unity.${item.key}`), // Traduction de l'unité
+            `"${this.$t(`report.main.modules.stockNcost.stockTable.costIndicator.modal.category.${item.category}`)}"`, // Traduction de la catégorie
+            `"${item.without}"`,
+            `"${item.with}"`,
+            `"${this.$t(`report.main.modules.stockNcost.stockTable.costIndicator.modal.unity.${item.key}`)}"`, // Traduction de l'unité
           ].join(';')
         )
 
@@ -144,7 +144,7 @@
         const link = document.createElement('a')
         const url = URL.createObjectURL(blob)
         link.setAttribute('href', url)
-        link.setAttribute('download', 'cost_indicators.csv')
+        link.setAttribute('download', 'indicateurs_economiques.csv')
         link.style.visibility = 'hidden'
         document.body.appendChild(link)
         link.click()
