@@ -23,7 +23,6 @@ export default {
       state.workspace.simulations.push(simulation)
     },
     updateSimulation(state, { key, value }) {
-      console.log('update', key, value)
       if (state.workspace.simulations !== undefined) {
         // je prends la simulation activé
         let finded = state.workspace.simulations.find((sim) => sim.loaded === true)
@@ -114,7 +113,6 @@ export default {
       return state.workspace
     },
     getActivatedSimulation: (state, getters, rootState) => {
-      // console.log('rootState', rootState)
       if (state.workspace.simulations !== undefined) {
         const finded = state.workspace.simulations.find((sim) => sim.loaded === true)
         return finded

@@ -23,7 +23,6 @@
       filled
       return-object
       required
-      clearable
     >
     </v-autocomplete>
     <v-text-field

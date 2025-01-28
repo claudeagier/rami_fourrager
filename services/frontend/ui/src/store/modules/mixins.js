@@ -90,9 +90,12 @@ export const setTotalAvailablePasture = (simulation, periods, getStic) => {
   const precision = 15
   const totalAvailablePastureByPeriod = {}
   periods.forEach((period) => {
+    const key = 'period_id_' + period.id
+    var total = 0
+    var UF = 0
+    var PDI = 0
     if (simulation.farm.rotations !== undefined && simulation.farm.rotations.length > 0) {
-      const key = 'period_id_' + period.id
-      const total = Object.values(simulation.farm.rotations).reduce((total, rotation) => {
+      total = Object.values(simulation.farm.rotations).reduce((total, rotation) => {
         // find stic in sticList
         const stic = getStic(simulation.climaticYear, rotation.name)
         const sp = stic.stic_periods.find((el) => el.period_id === period.id)
@@ -102,7 +105,7 @@ export const setTotalAvailablePasture = (simulation, periods, getStic) => {
         }
         return total + calcul
       }, 0) // ok
-      const UF = Object.values(simulation.farm.rotations).reduce((uf, rotation) => {
+      UF = Object.values(simulation.farm.rotations).reduce((uf, rotation) => {
         // find stic in sticList
         const stic = getStic(simulation.climaticYear, rotation.name)
 
@@ -117,7 +120,7 @@ export const setTotalAvailablePasture = (simulation, periods, getStic) => {
         return uf + num
       }, 0.0)
 
-      const PDI = Object.values(simulation.farm.rotations).reduce((pdi, rotation) => {
+      PDI = Object.values(simulation.farm.rotations).reduce((pdi, rotation) => {
         // find stic in sticList
         const stic = getStic(simulation.climaticYear, rotation.name)
 
@@ -129,27 +132,19 @@ export const setTotalAvailablePasture = (simulation, periods, getStic) => {
         }
         return pdi
       }, 0.0)
-      totalAvailablePastureByPeriod[key] = {
-        production_total: total, // H28
-        energeticTotal: UF, // W29
-        proteicTotal: PDI, // W30
-      }
+    }
+    totalAvailablePastureByPeriod[key] = {
+      production_total: total, // H28
+      energeticTotal: UF, // W29
+      proteicTotal: PDI, // W30
     }
   })
 
   return totalAvailablePastureByPeriod
 }
-export const getAvailableGreenPasture = (state, rootState, batchId) => {
-  const availablePasture = []
-  const batch = state.batchs[batchId]
-  const tap = rootState.simulator.farm.totalAvailablePastureByPeriod
-  rootState.referential.periods.forEach((period, index) => {
-    availablePasture[index] = _.round(getAvailableGreenPastureByAnimal(batch, index, tap, state.batchs))
-  })
-  return availablePasture
-}
+
 // 240 Pâture verte disponible (kg MS/animal/jour ou kgMS/jour si nb anx=0) les valeurs à afficher dans la simu
-const getAvailableGreenPastureByAnimal = (batch, period, totalAvailablePastureByPeriod, batchs) => {
+export const getAvailableGreenPastureByAnimal = (batch, period, totalAvailablePastureByPeriod, batchs) => {
   // il faut prendre en compte tous les lots
   // le modele nourri en premier le premier lot et ensuite les autres s'il reste des patures
 
@@ -1098,6 +1093,7 @@ export const getPastureSurplusesByPeriod = function (periodIndex, simulation, to
     var calcul = curr.production_total
     return acc + calcul
   }, 0.0)
+  if (totalProdPasture === 0) return 0
   const surplus = (patureReport / totalProdPasture) * 100
 
   // le retour doit être un pourcentage
