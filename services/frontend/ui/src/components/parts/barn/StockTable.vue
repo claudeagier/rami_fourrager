@@ -26,7 +26,16 @@
             vertical
           />
           <v-spacer></v-spacer>
+
           <cost-indicator pageColor="primary" />
+          <v-btn
+            outlined
+            color="grey"
+            @click="exportToCSV"
+            class="ml-1"
+          >
+            {{ $t('btn.exportToCSV') }}
+          </v-btn>
         </v-toolbar>
       </template>
       <template v-slot:group.header="{ items, group, isOpen, toggle }">
@@ -182,6 +191,27 @@
       },
       subTotal(items, column) {
         return items.reduce((sum, item) => sum + item[column], 0)
+      },
+
+      exportToCSV() {
+        // Récupérer les en-têtes visibles
+        const headers = this.headers.map((header) => header.text)
+
+        // Récupérer les données à exporter
+        const rows = this.datas.map((item) => this.headers.map((header) => item[header.value] || ''))
+
+        // Générer le contenu CSV
+        const csvContent = [headers, ...rows].map((row) => row.map((value) => `"${value}"`).join(';')).join('\r\n')
+
+        // Créer et télécharger le fichier CSV
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
+        const link = document.createElement('a')
+        const url = URL.createObjectURL(blob)
+        link.setAttribute('href', url)
+        link.setAttribute('download', 'export.csv')
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
       },
     },
     data() {

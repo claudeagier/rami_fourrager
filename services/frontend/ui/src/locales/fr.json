@@ -102,7 +102,8 @@
     "no": "Non",
     "previewpdf": "Prévisualiser PDF",
     "downloadpdf": "Télécharger PDF",
-    "close": "Fermer"
+    "close": "Fermer",
+    "exportToCSV": "Exporter en CSV"
   },
   "auth": {
     "login": {
@@ -524,6 +525,7 @@
             "costIndicator": {
               "btnShow": "Indicateurs économiques",
               "modal": {
+                "typeOfProduction": "Type de production",
                 "title": "Indicateurs économiques",
                 "without": "hors achat-vente",
                 "with": "achat-vente compris",
@@ -541,7 +543,7 @@
                   "1_fourrage": "Les fourrages",
                   "2_concentrated": "Les cultures",
                   "3_straw": "La paille",
-                  "4_cost": "Coût de l'alimantation"
+                  "4_cost": "Coût de l'alimentation"
                 },
                 "kpi": {
                   "totalCost": "Coût de l'alimentation",

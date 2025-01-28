@@ -5,7 +5,18 @@
       elevation="2"
       style="width: 500px"
     >
-      <v-card-title>{{ $t('report.main.modules.stockNcost.stockTable.costIndicator.modal.title') }}</v-card-title>
+      <v-card-title>
+        {{ $t('report.main.modules.stockNcost.stockTable.costIndicator.modal.title') }}
+        <v-spacer></v-spacer>
+        <v-btn
+          outlined
+          color="info"
+          @click="exportToCSV"
+          class="btn-export"
+        >
+          {{ $t('btn.exportToCSV') }}
+        </v-btn>
+      </v-card-title>
       <v-card-text>
         <v-row justify="center">
           <v-col cols="6">
@@ -106,6 +117,39 @@
       round(value, digit) {
         return _.round(value, digit)
       },
+      exportToCSV() {
+        // Ajouter un nouvel en-tête pour la catégorie
+        const headers = [
+          this.$t('report.main.modules.stockNcost.stockTable.costIndicator.modal.typeOfProduction'), // Type de production
+          ...this.headers.map((header) => header.text), // Colonnes existantes
+        ].join(';')
+
+        // Construire les lignes du CSV avec la catégorie incluse
+        const rows = this.formattedItems.map((item) =>
+          [
+            this.$t(`report.main.modules.stockNcost.stockTable.costIndicator.modal.category.${item.category}`), // Traduction de la catégorie
+            item.without,
+            item.with,
+            this.$t(`report.main.modules.stockNcost.stockTable.costIndicator.modal.unity.${item.key}`), // Traduction de l'unité
+          ].join(';')
+        )
+
+        // Combiner les en-têtes et les lignes
+        const csvContent = [headers, ...rows].join('\r\n')
+
+        // Créer un Blob pour le contenu CSV
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
+
+        // Créer un lien pour télécharger le fichier CSV
+        const link = document.createElement('a')
+        const url = URL.createObjectURL(blob)
+        link.setAttribute('href', url)
+        link.setAttribute('download', 'cost_indicators.csv')
+        link.style.visibility = 'hidden'
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
+      },
     },
     computed: {
       ...mapGetters('simulator/report', {
@@ -187,5 +231,8 @@
     justify-content: center;
     align-items: center;
     color: #888;
+  }
+  .btn-export {
+    color: #9e9e9e !important;
   }
 </style>
