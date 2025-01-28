@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import {
-  getAvailableGreenPasture,
+  getAvailableGreenPastureByAnimal,
   getAvailableCarryOverPastureByAnimal,
   getEnergeticCoverage,
   getProteicCoverage,
@@ -156,19 +156,37 @@ export default {
     },
 
     getAvailableGreenPastureByAnimal: (state, getters, rootState) => (batchId) => {
-      return getAvailableGreenPasture(state, rootState, batchId)
-    },
-    getAvailableCarryOverPastureByAnimal: (state, getters, rootState) => (batchId) => {
-      const availableCarryOver = []
+      // s'il y a des patures
+      const availablePasture = []
+      const batch = state.batchs[batchId]
+      const tap = rootState.simulator.farm.totalAvailablePastureByPeriod
       rootState.referential.periods.forEach((period, index) => {
-        availableCarryOver[index] = _.round(
-          getAvailableCarryOverPastureByAnimal(
-            state.batchs[batchId],
-            index,
-            rootState.simulator.farm.totalAvailablePastureByPeriod,
-            state.batchs
+        if (tap !== null && tap['period_id_' + (index + 1)] !== 0) {
+          availablePasture[index] = _.round(getAvailableGreenPastureByAnimal(batch, index, tap, state.batchs))
+        } else {
+          availablePasture[index] = 0
+        }
+      })
+      return availablePasture
+    },
+
+    getAvailableCarryOverPastureByAnimal: (state, getters, rootState) => (batchId) => {
+      // s'il y a des patures
+      const availableCarryOver = []
+      const tap = rootState.simulator.farm.totalAvailablePastureByPeriod
+      rootState.referential.periods.forEach((period, index) => {
+        if (tap !== null && tap['period_id_' + (index + 1)] !== 0) {
+          availableCarryOver[index] = _.round(
+            getAvailableCarryOverPastureByAnimal(
+              state.batchs[batchId],
+              index,
+              rootState.simulator.farm.totalAvailablePastureByPeriod,
+              state.batchs
+            )
           )
-        )
+        } else {
+          availableCarryOver[index] = 0
+        }
       })
       return availableCarryOver
     },
@@ -254,6 +272,7 @@ export default {
   },
   actions: {
     setHerd({ state, commit, rootActions }) {
+      console.log('set herd', state)
       commit('workspace/updateSimulation', { key: 'herd', value: state }, { root: true })
     },
   },

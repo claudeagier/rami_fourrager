@@ -151,7 +151,7 @@
                     v-for="(item, index) in climat"
                     :key="index"
                   >
-                    <v-list-item-icon>
+                    <v-list-item-icon v-if="item.value">
                       <v-icon
                         :color="item.iconColor"
                         dark
@@ -159,7 +159,7 @@
                         {{ item.icon }}
                       </v-icon>
                     </v-list-item-icon>
-                    <v-list-item-content>
+                    <v-list-item-content v-if="item.value">
                       <v-list-item-title class="text-h4 indigo--text font-italic">
                         {{ $t('report.main.modules.global.print.template.climat.' + item.name + '.title') }}
                       </v-list-item-title>
@@ -167,6 +167,9 @@
                         {{ item.value }}
                       </v-list-item-subtitle>
                     </v-list-item-content>
+                    <div v-else>
+                      {{ $t('report.main.modules.global.print.template.climat.' + item.name + '.placeholder') }}
+                    </div>
                   </v-list-item>
                 </v-list>
               </v-card-text>
@@ -282,13 +285,17 @@
         return [
           {
             name: 'site',
-            value: this.getItemById('sites', this.simulation.site).name,
+            value: this.getItemById('sites', this.simulation.site)
+              ? this.getItemById('sites', this.simulation.site).name
+              : undefined,
             icon: 'mdi-earth',
             iconColor: 'blue darken-4',
           },
           {
             name: 'climaticyear',
-            value: this.getItemById('climatic_years', this.simulation.climaticYear).name,
+            value: this.getItemById('sites', this.simulation.climaticYear)
+              ? this.getItemById('sites', this.simulation.climaticYear).name
+              : undefined,
             icon: 'mdi-chart-line',
             iconColor: 'blue darken-4',
           },

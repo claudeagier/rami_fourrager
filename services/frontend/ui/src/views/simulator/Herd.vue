@@ -282,10 +282,6 @@
         this.$store.commit('simulator/herd/addBatch', lot)
         this.showModal = false
       },
-      updateLot(lot) {
-        this.$store.commit('simulator/herd/updatelot', { newBatch: lot, oldBatch: this.oldbatch })
-        this.selectedLot = null
-      },
       cancelAddLot() {
         this.showModal = false
       },

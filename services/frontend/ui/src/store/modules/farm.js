@@ -183,14 +183,12 @@ export default {
       )
     },
     setTotalAvailablePastureByPeriod({ state, rootState, commit, rootGetters }) {
-      if (state.rotations.length > 0) {
-        const totalAvailablePastureByPeriod = setTotalAvailablePasture(
-          rootState.simulator,
-          rootState.referential.periods,
-          rootGetters['referential/getSticByName']
-        )
-        commit('setTotalAvailablePastureByPeriod', totalAvailablePastureByPeriod)
-      }
+      const totalAvailablePastureByPeriod = setTotalAvailablePasture(
+        rootState.simulator,
+        rootState.referential.periods,
+        rootGetters['referential/getSticByName']
+      )
+      commit('setTotalAvailablePastureByPeriod', totalAvailablePastureByPeriod)
     },
     dispatchProduction({ state, rootState, commit, rootGetters }) {
       if (rootState.simulator.farm.rotations.length > 0) {

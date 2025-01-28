@@ -483,7 +483,7 @@
 
       deleteItem(dialogName, item) {
         if (confirm(this.$t('notifications.confirm_delete_item'))) {
-          this.$store.commit('workspace/deleteItem', { dialog: dialogName, item: item })
+          this.$store.commit('workspace/deleteItem', { dialog: dialogName, item: deepCopy(item) })
         }
       },
     },

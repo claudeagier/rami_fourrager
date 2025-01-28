@@ -75,9 +75,11 @@
           </v-sheet>
         </v-col>
         <!-- Card pour la saisie des rotations des cultures -->
+        <!-- ce qui suit est à griser pour empêcher la saisie tant que climaticYear === null -->
         <v-col
           cols="7"
           class="pt-0 pb-0"
+          :class="{ 'opacity-50': climaticYear === null }"
         >
           <rotation-graph />
           <v-data-table
@@ -105,6 +107,7 @@
                   dark
                   @click="showRotationItemDialog = true"
                   outlined
+                  :disabled="climaticYear === null"
                 >
                   {{ $t('farm.rotations.table.btn_add') }}
                 </v-btn>
@@ -413,5 +416,9 @@
 <style>
   .autocomplet-transparent-background .v-input__control .v-input__slot {
     background-color: transparent !important;
+  }
+  .opacity-50 {
+    pointer-events: none;
+    opacity: 0.3;
   }
 </style>

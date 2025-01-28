@@ -463,8 +463,8 @@
               "herd": "Le troupeau",
               "climat": {
                 "title": "Le climat",
-                "site": { "title": "Site" },
-                "climaticyear": { "title": "Année climatique" }
+                "site": { "title": "Site", "placeholder": "Veuillez renseigner le site" },
+                "climaticyear": { "title": "Année climatique", "placeholder": "Veuillez renseigner l'année climatique" }
               },
               "dimensioning": "Dimensionnement du système",
               "autonomy": {
@@ -484,10 +484,10 @@
           "work": {
             "title": "Le travail",
             "headers": { "total": "Total" },
-            "distribution": "Nb de périodes de distribution de fourrage grossier",
+            "distribution": "Périodes de distribution de fourrage grossier",
             "withoutPasture": "Périodes consécutives sans pâturage (hiver)",
             "housing": { "title": "Animaux présents en batiment" },
-            "harvest": { "title": "hectares à récolter par période (foin + ensilage + grain + autre)" }
+            "harvest": { "title": "Hectares à récolter par période (foin + ensilage + grain + autre)" }
           },
           "pasture": {
             "title": "La gestion du pâturage",
