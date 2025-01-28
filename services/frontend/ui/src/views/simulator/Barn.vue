@@ -16,63 +16,66 @@
             elevation="2"
             color="white"
             class="pa-3 mb-1"
+            style="height: 100%"
           >
-            <div class="text-h4 font-weight-light">{{ $t('barn.straw.title') }}</div>
+            <div>
+              <div class="text-h4 font-weight-light">{{ $t('barn.straw.title') }}</div>
 
-            <v-text-field
-              v-model.number="strawQuantity"
-              :label="$t('barn.straw.quantity')"
-              type="number"
-              hide-spin-buttons
-              min="0"
-            ></v-text-field>
-          </v-sheet>
-          <v-sheet
-            elevation="2"
-            color="white"
-            class="pa-3 mb-1"
-          >
-            <div class="text-h4 font-weight-light">{{ $t('barn.concentrated.title') }}</div>
-            <v-text-field
-              v-model.number="energeticQuantity"
-              :label="$t('barn.concentrated.energeticQuantity')"
-              type="number"
-              hide-spin-buttons
-              min="0"
-            ></v-text-field>
-            <v-text-field
-              v-model.number="proteicQuantity"
-              :label="$t('barn.concentrated.proteicQuantity')"
-              type="number"
-              hide-spin-buttons
-              min="0"
-            ></v-text-field>
-          </v-sheet>
-          <v-sheet
-            elevation="2"
-            color="white"
-            class="pa-3 mb-1"
-          >
-            <div class="text-h4 font-weight-light">{{ $t('barn.refusal.title') }}</div>
-            <v-text-field
-              v-model.number="refusalRate"
-              :label="$t('barn.refusal.rate')"
-              type="number"
-              hide-spin-buttons
-              min="0"
-            ></v-text-field>
+              <v-text-field
+                v-model.number="strawQuantity"
+                :label="$t('barn.straw.quantity')"
+                type="number"
+                hide-spin-buttons
+                min="0"
+              ></v-text-field>
+            </div>
+            <div>
+              <div class="text-h4 font-weight-light">{{ $t('barn.concentrated.title') }}</div>
+              <v-text-field
+                v-model.number="energeticQuantity"
+                :label="$t('barn.concentrated.energeticQuantity')"
+                type="number"
+                hide-spin-buttons
+                min="0"
+              ></v-text-field>
+              <v-text-field
+                v-model.number="proteicQuantity"
+                :label="$t('barn.concentrated.proteicQuantity')"
+                type="number"
+                hide-spin-buttons
+                min="0"
+              ></v-text-field>
+            </div>
+            <div>
+              <div class="text-h4 font-weight-light">{{ $t('barn.refusal.title') }}</div>
+              <v-text-field
+                v-model.number="refusalRate"
+                :label="$t('barn.refusal.rate')"
+                type="number"
+                hide-spin-buttons
+                min="0"
+              ></v-text-field>
+            </div>
           </v-sheet>
         </v-col>
         <v-col
           cols="7"
-          class="pt-0 pb-0 mb-1"
+          class="pt-0 pb-0"
         >
+          <div>
+            <stock-graph
+              :withLegend="true"
+              :xAxisLabelRotate="false"
+              :withTitle="true"
+              :title="$t('report.main.modules.stockNcost.stockGraph.title')"
+            />
+          </div>
+
           <v-data-table
             :headers="headers"
             :items="initialStocks"
             class="elevation-1"
             sort-by="type"
-            style="height: 100%"
           >
             <template v-slot:top>
               <v-toolbar
@@ -191,10 +194,13 @@
 <script>
   import { mapState, mapGetters } from 'vuex'
   import navigationGuard from '@/mixins/navigationGuard'
-
+  import StockGraph from '@/components/parts/barn/StockGraph'
   // TODO mise en page des card
   export default {
     name: 'Barn',
+    components: {
+      StockGraph,
+    },
     mixins: [navigationGuard],
     confirmNavigation(callback) {
       this.$confirmNavigation(callback)
@@ -379,5 +385,3 @@
     },
   }
 </script>
-
-<style scoped></style>

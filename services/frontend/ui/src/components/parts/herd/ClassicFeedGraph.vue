@@ -141,8 +141,8 @@
             calculable: true,
             type: 'piecewise',
             pieces: [
-              { min: 0, max: 99.999, color: 'red' },
-              { min: 100, max: 119.999, color: 'green' },
+              { min: 0, max: 98.999, color: 'red' },
+              { min: 99, max: 119.999, color: 'green' },
               { min: 120, max: 139.999, color: 'orange' },
               { min: 140, color: 'red' },
             ],

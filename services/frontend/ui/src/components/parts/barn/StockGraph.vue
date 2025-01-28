@@ -140,7 +140,7 @@
           grid: {
             left: this.withLegend ? '3%' : '0%',
             right: this.withLegend ? '30%' : '3%',
-            bottom: '3%',
+            bottom: '15%',
             containLabel: true,
           },
           yAxis: {
@@ -172,7 +172,5 @@
     align-items: center; /* Centrer le contenu verticalement */
     position: relative; /* Positionnement relatif pour des ajustements plus fins si nécessaire */
     page-break-inside: avoid;
-    width: 100%;
-    height: 200px;
   }
 </style>

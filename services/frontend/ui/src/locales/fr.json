@@ -486,7 +486,7 @@
             "headers": { "total": "Total" },
             "distribution": "Périodes de distribution de fourrage grossier",
             "withoutPasture": "Périodes consécutives sans pâturage (hiver)",
-            "housing": { "title": "Animaux présents en batiment" },
+            "housing": { "title": "Animaux présents par période" },
             "harvest": { "title": "Hectares à récolter par période (foin + ensilage + grain + autre)" }
           },
           "pasture": {
