@@ -116,84 +116,53 @@
         tagWorkspace: 'setTag',
         deactivateAllSimulation: 'deactivateAllSimulation',
       }),
-
-      async exportWorkspace() {
-        this.deactivateAllSimulation()
-
-        const data = {
-          simulations: this.workspace.simulations,
-          stics: this.workspace.stics,
-          animalProfiles: this.workspace.animalProfiles,
-          classicFeeds: this.workspace.classicFeeds,
-        }
-
-        const jsonData = JSON.stringify(data)
-        try {
-          // Demander à l'utilisateur de choisir un emplacement pour enregistrer le fichier
-          const fileHandle = await window.showSaveFilePicker({
-            types: [
-              {
-                description: 'Fichiers JSON',
-                accept: {
-                  'application/json': ['.json'],
-                },
-              },
-            ],
-            suggestedName: this.fileName || 'workspace.json',
-            startIn: 'documents',
-          })
-
-          // Obtenir un objet FileSystemWritableFileStream pour écrire des données dans le fichier
-          const writableStream = await fileHandle.createWritable()
-
-          // Écrire les données JSON dans le fichier
-          await writableStream.write(jsonData)
-
-          // Fermer le flux d'écriture
-          await writableStream.close()
-
-          this.tagWorkspace('exported')
-          // Afficher une notification de réussite
-          this.$toast({
-            message: this.$t('notifications.workspace.file_exported.successfully'),
-            type: 'success',
-            timeout: 300,
-          })
-        } catch (error) {
-          console.error("Erreur lors de l'exportation du fichier:", error)
-          this.$toast({
-            message: this.$t('notifications.workspace.file_exported.error'),
-            type: 'error',
-            timeout: 500,
-          })
-        }
+      readFileAsText(file) {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader()
+          reader.readAsText(file)
+          reader.onload = () => resolve(reader.result)
+          reader.onerror = (error) => reject(error)
+        })
+      },
+      createWorkspace() {
+        this.setWorkspace({
+          tag: 'created',
+          simulations: [],
+          stics: [],
+          animalProfiles: [],
+          classicFeeds: [],
+        })
       },
       async importWorkspace() {
         try {
-          const [fileHandle] = await window.showOpenFilePicker({
-            types: [
-              {
-                description: 'Fichiers JSON',
-                accept: {
-                  'application/json': ['.json'],
-                },
-              },
-            ],
-            suggestedName: this.fileName || 'workspace.json',
-            startIn: 'documents',
-          })
+          let file
 
-          const file = await fileHandle.getFile()
+          if (window.showOpenFilePicker) {
+            // Utilisation de l'API moderne si disponible
+            const [fileHandle] = await window.showOpenFilePicker({
+              types: [
+                {
+                  description: 'Fichiers JSON',
+                  accept: { 'application/json': ['.json'] },
+                },
+              ],
+              suggestedName: this.fileName || 'workspace.json',
+              startIn: 'documents',
+            })
+            file = await fileHandle.getFile()
+          } else {
+            // Fallback pour les navigateurs qui ne supportent pas showOpenFilePicker (ex: Firefox)
+            file = await this.selectFileFallback()
+          }
+
+          if (!file) throw new Error('Aucun fichier sélectionné.')
 
           const jsonData = await this.readFileAsText(file)
           const workspace = JSON.parse(jsonData)
-          var isValid = false
-          try {
-            isValid = await validateJson(workspace, 'workspace')
-          } catch (error) {
-            console.error('Validation error:', error)
-            throw error
-          }
+
+          let isValid = false
+          isValid = await validateJson(workspace, 'workspace')
+
           if (isValid) {
             workspace.lastModifiedDate = new Date(file.lastModified).toLocaleDateString()
             await this.refreshWorkspace(workspace)
@@ -204,43 +173,102 @@
             })
           }
         } catch (error) {
-          if (error instanceof ValidatorResultError) {
-            error.errors.forEach((err) => {
-              this.$toast({
-                message: this.$t('notifications.workspace.file_imported.error', {
-                  msg: `${err.stack}`,
-                }),
-                type: 'error',
-                timeout: 5000,
-              })
+          this.handleFileError(error, 'imported')
+        }
+      },
+      async selectFileFallback() {
+        return new Promise((resolve) => {
+          const input = document.createElement('input')
+          input.type = 'file'
+          input.accept = 'application/json'
+          input.onchange = (event) => {
+            resolve(event.target.files[0])
+          }
+          input.click()
+        })
+      },
+      async exportWorkspace() {
+        this.deactivateAllSimulation()
+
+        const data = {
+          simulations: this.workspace.simulations,
+          stics: this.workspace.stics,
+          animalProfiles: this.workspace.animalProfiles,
+          classicFeeds: this.workspace.classicFeeds,
+        }
+
+        const jsonData = JSON.stringify(data, null, 2) // Beautifier JSON pour la lisibilité
+
+        try {
+          if (window.showSaveFilePicker) {
+            // Utilisation de l'API moderne si disponible (Chrome, Edge)
+            const fileHandle = await window.showSaveFilePicker({
+              types: [
+                {
+                  description: 'Fichiers JSON',
+                  accept: { 'application/json': ['.json'] },
+                },
+              ],
+              suggestedName: this.fileName || 'workspace.json',
+              startIn: 'documents',
             })
+
+            const writableStream = await fileHandle.createWritable()
+            await writableStream.write(jsonData)
+            await writableStream.close()
           } else {
-            console.error('Error selecting file:', error)
+            // Fallback pour les navigateurs ne supportant pas showSaveFilePicker (Firefox, Safari)
+            this.downloadFileFallback(jsonData, this.fileName || 'workspace.json')
+          }
+
+          this.tagWorkspace('exported')
+
+          this.$toast({
+            message: this.$t('notifications.workspace.file_exported.successfully'),
+            type: 'success',
+            timeout: 3000,
+          })
+        } catch (error) {
+          this.handleFileError(error, 'exported')
+        }
+      },
+      downloadFileFallback(content, fileName) {
+        const blob = new Blob([content], { type: 'application/json' })
+        const url = URL.createObjectURL(blob)
+
+        const a = document.createElement('a')
+        a.href = url
+        a.download = fileName
+        document.body.appendChild(a)
+        a.click()
+        document.body.removeChild(a)
+
+        URL.revokeObjectURL(url)
+      },
+      handleFileError(error, action) {
+        if (error.name === 'AbortError') {
+          this.$toast({
+            message: this.$t(`notifications.workspace.file_${action}.aborted`),
+            type: 'warning',
+            timeout: 3000,
+          })
+          return
+        }
+        if (error instanceof ValidatorResultError) {
+          error.errors.forEach((err) => {
             this.$toast({
-              message: this.$t('notifications.workspace.file_imported.error', { msg: error.message }),
+              message: this.$t(`notifications.workspace.file_${action}.error`, { msg: `${err.stack}` }),
               type: 'error',
               timeout: 5000,
             })
-          }
+          })
+        } else {
+          this.$toast({
+            message: this.$t(`notifications.workspace.file_${action}.error`, { msg: error.message }),
+            type: 'error',
+            timeout: 5000,
+          })
         }
-      },
-      readFileAsText(file) {
-        return new Promise((resolve, reject) => {
-          const reader = new FileReader()
-          reader.readAsText(file)
-          reader.onload = () => resolve(reader.result)
-          reader.onerror = (error) => reject(error)
-        })
-      },
-
-      createWorkspace() {
-        this.setWorkspace({
-          tag: 'created',
-          simulations: [],
-          stics: [],
-          animalProfiles: [],
-          classicFeeds: [],
-        })
       },
     },
   }

@@ -103,7 +103,10 @@
     "previewpdf": "Prévisualiser PDF",
     "downloadpdf": "Télécharger PDF",
     "close": "Fermer",
-    "exportToCSV": "Exporter en CSV"
+    "exportToCSV": "Exporter en CSV",
+    "preview": "Prévisualiser",
+    "export": "Exporter",
+    "configure": "Paramétrer"
   },
   "auth": {
     "login": {
@@ -152,10 +155,12 @@
     },
     "workspace": {
       "file_exported": {
+        "aborted": "L'export a été annulé",
         "successfully": "Le fichier a été exporté",
         "error": "Le fichier n'a pas été exporté correctement"
       },
       "file_imported": {
+        "aborted": "L'import a été annulé",
         "successfully": "Le fichier a été importé",
         "error": "Le fichier n'a pas été importé correctement. Erreur : {msg}"
       }
