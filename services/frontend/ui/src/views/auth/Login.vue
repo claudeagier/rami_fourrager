@@ -36,7 +36,9 @@
             </v-container>
           </v-card-text>
           <template v-slot:actions>
-            <v-spacer />
+            <div style="width: 85%; padding-right: 20px">
+              <v-img src="@/assets/images/bandeau_rami.jpg" />
+            </div>
             <v-btn
               color="primary"
               @click="login"

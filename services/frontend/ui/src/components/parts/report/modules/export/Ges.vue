@@ -1,24 +1,33 @@
 <template>
-  <v-container>
-    <v-row justify="center">
-      <v-col cols="4">
-        <ges />
-      </v-col>
-      <v-col cols="4">
-        <custom />
-      </v-col>
-    </v-row>
-  </v-container>
+  <v-card>
+    <v-img
+      height="150px"
+      src="@/assets/images/logo_cap2er.png"
+    />
+    <v-card-title class="text-center pa-3">
+      <div>
+        <h3 class="text-center">{{ "Exporter vers CAP'2ER Niveau 1" }}</h3>
+      </div>
+    </v-card-title>
+    <v-card-actions class="pa-4">
+      <v-spacer></v-spacer>
+      <test-ges />
+    </v-card-actions>
+  </v-card>
 </template>
 <script>
-  import Custom from './export/Custom.vue'
-  import Ges from './export/Ges.vue'
+  import TestGes from './TestGes.vue'
 
   export default {
     name: 'export',
+    props: {
+      title: {
+        type: String,
+        default: 'Export',
+      },
+    },
     components: {
-      Ges,
-      Custom,
+      TestGes,
     },
     data() {
       return {
@@ -44,6 +53,8 @@
         ],
       }
     },
-    methods: {},
+    methods: {
+      configure() {},
+    },
   }
 </script>

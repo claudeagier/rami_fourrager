@@ -12,6 +12,7 @@
           cols="12"
           lg="12"
           class="pt-0 pb-0"
+          style="height: 100%"
         >
           <v-tabs
             centered

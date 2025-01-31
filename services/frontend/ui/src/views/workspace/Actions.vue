@@ -131,6 +131,7 @@
           stics: [],
           animalProfiles: [],
           classicFeeds: [],
+          mappings: [],
         })
       },
       async importWorkspace() {

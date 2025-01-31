@@ -11,9 +11,9 @@
     v-bind="$attrs"
   >
     <template v-slot:prepend>
-      <div class="pa-2">
+      <div class="pa-5">
         <v-img
-          class="rounded-sm"
+          class="rounded-xl rounded-br-0"
           src="@/assets/images/logoRami.jpg"
         />
       </div>
@@ -62,14 +62,28 @@
       <div />
     </v-list>
     <template v-slot:append>
-      <v-row>
+      <div>
+        <v-divider></v-divider>
+        <div class="text-h4 font-weight-light white--text text-center pa-3">
+          {{ 'Avec le soutient de :' }}
+        </div>
+        <div
+          class="text-center"
+          style="padding: 0px 55px 30px 55px"
+        >
+          <v-img
+            class="rounded-xl rounded-br-0"
+            src="@/assets/images/logo_centrevaldeloire2.png"
+          />
+        </div>
+      </div>
+      <!-- <v-row>
         <v-col cols="4">
-          <img src="@/assets/images/logoIdele.svg" />
         </v-col>
         <v-col cols="2">
           <img src="@/assets/images/BlocMarque-INRAE.jpg" />
         </v-col>
-      </v-row>
+      </v-row> -->
     </template>
   </v-navigation-drawer>
 </template>

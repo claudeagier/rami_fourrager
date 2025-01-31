@@ -687,7 +687,8 @@
         "simulation": "Mes Simulations",
         "animalProfile": "Mes Profils Animaux",
         "stic": "Mes Baguettes fourrages",
-        "feed": " Mes Cartes rations"
+        "feed": " Mes Cartes rations",
+        "export": "Exporter"
       },
       "datatables": {
         "simulation": {
@@ -796,6 +797,21 @@
               "correspondingStock": "Stock correspondant",
               "name": "Nom de la ration",
               "nutritional_values": "Valeurs nutritionnelles de la ration"
+            }
+          }
+        },
+        "mapping": {
+          "title": "Les exports paramétré",
+          "header": {
+            "name": "Nom du mapping",
+            "actions": "Actions"
+          },
+          "create": {
+            "btn": "Créer un nouveau mapping",
+            "dialog": {
+              "title": "Créer un nouveau mapping",
+              "btn_create": "Enregistrer",
+              "btn_cancel": "Annuler"
             }
           }
         }

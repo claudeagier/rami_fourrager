@@ -7,7 +7,7 @@
         fixed-tabs
       >
         <v-tab
-          v-for="(tab, tabIndex) in ['simulation', 'animalProfile', 'stic', 'feed']"
+          v-for="(tab, tabIndex) in ['simulation', 'animalProfile', 'stic', 'feed', 'export']"
           :key="tabIndex"
           class="text-h6"
         >
@@ -20,7 +20,6 @@
             :headers="simulationHeaders"
             fixed-header
             :options="dataTableOptions"
-            :value="selectedRows"
           >
             <template v-slot:top>
               <v-toolbar
@@ -278,6 +277,9 @@
             </template>
           </v-data-table>
         </v-tab-item>
+        <v-tab-item>
+          <export />
+        </v-tab-item>
       </v-tabs>
     </v-col>
   </div>
@@ -289,10 +291,11 @@
   import SticModal from './SticModal.vue'
   import SimulationModal from './SimulationModal.vue'
   import AnimalProfileModal from './AnimalProfileModal.vue'
+  import Export from './Export.vue'
 
   export default {
     name: 'WorkspaceContent',
-    components: { ClassicFeedModal, SticModal, SimulationModal, AnimalProfileModal },
+    components: { ClassicFeedModal, SticModal, SimulationModal, AnimalProfileModal, Export },
     data() {
       return {
         dialogs: {
@@ -313,7 +316,6 @@
           stic: null,
           animalProfile: null,
         },
-        selectedRows: [],
         rules: {
           required: (val) => !!val || 'Ce champ est requis',
           integer: (val) => /^\d+$/.test(val) || 'Ce champ doit être un entier',
