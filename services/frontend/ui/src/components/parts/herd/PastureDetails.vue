@@ -14,7 +14,19 @@
       </thead>
       <tbody>
         <tr>
-          <td>{{ $t('herd.pasture.table.available') }}</td>
+          <v-tooltip top>
+            <template v-slot:activator="{ on, attrs }">
+              <td
+                v-bind="attrs"
+                v-on="on"
+              >
+                {{ $t('herd.pasture.table.available.header') }}
+              </td>
+            </template>
+            <p>
+              {{ $t('herd.pasture.table.available.tooltip') }}
+            </p>
+          </v-tooltip>
           <td
             v-for="(period, index) in periods"
             :key="index"
@@ -23,7 +35,19 @@
           </td>
         </tr>
         <tr>
-          <td>{{ $t('herd.pasture.table.carryOver') }}</td>
+          <v-tooltip top>
+            <template v-slot:activator="{ on, attrs }">
+              <td
+                v-bind="attrs"
+                v-on="on"
+              >
+                {{ $t('herd.pasture.table.carryOver.header') }}
+              </td>
+            </template>
+            <p>
+              {{ $t('herd.pasture.table.carryOver.tooltip') }}
+            </p>
+          </v-tooltip>
           <td
             v-for="(period, index) in periods"
             :key="index"
@@ -33,7 +57,22 @@
         </tr>
 
         <tr>
-          <td>{{ $t('herd.pasture.table.report') }}</td>
+          <v-tooltip
+            top
+            max-width="500px"
+          >
+            <template v-slot:activator="{ on, attrs }">
+              <td
+                v-bind="attrs"
+                v-on="on"
+              >
+                {{ $t('herd.pasture.table.report.header') }}
+              </td>
+            </template>
+            <p>
+              {{ $t('herd.pasture.table.report.tooltip') }}
+            </p>
+          </v-tooltip>
           <td
             v-for="(period, index) in periods"
             :key="index"
@@ -52,7 +91,7 @@
 <script>
   import { mapGetters } from 'vuex'
   import PastureStrategyForm from './PastureStrategyForm.vue'
-
+  // TODO mettre les intitulé du excel en info bulle
   export default {
     name: 'PastureDetails',
     components: { PastureStrategyForm },
