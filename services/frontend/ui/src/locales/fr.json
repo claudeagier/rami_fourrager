@@ -405,9 +405,15 @@
     "pasture": {
       "table": {
         "period": "P {id}",
-        "available": "Pâture disponible",
-        "carryOver": "Pature reportée disponible",
-        "report": "Reporter ?"
+        "available": { "header": "Pâture disponible", "tooltip": "Pâture verte disponible (kgMS/animal Lot1/j)" },
+        "carryOver": {
+          "header": "Pature reportée disponible",
+          "tooltip": "Pâture reportée disponible (kgMS/animal Lot1/j)"
+        },
+        "report": {
+          "header": "Reporter ?",
+          "tooltip": "Cocher la case en cas de stratégie de reports sur pieds délibérés, \n ce seront les reports qui seront consommés en premier puis le vert. Dans le cas contraire, les reports sont subis et le vert est consommé en premier, puis les reports."
+        }
       },
       "form": {}
     },
