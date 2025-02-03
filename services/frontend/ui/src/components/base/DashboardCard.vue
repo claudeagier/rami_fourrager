@@ -47,7 +47,10 @@
           {{ description }}
         </span>
       </v-tooltip>
-      <v-card-subtitle class="mt-0 text-subtitle-1 font-weight-light">
+      <v-card-subtitle
+        v-if="withSubtitle"
+        class="mt-0 text-subtitle-1 font-weight-light"
+      >
         <slot name="subtitle"></slot>
       </v-card-subtitle>
     </v-sheet>
@@ -73,6 +76,10 @@
         type: String,
         required: false,
         default: undefined,
+      },
+      withSubtitle: {
+        type: Boolean,
+        default: false,
       },
       title: {
         type: String,

@@ -6,6 +6,7 @@
     :dark="true"
     icon="mdi-chart-box-outline"
     :withButton="true"
+    :withSubtitle="true"
   >
     <template v-slot:content>
       <dimensioning />

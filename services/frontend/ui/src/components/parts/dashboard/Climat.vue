@@ -6,8 +6,9 @@
   >
     <template v-slot:content>
       <v-row>
-        <v-col cols="6">
+        <v-col cols="12">
           <v-select
+            class="ma-2"
             ref="siteSelect"
             hide-details
             outlined
@@ -23,10 +24,8 @@
             @click="onSiteClick"
             :light="true"
           ></v-select>
-        </v-col>
-
-        <v-col cols="6">
           <v-select
+            class="ma-2"
             hide-details
             outlined
             :label="$t('dashboard.climat.climaticyear.label')"
@@ -39,6 +38,7 @@
             style="background-color: white"
           ></v-select>
         </v-col>
+
         <!-- Boîte de dialogue de confirmation -->
         <v-dialog
           v-model="confirmDialog"

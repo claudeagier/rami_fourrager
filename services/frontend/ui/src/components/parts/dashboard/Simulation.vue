@@ -5,6 +5,7 @@
     titleColor="transparent"
     :dark="true"
     icon="mdi-head-cog-outline"
+    :withSubtitle="true"
     :description="$t('dashboard.simulation.description', { desc: simulation.description })"
   >
     <template
