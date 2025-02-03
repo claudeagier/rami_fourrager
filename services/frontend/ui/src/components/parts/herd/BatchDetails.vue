@@ -164,7 +164,7 @@
       confirmUpdate() {
         this.$toast({
           message: this.$t('notifications.herd.animalcount'),
-          type: 'error',
+          type: 'info',
           timeout: 5000,
         })
       },
