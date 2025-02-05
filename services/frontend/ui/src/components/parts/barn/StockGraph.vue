@@ -17,7 +17,24 @@
 
   export default {
     data() {
-      return {}
+      return {
+        periods: [
+          this.$t('periods.graph.start'),
+          this.$t('periods.graph.P1'),
+          this.$t('periods.graph.P2'),
+          this.$t('periods.graph.P3'),
+          this.$t('periods.graph.P4'),
+          this.$t('periods.graph.P5'),
+          this.$t('periods.graph.P6'),
+          this.$t('periods.graph.P7'),
+          this.$t('periods.graph.P8'),
+          this.$t('periods.graph.P9'),
+          this.$t('periods.graph.P10'),
+          this.$t('periods.graph.P11'),
+          this.$t('periods.graph.P12'),
+          this.$t('periods.graph.end'),
+        ],
+      }
     },
     props: {
       withLegend: {
@@ -53,22 +70,6 @@
         return { width: 'auto', height: 'auto' }
       },
       options() {
-        const periods = [
-          this.$t('periods.graph.start'),
-          this.$t('periods.graph.P1'),
-          this.$t('periods.graph.P2'),
-          this.$t('periods.graph.P3'),
-          this.$t('periods.graph.P4'),
-          this.$t('periods.graph.P5'),
-          this.$t('periods.graph.P6'),
-          this.$t('periods.graph.P7'),
-          this.$t('periods.graph.P8'),
-          this.$t('periods.graph.P9'),
-          this.$t('periods.graph.P10'),
-          this.$t('periods.graph.P11'),
-          this.$t('periods.graph.P12'),
-          this.$t('periods.graph.end'),
-        ]
         const colors = {
           P: '#00CC00',
           STRAW: '#FFF59D',
@@ -82,7 +83,8 @@
           FL: '#FF66FF',
         }
         var stockEvolutionPerFeedSeries = []
-        this.stocks.forEach((stock) => {
+        const stocks = this.stocks
+        stocks.forEach((stock) => {
           const unity = this.$t('report.main.modules.stockNcost.stockGraph.unity')
           // si somme de stock.data = 0 alors on push pas
           const s = Object.values(stock.data).reduce((acc, curr) => {
@@ -149,7 +151,7 @@
           },
           xAxis: {
             type: 'category',
-            data: periods,
+            data: this.periods,
             axisTick: {
               alignWithLabel: true,
             },

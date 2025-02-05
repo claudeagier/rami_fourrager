@@ -91,7 +91,6 @@
 <script>
   import { mapGetters } from 'vuex'
   import PastureStrategyForm from './PastureStrategyForm.vue'
-  // TODO mettre les intitulé du excel en info bulle
   export default {
     name: 'PastureDetails',
     components: { PastureStrategyForm },

@@ -231,6 +231,7 @@
   import { mapGetters } from 'vuex'
   import { deepCopy, transformToAppCode } from '@/plugins/utils'
 
+  // TODO premettre la copie de baguette d'une année climatique et d'un site sur d'autre
   export default {
     name: 'SticModal',
     props: {

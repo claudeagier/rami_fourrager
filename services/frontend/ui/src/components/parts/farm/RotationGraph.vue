@@ -18,18 +18,9 @@
 
   export default {
     name: 'rotation-graph',
-    computed: {
-      ...mapGetters('simulator/farm', {
-        rotations: 'getRotationsData',
-      }),
-      ...mapGetters('referential', {
-        farmingMethodList: 'farmingMethodList',
-      }),
-      initOptions() {
-        return { width: 'auto', height: 'auto' }
-      },
-      options() {
-        const periods = [
+    data() {
+      return {
+        periods: [
           this.$t('periods.graph.P1'),
           this.$t('periods.graph.P2'),
           this.$t('periods.graph.P3'),
@@ -43,8 +34,20 @@
           this.$t('periods.graph.P11'),
           this.$t('periods.graph.P12'),
           this.$t('periods.graph.end'),
-        ]
-
+        ],
+      }
+    },
+    computed: {
+      ...mapGetters('simulator/farm', {
+        rotations: 'getRotationsData',
+      }),
+      ...mapGetters('referential', {
+        farmingMethodList: 'farmingMethodList',
+      }),
+      initOptions() {
+        return { width: 'auto', height: 'auto' }
+      },
+      options() {
         const stics = this.rotations
         const sticNames = []
         const sticData = []
@@ -88,7 +91,7 @@
           },
           xAxis: {
             type: 'category',
-            data: periods,
+            data: this.periods,
             splitArea: {
               show: true,
             },

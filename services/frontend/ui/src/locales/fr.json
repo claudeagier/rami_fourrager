@@ -172,6 +172,11 @@
           "error": "Votre profil n'a pas été mis à jour Erreur : {msg}"
         }
       }
+    },
+    "stic": {
+      "errors": {
+        "getStic": "Il semble qu'une baguette fourrage n'existe pas, vérifiez l'assolement"
+      }
     }
   },
   "dashboard": {
