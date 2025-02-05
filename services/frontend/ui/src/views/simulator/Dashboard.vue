@@ -142,8 +142,18 @@
         this.setClimaticYear(id)
         this.$store.dispatch('simulator/applyTo', 'climaticYear')
         // recharger la ferme avec les nouvelles baguettes
-        this.$store.dispatch('simulator/farm/setTotalAvailablePastureByPeriod')
-        this.$store.dispatch('simulator/farm/dispatchProduction')
+        try {
+          this.$store.dispatch('simulator/farm/setTotalAvailablePastureByPeriod')
+          this.$store.dispatch('simulator/farm/dispatchProduction')
+        } catch (error) {
+          console.log('dashboard', error)
+          this.$toast({
+            message: this.$t('notifications.stic.errors.getStic'),
+            type: 'error', // 'info', 'warning', 'error'
+            icon: 'mdi-check-circle', // any Vuetify icon
+            timeout: 5000, // optional, defaults to 5000
+          })
+        }
       },
     },
   }

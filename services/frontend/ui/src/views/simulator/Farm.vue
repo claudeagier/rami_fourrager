@@ -81,7 +81,7 @@
           class="pt-0 pb-0"
           :class="{ 'opacity-50': climaticYear === null }"
         >
-          <rotation-graph />
+          <rotation-graph :climaticYear="climaticYear" />
           <v-data-table
             :headers="headers"
             :items="rotations"
@@ -214,6 +214,7 @@
   import { mapGetters } from 'vuex'
   import navigationGuard from '@/mixins/navigationGuard'
   import RotationGraph from '@/components/parts/farm/RotationGraph.vue'
+  // TODO il faut mettre la baguette qui n'est pas retrouvé en rouge avec un logo warning
   export default {
     name: 'Farm',
     mixins: [navigationGuard],
@@ -400,14 +401,25 @@
       },
       applyToSimulation() {
         // this.$store.commit('setRotations', this.rotations)
-        this.$store.dispatch('simulator/farm/setTotalAvailablePastureByPeriod')
-        this.$store.dispatch('simulator/farm/dispatchProduction')
-        this.$store.dispatch('simulator/farm/applyToWorkspace')
-        this.$toast({
-          message: this.$t('farm.main.messages.apply_success'),
-          type: 'success',
-          timeout: 3000,
-        })
+        try {
+          this.$store.dispatch('simulator/farm/setTotalAvailablePastureByPeriod')
+          this.$store.dispatch('simulator/farm/dispatchProduction')
+
+          this.$store.dispatch('simulator/farm/applyToWorkspace')
+          this.$toast({
+            message: this.$t('farm.main.messages.apply_success'),
+            type: 'success',
+            timeout: 3000,
+          })
+        } catch (error) {
+          console.log('erreur stic farm')
+          this.$toast({
+            message: this.$t('notifications.stic.errors.getStic'),
+            type: 'error', // 'info', 'warning', 'error'
+            icon: 'mdi-check-circle', // any Vuetify icon
+            timeout: 5000, // optional, defaults to 5000
+          })
+        }
       },
     },
   }

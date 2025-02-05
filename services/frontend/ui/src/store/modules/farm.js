@@ -131,23 +131,30 @@ export default {
       return Array.from(Object.values(arr), (el) => _.round(el.production_total))
     },
     getRotationsData: (state, getters, rootState, rootGetters) => {
-      return state.rotations.map((rotation) => {
-        const stic = rootGetters['referential/getSticByName'](rootState.simulator.climaticYear, rotation.name)
-        const theoricProduction = stic.stic_periods
-        const production = theoricProduction.map((prod) => {
-          return { farmingMethod: prod.farming_method, production: _.round(prod.production, 0) }
-        })
+      var data = []
 
-        // on ne renvoie que les patures
-        // pour chaque période production de la surface
-        // le nom
-        // la production
-        return {
-          ...rotation,
-          type: stic.type,
-          production: production,
-        }
-      })
+      try {
+        data = state.rotations.map((rotation) => {
+          const stic = rootGetters['referential/getSticByName'](rootState.simulator.climaticYear, rotation.name)
+          const theoricProduction = stic.stic_periods
+          const production = theoricProduction.map((prod) => {
+            return { farmingMethod: prod.farming_method, production: _.round(prod.production, 0) }
+          })
+
+          // on ne renvoie que les patures
+          // pour chaque période production de la surface
+          // le nom
+          // la production
+          return {
+            ...rotation,
+            type: stic.type,
+            production: production,
+          }
+        })
+        return data
+      } catch (error) {
+        return data
+      }
     },
     getReportHarvestByperiod: (state, getters, rootState, rootGetters) => (periodId) => {
       // surface en hectares à récolter par période (foin + ensilage + grain + autre)

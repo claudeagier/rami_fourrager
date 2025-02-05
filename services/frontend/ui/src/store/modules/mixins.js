@@ -723,7 +723,7 @@ export function getSticProductionByBarnStockItemByPeriod(simulation, stockCode, 
   // // SUM($calcul_interface.H52:T52) la somme de toutes les production des baguettes de même type par periode
 
   var quantity = 0
-  if (simulation.barn.stockByPeriod[period].stock !== null) {
+  if (simulation.barn.stockByPeriod[period] && simulation.barn.stockByPeriod[period].stock !== null) {
     const stock = simulation.barn.stockByPeriod[period].stock.find((item) => item.code === stockCode)
     quantity = stock === undefined ? 0 : stock.quantity
   }

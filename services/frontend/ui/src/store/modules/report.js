@@ -195,8 +195,13 @@ export default {
       const getStic = rootGetters['referential/getSticByName']
       const stockCodeList = ['FH', 'EH', 'EM', 'EL', 'FL']
       const totalAvailablePastureByPeriod = rootState.simulator.farm.totalAvailablePastureByPeriod
-
-      return getAutonomy(simulation, periods, getStic, stockCodeList, totalAvailablePastureByPeriod)
+      var autonomy
+      try {
+        autonomy = getAutonomy(simulation, periods, getStic, stockCodeList, totalAvailablePastureByPeriod)
+      } catch (error) {
+        autonomy = null
+      }
+      return autonomy
     },
     getPotential: (state, getters, rootState, rootGetters) => {
       if (rootState.simulator.farm.rotations.length === 0 || rootState.simulator.herd.batchs.length === 0) {
@@ -208,10 +213,16 @@ export default {
       const stockCodeList = ['FH', 'EH', 'EM', 'EL', 'FL']
       const totalAvailablePastureByPeriod = rootState.simulator.farm.totalAvailablePastureByPeriod
       // IF(E8 / E9 >= 0.9, 'au potentiel', 'pas au potentiel')
-      return _.round(
-        replaceNan(getPotential(simulation, periods, getStic, stockCodeList, totalAvailablePastureByPeriod), 0),
-        0
-      )
+      var potential
+      try {
+        potential = _.round(
+          replaceNan(getPotential(simulation, periods, getStic, stockCodeList, totalAvailablePastureByPeriod), 0),
+          0
+        )
+      } catch (error) {
+        potential = null
+      }
+      return potential
     },
     getDimensioning: (state, getters, rootState, rootGetters) => {
       const dimensioning = {
@@ -237,45 +248,64 @@ export default {
         const stockCodeList = ['FH', 'EH', 'EM', 'EL', 'FL']
         const totalAvailablePastureByPeriod = rootState.simulator.farm.totalAvailablePastureByPeriod
 
-        dimensioning.nbAnimaux = _.round(replaceNan(getTotalHerd(batchs), 0), 0)
-        dimensioning.ugbN = _.round(
-          replaceNan(getUGBSystem(simulation, periods, stockCodeList, totalAvailablePastureByPeriod), 0),
-          0
-        )
-        dimensioning.ugbAN = _.round(replaceNan(getUGBtoFeed(simulation, periods), 0), 0)
-        dimensioning.chargeSAU = _.round(
-          replaceNan(
-            getEstimatedLivestockDensities(simulation, periods, totalAvailablePastureByPeriod, stockCodeList),
+        try {
+          dimensioning.nbAnimaux = _.round(replaceNan(getTotalHerd(batchs), 0), 0)
+          dimensioning.ugbN = _.round(
+            replaceNan(getUGBSystem(simulation, periods, stockCodeList, totalAvailablePastureByPeriod), 0),
             0
-          ),
-          2
-        )
-        dimensioning.chargeApparent = _.round(
-          replaceNan(
-            getApparentLivestockDensities(simulation, periods, getStic, stockCodeList, totalAvailablePastureByPeriod),
+          )
+          dimensioning.ugbAN = _.round(replaceNan(getUGBtoFeed(simulation, periods), 0), 0)
+          dimensioning.chargeSAU = _.round(
+            replaceNan(
+              getEstimatedLivestockDensities(simulation, periods, totalAvailablePastureByPeriod, stockCodeList),
+              0
+            ),
+            2
+          )
+          dimensioning.chargeApparent = _.round(
+            replaceNan(
+              getApparentLivestockDensities(simulation, periods, getStic, stockCodeList, totalAvailablePastureByPeriod),
+              0
+            ),
+            2
+          )
+          dimensioning.chargeCorrige = _.round(
+            replaceNan(
+              getCorrectedLivestockDensities(
+                simulation,
+                periods,
+                getStic,
+                stockCodeList,
+                totalAvailablePastureByPeriod
+              ),
+              0
+            ),
+            2
+          )
+          dimensioning.chargePotentiel = _.round(
+            replaceNan(getPotentialLivestockDensities(simulation, periods, getStic, stockCodeList), 0),
             0
-          ),
-          2
-        )
-        dimensioning.chargeCorrige = _.round(
-          replaceNan(
-            getCorrectedLivestockDensities(simulation, periods, getStic, stockCodeList, totalAvailablePastureByPeriod),
-            0
-          ),
-          2
-        )
-        dimensioning.chargePotentiel = _.round(
-          replaceNan(getPotentialLivestockDensities(simulation, periods, getStic, stockCodeList), 0),
-          0
-        )
-        dimensioning.autonomy = getAutonomy(simulation, periods, getStic, stockCodeList, totalAvailablePastureByPeriod)
-        dimensioning.fourragesRecoltes = _.round(
-          replaceNan(getHarvestedFodder(simulation, periods, getStic, stockCodeList, totalAvailablePastureByPeriod), 0),
-          2
-        )
-        dimensioning.sfpSau = _.round(replaceNan(getSFP_SAU(simulation, periods, getStic), 0), 0)
-        dimensioning.ppSau = _.round(replaceNan(getPP_SAU(simulation, periods, getStic), 0), 0)
-        dimensioning.ptSau = _.round(replaceNan(getPT_SAU(simulation, periods, getStic), 0), 0)
+          )
+          dimensioning.autonomy = getAutonomy(
+            simulation,
+            periods,
+            getStic,
+            stockCodeList,
+            totalAvailablePastureByPeriod
+          )
+          dimensioning.fourragesRecoltes = _.round(
+            replaceNan(
+              getHarvestedFodder(simulation, periods, getStic, stockCodeList, totalAvailablePastureByPeriod),
+              0
+            ),
+            2
+          )
+          dimensioning.sfpSau = _.round(replaceNan(getSFP_SAU(simulation, periods, getStic), 0), 0)
+          dimensioning.ppSau = _.round(replaceNan(getPP_SAU(simulation, periods, getStic), 0), 0)
+          dimensioning.ptSau = _.round(replaceNan(getPT_SAU(simulation, periods, getStic), 0), 0)
+        } catch (error) {
+          return dimensioning
+        }
       }
       return dimensioning
     },
@@ -313,6 +343,7 @@ export default {
         }
         stocks.push(item)
       })
+      console.log('stock ok')
       return stocks
     },
     getCostIndicators: (state, getters, rootState, rootGetters) => (data) => {
