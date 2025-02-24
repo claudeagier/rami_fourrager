@@ -69,6 +69,7 @@
             axisLabel: {
               show: true,
             },
+            interval: 25,
           },
           tooltip: {
             trigger: 'item',
@@ -104,6 +105,10 @@
                     lineStyle: {
                       type: 'solid',
                       width: 1,
+                      color: 'green',
+                    },
+                    label: {
+                      show: false,
                     },
                   },
                   {
@@ -115,6 +120,10 @@
                     lineStyle: {
                       type: 'solid',
                       width: 1,
+                      color: 'green',
+                    },
+                    label: {
+                      show: false,
                     },
                   },
                 ],

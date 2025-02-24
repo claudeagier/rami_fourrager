@@ -592,7 +592,7 @@
       },
       "tooltip": {
         "punchline": "Produisant les fourrages grossiers nécessaires",
-        "details": "-> Indicateur d'autonomie = chargement réel - chargement apparent"
+        "details": "-> Indicateur d'autonomie = chargement corrigé - chargement apparent"
       }
     },
     "potential": {
@@ -604,12 +604,12 @@
       },
       "tooltip": {
         "punchline": "Valorisant l'intégralité de la production fourragère de l'exploitation",
-        "details": "-> Niveau de valorisation du potentiel = chargement réel / chargement apparent"
+        "details": "-> Niveau de valorisation du potentiel = chargement corrigé / chargement apparent"
       }
     },
     "print": {
-      "autonomy": { "title": "Indicateur d'autonomie (chargement réel - chargement apparent)" },
-      "potential": { "title": "Niveau de réalisation du potentiel (chargement réel/chargement potentiel)" }
+      "autonomy": { "title": "Indicateur d'autonomie (chargement corrigé - chargement apparent)" },
+      "potential": { "title": "Niveau de réalisation du potentiel (chargement corrigé/chargement potentiel)" }
     }
   },
   "dimensioning": {
