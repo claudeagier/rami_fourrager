@@ -21,11 +21,11 @@
                     class="pa-1 ma-2"
                     dense
                     :type="
-                      autonomy > 0 ? $t('autonomy.autonomy.step.high.color') : $t('autonomy.autonomy.step.low.color')
+                      autonomy >= 0 ? $t('autonomy.autonomy.step.high.color') : $t('autonomy.autonomy.step.low.color')
                     "
                   >
                     {{
-                      autonomy > 0 ? $t('autonomy.autonomy.step.high.label') : $t('autonomy.autonomy.step.low.label')
+                      autonomy >= 0 ? $t('autonomy.autonomy.step.high.label') : $t('autonomy.autonomy.step.low.label')
                     }}
                   </v-alert>
                 </template>

@@ -14,7 +14,6 @@
 </template>
 <script>
   import { mapGetters } from 'vuex'
-
   export default {
     data() {
       return {
@@ -90,23 +89,23 @@
           const s = Object.values(stock.data).reduce((acc, curr) => {
             return acc + curr
           }, 0.0)
-          if (s > 0) {
-            stockEvolutionPerFeedSeries.push({
-              name: stock.name,
-              type: 'bar',
-              stack: 'total',
-              label: {
-                show: false,
+          // if (s > 0) {
+          stockEvolutionPerFeedSeries.push({
+            name: stock.name,
+            type: 'bar',
+            stack: 'total',
+            label: {
+              show: false,
+            },
+            tooltip: {
+              valueFormatter: function (value) {
+                return value + ' ' + unity
               },
-              tooltip: {
-                valueFormatter: function (value) {
-                  return value + ' ' + unity
-                },
-              },
-              data: stock.data,
-              itemStyle: { color: colors[stock.code] },
-            })
-          }
+            },
+            data: stock.data,
+            itemStyle: { color: colors[stock.code] },
+          })
+          // }
         })
         const options = {
           title: {

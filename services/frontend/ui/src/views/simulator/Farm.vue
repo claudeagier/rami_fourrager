@@ -234,7 +234,6 @@
   import { mapGetters } from 'vuex'
   import navigationGuard from '@/mixins/navigationGuard'
   import RotationGraph from '@/components/parts/farm/RotationGraph.vue'
-  // TODO il faut mettre la baguette qui n'est pas retrouvé en rouge avec un logo warning
   export default {
     name: 'Farm',
     mixins: [navigationGuard],

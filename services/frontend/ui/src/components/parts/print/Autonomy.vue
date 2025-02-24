@@ -6,9 +6,9 @@
     <v-alert
       class="pa-1 ma-2"
       dense
-      :type="autonomy > 0 ? $t('autonomy.autonomy.step.high.color') : $t('autonomy.autonomy.step.low.color')"
+      :type="autonomy >= 0 ? $t('autonomy.autonomy.step.high.color') : $t('autonomy.autonomy.step.low.color')"
     >
-      {{ autonomy > 0 ? $t('autonomy.autonomy.step.high.label') : $t('autonomy.autonomy.step.low.label') }}
+      {{ autonomy >= 0 ? $t('autonomy.autonomy.step.high.label') : $t('autonomy.autonomy.step.low.label') }}
     </v-alert>
     <v-divider></v-divider>
     <div class="text-h4 indigo--text font-italic">
@@ -55,8 +55,9 @@
             max: 0.5,
             name: 'Autonomie',
             nameLocation: 'middle',
+            nameGap: 20,
             axisLabel: {
-              show: false,
+              show: true,
             },
           },
           yAxis: {
@@ -64,16 +65,35 @@
             max: 140,
             name: 'Potentiel',
             nameLocation: 'middle',
+            nameGap: 30,
             axisLabel: {
-              show: false,
+              show: true,
             },
+          },
+          tooltip: {
+            trigger: 'item',
+            axisPointer: {
+              type: 'shadow',
+            },
+            triggerOn: 'mousemove|click',
+            appendToBody: true,
+            hideDelay: 50,
+            enterable: true,
           },
           series: [
             {
               symbolSize: 10,
               data: [[this.autonomy, this.potential]],
               type: 'scatter',
+              tooltip: {
+                formatter: function (params, ticket, callback) {
+                  const content =
+                    'Autonomie' + ' : <b>' + params.data[0] + '</b></br >' + 'Potentiel : <b>' + params.data[1] + '</b>'
+                  return content
+                },
+              },
               markLine: {
+                silent: true,
                 data: [
                   {
                     yAxis: 90,

@@ -50,8 +50,6 @@
   import { mapState, mapGetters } from 'vuex'
   import navigationGuard from '@/mixins/navigationGuard'
   import { moduleList } from '@/components/parts/report/modules/Config' // Importez la configuration des modules
-  // TODO uniformiser chargement réel = chargement corrigé
-  // layout et data de toute la simulation qui est dans l'état ou chaque module prend dans le state qui est le model
   export default {
     name: 'Report',
     mixins: [navigationGuard],

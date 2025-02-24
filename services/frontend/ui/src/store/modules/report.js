@@ -205,7 +205,7 @@ export default {
       } catch (error) {
         autonomy = null
       }
-      return autonomy
+      return _.round(autonomy, 4)
     },
     getPotential: (state, getters, rootState, rootGetters) => {
       if (rootState.simulator.farm.rotations.length === 0 || rootState.simulator.herd.batchs.length === 0) {
