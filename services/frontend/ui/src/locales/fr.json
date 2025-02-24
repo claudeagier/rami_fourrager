@@ -144,7 +144,10 @@
       "animalcount": "Le nombre d'animaux présent par période a été modifier pour correspondre au nombre d'animaux du lot"
     },
     "report": {
-      "apply_success": "les modifications du bilan sont appliquées à la simulation"
+      "apply_success": "les modifications du bilan sont appliquées à la simulation",
+      "errors": {
+        "simulation_not_valid": "La simulation n'est pas valide, vérifiez l'assolement"
+      }
     },
     "download": {
       "success": "Le fichier est en cours de téléchargement",

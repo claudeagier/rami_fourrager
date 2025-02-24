@@ -161,7 +161,11 @@ export default {
       const batch = state.batchs[batchId]
       const tap = rootState.simulator.farm.totalAvailablePastureByPeriod
       rootState.referential.periods.forEach((period, index) => {
-        if (tap !== null && tap['period_id_' + (index + 1)].production_total !== 0) {
+        if (
+          tap !== null &&
+          Object.keys(tap).length > 0 &&
+          tap['period_id_' + (index + 1)].production_total !== undefined
+        ) {
           availablePasture[index] = _.round(getAvailableGreenPastureByAnimal(batch, index, tap, state.batchs))
         } else {
           availablePasture[index] = 0
@@ -175,7 +179,7 @@ export default {
       const availableCarryOver = []
       const tap = rootState.simulator.farm.totalAvailablePastureByPeriod
       rootState.referential.periods.forEach((period, index) => {
-        if (tap !== null && tap['period_id_' + (index + 1)].production_total !== 0) {
+        if (tap !== null && Object.keys(tap).length > 0 && tap['period_id_' + (index + 1)].production_total !== 0) {
           availableCarryOver[index] = _.round(
             getAvailableCarryOverPastureByAnimal(
               state.batchs[batchId],

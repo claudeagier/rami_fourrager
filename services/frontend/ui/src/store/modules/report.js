@@ -60,7 +60,11 @@ export default {
   },
   getters: {
     getPastureStock: (state, getters, rootState) => {
-      if (rootState.simulator.farm.rotations.length === 0 || rootState.simulator.herd.batchs.length === 0) {
+      if (
+        Object.keys(rootState.simulator.farm.totalAvailablePastureByPeriod).length === 0 ||
+        rootState.simulator.farm.rotations.length === 0 ||
+        rootState.simulator.herd.batchs.length === 0
+      ) {
         return []
       }
       const simulation = rootState.simulator
@@ -343,7 +347,6 @@ export default {
         }
         stocks.push(item)
       })
-      console.log('stock ok')
       return stocks
     },
     getCostIndicators: (state, getters, rootState, rootGetters) => (data) => {

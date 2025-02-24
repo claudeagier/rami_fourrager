@@ -216,11 +216,19 @@ export default {
     getSticByName: (state, getters) => (climaticYear, name) => {
       const stic = getters.sticList(climaticYear).find((el) => el.name === name)
       if (stic === undefined) {
-        console.log('getStic', stic)
-        throw new Error('')
+        throw new Error('stic error')
       }
       return stic
     },
+    isFindedStick: (state, getters) => (climaticYear, name) => {
+      const stic = getters.sticList(climaticYear).find((el) => el.name === name)
+      if (stic === undefined) {
+        return false
+      } else {
+        return true
+      }
+    },
+
     getFeedByTypeById: (state, getters) => (type, feedId) => {
       return getters.getFeedListByType(type).find((el) => el.id === feedId)
     },

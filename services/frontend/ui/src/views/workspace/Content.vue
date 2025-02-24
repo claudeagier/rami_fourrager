@@ -411,13 +411,9 @@
       ...mapActions('workspace', { loadSimulator: 'loadSimulator' }),
 
       loadSimulation(simulation) {
+        this.loadSimulator(simulation)
         try {
-          this.loadSimulator(simulation)
-          this.$toast({
-            message: this.$t('notifications.simulation_loaded_success'),
-            type: 'success',
-            timeout: 3000,
-          })
+          this.$store.dispatch('simulator/farm/setTotalAvailablePastureByPeriod', null, { root: true })
         } catch (error) {
           this.$toast({
             message: this.$t('notifications.stic.errors.getStic'),
@@ -426,7 +422,21 @@
             timeout: 5000, // optional, defaults to 5000
           })
         }
-
+        try {
+          this.$store.dispatch('simulator/farm/dispatchProduction', null, { root: true })
+        } catch (error) {
+          this.$toast({
+            message: this.$t('notifications.stic.errors.getStic'),
+            type: 'error', // 'info', 'warning', 'error'
+            icon: 'mdi-check-circle', // any Vuetify icon
+            timeout: 5000, // optional, defaults to 5000
+          })
+        }
+        this.$toast({
+          message: this.$t('notifications.simulation_loaded_success'),
+          type: 'success',
+          timeout: 3000,
+        })
         // this.$router.push('/simulation')
       },
       deleteSimulation(simulation) {

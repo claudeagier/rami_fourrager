@@ -50,7 +50,7 @@
   import { mapState, mapGetters } from 'vuex'
   import navigationGuard from '@/mixins/navigationGuard'
   import { moduleList } from '@/components/parts/report/modules/Config' // Importez la configuration des modules
-
+  // TODO uniformiser chargement réel = chargement corrigé
   // layout et data de toute la simulation qui est dans l'état ou chaque module prend dans le state qui est le model
   export default {
     name: 'Report',
@@ -64,6 +64,14 @@
     }),
     created() {
       this.loadModules()
+      if (!this.isValidSimulation()) {
+        this.$toast({
+          message: this.$t('notifications.report.errors.simulation_not_valid'),
+          type: 'error', // 'info', 'warning', 'error'
+          icon: 'mdi-check-circle', // any Vuetify icon
+          timeout: 5000, // optional, defaults to 5000
+        })
+      }
     },
     computed: {
       ...mapGetters('referential', {
@@ -78,6 +86,13 @@
       }),
     },
     methods: {
+      isValidSimulation() {
+        if (Object.keys(this.simulation.farm.totalAvailablePastureByPeriod).length <= 0) {
+          return false
+        } else {
+          return true
+        }
+      },
       mapDataForModule(requiredState) {
         const mappedData = {}
         if (requiredState) {

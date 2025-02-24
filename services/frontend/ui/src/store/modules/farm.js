@@ -158,12 +158,16 @@ export default {
     },
     getReportHarvestByperiod: (state, getters, rootState, rootGetters) => (periodId) => {
       // surface en hectares à récolter par période (foin + ensilage + grain + autre)
-      const harvest = getRotationSurfaceHarvestedByPeriod(
-        periodId,
-        rootState.simulator,
-        rootGetters['referential/getSticByName']
-      )
-      return harvest
+      try {
+        const harvest = getRotationSurfaceHarvestedByPeriod(
+          periodId,
+          rootState.simulator,
+          rootGetters['referential/getSticByName']
+        )
+        return harvest
+      } catch (error) {
+        return 0
+      }
     },
     getPastureSurplusesByPeriod: (state, getters, rootState) => (periodId) => {
       // Excédents au pâturage par période (en % du total produit à l'année en pâture)
@@ -190,24 +194,37 @@ export default {
       )
     },
     setTotalAvailablePastureByPeriod({ state, rootState, commit, rootGetters }) {
-      const totalAvailablePastureByPeriod = setTotalAvailablePasture(
-        rootState.simulator,
-        rootState.referential.periods,
-        rootGetters['referential/getSticByName']
-      )
+      var totalAvailablePastureByPeriod
+      try {
+        totalAvailablePastureByPeriod = setTotalAvailablePasture(
+          rootState.simulator,
+          rootState.referential.periods,
+          rootGetters['referential/getSticByName']
+        )
+      } catch (error) {
+        commit('setTotalAvailablePastureByPeriod', [])
+        throw error
+      }
       commit('setTotalAvailablePastureByPeriod', totalAvailablePastureByPeriod)
     },
     dispatchProduction({ state, rootState, commit, rootGetters }) {
       if (rootState.simulator.farm.rotations.length > 0) {
-        const production = dispatchProductionByPeriod(
-          rootState.simulator.farm.rotations,
-          rootState.referential,
-          rootState.simulator,
-          rootGetters['referential/getSticByName']
-        )
-        const totalStrawStock = setTotalStrawStock(rootState.simulator, rootGetters['referential/getSticByName'])
-        commit('simulator/barn/setTotalStrawStockProducted', totalStrawStock, { root: true })
-        commit('simulator/barn/setStockByPeriod', production, { root: true })
+        var production
+        try {
+          production = dispatchProductionByPeriod(
+            rootState.simulator.farm.rotations,
+            rootState.referential,
+            rootState.simulator,
+            rootGetters['referential/getSticByName']
+          )
+          const totalStrawStock = setTotalStrawStock(rootState.simulator, rootGetters['referential/getSticByName'])
+          commit('simulator/barn/setTotalStrawStockProducted', totalStrawStock, { root: true })
+          commit('simulator/barn/setStockByPeriod', production, { root: true })
+        } catch (error) {
+          commit('simulator/barn/setTotalStrawStockProducted', [], { root: true })
+          commit('simulator/barn/setStockByPeriod', [], { root: true })
+          throw error
+        }
       }
     },
   },
