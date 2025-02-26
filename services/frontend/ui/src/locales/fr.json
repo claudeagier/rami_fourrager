@@ -613,6 +613,11 @@
     }
   },
   "dimensioning": {
+    "all": {
+      "title": "Total troupeau",
+      "tooltip": "Nombre total d'animaux du troupeau sur une année",
+      "unit": ""
+    },
     "ugbN": {
       "title": "UGB nourris",
       "tooltip": "Unité de Gros Bétail",
