@@ -8,7 +8,19 @@
             v-for="(period, index) in periods"
             :key="index"
           >
-            {{ $t('herd.pasture.table.period', { id: period.id }) }}
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <div
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  {{ $t('herd.pasture.table.period', { id: period.id }) }}
+                </div>
+              </template>
+              <span>
+                {{ period.dates }}
+              </span>
+            </v-tooltip>
           </th>
         </tr>
       </thead>

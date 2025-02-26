@@ -55,6 +55,7 @@
               item-key="id"
               loading="true"
               hide-default-footer
+              hide-default-header
             >
               <template v-slot:top>
                 <v-toolbar
@@ -71,6 +72,31 @@
                   />
                   <v-spacer></v-spacer>
                 </v-toolbar>
+              </template>
+              <template v-slot:header="{ props }">
+                <thead class="v-data-table-header">
+                  <tr>
+                    <th
+                      v-for="head in props.headers"
+                      :key="head.text"
+                      class="text-start"
+                    >
+                      <v-tooltip top>
+                        <template v-slot:activator="{ on, attrs }">
+                          <div
+                            v-bind="attrs"
+                            v-on="on"
+                          >
+                            {{ head.text }}
+                          </div>
+                        </template>
+                        <span>
+                          {{ head.tooltip }}
+                        </span>
+                      </v-tooltip>
+                    </th>
+                  </tr>
+                </thead>
               </template>
             </v-data-table>
             <!-- recolte -->
@@ -128,7 +154,7 @@
         }
         const presence = {}
         this.periods.forEach((p, index) => {
-          resp.headers.push({ text: this.$t('periods.tab', { id: p.id }), value: p.name })
+          resp.headers.push({ text: this.$t('periods.tab', { id: p.id }), value: p.name, tooltip: p.dates })
           presence[p.name] = this.getHousing(index)
         })
         resp.items.push(presence)
