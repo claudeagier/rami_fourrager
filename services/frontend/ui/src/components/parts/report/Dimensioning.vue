@@ -9,6 +9,36 @@
           dense
           class="transparent"
         >
+          <v-list-item key="allAnimals">
+            <v-list-item-icon>
+              <!-- Icône d'information pour le tooltip -->
+              <v-tooltip
+                top
+                right
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-icon
+                    v-bind="attrs"
+                    v-on="on"
+                    color="deep-orange"
+                    dark
+                  >
+                    mdi-cow
+                  </v-icon>
+                </template>
+                <span>{{ $t('dimensioning.all.tooltip') }}</span>
+              </v-tooltip>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title class="text-h8 indigo--text font-italic">
+                {{ $t('dimensioning.all.title') }}
+              </v-list-item-title>
+              <v-list-item-subtitle class="font-weight-bold text-lg">
+                {{ ugbs.all }} {{ $t('dimensioning.all.unit') }}
+              </v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+
           <v-list-item key="ugb">
             <v-list-item-icon>
               <!-- Icône d'information pour le tooltip -->
@@ -104,6 +134,7 @@
         return {
           ugbN: this.dimensioning.ugbN,
           ugbAN: this.dimensioning.ugbAN,
+          all: this.dimensioning.nbAnimaux,
         }
       },
       kpis() {
