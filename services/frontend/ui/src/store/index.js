@@ -37,7 +37,7 @@ const saveSubsetOfState = (state) => ({
     sites: state.referential.sites,
     stics: state.referential.stics,
   },
-  workspace: state.workspace,
+  workspace: { workspace: state.workspace.workspace },
 })
 
 const localStorage = new VuexPersist({

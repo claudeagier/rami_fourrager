@@ -827,12 +827,35 @@
           },
           "create": {
             "btn": "Créer un nouveau mapping",
+            "name": "Nom du mapping",
+            "field": {
+              "subheader": "Ajouter une colonne à l'export",
+              "key": "Intitulé de la colonne",
+              "value_to_get": "La valeur à extraire",
+              "value_to_complete": "Saisir une valeur (cette valeur sera identique pour toutes les simulations)",
+              "no_data": "La colonne restera vide",
+              "btn_add": "Ajouter la colonne"
+            },
+            "list": {
+              "column": "Colonne",
+              "key": "Intitulé de la colonne",
+              "value": "Valeur à extraire"
+            },
             "dialog": {
               "title": "Créer un nouveau mapping",
               "btn_create": "Enregistrer",
               "btn_cancel": "Annuler"
             }
           }
+        }
+      },
+      "export": {
+        "calculations": {
+          "getTotalAnimals": "nombre d'animaux"
+        },
+        "preview": {
+          "title": "Prévisualisation de l'export",
+          "tableTitle": ""
         }
       }
     }
@@ -877,6 +900,34 @@
         "presence": "La présence en bâtiment doit être inférieure ou égale au nombre d'animaux",
         "days": "Le nombre de jours de présence doit être compris entre 0 et 28 jours"
       }
+    }
+  },
+  "export": {
+    "calculations": {
+      "getNbAnimaux": "Nombre total d'animaux",
+      "getUgbN": "UGB nécessaires",
+      "getUgbAN": "UGB à nourrir",
+      "getChargeSAU": "Charge UGB estimée / SAU",
+      "getChargeApparent": "Charge UGB apparente / SAU",
+      "getChargeCorrige": "Charge UGB corrigée / SAU",
+      "getChargePotentiel": "Charge UGB potentielle",
+      "getAutonomy": "Autonomie alimentaire",
+      "getFourragesRecoltes": "Fourrages récoltés",
+      "getSfpSau": "SFP / SAU",
+      "getPpSau": "Prairies permanentes / SAU",
+      "getPtSau": "Prairies temporaires / SAU",
+      "getPotential": "Potentiel atteint",
+      "isToComplet": "A compléter manuellement",
+      "getPP": "Prairie permanente",
+      "getPT": "Prairie temporaire",
+      "getCorn": "Maïs ensilage et autres fourrages",
+      "getMilkProdcution": "Lait produit",
+      "getSoldedMilk": "Lait vendu",
+      "getMilkConsum": "Lait donné aux veaux/autoconsommé/jeté"
+    },
+    "columns": {
+      "simulation_name": "Nom de la simulation",
+      "getComputedSAU": "Surface Agricole Utile (SAU) de l'exploitation"
     }
   }
 }

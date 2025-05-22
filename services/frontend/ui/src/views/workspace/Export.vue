@@ -32,17 +32,13 @@
               </v-toolbar>
             </template>
             <template v-slot:item="{ item }">
-              <tr :class="item.loaded ? 'primary white--text' : ''">
-                <!-- Apply green color if loaded -->
+              <tr :class="item.inUse ? 'primary white--text' : ''">
                 <td>
                   {{ item.name }}
-                  <!-- Replace with appropriate data -->
                 </td>
-                <!-- <td>
-                  {{ item.description }}
-                  </td> -->
                 <td>
                   <v-icon
+                    v-if="!item.protected"
                     @click="deleteItem('mapping', item)"
                     small
                   >
@@ -52,12 +48,11 @@
                     @click="editItem('mapping', item)"
                     medium
                     color="green"
-                    background-color="green"
                   >
                     mdi-square-edit-outline
                   </v-icon>
                   <v-btn
-                    @click="loadMapping(item)"
+                    @click="onUseMapping(item)"
                     small
                     outlined
                     color="primary"
@@ -70,108 +65,116 @@
           </v-data-table>
         </v-card>
       </v-col>
+
       <v-col>
         <v-card>
-          <!-- choisir la ou les simulations à se servir pour compléter les valeurs du csv -->
-          <v-card>
-            <v-card-title> pour quel simulation ? </v-card-title>
-            <v-card-text>
-              <v-row>
-                <v-col cols="6">
-                  <v-list
-                    flat
-                    subheader
-                    three-line
+          <v-card-title>
+            <v-row>
+              <v-col cols="8"> Pour quelle simulation ? </v-col>
+              <v-col>
+                <v-btn
+                  color="primary"
+                  outlined
+                  @click="exportSelectedSimulations"
+                >
+                  {{ $t('btn.exportToCSV') }}
+                </v-btn>
+              </v-col>
+            </v-row>
+          </v-card-title>
+          <v-card-text>
+            <v-row>
+              <v-col cols="6">
+                <v-list
+                  flat
+                  subheader
+                  three-line
+                >
+                  <v-list-item>
+                    <v-list-item-action>
+                      <v-checkbox
+                        v-model="selectAllSimulations"
+                        @change="toggleSelectAll"
+                      ></v-checkbox>
+                    </v-list-item-action>
+                    <v-list-item-content>
+                      <v-list-item-title>Toutes les simulations</v-list-item-title>
+                    </v-list-item-content>
+                  </v-list-item>
+
+                  <v-list-item
+                    v-for="(item, index) in workspace.simulations"
+                    :key="index"
                   >
-                    <!-- <v-subheader>General</v-subheader> -->
-
-                    <v-list-item-group
-                      multiple
-                      active-class=""
-                    >
-                      <v-list-item>
-                        <template v-slot:default="{ active }">
-                          <v-list-item-action>
-                            <v-checkbox :input-value="active"></v-checkbox>
-                          </v-list-item-action>
-
-                          <v-list-item-content>
-                            <v-list-item-title>{{ 'Toutes les simulations' }}</v-list-item-title>
-                          </v-list-item-content>
-                        </template>
-                      </v-list-item>
-                      <v-list-item
-                        v-for="(item, index) in workspace.simulations"
-                        :key="index"
-                      >
-                        <template v-slot:default="{ active }">
-                          <v-list-item-action>
-                            <v-checkbox :input-value="active"></v-checkbox>
-                          </v-list-item-action>
-
-                          <v-list-item-content>
-                            <v-list-item-title>{{ item.name }}</v-list-item-title>
-                            <v-list-item-subtitle> {{ item.description }}</v-list-item-subtitle>
-                          </v-list-item-content>
-                        </template>
-                      </v-list-item>
-                    </v-list-item-group>
-                  </v-list>
-                </v-col>
-                <v-col>
-                  <v-btn
-                    color="primary"
-                    outlined
-                  >
-                    {{ $t('btn.exportToCSV') }}
-                  </v-btn>
-                </v-col>
-              </v-row>
-            </v-card-text>
-          </v-card>
+                    <v-list-item-action>
+                      <v-checkbox
+                        :input-value="selectedSimulations.includes(index)"
+                        @change="toggleSimulation(index)"
+                        :disabled="selectAllSimulations"
+                      ></v-checkbox>
+                    </v-list-item-action>
+                    <v-list-item-content>
+                      <v-list-item-title>{{ item.name }}</v-list-item-title>
+                      <v-list-item-subtitle>{{ item.description }}</v-list-item-subtitle>
+                    </v-list-item-content>
+                  </v-list-item>
+                </v-list>
+              </v-col>
+            </v-row>
+          </v-card-text>
         </v-card>
       </v-col>
     </v-row>
+    <preview-modal
+      :forceOpen="previewDialog"
+      :rows="previewRows"
+      @close-modal="closePreview"
+    />
   </div>
 </template>
+
 <script>
-  import { mapState, mapGetters, mapActions } from 'vuex'
+  import { mapGetters, mapActions } from 'vuex'
   import { deepCopy } from '@/plugins/utils'
   import MappingModal from './MappingModal.vue'
+  import PreviewModal from './previewModal.vue'
 
   export default {
     name: 'export',
     components: {
       MappingModal,
+      PreviewModal,
+    },
+    mounted() {
+      this.deactivateAllMapping()
     },
     data() {
       return {
         dialog: false,
         newItem: null,
         oldItem: null,
+        selectedSimulations: [],
+        selectAllSimulations: false,
+        previewDialog: false,
+        previewRows: [],
       }
     },
     computed: {
       ...mapGetters('workspace', {
         getWorkspace: 'getWorkspace',
-        getActivatedSimulation: 'getActivatedSimulation',
+        mappings: 'getMappings',
       }),
-      workspace: {
-        get() {
-          return this.getWorkspace
-        },
-      },
-      mappings() {
-        return [
-          { name: 'cap2er', json: '', loaded: true },
-          { name: 'thèse doctorat', json: '', loaded: false },
-          { name: 'revue', json: '', loaded: false },
-        ]
+      ...mapGetters('workspace/mapper', {
+        getterList: 'getList',
+        mapper: 'getMapper',
+      }),
+
+      workspace() {
+        return this.getWorkspace
       },
       headers() {
         return [
           { text: this.$t('workspace.content.datatables.mapping.header.name'), value: 'name', width: 500 },
-          // { text: this.$t('workspace.content.datatables.mapping.header.climatic_year'), value: 'climaticYear' },
           {
             text: this.$t('workspace.content.datatables.mapping.header.actions'),
             value: 'actions',
@@ -186,58 +189,82 @@
       },
     },
     methods: {
-      ...mapActions('workspace', { loadSimulator: 'loadSimulator' }),
+      ...mapActions('workspace', {
+        activateMapping: 'activateMapping',
+        deactivateAllMapping: 'deactivateAllMapping',
+      }),
+      ...mapActions('workspace/mapper', {
+        loadMappingAction: 'loadMapping',
+        loadSimulationsSelected: 'loadSimulationsSelected',
+        prepareExport: 'prepareExport',
+      }),
 
-      loadMapping(simulation) {
-        // this.$router.push('/simulation')
-      },
-      deleteSimulation(simulation) {
-        if (confirm(this.$t('notifications.confirm_delete_item'))) {
-          this.$store.commit('workspace/deleteSimulation', simulation)
-          this.$toast({
-            message: this.$t('workspace.content.datatables.simulation.delete_success'),
-            type: 'success',
-            timeout: 3000,
+      loadMapper(what, data) {
+        if (what === 'mapping' && data) {
+          this.loadMappingAction(data).then(() => {
+            this.activateMapping(data)
+            this.$emit('mapping-loaded', data)
           })
         }
+        if (what === 'simulations' && Array.isArray(data)) {
+          this.loadSimulationsSelected(data)
+        }
       },
-      // exportSimulation(simulation) {
-      //   const data = {
-      //     name: simulation.name,
-      //     description: simulation.description,
-      //     lastUpdate: simulation.lastUpdate,
-      //   }
-      //   const jsonData = JSON.stringify(data)
 
-      //   const blob = new Blob([jsonData], { type: 'application/json' })
-      //   const url = URL.createObjectURL(blob)
+      onUseMapping(item) {
+        this.loadMapper('mapping', item)
+      },
 
-      //   const a = document.createElement('a')
-      //   a.href = url
-      //   a.download = 'simulation.json'
-      //   document.body.appendChild(a)
-      //   a.click()
-      //   document.body.removeChild(a)
-      //   URL.revokeObjectURL(url)
-      // },
+      toggleSelectAll() {
+        if (this.selectAllSimulations) {
+          this.selectedSimulations = this.workspace.simulations.map((_, idx) => idx)
+          this.loadMapper('simulations', this.workspace.simulations)
+        } else {
+          this.selectedSimulations = []
+        }
+      },
+
+      toggleSimulation(index) {
+        if (this.selectedSimulations.includes(index)) {
+          this.selectedSimulations = this.selectedSimulations.filter((i) => i !== index)
+        } else {
+          this.selectedSimulations.push(index)
+        }
+
+        const sims = this.selectedSimulations.map((i) => this.workspace.simulations[i])
+        this.loadMapper('simulations', sims)
+      },
+      exportSelectedSimulations() {
+        this.prepareExport().then((rows) => {
+          if (rows.length > 0) {
+            this.previewRows = rows
+            this.previewDialog = true
+          } else {
+            // this.$toast?.info?.('Aucune donnée à exporter.')
+          }
+        })
+      },
+      downLoadCsv(csv) {
+        this.previewDialog = false
+      },
 
       closeModal() {
         this.dialog = false
         this.oldItem = null
         this.newItem = null
+        this.deactivateAllMapping()
       },
-
-      // datatables
+      closePreview() {
+        this.previewDialog = false
+      },
       saveItem({ dialogName, item }) {
         if (this.oldItem !== null && this.oldItem !== undefined) {
-          // Modification
           this.$store.commit('workspace/updateItem', {
             dialog: dialogName,
             newItem: deepCopy(item),
             oldItem: deepCopy(this.oldItem),
           })
         } else {
-          // Ajout
           this.$store.commit('workspace/addItem', {
             dialog: dialogName,
             newItem: deepCopy(item),

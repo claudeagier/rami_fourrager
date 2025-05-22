@@ -10,6 +10,7 @@
           v-for="(tab, tabIndex) in ['simulation', 'animalProfile', 'stic', 'feed', 'export']"
           :key="tabIndex"
           class="text-h6"
+          @click="$store.dispatch('workspace/deactivateAllMapping')"
         >
           {{ $t('workspace.content.tabs.' + tab) }}
         </v-tab>

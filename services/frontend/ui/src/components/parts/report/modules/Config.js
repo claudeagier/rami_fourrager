@@ -25,13 +25,4 @@ export const moduleList = [
     component: null,
     data: {},
   },
-  {
-    name: 'Export',
-    labelKey: 'export.label',
-    descriptionKey: 'export.description',
-    moduleName: 'Export',
-    requiredState: ['simulation'],
-    component: null,
-    data: {},
-  },
 ]
