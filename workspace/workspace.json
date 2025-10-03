@@ -3270,5 +3270,13 @@
         "rejection": 0
       }
     }
+  ],
+  "mappings": [
+    {
+      "name": "cape2er",
+      "protected": true,
+      "inUse": false,
+      "fields": []
+    }
   ]
 }

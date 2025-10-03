@@ -312,6 +312,9 @@ export const getPasturesByPeriod = (coverage, batch, period, totalAvailablePastu
     console.error('batch_not_found')
     return
   }
+  if (totalAvailablePastureByPeriod === null || totalAvailablePastureByPeriod['period_id_' + period] === undefined) {
+    return
+  }
   const i246 = getGreenPastureConsumption(batch, period, totalAvailablePastureByPeriod, batchs)
   const i247 = getCarryOverPastureConsumption(batch, period, totalAvailablePastureByPeriod, batchs)
   // =I$246*X29+I$247*W29*0,92
@@ -388,7 +391,6 @@ const getUFPasturesByPeriodBefore = (batch, totalAvailablePastureByPeriod) => {
           totalAvailablePastureByPeriod === null ||
           totalAvailablePastureByPeriod['period_id_' + periodId] === undefined
         ) {
-          console.error('farm dimensionning is not apply to the simulation')
           return
         }
         const energyPasture = totalAvailablePastureByPeriod['period_id_' + periodId].energeticTotal
@@ -930,7 +932,6 @@ export const getTotalHerd = function (batchs) {
 export const getUGBSystem = function (simulation, periods, stockCodeList, totalAvailablePastureByPeriod) {
   return fixFloatingPoint(getV647(simulation.herd.batchs, periods, totalAvailablePastureByPeriod, stockCodeList) / UGB)
 }
-
 export const getHerdNeeds = function (periodIndex, batchs) {
   const needs = Object.values(batchs).reduce((acc, batch) => {
     const UEcolumn = batch.profile.batch_type.UE_value_considered
@@ -954,7 +955,6 @@ export const getUGBtoFeed = function (simulation, periods) {
     return acc + calcul
   }, 0.0)
 }
-
 // E6 Estimation chargement SAU
 export const getEstimatedLivestockDensities = function (
   simulation,
@@ -1078,6 +1078,9 @@ export const getRotationSurfaceHarvestedByPeriod = function (periodId, simulatio
 // 653 % de la perte par rapport à la production annuelle à la pâture 651*100/$U$28
 export const getPastureSurplusesByPeriod = function (periodIndex, simulation, totalAvailablePastureByPeriod, periods) {
   const batchs = simulation.herd.batchs
+  if (batchs.length <= 0 || Object.keys(totalAvailablePastureByPeriod).length <= 0) {
+    return 0
+  }
   const lastPriorityOrder = batchs[batchs.length - 1].priorityOrder
   const batch = {
     priorityOrder: lastPriorityOrder + 1,
@@ -1093,7 +1096,9 @@ export const getPastureSurplusesByPeriod = function (periodIndex, simulation, to
     var calcul = curr.production_total
     return acc + calcul
   }, 0.0)
+
   if (totalProdPasture === 0) return 0
+
   const surplus = (patureReport / totalProdPasture) * 100
 
   // le retour doit être un pourcentage
@@ -1178,7 +1183,6 @@ export function getProteicCoverage(batch, totalAvailablePastureByPeriod) {
           totalAvailablePastureByPeriod === null ||
           totalAvailablePastureByPeriod['period_id_' + periodId] === undefined
         ) {
-          console.error('farm dimensionning is not apply to the simulation')
           return
         }
         const proteicPasture = totalAvailablePastureByPeriod['period_id_' + periodId].proteicTotal

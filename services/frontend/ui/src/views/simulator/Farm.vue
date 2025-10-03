@@ -8,7 +8,6 @@
   >
     <template v-slot:content>
       <v-row>
-        <!-- Card pour le dimensionnement de la ferme -->
         <v-col
           cols="5"
           class="pt-0 pb-0"
@@ -187,21 +186,42 @@
                 </v-dialog>
               </v-toolbar>
             </template>
-            <template v-slot:[`item.actions`]="{ item }">
-              <v-icon
-                @click="deleteRotationItem(item)"
-                small
-              >
-                mdi-delete
-              </v-icon>
-              <v-icon
-                @click="editRotationItem(item)"
-                medium
-                color="green"
-                background-color="green"
-              >
-                mdi-square-edit-outline
-              </v-icon>
+            <template v-slot:item="{ item }">
+              <tr :class="!isFindedStick(climaticYear, item.name) ? 'red white--text' : ''">
+                <!-- Apply green color if loaded -->
+
+                <td>
+                  <v-icon
+                    v-if="!isFindedStick(climaticYear, item.name)"
+                    color="white"
+                  >
+                    mdi-alert-outline
+                  </v-icon>
+                  {{ item.name }}
+                </td>
+                <td>
+                  {{ item.constraint?.name }}
+                </td>
+                <td>
+                  {{ item.surface }}
+                </td>
+                <td>
+                  <v-icon
+                    @click="deleteRotationItem(item)"
+                    small
+                  >
+                    mdi-delete
+                  </v-icon>
+                  <v-icon
+                    @click="editRotationItem(item)"
+                    medium
+                    color="green"
+                    background-color="green"
+                  >
+                    mdi-square-edit-outline
+                  </v-icon>
+                </td>
+              </tr>
             </template>
           </v-data-table>
         </v-col>
@@ -214,7 +234,6 @@
   import { mapGetters } from 'vuex'
   import navigationGuard from '@/mixins/navigationGuard'
   import RotationGraph from '@/components/parts/farm/RotationGraph.vue'
-  // TODO il faut mettre la baguette qui n'est pas retrouvé en rouge avec un logo warning
   export default {
     name: 'Farm',
     mixins: [navigationGuard],
@@ -243,7 +262,7 @@
         rotationItem: {
           // soil: '',
           name: '',
-          constraint: '',
+          constraint: null,
           surface: null,
           // Ajoutez les champs pour les périodes de production
         },
@@ -289,6 +308,7 @@
     computed: {
       ...mapGetters('referential', {
         getSticList: 'sticList',
+        isFindedStick: 'isFindedStick',
       }),
       ...mapGetters('simulator/farm', {
         dimensioning: 'dimensioning',
@@ -299,6 +319,7 @@
       ...mapGetters('simulator', {
         climaticYear: 'climaticYearInfo',
       }),
+
       SAU: {
         get() {
           return this.dimensioning.SAU
@@ -412,7 +433,6 @@
             timeout: 3000,
           })
         } catch (error) {
-          console.log('erreur stic farm')
           this.$toast({
             message: this.$t('notifications.stic.errors.getStic'),
             type: 'error', // 'info', 'warning', 'error'

@@ -131,7 +131,14 @@
           stics: [],
           animalProfiles: [],
           classicFeeds: [],
-          mappings: [],
+          mappings: [
+            {
+              name: 'cape2er',
+              protected: true,
+              inUse: false,
+              fields: [],
+            },
+          ],
         })
       },
       async importWorkspace() {
@@ -196,6 +203,7 @@
           stics: this.workspace.stics,
           animalProfiles: this.workspace.animalProfiles,
           classicFeeds: this.workspace.classicFeeds,
+          mappings: this.workspace.mappings,
         }
 
         const jsonData = JSON.stringify(data, null, 2) // Beautifier JSON pour la lisibilité

@@ -11,7 +11,19 @@
         @click="$emit('selected', index)"
         class="period-tab"
       >
-        {{ $t('periods.tab', { id: period.id }) }}
+        <v-tooltip top>
+          <template v-slot:activator="{ on, attrs }">
+            <div
+              v-bind="attrs"
+              v-on="on"
+            >
+              {{ $t('periods.tab', { id: period.id }) }}
+            </div>
+          </template>
+          <span>
+            {{ period.dates }}
+          </span>
+        </v-tooltip>
       </v-tab>
       <v-tab-item
         v-for="(period, index) in periods"

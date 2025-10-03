@@ -19,6 +19,10 @@ export default {
       type: 'array',
       items: { $ref: '/classicFeed' },
     },
+    mappings: {
+      type: 'array',
+      items: { $ref: '/mapping' },
+    },
   },
-  required: ['simulations', 'stics', 'animalProfiles', 'classicFeeds'],
+  required: ['simulations', 'stics', 'animalProfiles', 'classicFeeds', 'mappings'],
 }

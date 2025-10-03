@@ -1,7 +1,9 @@
 import { deepEqual, deepCopy } from '../../plugins/utils'
+import mapper from './mapper'
 
 export default {
   namespaced: true,
+  modules: { mapper },
   state: {
     workspace: {},
   },
@@ -59,6 +61,28 @@ export default {
       }
     },
 
+    // mappings
+    activateMapping(state, mapping) {
+      const finded = state.workspace.mappings.indexOf(mapping)
+      state.workspace.mappings.map((mapping, index) => {
+        if (index === finded) {
+          mapping.inUse = true
+        } else {
+          mapping.inUse = false
+        }
+        return mapping
+      })
+    },
+    deactivateMapping(state, mapping) {
+      const index = state.workspace.mappings.indexOf(mapping)
+      state.workspace.mappings[index].inUse = false
+    },
+    deactivateAllMapping(state) {
+      for (let index = 0; index < state.workspace.mappings.length; index++) {
+        state.workspace.mappings[index].inUse = false
+      }
+    },
+
     // classicFeeds
     addClassicFeed(state, { newFeed }) {
       state.workspace.classicFeeds.push(newFeed)
@@ -103,9 +127,12 @@ export default {
       commit('simulator/barn/setBarn', sim.barn, { root: true })
       commit('simulator/herd/setHerd', sim.herd, { root: true })
       commit('simulator/report/setReport', sim.report, { root: true })
-
-      dispatch('simulator/farm/setTotalAvailablePastureByPeriod', null, { root: true })
-      dispatch('simulator/farm/dispatchProduction', null, { root: true })
+    },
+    activateMapping({ state, commit, dispatch, getters }, mapping) {
+      commit('activateMapping', mapping)
+    },
+    deactivateAllMapping({ state, commit }) {
+      commit('deactivateAllMapping')
     },
   },
   getters: {
@@ -117,6 +144,12 @@ export default {
         const finded = state.workspace.simulations.find((sim) => sim.loaded === true)
         return finded
       }
+    },
+    getMappings: (state) => {
+      // const defaultMapping = [{ name: 'cap2er', json: '', inUse: false }]
+
+      // return [...defaultMapping, ...state.workspace.mappings]
+      return state.workspace.mappings
     },
   },
 }

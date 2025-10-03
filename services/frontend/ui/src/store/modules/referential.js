@@ -67,19 +67,19 @@ export default {
     housing_types: [],
     pasture_types: [],
     periods: [
-      { id: 1, name: 'P1' },
-      { id: 2, name: 'P2' },
-      { id: 3, name: 'P3' },
-      { id: 4, name: 'P4' },
-      { id: 5, name: 'P5' },
-      { id: 6, name: 'P6' },
-      { id: 7, name: 'P7' },
-      { id: 8, name: 'P8' },
-      { id: 9, name: 'P9' },
-      { id: 10, name: 'P10' },
-      { id: 11, name: 'P11' },
-      { id: 12, name: 'P12' },
-      { id: 13, name: 'P13' },
+      { id: 1, name: 'P1', dates: 'du 01 janv. au 28 janv.' },
+      { id: 2, name: 'P2', dates: 'du 29 janv. 25 févr.' },
+      { id: 3, name: 'P3', dates: 'du 26 fév. au 25 mars' },
+      { id: 4, name: 'P4', dates: 'du 26 mars au 22 avr.' },
+      { id: 5, name: 'P5', dates: 'du 23 avr. au 20 mai' },
+      { id: 6, name: 'P6', dates: 'du 21 mai au 17 juin' },
+      { id: 7, name: 'P7', dates: '18 juin au 15 juil.' },
+      { id: 8, name: 'P8', dates: 'du 16 juil. au 12 août' },
+      { id: 9, name: 'P9', dates: 'du 13 août au 9 sept.' },
+      { id: 10, name: 'P10', dates: 'du 10 sept. au 7 oct.' },
+      { id: 11, name: 'P11', dates: 'du 8 oct au 4 nov.' },
+      { id: 12, name: 'P12', dates: 'du 5 nov au 2 déc.' },
+      { id: 13, name: 'P13', dates: 'du 3 déc. au 30-déc.' },
     ],
     sites: [],
     stics: [],
@@ -216,11 +216,19 @@ export default {
     getSticByName: (state, getters) => (climaticYear, name) => {
       const stic = getters.sticList(climaticYear).find((el) => el.name === name)
       if (stic === undefined) {
-        console.log('getStic', stic)
-        throw new Error('')
+        throw new Error('stic error')
       }
       return stic
     },
+    isFindedStick: (state, getters) => (climaticYear, name) => {
+      const stic = getters.sticList(climaticYear).find((el) => el.name === name)
+      if (stic === undefined) {
+        return false
+      } else {
+        return true
+      }
+    },
+
     getFeedByTypeById: (state, getters) => (type, feedId) => {
       return getters.getFeedListByType(type).find((el) => el.id === feedId)
     },

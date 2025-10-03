@@ -195,7 +195,7 @@
   import { mapState, mapGetters } from 'vuex'
   import navigationGuard from '@/mixins/navigationGuard'
   import StockGraph from '@/components/parts/barn/StockGraph'
-  // TODO pas de mise à jour
+
   export default {
     name: 'Barn',
     components: {
