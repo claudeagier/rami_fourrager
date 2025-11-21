@@ -65,7 +65,7 @@
       <div>
         <v-divider></v-divider>
         <div class="text-h4 font-weight-light white--text text-center pa-3">
-          {{ 'Avec le soutient de :' }}
+          {{ $t("drawer.sponsor.title") }}
         </div>
         <div
           class="text-center"

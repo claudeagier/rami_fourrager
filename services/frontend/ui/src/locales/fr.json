@@ -125,6 +125,11 @@
     "users": "Utilisateurs",
     "profile": "Profil"
   },
+  "drawer": {
+    "sponsor": {
+      "title": "Avec le soutien de :"
+    }
+  },
   "notifications": {
     "confirm_delete_item": "Êtes vous sur de vouloir supprimer cet élément ?",
     "simulation_loaded_success": "La simulation a été chargé",
@@ -205,8 +210,12 @@
     "climat": {
       "title": "Le climat",
       "description": "",
-      "site": { "label": "Site" },
-      "climaticyear": { "label": "Année climatique" },
+      "site": {
+        "label": "Site"
+      },
+      "climaticyear": {
+        "label": "Année climatique"
+      },
       "confirmation": {
         "title": "Confirmation",
         "subtitle": "Si vous changez de site, l'assolement actuel sera effacé",
@@ -346,7 +355,7 @@
         "tabs": {
           "overview": "Général",
           "housing": "Présence",
-          "classicfeed": "Rations",
+          "classicfeed": "Aliments",
           "concentratedfeed": "Concentrés",
           "pasture": "Pâtures"
         }
@@ -371,15 +380,15 @@
       "tabs": {
         "title": "P {period}",
         "table": {
-          "title": "Les rations pour la période {period}",
-          "type": "Nom de la ration",
+          "title": "Les aliments pour la période {period}",
+          "type": "Nom de la aliments",
           "proportion": "Proportion (en %)",
           "actions": "Actions"
         }
       },
       "modal": {
-        "title": "Ajouter une ration",
-        "feedtype": "Ration",
+        "title": "Ajouter un aliment",
+        "feedtype": "Aliment",
         "proportion": "Proportion (en %)"
       },
       "graph": {
@@ -405,7 +414,7 @@
         "quantity": "Quantité ( en kg brut/animal/j)"
       },
       "graph": {
-        "title": "Couverture des Besoins",
+        "title": "Couverture des besoins par les fourrages et concentré",
         "energetic": "Energétique",
         "proteic": "Protéique"
       }
@@ -413,7 +422,10 @@
     "pasture": {
       "table": {
         "period": "P {id}",
-        "available": { "header": "Pâture disponible", "tooltip": "Pâture verte disponible (kgMS/animal Lot1/j)" },
+        "available": {
+          "header": "Pâture disponible",
+          "tooltip": "Pâture verte disponible (kgMS/animal Lot1/j)"
+        },
         "carryOver": {
           "header": "Pature reportée disponible",
           "tooltip": "Pâture reportée disponible (kgMS/animal Lot1/j)"
@@ -426,7 +438,9 @@
       "form": {}
     },
     "details": {
-      "modal": { "title": "Graphiques du Lot {batch}" },
+      "modal": {
+        "title": "Graphiques du Lot {batch}"
+      },
       "graph": {
         "title": "Matière sèche apportée vs Besoins",
         "ms": "Besoin MS",
@@ -455,7 +469,11 @@
       "target": "Eléments cibles",
       "selectall": "Tout sélectionner"
     },
-    "print": { "feeds": { "title": " Lot {selectedLot} : {count} {profile}" } }
+    "print": {
+      "feeds": {
+        "title": " Lot {selectedLot} : {count} {profile}"
+      }
+    }
   },
   "report": {
     "title": "Le bilan",
@@ -483,8 +501,14 @@
               "herd": "Le troupeau",
               "climat": {
                 "title": "Le climat",
-                "site": { "title": "Site", "placeholder": "Veuillez renseigner le site" },
-                "climaticyear": { "title": "Année climatique", "placeholder": "Veuillez renseigner l'année climatique" }
+                "site": {
+                  "title": "Site",
+                  "placeholder": "Veuillez renseigner le site"
+                },
+                "climaticyear": {
+                  "title": "Année climatique",
+                  "placeholder": "Veuillez renseigner l'année climatique"
+                }
               },
               "dimensioning": "Dimensionnement du système",
               "autonomy": {
@@ -494,7 +518,9 @@
               "potential": {
                 "value": "Potentiel : {value} % "
               },
-              "feeds": { "title": "Les rations" }
+              "feeds": {
+                "title": "Les aliments"
+              }
             }
           }
         },
@@ -503,11 +529,17 @@
           "description": "Description du module",
           "work": {
             "title": "Le travail",
-            "headers": { "total": "Total" },
+            "headers": {
+              "total": "Total"
+            },
             "distribution": "Périodes de distribution de fourrage grossier",
             "withoutPasture": "Périodes consécutives sans pâturage (hiver)",
-            "housing": { "title": "Animaux présents par période" },
-            "harvest": { "title": "Hectares à récolter par période (foin + ensilage + grain + autre)" }
+            "housing": {
+              "title": "Animaux présents par période"
+            },
+            "harvest": {
+              "title": "Hectares à récolter par période (foin + ensilage + grain + autre)"
+            }
           },
           "pasture": {
             "title": "La gestion du pâturage",
@@ -526,7 +558,11 @@
           },
           "stockTable": {
             "title": "Les coûts",
-            "category": { "1_fourrage": "Les fourrages", "3_straw": "La paille", "2_concentrated": "Les cultures" },
+            "category": {
+              "1_fourrage": "Les fourrages",
+              "3_straw": "La paille",
+              "2_concentrated": "Les cultures"
+            },
             "headers": {
               "name": "Nom de l'aliment",
               "initialStock": "Stock début",
@@ -578,17 +614,31 @@
           "description": "Exporter les données au format csv pour le module GES"
         }
       },
-      "apply": { "success": "" }
+      "apply": {
+        "success": ""
+      }
     }
   },
   "autonomy": {
     "title": "Autonomie - Potentiel",
     "autonomy": {
       "step": {
-        "outofrange": { "color": "warning", "label": "autonomie fantaisiste" },
-        "low": { "color": "warning", "label": "Pas autonome" },
-        "medium": { "color": "info", "label": "moyennement autonome" },
-        "high": { "color": "success", "label": "Autonome" }
+        "outofrange": {
+          "color": "warning",
+          "label": "autonomie fantaisiste"
+        },
+        "low": {
+          "color": "warning",
+          "label": "Pas autonome"
+        },
+        "medium": {
+          "color": "info",
+          "label": "moyennement autonome"
+        },
+        "high": {
+          "color": "success",
+          "label": "Autonome"
+        }
       },
       "tooltip": {
         "punchline": "Produisant les fourrages grossiers nécessaires",
@@ -597,10 +647,22 @@
     },
     "potential": {
       "step": {
-        "outofrange": { "color": "warning", "label": "potentiel fantaisiste" },
-        "low": { "color": "warning", "label": "Pas au potentiel à {rating} %" },
-        "medium": { "color": "info", "label": "Moyennement au potentiel" },
-        "high": { "color": "success", "label": "Au potentiel à {rating} %" }
+        "outofrange": {
+          "color": "warning",
+          "label": "potentiel fantaisiste"
+        },
+        "low": {
+          "color": "warning",
+          "label": "Pas au potentiel à {rating} %"
+        },
+        "medium": {
+          "color": "info",
+          "label": "Moyennement au potentiel"
+        },
+        "high": {
+          "color": "success",
+          "label": "Au potentiel à {rating} %"
+        }
       },
       "tooltip": {
         "punchline": "Valorisant l'intégralité de la production fourragère de l'exploitation",
@@ -608,8 +670,12 @@
       }
     },
     "print": {
-      "autonomy": { "title": "Indicateur d'autonomie (chargement corrigé - chargement apparent)" },
-      "potential": { "title": "Niveau de réalisation du potentiel (chargement corrigé/chargement potentiel)" }
+      "autonomy": {
+        "title": "Indicateur d'autonomie (chargement corrigé - chargement apparent)"
+      },
+      "potential": {
+        "title": "Niveau de réalisation du potentiel (chargement corrigé/chargement potentiel)"
+      }
     }
   },
   "dimensioning": {
@@ -670,8 +736,12 @@
     }
   },
   "climat": {
-    "site": { "title": "Site" },
-    "climaticyear": { "title": "Année climatique" }
+    "site": {
+      "title": "Site"
+    },
+    "climaticyear": {
+      "title": "Année climatique"
+    }
   },
   "workspace": {
     "referential": {
@@ -692,7 +762,10 @@
         "content": "Votre espace de travail a été sauvegardé précédemment ",
         "description": "Importer votre espace de travail si des modifications ont été apportées",
         "btn": "Importer",
-        "dialog": { "title": "Importer l'espace de travail", "btn_close": "Fermer" }
+        "dialog": {
+          "title": "Importer l'espace de travail",
+          "btn_close": "Fermer"
+        }
       },
       "export": {
         "content": "Votre espace de travail n'a pas été sauvegardé sur votre ordinateur",
@@ -744,7 +817,9 @@
             "dialog": {
               "create_title": "Créer un profil animal",
               "update_title": "Modifer le profil animal",
-              "subheader": { "copy": "Copier un profil existant" },
+              "subheader": {
+                "copy": "Copier un profil existant"
+              },
               "animalProfile_to_copy": "Code et Nom du profil à copier",
               "batchType_select": "Type d'animal à copier",
               "tabs": {
@@ -754,12 +829,12 @@
               "period": "Période",
               "name": "Nom du profil",
               "period_MB": "Période de mise bas",
-              "age_mois": "Age en mois",
+              "age_mois": "Age au vêlage",
               "sem_MB": "Semaine de mise bas",
               "weight_MB_kg": "poids à la mise bas en kg",
-              "NEC_MB": "NEC_MB",
-              "lactation_duration": "Durée de lacatation",
-              "weight_birth_kg": "Poids à la naissance en kg",
+              "NEC_MB": "Note d’état corporel à la mise bas",
+              "lactation_duration": "Durée de lactation (en jours)",
+              "weight_birth_kg": "Poids au vêlage en kg",
               "milk_product_kg": "production de lait en kg",
               "TR": "TR",
               "IN": "IN",
@@ -782,7 +857,10 @@
             "dialog": {
               "create_title": "Créer une baguette fourrage",
               "update_title": "Modifer la baguette fourrage",
-              "subheader": { "copy": "Copier une baguette existante", "pasture_type": "Le type de pâture (si pâture)" },
+              "subheader": {
+                "copy": "Copier une baguette existante",
+                "pasture_type": "Le type de pâture (si pâture)"
+              },
               "site": "Site",
               "climatic_year": "Année climatique",
               "stic_to_copy": "Code et Nom de la culture",
@@ -806,7 +884,11 @@
           }
         },
         "classicFeed": {
-          "header": { "name": "Nom", "actions": "Actions", "correspondingStock": "Type de production" },
+          "header": {
+            "name": "Nom",
+            "actions": "Actions",
+            "correspondingStock": "Type de production"
+          },
           "create": {
             "btn": "Ajouter une carte ration",
             "dialog": {

@@ -4,7 +4,7 @@
       v-if="!standAlone"
       class="text-6 font-weight-medium"
     >
-      {{ $t('herd.classicfeed.graph.title') }}
+      {{ title || $t('herd.classicfeed.graph.title') }}
     </div>
     <v-chart
       ref="coverageChart"
@@ -34,6 +34,9 @@
       },
       small: {
         type: Boolean,
+      },
+      title: {
+        type: String,
       },
     },
     watch: {
@@ -176,7 +179,7 @@
         }
         if (this.standAlone) {
           options.title = {
-            text: this.$t('herd.concentratedfeed.graph.title'),
+            text: this.title || this.$t('herd.concentratedfeed.graph.title'),
           }
           options.grid = {
             left: '3%',

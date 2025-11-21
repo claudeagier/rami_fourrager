@@ -13,6 +13,7 @@
           :selection="selectedPeriodIndex"
           :stand-alone="false"
           :small="true"
+          :title="$t('herd.concentratedfeed.graph.title')"
         />
       </template>
       <template v-slot:tab-item>

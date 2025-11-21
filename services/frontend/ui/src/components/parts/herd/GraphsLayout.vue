@@ -12,6 +12,7 @@
         :selected-lot="selectedLot"
         :stand-alone="true"
         :selection="selectedPeriodIndex"
+        :title="$t('herd.concentratedfeed.graph.title')"
       />
     </v-card>
   </div>
