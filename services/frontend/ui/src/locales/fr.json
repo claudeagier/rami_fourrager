@@ -130,6 +130,11 @@
       "title": "Avec le soutien de :"
     }
   },
+  "partners": {
+    "interface_funded_by": "Cette interface web support du Rami Fourrager® a été financée par :",
+    "project_partners": "Partenaires du projet :",
+    "development_supported_by": "Le développement du Rami fourrager® a bénéficié du soutien financier de"
+  },
   "notifications": {
     "confirm_delete_item": "Êtes vous sur de vouloir supprimer cet élément ?",
     "simulation_loaded_success": "La simulation a été chargé",

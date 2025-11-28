@@ -39,6 +39,11 @@
   "typography": "Typography",
   "user": "User Profile",
   "users": "Users",
+  "partners": {
+    "interface_funded_by": "This web interface supporting the Rami Fourrager® has been funded by:",
+    "project_partners": "Project partners:",
+    "development_supported_by": "The development of Rami fourrager® has benefited from the financial support of"
+  },
   "vforms": "Validation Forms",
   "widgets": "Widgets",
   "wizard": "Wizard",

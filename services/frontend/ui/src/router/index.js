@@ -192,6 +192,21 @@ const routes = [
           },
         },
       },
+      {
+        name: 'partners',
+        path: 'partners',
+        component: () => import('@/views/PartnersPage'),
+        meta: {
+          breadCrumb(route) {
+            return [
+              {
+                text: 'breadcrumb.workspace',
+                to: { name: 'workspace' },
+              },
+            ]
+          },
+        },
+      },
       // // Maps
       // {
       //   name: 'notifications',

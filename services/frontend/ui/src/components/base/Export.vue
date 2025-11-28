@@ -2,7 +2,7 @@
   <v-card>
     <v-img
       height="150px"
-      src="@/assets/images/logo_cap2er.png"
+      src="@/assets/images/partners/logo_cap2er.png"
     />
     <v-card-title class="text-center pa-3">
       <div>

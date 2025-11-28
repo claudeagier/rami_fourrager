@@ -73,7 +73,9 @@
         >
           <v-img
             class="rounded-xl rounded-br-0"
-            src="@/assets/images/logo_centrevaldeloire2.png"
+            src="@/assets/images/partners/logo_centrevaldeloire2.png"
+            @click="goToPartners"
+            style="cursor: pointer"
           />
         </div>
       </div>
@@ -202,6 +204,11 @@
           })
         }
         return items
+      },
+
+      goToPartners() {
+        this.$router.push({ name: 'partners' })
+        this.setDrawer(false)
       },
     },
   }
