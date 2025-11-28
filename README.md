@@ -25,7 +25,7 @@ Déposer les fichiers .json pour le mapping des données.
 
 ### 4. Ajouter l'administrateur
 
-```$ make add-admin-user```
+```$ make add-admin-dev```
 
 ### 5. Connection
 
@@ -61,3 +61,4 @@ Open the command line and run these commands inside the ```services/nginx/ssl```
 
 -----------------------------------------------------------
 
+Pour un déploiement sur windows, il faut éditer le fichier entrypoint.sh pour changer le crlf en lf. (end of line sequence)

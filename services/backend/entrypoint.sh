@@ -8,7 +8,7 @@ done
 
 echo "PostgreSQL started"
 
-source /opt/venv/bin/activate
+. /opt/venv/bin/activate
 exec "$@"
 
 python manage.py run -h 0.0.0.0
