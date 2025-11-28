@@ -50,6 +50,14 @@ expect/assert documentation: `https://jestjs.io/docs/expect`
 -----------------------------------------------------------
 
 ### 8. Mise à jour des référentiels
+modifier le fichier csv dans lequel ont veut ajouter des données.
+ensuite faire
+
+```$ make fresh-data```
+
+une commande spécifique est prévue pour ajouter des baguettes de fourrage.
+
+```$ make update-stics```
 
 ### In case you need to regenerate SSL keys
 
