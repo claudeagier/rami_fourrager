@@ -363,8 +363,10 @@
     },
     methods: {
       editRotationItem(item) {
+        // Keep original reference so store.updateRotation can find it via indexOf
+        this.oldRotationitem = item
+        // Edit a cloned copy in dialog to avoid mutating the list before save
         this.rotationItem = { ...item }
-        this.oldRotationitem = { ...item }
         this.showRotationItemDialog = true
       },
       cancelRotationDialog() {
