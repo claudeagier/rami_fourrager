@@ -180,6 +180,7 @@
                 medium
                 color="green"
                 background-color="green"
+                @click="editItem(item)"
               >
                 mdi-square-edit-outline
               </v-icon>
@@ -228,6 +229,7 @@
         name: '',
         quantity: 0,
       },
+      oldItem: null,
     }),
 
     computed: {
@@ -313,6 +315,16 @@
       this.applyToSimulation()
     },
     methods: {
+      editItem(item) {
+        // Keep original reference if needed later
+        this.oldItem = item
+        // Pre-fill selection from referential list by code
+        const found = this.barnStockItems.find((el) => el.code === item.code)
+        this.selectedItem =
+          found || { code: item.code, name: item.name, unity: item.unity, concentrated: item.concentrated }
+        this.quantityInTons = item.quantity
+        this.dialog = true
+      },
       getColor(concentrated) {
         if (concentrated) {
           return 'grey'
@@ -332,6 +344,7 @@
         // this.quantityInDays = null
         this.selectedItem = null
         this.quantityInTons = null
+        this.oldItem = null
       },
 
       save() {
