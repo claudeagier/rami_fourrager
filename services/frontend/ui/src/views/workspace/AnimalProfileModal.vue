@@ -116,8 +116,8 @@
                       :label="$t('workspace.content.datatables.animalProfile.create.dialog.sem_MB')"
                     ></v-text-field>
                     <v-text-field
-                      v-model.number="animalProfile.weight_birth_kg"
-                      :label="$t('workspace.content.datatables.animalProfile.create.dialog.weight_birth_kg')"
+                      v-model.number="animalProfile.weight_MB_kg"
+                      :label="$t('workspace.content.datatables.animalProfile.create.dialog.weight_MB_kg')"
                       dense
                       :rules="[rules.number]"
                       type="number"
