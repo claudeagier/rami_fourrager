@@ -281,9 +281,9 @@ export const getGreenPastureConsumption = (
   if (strategy === 1) {
     const h241 = getPastureConsumptionPlannedByClassicFeed(batch, period)
     const h244 = period > 0 ? getAllPastureMaxConsumption(batch, period, totalAvailablePastureByPeriod, batchs) : 0
-    result = _.min([h242, h241 - h244])
+    result = Math.max(0, _.min([h242, h241 - h244]))
   } else {
-    result = h242
+    result = Math.max(0, h242)
   }
 
   greenPastureConsumptionCache[cacheKey] = result
@@ -295,7 +295,7 @@ export const getCarryOverPastureConsumption = (batch, period, totalAvailablePast
   const strategy = batch.pastureStrategy[period].carryOver !== null ? batch.pastureStrategy[period].carryOver : 0
   if (strategy === 1) {
     // 244
-    return getAllPastureMaxConsumption(batch, period, totalAvailablePastureByPeriod, batchs)
+    return Math.max(0, getAllPastureMaxConsumption(batch, period, totalAvailablePastureByPeriod, batchs))
   } else {
     // MIN(I244;I241-I242)
     const i244 = getAllPastureMaxConsumption(batch, period, totalAvailablePastureByPeriod, batchs)
@@ -303,7 +303,7 @@ export const getCarryOverPastureConsumption = (batch, period, totalAvailablePast
     const i242 = getMaxConsumptionGreenPasture(batch, period, totalAvailablePastureByPeriod, batchs)
 
     const val = [i244, i241 - i242]
-    return _.min(val)
+    return Math.max(0, _.min(val))
   }
 }
 export const getPasturesByPeriod = (coverage, batch, period, totalAvailablePastureByPeriod, batchs) => {
@@ -312,21 +312,29 @@ export const getPasturesByPeriod = (coverage, batch, period, totalAvailablePastu
     console.error('batch_not_found')
     return
   }
-  if (totalAvailablePastureByPeriod === null || totalAvailablePastureByPeriod['period_id_' + period] === undefined) {
-    return
+  if (
+    !totalAvailablePastureByPeriod ||
+    totalAvailablePastureByPeriod['period_id_' + (period + 1)] === undefined
+  ) {
+    return 0
   }
-  const i246 = getGreenPastureConsumption(batch, period, totalAvailablePastureByPeriod, batchs)
-  const i247 = getCarryOverPastureConsumption(batch, period, totalAvailablePastureByPeriod, batchs)
+  const i246 =
+    getGreenPastureConsumption(batch, period, totalAvailablePastureByPeriod, batchs) || 0
+  const i247 =
+    getCarryOverPastureConsumption(batch, period, totalAvailablePastureByPeriod, batchs) || 0
   // =I$246*X29+I$247*W29*0,92
   // (consommation pature verte * x 29 correspondant à la période) + (consommation pature reporté si report * w29 correspondant à la période précédente* 0.92)
   // x29 = totalAvailablePasture[period].energeticTotal
   // w29 = totalAvailablePasture[period-1].energeticTotal
   var previous = 0
   if (period > 0) {
-    previous = i247 * totalAvailablePastureByPeriod['period_id_' + period][coverage] * 0.92
+    // const factor = coverage === 'energeticTotal' ? 0.92 : 1 si unoquement pour energeticTotal
+    const factor = 0.92
+    previous = i247 * totalAvailablePastureByPeriod['period_id_' + period][coverage] * factor
   }
 
-  return i246 * totalAvailablePastureByPeriod['period_id_' + (period + 1)][coverage] + previous
+  const currentVal = i246 * totalAvailablePastureByPeriod['period_id_' + (period + 1)][coverage]
+  return fixFloatingPoint(currentVal + previous, 6)
 }
 // 248 Consommation pâture totale 246+247
 const getTotalPastureConsumption = (batch, period, totalAvailablePastureByPeriod, batchs) => {
@@ -341,7 +349,7 @@ const getTotalPastureConsumption = (batch, period, totalAvailablePastureByPeriod
 // *******************************************************//
 // H267
 const getUFFeedsByPeriod = (batch, after = false) => {
-  const precision = 3
+  const precision = 6
   if (batch === undefined) {
     console.error('batch_not_found')
     return
@@ -361,14 +369,14 @@ const getUFFeedsByPeriod = (batch, after = false) => {
         if (after) {
           // ( H254 = proportion * (H233 = besoin MS)) * uf ration correspondant
           const besoinMS = calculateBesoinMS(batchValuesForPeriod.CI, toModerate, potential, UEcolumn, feeds) // ok
-          UF = fixFloatingPoint((curr.proportion / 100) * besoinMS * curr.type.nutritional_values[UFcolumn], precision)
+          UF = (curr.proportion / 100) * besoinMS * curr.type.nutritional_values[UFcolumn]
         } else {
-          UF = fixFloatingPoint((curr.proportion / 100) * curr.type.nutritional_values[UFcolumn], precision)
+          UF = (curr.proportion / 100) * curr.type.nutritional_values[UFcolumn]
         }
       }
       return acc + UF
     }, 0.0)
-    return sumUF
+    return fixFloatingPoint(sumUF, precision)
   })
 }
 // uniquement pour energeticCoverage
@@ -448,8 +456,8 @@ export const getFinalEnergeticCoverage = function (batch, simulation, periods, t
     const ufl = aprpr.UFL
     // H274 = H272+H267+h249 UF total
 
-    const h274 = h272[index] + h267[index] + h249
-    const h234 = calculateEnergeticBesoin(ufl, toModerate, potential)
+    const h274 = fixFloatingPoint(h272[index] + h267[index] + h249, 12)
+    const h234 = fixFloatingPoint(calculateEnergeticBesoin(ufl, toModerate, potential), 12)
     // H276 = H274 / H234 couverture UF
     const h276 = h274 / h234
 
@@ -466,7 +474,7 @@ const getPDIPasturesByPeriod = (batch, period, totalAvailablePastureByPeriod, ba
   return getPasturesByPeriod('proteicTotal', batch, period, totalAvailablePastureByPeriod, batchs)
 }
 const getPDIByFeedTypeByPeriod = (batch, feedType) => {
-  const precision = 4
+  const precision = 6
   if (batch === undefined) {
     console.error('batch_not_found')
     return
@@ -488,7 +496,7 @@ const getPDIByFeedTypeByPeriod = (batch, feedType) => {
           PDI = curr.type.nutritional_values.PDI_inf * quantity
         } else {
           const besoinMS = calculateBesoinMS(batchValuesForPeriod.CI, toModerate, potential, UEcolumn, feeds) // ok
-          PDI = fixFloatingPoint((curr.proportion / 100) * besoinMS * curr.type.nutritional_values.PDI_inf, precision)
+          PDI = (curr.proportion / 100) * besoinMS * curr.type.nutritional_values.PDI_inf
         }
       }
       return acc + PDI
@@ -515,8 +523,8 @@ export const getFinalProteicCoverage = function (batch, simulation, periods, tot
     const aprpr = batch.profile.animal_profile_periods.find((element) => element.period_id === periodId)
     const pdi = aprpr.PDI
     // H274 = H272+H267+h249 UF total
-    const h274 = h272[index] + h267[index] + h249
-    const h234 = calculateProteicBesoin(pdi, toModerate, potential)
+    const h274 = fixFloatingPoint(h272[index] + h267[index] + h249, 12)
+    const h234 = fixFloatingPoint(calculateProteicBesoin(pdi, toModerate, potential), 12)
 
     // H276 = H274 / H234 couverture UF
     const h276 = h274 / h234
@@ -1288,7 +1296,7 @@ export function getDryMatterNeeded(batch, periods, batchId) {
     const toModerate = batch.profile.batch_type.code === 'VL'
     const potential = 1
     const besoinMS = calculateBesoinMS(batchValuesForPeriod.CI, toModerate, potential, UEcolumn, feeds) // ok
-    dryMatterNeeded[index] = besoinMS
+    dryMatterNeeded[index] = fixFloatingPoint(besoinMS, precision)
   })
   return dryMatterNeeded
 }
